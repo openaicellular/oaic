@@ -1,0 +1,30 @@
+name: Documentation CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
+      - doc-dev
+      - v*
+
+jobs:
+  standard:
+    strategy:
+      fail-fast: true
+      matrix:
+        runs-on: [ubuntu-latest]
+
+    name: "${{ matrix.runs-on }}"
+    runs-on: ${{ matrix.runs-on }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Dependencies
+      run: sudo -H python3 -m pip install sphinx
+
+    - name: make doc
+      run: sphinx-build -b html docs/source/ docs/build/html
+
