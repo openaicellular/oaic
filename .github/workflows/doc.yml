@@ -25,6 +25,6 @@ jobs:
     - name: Dependencies
       run: sudo -H python3 -m pip install sphinx
 
-    - name: make doc
-      run: sphinx-build -b html docs/source/ docs/build/html
+    - name: make docs
+      run: make docs
 
