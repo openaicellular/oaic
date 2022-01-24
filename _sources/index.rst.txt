@@ -10,6 +10,8 @@ Welcome to OAIC's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   oran_installation.rst
+   quickstart.rst
 
 
 Indices and tables
