@@ -12,6 +12,8 @@ jobs:
       uses: actions/checkout@master
       with:
         fetch-depth: 0 # otherwise will fail to push refs to dest repo
+    - name: Dependencies
+      run: sudo -H python3 -m pip install sphinx sphinx_rtd_theme
     - name: Build and Commit
       uses: sphinx-notes/pages@v2
       with:
