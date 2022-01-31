@@ -1,0 +1,25 @@
+name: Pages
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        fetch-depth: 0 # otherwise will fail to push refs to dest repo
+    - name: Dependencies
+      run: sudo -H python3 -m pip install sphinx sphinx_rtd_theme
+    - name: Build and Commit
+      uses: sphinx-notes/pages@v2
+      with:
+        documentation_path: docs/source
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
