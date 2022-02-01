@@ -43,6 +43,16 @@ better compute density.
 So, you do not need to rely on what is currently installed on the host.
 The isolation and security allow you to run many containers simultaneously on 
 a given host.
+
+The difference between a container and a Virtual Machine is that containers provide a way to virtualize
+an OS so that multiple workloads can run on a single OS instance. With VMs, the hardware is being virtualized
+to run multiple OS instances.
+
+.. image:: vm_vs_docker.jpg
+   :width: 90%
+   :alt: VM v/s Container Implementation
+
+
 Docker is used to build agile software delivery pipelines to ship new features 
 faster, more securely and with repeatability for both Linux and Windows Server 
 apps.
@@ -52,10 +62,32 @@ Some of the core components of docker:
    :width: 90%
    :alt: Docker Core Components
 
-Images:
-Containers:
-Registry:
-Docker Networking:
+Images
+~~~~~~
+An image is a read-only template with instructions for creating a Docker container. Docker images may be based on
+other images and is customized to contain executable application source code as well as all the tools, libraries,
+and dependencies that the application code needs to run as a container. When you run the Docker image,
+it becomes one instance (or multiple instances) of the container.
+
+Container images can be shared across teams within an enterprise using a private container registry,
+or shared with the world using a public registry like Docker Hub.
+
+Containers
+~~~~~~~~~~
+Containers are encapsulated environments in which you run applications and is a runnable instance of an image.
+
+Registry
+~~~~~~~~
+
+Docker Networking
+~~~~~~~~~~~~~~~~~
+
+DockerFile
+~~~~~~~~~~
+A DockerFile is a text file that contains instructions on how to build a docker image.
+A Dockerfile specifies the operating system that will underlie the container, along with the languages,
+environmental variables, file locations, network ports, and other components it needs—and what the container
+will do once we run it.
 
 Kubernetes
 ----------
@@ -198,8 +230,9 @@ References
 
 .. [1] https://www.youtube.com/watch?v=x5MhydijWmc
 .. [2] https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster
-.. [3] https://kubernetes.io/docs/concepts/overview/components/
-.. [4] https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers
-.. [5] https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/
-.. [6] https://kubernetes.io/docs/concepts/cluster-administration/networking/
+.. [3] https://www.section.io/engineering-education/docker-concepts/
+.. [4] https://kubernetes.io/docs/concepts/overview/components/
+.. [5] https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers
+.. [6] https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/
+.. [7] https://kubernetes.io/docs/concepts/cluster-administration/networking/
 
