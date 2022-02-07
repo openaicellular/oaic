@@ -43,7 +43,6 @@ better compute density.
 So, you do not need to rely on what is currently installed on the host.
 The isolation and security allow you to run many containers simultaneously on 
 a given host.
-
 The difference between a container and a Virtual Machine is that containers provide a way to virtualize
 an OS so that multiple workloads can run on a single OS instance. With VMs, the hardware is being virtualized
 to run multiple OS instances.
@@ -51,7 +50,6 @@ to run multiple OS instances.
 .. image:: vm_vs_docker.jpg
    :width: 90%
    :alt: VM v/s Container Implementation
-
 
 Docker is used to build agile software delivery pipelines to ship new features 
 faster, more securely and with repeatability for both Linux and Windows Server 
@@ -63,27 +61,32 @@ Some of the core components of docker:
    :alt: Docker Core Components
 
 Images
-~~~~~~
+------
+
 An image is a read-only template with instructions for creating a Docker container. Docker images may be based on
 other images and is customized to contain executable application source code as well as all the tools, libraries,
 and dependencies that the application code needs to run as a container. When you run the Docker image,
 it becomes one instance (or multiple instances) of the container.
 
-Container images can be shared across teams within an enterprise using a private container registry,
-or shared with the world using a public registry like Docker Hub.
-
 Containers
-~~~~~~~~~~
+----------
+
 Containers are encapsulated environments in which you run applications and is a runnable instance of an image.
+A Docker container image is a lightweight, standalone, executable package of software that has everything you need
+to run an application – code, runtime, system tools, system libraries, and settings. Containers only have access to
+resources that are defined in the image, unless additional access is defined when building the image into a container.
+For example, a container can access environment variables defined within it but cannot access environment variables of the host machine unless specified.
+Since containers are much smaller than VMs, they can be spun up in a matter of seconds, and result in much better
+server density. When a container is removed, any changes to its state that are not stored in persistent storage disappear.
 
 Registry
-~~~~~~~~
-
-Docker Networking
-~~~~~~~~~~~~~~~~~
+--------
+The Docker Registry is where the Docker Images are stored and can be downloaded. The Registry can be either a user’s
+local repository or a public repository like a Docker Hub (similar to GitHub) allowing multiple users to collaborate.
+Images can be 'pushed' to and 'pulled' from the registries as and when required.
 
 DockerFile
-~~~~~~~~~~
+----------
 A DockerFile is a text file that contains instructions on how to build a docker image.
 A Dockerfile specifies the operating system that will underlie the container, along with the languages,
 environmental variables, file locations, network ports, and other components it needs—and what the container
@@ -104,6 +107,15 @@ running in one of those containers.
 
 Helm
 ----
+Helm is a package manager for Kubernetes. It is the equivalent of 'yum' or 'apt' seen in Linux OS or 'pip' in the case of Python. Just as how 'apt' gets
+and installs/deploys packaged applications on the Linux OS, Helm similarly deploys packaged applications (called Helm Charts)
+on Kubernetes clusters. To understand how Helm charts are packaged and configured, basic understanding of YAML (Yet Another Markup Language) is helpful. YAML
+files specify configuration-type information in a list/key-value format (similar to JSON). Configuration information can include name, version, labels, and other metadata.
+It can also include container info like link to images, name of the Kubernetes pod and commands to run once the pod fires up. A bunch of these YAML files constitute a chart.
+The Helm tool processes these charts and sends commands to a server running on Kubernetes called "tiller".
+
+Near-Real Time RIC
+------------------
 
 The installation of Near Realtime RAN Intelligent Controller is spread onto 
 two separate Kubernetes clusters.
@@ -156,7 +168,7 @@ Login to root again
 
 Check if all the pods in the newly installed Kubernetes Cluster are in “Running” state using,
 
-    kubectl get pods -A
+    kubectl get pods -A  or  kubectl get pods --all-namespaces
 
 There should be a total of 9 pods up and running in the cluster.
 These pods serve as the Kubernetes Framework which will be helpful in deploying the RIC platform.
@@ -164,7 +176,7 @@ Here, I list each of the pods’ functionality (Most of which help in networking
 
   * `CoreDNS`: DNS server that serves as the Kubernetes cluster DNS.
     This is a replacement for the default kube-dns service.
-  * `Flannel`: Flannel is a basic overlay network that works by assigning a 
+  * `Flannel`: Flannel is a basic overlay network that works by assigning a
     range of subnet addresses (usually IPv4).
     To facilitate inter-container connectivity across nodes, flannel is used. 
     Flannel does not control how containers are networked to the host, only 
@@ -172,7 +184,7 @@ Here, I list each of the pods’ functionality (Most of which help in networking
     maintain a mapping between allocated subnets and real host IP addresses. 
     For example, this is very useful when the RAN is trying to communicate 
     with the RIC since they are both different/separate nodes.
-  * `Etcd server`: Consistent and highly available key value store used as 
+  * `Etcd server`: Consistent and highly available key value store (similar to a dictionary or a map) used as
     Kubernetes' backing store for all cluster data.
     Example : Used by Flannel to register its container’s IP. etcd server 
     stores a key-value mapping of each container with its IP.
@@ -206,24 +218,56 @@ Here, I list each of the pods’ functionality (Most of which help in networking
     since Helm v3 since it was seen as a security risk. But in our 
     deployments, we are still using Helm v2, so tiller is essential.
 
+Onetime setup for Influxdb
+
+Once Kubernetes setup is done, we have to create PersistentVolume through the storage class for the influxdb database.
+The following one time process should be followed before deploying the influxdb in ricplt namespace.
+
+    `Persistent Volume`:
+
+First we need to check if the "ricinfra" namespace exists.
+    kubectl get ns ricinfra
+
+# If the namespace doesn’t exist, then create it using:
+    kubectl create ns ricinfra
+
+The next three commands installs the nfs-common package for kubernetes through helm in the "ricinfra" namespace and for the system
+    helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
+    kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+    sudo apt install nfs-common
+
+NFS-common basically allows file sharing between systems residing on a local area network.
+
 Step 3: Deploy the near-Real Time RIC
 -------------------------------------
+Once the Kubernetes clusters are deployed, it is now time for us to deploy the near-real time RIC cluster.
 
+    cd dep/bin    # Change to dep/bin directory
+    ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe.yaml  # This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory.
+    Recipe is an important concept for Near Realtime RIC deployment. Each
+deployment group has its own recipe. Recipe provides a customized
+specification for the components of a deployment group for a specific
+deployment site. The RECIPE_EXAMPLE directory contains the example recipes for
+the three deployment groups (bronze, cherry, dawn). The benefit of using
+“recipe files” is that changing over from one release to another is seamless
+requiring just the execution of a single script without having to perform
+“Step 2” all over again.
+
+The example_recipe is a .yaml file which
 Influx db
 Edits to helm charts
 
-Recipe is an important concept for Near Realtime RIC deployment. Each 
-deployment group has its own recipe. Recipe provides a customized 
-specification for the components of a deployment group for a specific 
-deployment site. The RECIPE_EXAMPLE directory contains the example recipes for 
-the three deployment groups (bronze, cherry, dawn). The benefit of using 
-“recipe files” is that changing over from one release to another is seamless 
-requiring the just the execution of a single script without having to perform 
-“Step 2” all over again.
-If by chance, you encounter any issues while following the instructions visit 
+If by chance, you encounter any issues while following the instructions visit
 the confluence website maintained by O-RAN Software Community for possible 
 fixes and troubleshooting advice. 
 (https://wiki.o-ran-sc.org/display/GS/Near+Realtime+RIC+Installation)
+
+Structure of the "dep" Folder
+-----------------------------
+The scripts in the ./bin directory are one-click RIC deployment/undeployment scripts and will call the deployment/undeployment
+scripts in the corresponding submodule directory respectively. In each of the submodule directories, ./bin contains
+the binary and script files and ./helm contains the helm charts. For the rest of the non-submodule directories please
+refer to the README.md files in them for more details.
 
 References
 ----------
@@ -231,8 +275,11 @@ References
 .. [1] https://www.youtube.com/watch?v=x5MhydijWmc
 .. [2] https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster
 .. [3] https://www.section.io/engineering-education/docker-concepts/
-.. [4] https://kubernetes.io/docs/concepts/overview/components/
-.. [5] https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers
-.. [6] https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/
-.. [7] https://kubernetes.io/docs/concepts/cluster-administration/networking/
+.. [4] https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/
+.. [5] https://kubernetes.io/docs/concepts/overview/components/
+.. [6] https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes
+.. [7] https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers
+.. [8] https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/
+.. [9] https://kubernetes.io/docs/concepts/cluster-administration/networking/
+
 
