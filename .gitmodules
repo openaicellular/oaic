@@ -1,0 +1,12 @@
+[submodule "RIC-Deployment"]
+	path = RIC-Deployment
+	url = https://github.com/openaicellular/RIC-Deployment.git
+[submodule "ric-plt-ric-dep"]
+	path = ric-plt-ric-dep
+	url = https://github.com/openaicellular/ric-plt-ric-dep.git
+[submodule "ric-plt-e2"]
+	path = ric-plt-e2
+	url = https://github.com/openaicellular/ric-plt-e2.git
+[submodule "srsRAN-e2"]
+	path = srsRAN-e2
+	url = https://github.com/openaicellular/srsRAN-e2.git
