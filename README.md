@@ -7,9 +7,8 @@ Core software for Open AI Cellular
 The full documentation is contained in this repository and rendered
 [on GitHub pages here](https://openaicellular.github.io/oaic/).
 
-Clone this repository and its submodules:
+Clone this repository and its submodules recursively:
 
     git clone https://github.com/openaicellular/oaic.git
-    git submodule init
-    git submodule update --recursive
+    git submodule update --init --recursive
 
