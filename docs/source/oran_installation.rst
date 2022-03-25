@@ -5,7 +5,7 @@ O-RAN Near-Real Time RIC Installation Guide
 System Requirements
 -------------------
 
-  * OS: Ubuntu 18.04 LTS (Bionic Beaver)
+  * OS: `Ubuntu 18.04 LTS (Bionic Beaver) <https://en.wikipedia.org/wiki/Ubuntu_version_history#:~:text=Table%20of%20versions%20%20%20%20Version%20,Future%20release%3A%202027-04-21%20%2011%20more%20rows%20>`_
   * CPU(s): 2-4 vCPUs
   * RAM: 6-16 GB
   * Storage: 20-160 GB
@@ -16,13 +16,15 @@ O-RAN Near-Real Time RIC Software Architecture
 .. image:: near_rt_ric_cluster.jpg
    :width: 60%
    :alt: Near Real-time RIC Cluster
-
+Near-Real Time RIC Installation Procedure
+=========================================
 Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)
 ==========================================================================
 
 The near-real time RIC can be run on a host machine or a VM as per your 
 preference (I would recommend a VM if your system is powerful enough to 
 support multiple VMs).
+
 In this instruction set I am assuming the VM/Linux host system is already 
 configured with the specified system requirements. If you need help with VM 
 installation on Windows 10, refer []. Refer [] for help with VM configuration. 
@@ -31,10 +33,10 @@ This completes step 1.
 Step 2: Install Kubernetes, Docker, and Helm
 ============================================
 
-Background Information
-[You can either go through it now, or come back as and when required]
+Background Information [You can either go through it now, or come back as and when required]
+===========================================================================================
 
-Docker
+*Docker:*
 ------
 
 Docker is used to run and manage apps side-by-side in isolated environments 
@@ -47,17 +49,21 @@ Docker is used to build agile software delivery pipelines to ship new features
 faster, more securely and with repeatability for both Linux and Windows Server 
 apps.
 Some of the core components of docker:
+--------------------------------------
 
 .. image:: docker_overview.jpg
    :width: 90%
    :alt: Docker Core Components
 
 Images:
+
 Containers:
+
 Registry:
+
 Docker Networking:
 
-Kubernetes
+*Kubernetes:*
 ----------
 
 Kubernetes is an open-source platform for automating deployment, scaling, and 
@@ -65,23 +71,24 @@ operations of application containers across clusters of hosts, providing
 container-centric infrastructure. It is an automated platform that enables 
 auto-placement, auto-restart, auto-replication, auto-scaling of application 
 containers.
-Kubernetes manages a cluster of Linux machines (might be cloud VM like AWS EC2 
-or physical servers), on each host machine, Kubernetes runs any number of 
-Pods, in each Pod there can be any number of containers. User’s application is 
-running in one of those containers.
 
-Helm
+Kubernetes manages a cluster of Linux machines (might be cloud VM like AWS EC2 or physical servers), on each host machine, Kubernetes runs any number of 
+Pods, in each Pod there can be any number of containers. User’s application is running in one of those containers.
+
+*Helm*
 ----
 
 The installation of Near Realtime RAN Intelligent Controller is spread onto 
 two separate Kubernetes clusters.
 The first cluster is used for deploying the Near Realtime RIC (platform and 
 applications), and the other is for deploying other auxiliary functions.
-They are referred to as RIC cluster and AUX cluster respectively [1]_.
-The RIC cluster consists of 3 major Kubernetes Systems.
+They are referred to as **RIC cluster** and **AUX cluster** respectively [1]_.
+
+The **RIC cluster** consists of 3 major Kubernetes Systems.
 Each of them is separated by their specified namespaces (kube-system ns, 
 ricinfra ns, ricplt ns):
-Kube-system ns: The underlying Kubernetes application which provides the basic 
+
+**Kube-system ns:** The underlying Kubernetes application which provides the basic 
 framework for deployment and maintenance of pods.
 
 Commands to install near-real time RIC
@@ -175,25 +182,26 @@ Here, I list each of the pods’ functionality (Most of which help in networking
     deployments, we are still using Helm v2, so tiller is essential.
 
 Step 3: Deploy the near-Real Time RIC
--------------------------------------
+=====================================
 
 Influx db
+
 Edits to helm charts
 
 Recipe is an important concept for Near Realtime RIC deployment. Each 
 deployment group has its own recipe. Recipe provides a customized 
 specification for the components of a deployment group for a specific 
-deployment site. The RECIPE_EXAMPLE directory contains the example recipes for 
-the three deployment groups (bronze, cherry, dawn). The benefit of using 
+deployment site. The RECIPE_EXAMPLE directory contains the example recipes for the three deployment groups (bronze, cherry, dawn). The benefit of using 
 “recipe files” is that changing over from one release to another is seamless 
 requiring the just the execution of a single script without having to perform 
 “Step 2” all over again.
-If by chance, you encounter any issues while following the instructions visit 
-the confluence website maintained by O-RAN Software Community for possible 
-fixes and troubleshooting advice. 
-(https://wiki.o-ran-sc.org/display/GS/Near+Realtime+RIC+Installation)
 
-References
+
+**If by chance, you encounter any issues while following the instructions visit the confluence website maintained by O-RAN Software Community for possible fixes and troubleshooting advice.**
+
+`Here: <https://wiki.o-ran-sc.org/display/GS/Near+Realtime+RIC+Installation>`_ 
+
+References:
 ----------
 
 .. [1] https://www.youtube.com/watch?v=x5MhydijWmc
