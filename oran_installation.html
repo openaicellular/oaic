@@ -42,16 +42,20 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">O-RAN Near-Real Time RIC Installation Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#system-requirements">System Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#o-ran-near-real-time-ric-software-architecture">O-RAN Near-Real Time RIC Software Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#near-real-time-ric-installation-procedure">Near-Real Time RIC Installation Procedure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm">Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-2-install-kubernetes-docker-and-helm">Step 2: Install Kubernetes, Docker, and Helm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#background-information-you-can-either-go-through-it-now-or-come-back-as-and-when-required">Background Information [You can either go through it now, or come back as and when required]</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#kubernetes">Kubernetes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#helm">Helm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#commands-to-install-near-real-time-ric">Commands to install near-real time RIC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-3-deploy-the-near-real-time-ric">Step 3: Deploy the near-Real Time RIC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#docker"><em>Docker:</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kubernetes"><em>Kubernetes:</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#helm"><em>Helm</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#commands-to-install-near-real-time-ric">Commands to install near-real time RIC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-deploy-the-near-real-time-ric">Step 3: Deploy the near-Real Time RIC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References:</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
@@ -87,7 +91,7 @@
 <h2>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><ul class="simple">
-<li><p>OS: Ubuntu 18.04 LTS (Bionic Beaver)</p></li>
+<li><p>OS: <a class="reference external" href="https://en.wikipedia.org/wiki/Ubuntu_version_history#:~:text=Table%20of%20versions%20%20%20%20Version%20,Future%20release%3A%202027-04-21%20%2011%20more%20rows%20">Ubuntu 18.04 LTS (Bionic Beaver)</a></p></li>
 <li><p>CPU(s): 2-4 vCPUs</p></li>
 <li><p>RAM: 6-16 GB</p></li>
 <li><p>Storage: 20-160 GB</p></li>
@@ -97,24 +101,28 @@
 <section id="o-ran-near-real-time-ric-software-architecture">
 <h2>O-RAN Near-Real Time RIC Software Architecture<a class="headerlink" href="#o-ran-near-real-time-ric-software-architecture" title="Permalink to this headline"></a></h2>
 <a class="reference internal image-reference" href="_images/near_rt_ric_cluster.jpg"><img alt="Near Real-time RIC Cluster" src="_images/near_rt_ric_cluster.jpg" style="width: 60%;" /></a>
+<section id="near-real-time-ric-installation-procedure">
+<h3>Near-Real Time RIC Installation Procedure<a class="headerlink" href="#near-real-time-ric-installation-procedure" title="Permalink to this headline"></a></h3>
+</section>
 <section id="step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm">
 <h3>Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)<a class="headerlink" href="#step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm" title="Permalink to this headline"></a></h3>
 <p>The near-real time RIC can be run on a host machine or a VM as per your
 preference (I would recommend a VM if your system is powerful enough to
-support multiple VMs).
-In this instruction set I am assuming the VM/Linux host system is already
+support multiple VMs).</p>
+<p>In this instruction set I am assuming the VM/Linux host system is already
 configured with the specified system requirements. If you need help with VM
 installation on Windows 10, refer []. Refer [] for help with VM configuration.
 This completes step 1.</p>
 </section>
 <section id="step-2-install-kubernetes-docker-and-helm">
 <h3>Step 2: Install Kubernetes, Docker, and Helm<a class="headerlink" href="#step-2-install-kubernetes-docker-and-helm" title="Permalink to this headline"></a></h3>
-<p>Background Information
-[You can either go through it now, or come back as and when required]</p>
+</section>
+<section id="background-information-you-can-either-go-through-it-now-or-come-back-as-and-when-required">
+<h3>Background Information [You can either go through it now, or come back as and when required]<a class="headerlink" href="#background-information-you-can-either-go-through-it-now-or-come-back-as-and-when-required" title="Permalink to this headline"></a></h3>
 </section>
 </section>
 <section id="docker">
-<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this headline"></a></h2>
+<h2><em>Docker:</em><a class="headerlink" href="#docker" title="Permalink to this headline"></a></h2>
 <p>Docker is used to run and manage apps side-by-side in isolated environments
 called containers that contain everything needed to run the application to get
 better compute density.
@@ -124,36 +132,35 @@ a given host.
 Docker is used to build agile software delivery pipelines to ship new features
 faster, more securely and with repeatability for both Linux and Windows Server
 apps.
-Some of the core components of docker:</p>
+Some of the core components of docker:
+————————————–</p>
 <a class="reference internal image-reference" href="_images/docker_overview.jpg"><img alt="Docker Core Components" src="_images/docker_overview.jpg" style="width: 90%;" /></a>
-<p>Images:
-Containers:
-Registry:
-Docker Networking:</p>
+<p>Images:</p>
+<p>Containers:</p>
+<p>Registry:</p>
+<p>Docker Networking:</p>
 </section>
 <section id="kubernetes">
-<h2>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline"></a></h2>
+<h2><em>Kubernetes:</em><a class="headerlink" href="#kubernetes" title="Permalink to this headline"></a></h2>
 <p>Kubernetes is an open-source platform for automating deployment, scaling, and
 operations of application containers across clusters of hosts, providing
 container-centric infrastructure. It is an automated platform that enables
 auto-placement, auto-restart, auto-replication, auto-scaling of application
-containers.
-Kubernetes manages a cluster of Linux machines (might be cloud VM like AWS EC2
-or physical servers), on each host machine, Kubernetes runs any number of
-Pods, in each Pod there can be any number of containers. User’s application is
-running in one of those containers.</p>
+containers.</p>
+<p>Kubernetes manages a cluster of Linux machines (might be cloud VM like AWS EC2 or physical servers), on each host machine, Kubernetes runs any number of
+Pods, in each Pod there can be any number of containers. User’s application is running in one of those containers.</p>
 </section>
 <section id="helm">
-<h2>Helm<a class="headerlink" href="#helm" title="Permalink to this headline"></a></h2>
+<h2><em>Helm</em><a class="headerlink" href="#helm" title="Permalink to this headline"></a></h2>
 <p>The installation of Near Realtime RAN Intelligent Controller is spread onto
 two separate Kubernetes clusters.
 The first cluster is used for deploying the Near Realtime RIC (platform and
 applications), and the other is for deploying other auxiliary functions.
-They are referred to as RIC cluster and AUX cluster respectively <a class="footnote-reference brackets" href="#id2" id="id1">1</a>.
-The RIC cluster consists of 3 major Kubernetes Systems.
+They are referred to as <strong>RIC cluster</strong> and <strong>AUX cluster</strong> respectively <a class="footnote-reference brackets" href="#id2" id="id1">1</a>.</p>
+<p>The <strong>RIC cluster</strong> consists of 3 major Kubernetes Systems.
 Each of them is separated by their specified namespaces (kube-system ns,
-ricinfra ns, ricplt ns):
-Kube-system ns: The underlying Kubernetes application which provides the basic
+ricinfra ns, ricplt ns):</p>
+<p><strong>Kube-system ns:</strong> The underlying Kubernetes application which provides the basic
 framework for deployment and maintenance of pods.</p>
 </section>
 <section id="commands-to-install-near-real-time-ric">
@@ -249,26 +256,23 @@ since Helm v3 since it was seen as a security risk. But in our
 deployments, we are still using Helm v2, so tiller is essential.</p></li>
 </ul>
 </div></blockquote>
-</section>
 <section id="step-3-deploy-the-near-real-time-ric">
-<h2>Step 3: Deploy the near-Real Time RIC<a class="headerlink" href="#step-3-deploy-the-near-real-time-ric" title="Permalink to this headline"></a></h2>
-<p>Influx db
-Edits to helm charts</p>
+<h3>Step 3: Deploy the near-Real Time RIC<a class="headerlink" href="#step-3-deploy-the-near-real-time-ric" title="Permalink to this headline"></a></h3>
+<p>Influx db</p>
+<p>Edits to helm charts</p>
 <p>Recipe is an important concept for Near Realtime RIC deployment. Each
 deployment group has its own recipe. Recipe provides a customized
 specification for the components of a deployment group for a specific
-deployment site. The RECIPE_EXAMPLE directory contains the example recipes for
-the three deployment groups (bronze, cherry, dawn). The benefit of using
+deployment site. The RECIPE_EXAMPLE directory contains the example recipes for the three deployment groups (bronze, cherry, dawn). The benefit of using
 “recipe files” is that changing over from one release to another is seamless
 requiring the just the execution of a single script without having to perform
-“Step 2” all over again.
-If by chance, you encounter any issues while following the instructions visit
-the confluence website maintained by O-RAN Software Community for possible
-fixes and troubleshooting advice.
-(<a class="reference external" href="https://wiki.o-ran-sc.org/display/GS/Near+Realtime+RIC+Installation">https://wiki.o-ran-sc.org/display/GS/Near+Realtime+RIC+Installation</a>)</p>
+“Step 2” all over again.</p>
+<p><strong>If by chance, you encounter any issues while following the instructions visit the confluence website maintained by O-RAN Software Community for possible fixes and troubleshooting advice.</strong></p>
+<p><a class="reference external" href="https://wiki.o-ran-sc.org/display/GS/Near+Realtime+RIC+Installation">Here:</a></p>
+</section>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
+<h2>References:<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
 <dl class="footnote brackets">
 <dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p><a class="reference external" href="https://www.youtube.com/watch?v=x5MhydijWmc">https://www.youtube.com/watch?v=x5MhydijWmc</a></p>
