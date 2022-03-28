@@ -98,16 +98,13 @@ Enter root:
 
     sudo -i
 
-Clone the repository (“dep”) containing deployment scripts, pre generated helm charts for each of the RIC components.
-This repository also contains some “demo” scripts which can be run after complete installation.
+Clone the repository oaic repository and update submodules where RIC-Deployment directory will be included.
 
-    git clone http://gerrit.o-ran-sc.org/r/it/dep
-    cd dep  #Change directory to dep
+    git clone https://github.com/openaicellular/oaic.git
+    git submodule update --init --recursive
 
-Check out the latest version of every dependent submodule within the “dep” repository.
 
-    git submodule update --init --recursive --remote
-    cd tools/k8s/bin
+    cd RIC-Deployment/tools/k8s/bin  #Change directory to setup kubernetes cluster
 
 This directory contains tools for generating a simple script that can help us set up a one-node Kubernetes cluster (OSC also supports a 3 node Master slave Kubernetes configuration, but I do not cover that here).
 The scripts automatically read in parameters (version specifications, setting up private containers/registries) from the following files:
