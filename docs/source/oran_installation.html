@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>O-RAN Near-Real Time RIC Installation Guide</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="o-ran-near-real-time-ric-installation-guide">
+<h1 class="title">O-RAN Near-Real Time RIC Installation Guide</h1>
+
+<div class="section" id="system-requirements">
+<h1>System Requirements</h1>
+<blockquote>
+<ul class="simple">
+<li>OS:&nbsp;Ubuntu 18.04 LTS (Bionic Beaver)</li>
+<li>CPU(s): 2-4 vCPUs</li>
+<li>RAM: 6-16 GB</li>
+<li>Storage: 20-160 GB</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="o-ran-near-real-time-ric-software-architecture">
+<h1>O-RAN Near-Real Time RIC Software Architecture</h1>
+<img alt="Near Real-time RIC Cluster" src="near_rt_ric_cluster.jpg" style="width: 60%;" />
+<div class="section" id="step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm">
+<h2>Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)</h2>
+<p>The near-real time RIC can be run on a host machine or a VM as per your
+preference (I would recommend a VM if your system is powerful enough to
+support multiple VMs).
+In this instruction set I am assuming the VM/Linux host system is already
+configured with the specified system requirements. If you need help with VM
+installation on Windows 10, refer []. Refer [] for help with VM configuration.
+This completes step 1.</p>
+</div>
+<div class="section" id="step-2-install-kubernetes-docker-and-helm">
+<h2>Step 2: Install Kubernetes, Docker, and Helm</h2>
+<p>Background Information
+[You can either go through it now, or come back as and when required]</p>
+</div>
+</div>
+<div class="section" id="docker">
+<h1>Docker</h1>
+<p>Docker is used to run and manage apps side-by-side in isolated environments
+called containers that contain everything needed to run the application to get
+better compute density.
+So, you do not need to rely on what is currently installed on the host.
+The isolation and security allow you to run many containers simultaneously on
+a given host.
+Docker is used to build agile software delivery pipelines to ship new features
+faster, more securely and with repeatability for both Linux and Windows Server
+apps.
+Some of the core components of docker:</p>
+<img alt="Docker Core Components" src="docker_overview.jpg" style="width: 90%;" />
+<p>Images:
+Containers:
+Registry:
+Docker Networking:</p>
+</div>
+<div class="section" id="kubernetes">
+<h1>Kubernetes</h1>
+<p>Kubernetes is an open-source platform for automating deployment, scaling, and
+operations of application containers across clusters of hosts, providing
+container-centric infrastructure. It is an automated platform that enables
+auto-placement, auto-restart, auto-replication, auto-scaling of application
+containers.
+Kubernetes manages a cluster of Linux machines (might be cloud VM like AWS EC2
+or physical servers), on each host machine, Kubernetes runs any number of
+Pods, in each Pod there can be any number of containers. User’s application is
+running in one of those containers.</p>
+</div>
+<div class="section" id="helm">
+<h1>Helm</h1>
+<p>The installation of Near Realtime RAN Intelligent Controller is spread onto
+two separate Kubernetes clusters.
+The first cluster is used for deploying the Near Realtime RIC (platform and
+applications), and the other is for deploying other auxiliary functions.
+They are referred to as RIC cluster and AUX cluster respectively <a class="footnote-reference" href="#id2" id="id1">[1]</a>.
+The RIC cluster consists of 3 major Kubernetes Systems.
+Each of them is separated by their specified namespaces (kube-system ns,
+ricinfra ns, ricplt ns):
+Kube-system ns: The underlying Kubernetes application which provides the basic
+framework for deployment and maintenance of pods.</p>
+</div>
+<div class="section" id="commands-to-install-near-real-time-ric">
+<h1>Commands to install near-real time RIC</h1>
+<p>Enter root:</p>
+<blockquote>
+sudo -i</blockquote>
+<p>Clone the repository (“dep”) containing deployment scripts, pre generated helm charts for each of the RIC components.
+This repository also contains some “demo” scripts which can be run after complete installation.</p>
+<blockquote>
+git clone&nbsp;<a class="reference external" href="http://gerrit.o-ran-sc.org/r/it/dep">http://gerrit.o-ran-sc.org/r/it/dep</a>
+cd dep  #Change directory to dep</blockquote>
+<p>Check out the latest version of every dependent submodule within the “dep” repository.</p>
+<blockquote>
+git submodule update --init --recursive --remote
+cd tools/k8s/bin</blockquote>
+<p>This directory contains tools for generating a simple script that can help us set up a one-node Kubernetes cluster (OSC also supports a 3 node Master slave Kubernetes configuration, but I do not cover that here).
+The scripts automatically read in parameters (version specifications, setting up private containers/registries) from the following files:</p>
+<blockquote>
+<ul class="simple">
+<li><cite>k8s/etc/infra.rc</cite>: specifies the docker host, Kubernetes, and Kubernetes CNI (Cluster Networking Interfaces) versions. If left unspecified, the default version is installed.</li>
+<li><cite>k8s/etc/env.rc</cite>: Normally no change needed for this file. Can specify special/custom Kubernetes Cluster components, such as running private Docker registry with self-signed certificates, or hostnames that can be only resolved via private /etc/hosts entries.</li>
+<li><cite>etc/openstack.rc</cite>: (Relevant only for Open Stack VMs) If the Kubernetes cluster is deployed on Open Stack VMs, this file specifies parameters for accessing the APIs of the Open Stack installation.</li>
+</ul>
+</blockquote>
+<p>For a simple installation there is no need to modify any of the above files. The files give flexibility to define our own custom Kubernetes environment if we ever need to.
+Run the script which will generate the Kubernetes stack install script. Executing the below command will output a shell script called k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh.</p>
+<blockquote>
+./gen-cloud-init.sh</blockquote>
+<p>Executing the generated script will install Kubernetes, Docker and Helm with version specified in the k8s/etc/infra.c. This also installs some pods which help cluster creation, service creation and internetworking between services. Running this script will replace any existing installation of Docker host, Kubernetes, and Helm on the VM. The script will reboot the machine upon successful completion. This will take some time (approx. 15-20 mins).</p>
+<blockquote>
+./k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh</blockquote>
+<p>Login to root again</p>
+<blockquote>
+sudo -i</blockquote>
+<p>Check if all the pods in the newly installed Kubernetes Cluster are in “Running” state using,</p>
+<blockquote>
+kubectl get pods -A</blockquote>
+<p>There should be a total of 9 pods up and running in the cluster.
+These pods serve as the Kubernetes Framework which will be helpful in deploying the RIC platform.
+Here, I list each of the pods’ functionality (Most of which help in networking between Kubernetes nodes) [].</p>
+<blockquote>
+<ul class="simple">
+<li><cite>CoreDNS</cite>: DNS server that serves as the Kubernetes cluster DNS.
+This is a replacement for the default kube-dns service.</li>
+<li><cite>Flannel</cite>: Flannel is a basic overlay network that works by assigning a
+range of subnet addresses (usually IPv4).
+To facilitate inter-container connectivity across nodes, flannel is used.
+Flannel does not control how containers are networked to the host, only
+how the traffic is transported between hosts. Flannel uses etcd to
+maintain a mapping between allocated subnets and real host IP addresses.
+For example, this is very useful when the RAN is trying to communicate
+with the RIC since they are both different/separate nodes.</li>
+<li><cite>Etcd server</cite>: Consistent and highly available key value store used as
+Kubernetes' backing store for all cluster data.
+Example : Used by Flannel to register its container’s IP. etcd server
+stores a key-value mapping of each container with its IP.</li>
+<li><cite>Kube-APIserver</cite>: A control plane module that exposes the Kubernetes API.
+The API server is the front end for the Kubernetes control plane. The
+Kubernetes API server validates and configures data for the api objects
+which include pods, services, replication controllers, and others. For
+example, it uses etcd server as a service to get the IP mappings and
+assign service IPs accordingly.</li>
+<li><cite>Kube-proxy</cite>: Creates iptables rules and allocates static endpoints and
+load balancing. Basically, this means, in case the node goes down or the
+pod restarts it will get a new local IP, but the service IP created by
+kubernetes will remain the same enabling kubernetes to route traffic to
+correct set of pods. See [], [], [] for more details on networking in
+docker and Kubernetes.</li>
+<li><cite>Kube-scheduler</cite>: Control plane component that watches for newly created
+Pods with no assigned node and selects a node for them to run on. The
+scheduler determines which Nodes are valid placements for each Pod in the
+scheduling queue according to constraints and available resources.
+Constraints include collective resource requirements,
+hardware/software/policy constraints, inter-workload interference, and
+deadlines.</li>
+<li><cite>Kube-controller-manager</cite>: Control plane component that runs controller
+processes. Some examples of controller processes include node controller
+(Responsible for noticing and responding when nodes go down), job
+controller (Watches for Job objects that represent one-off tasks, then
+creates Pods to run those tasks to completion) etc.</li>
+<li><cite>Tiller-deploy</cite>: the server portion of Helm, typically runs inside the
+Kubernetes cluster. Tiller is the service that communicates with the
+Kubernetes API to manage our RIC components’ Helm packages. Discontinued
+since Helm v3 since it was seen as a security risk. But in our
+deployments, we are still using Helm v2, so tiller is essential.</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="step-3-deploy-the-near-real-time-ric">
+<h1>Step 3: Deploy the near-Real Time RIC</h1>
+<p>Influx db
+Edits to helm charts</p>
+<p>Recipe is an important concept for Near Realtime RIC deployment. Each
+deployment group has its own recipe. Recipe provides a customized
+specification for the components of a deployment group for a specific
+deployment site. The RECIPE_EXAMPLE directory contains the example recipes for
+the three deployment groups (bronze, cherry, dawn). The benefit of using
+“recipe files” is that changing over from one release to another is seamless
+requiring the just the execution of a single script without having to perform
+“Step 2” all over again.
+If by chance, you encounter any issues while following the instructions visit
+the confluence website maintained by O-RAN Software Community for possible
+fixes and troubleshooting advice.
+(<a class="reference external" href="https://wiki.o-ran-sc.org/display/GS/Near+Realtime+RIC+Installation">https://wiki.o-ran-sc.org/display/GS/Near+Realtime+RIC+Installation</a>)</p>
+</div>
+<div class="section" id="references">
+<h1>References</h1>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="https://www.youtube.com/watch?v=x5MhydijWmc">https://www.youtube.com/watch?v=x5MhydijWmc</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><a class="reference external" href="https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster">https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td><a class="reference external" href="https://kubernetes.io/docs/concepts/overview/components/">https://kubernetes.io/docs/concepts/overview/components/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[4]</td><td><a class="reference external" href="https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers">https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td><a class="reference external" href="https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/">https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[6]</td><td><a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/networking/">https://kubernetes.io/docs/concepts/cluster-administration/networking/</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</body>
+</html>
