@@ -227,15 +227,17 @@ The following one time process should be followed before deploying the influxdb 
     `Persistent Volume`:
 
 First we need to check if the "ricinfra" namespace exists.
-    kubectl get ns ricinfra
+    `kubectl get ns ricinfra`
 
 # If the namespace doesn’t exist, then create it using:
-    kubectl create ns ricinfra
+    `kubectl create ns ricinfra` 
 
 The next three commands installs the nfs-common package for kubernetes through helm in the "ricinfra" namespace and for the system
+``` 
     helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
     kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
     sudo apt install nfs-common
+    ```
 
 NFS-common basically allows file sharing between systems residing on a local area network.
 
@@ -243,9 +245,13 @@ Step 3: Deploy the near-Real Time RIC
 -------------------------------------
 Once the Kubernetes clusters are deployed, it is now time for us to deploy the near-real time RIC cluster.
 
-    cd dep/bin    # Change to dep/bin directory
-    ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe.yaml  # This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory.
-    Recipe is an important concept for Near Realtime RIC deployment. Each
+    ``` 
+   cd dep/bin
+    
+    ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe.yaml
+    ``` 
+    
+    This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory. A Recipe is an important concept for Near Realtime RIC deployment. Each
 deployment group has its own recipe. Recipe provides a customized
 specification for the components of a deployment group for a specific
 deployment site. The RECIPE_EXAMPLE directory contains the example recipes for
@@ -274,34 +280,30 @@ refer to the README.md files in them for more details.
 Step 4: RIC Platform E2 Termination
 -------------------------------------
 
-## Deployment Instructions
-
-### Pre-requisite: Local docker registry
+Pre-requisite: Local docker registry
 To store docker images. You can create one using, (You will need "super user" permissions)
-
- `sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2`
+`sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2`
  
 Now you can either push or pull images using,
-
 `docker push localhost:5001/<image_name>:<image_tag>`  or  `docker pull localhost:5001/<image_name>:<image_tag>`
  
- ### Creating Docker image
+Creating Docker image
 The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order 
 ```
 cd RIC-E2-TERMINATION
 sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
 sudo docker push localhost:5001/ric-plt-e2:5.5.0
 ```
-***TODO***: *Alternatively, you can just pull the image hosted on Github Packages (https://ghcr.io)*
 
-### Deployment
+Deployment
 That's it! Now, the image you just created can be deployed on your RIC (ric-plt) Kubernetes cluster. Modify the *e2term* section in the recipe file present in `dep/RECIPE_EXAMPLE/PLATFORM` to include your image,
 
-<pre><code>
+
+```
 e2term:
   alpha:
     image:
-      <b>registry: "localhost:5001"
+      registry: "localhost:5001"
       name: ric-plt-e2
       tag: 5.5.0</b>
     privilegedmode: false
@@ -312,8 +314,9 @@ e2term:
     dataVolSize: 100Mi
     storageClassName: local-storage
     pizpub:
-      enabled: false
-</pre></code>
+      enabled: false`
+      ```
+      
 When the RIC platform is deployed, you will have the modified E2 Termination running on the Kubernetes cluster. The pod will be called `deployment-ricplt-e2term-alpha` and 3 services related to E2 Termination will be created:
 - *service-ricplt-e2term-prometheus-alpha* : Communicates with the *VES-prometheus Adapter (VESPA)* pod to exchange data which will be sent to the SMO.
 - *service-ricplt-e2term-rmr-alpha* : RMR service that manages exchange of messages between E2 Termination other components in the near-real time RIC.
@@ -345,7 +348,7 @@ For application features, build instructions and user guides see the [srsRAN doc
 
 For license details, see LICENSE file.
 
-## Pre-requisites
+Pre-requisites
 * System Requirements - 4 core CPU (3 - 5 GHz)
 * Operating system - Ubuntu 18.04
 * E2 Agent Integration - E2 Bindings, asn1c Compiler, O-RAN Specification documents(optional)
@@ -431,13 +434,8 @@ sudo ldconfig
 cd ../../../
 ```
 
-### Configuring Virtual Machines to recognize Ettus USRP devices
-***//TODO: Add this as an application note in readthedocs. This is a supplement. Not an essential part of readme.*** **
 
-Support
-=======
 
-Mailing list: https://lists.srsran.com/mailman/listinfo/srsran-users
 
 
 
