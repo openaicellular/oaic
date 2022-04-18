@@ -138,13 +138,13 @@ Enter root:
 Clone the repository (“dep”) containing deployment scripts, pre generated helm charts for each of the RIC components.
 This repository also contains some “demo” scripts which can be run after complete installation.
 
-    git clone http://gerrit.o-ran-sc.org/r/it/dep
-    cd dep  #Change directory to dep
+git clone https://github.com/openaicellular/RIC-Deployment.git -b e_rel_xapp_onboarder_support
+cd RIC-Deployment
+git submodule update --init --recursive --remote
 
 Check out the latest version of every dependent submodule within the “dep” repository.
 
     git submodule update --init --recursive --remote
-    cd tools/k8s/bin
 
 This directory contains tools for generating a simple script that can help us set up a one-node Kubernetes cluster (OSC also supports a 3 node Master slave Kubernetes configuration, but I do not cover that here).
 The scripts automatically read in parameters (version specifications, setting up private containers/registries) from the following files:
@@ -156,6 +156,7 @@ The scripts automatically read in parameters (version specifications, setting up
 For a simple installation there is no need to modify any of the above files. The files give flexibility to define our own custom Kubernetes environment if we ever need to.
 Run the script which will generate the Kubernetes stack install script. Executing the below command will output a shell script called k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh.
 
+    cd tools/k8s/bin
     ./gen-cloud-init.sh
 
 Executing the generated script will install Kubernetes, Docker and Helm with version specified in the k8s/etc/infra.c. This also installs some pods which help cluster creation, service creation and internetworking between services. Running this script will replace any existing installation of Docker host, Kubernetes, and Helm on the VM. The script will reboot the machine upon successful completion. This will take some time (approx. 15-20 mins).
@@ -268,6 +269,178 @@ The scripts in the ./bin directory are one-click RIC deployment/undeployment scr
 scripts in the corresponding submodule directory respectively. In each of the submodule directories, ./bin contains
 the binary and script files and ./helm contains the helm charts. For the rest of the non-submodule directories please
 refer to the README.md files in them for more details.
+
+
+Step 4: RIC Platform E2 Termination
+-------------------------------------
+
+## Deployment Instructions
+
+### Pre-requisite: Local docker registry
+To store docker images. You can create one using, (You will need "super user" permissions)
+
+ `sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2`
+ 
+Now you can either push or pull images using,
+
+`docker push localhost:5001/<image_name>:<image_tag>`  or  `docker pull localhost:5001/<image_name>:<image_tag>`
+ 
+ ### Creating Docker image
+The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order 
+```
+cd RIC-E2-TERMINATION
+sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
+sudo docker push localhost:5001/ric-plt-e2:5.5.0
+```
+***TODO***: *Alternatively, you can just pull the image hosted on Github Packages (https://ghcr.io)*
+
+### Deployment
+That's it! Now, the image you just created can be deployed on your RIC (ric-plt) Kubernetes cluster. Modify the *e2term* section in the recipe file present in `dep/RECIPE_EXAMPLE/PLATFORM` to include your image,
+
+<pre><code>
+e2term:
+  alpha:
+    image:
+      <b>registry: "localhost:5001"
+      name: ric-plt-e2
+      tag: 5.5.0</b>
+    privilegedmode: false
+    hostnetworkmode: false
+    env:
+      print: "1"
+      messagecollectorfile: "/data/outgoing/"
+    dataVolSize: 100Mi
+    storageClassName: local-storage
+    pizpub:
+      enabled: false
+</pre></code>
+When the RIC platform is deployed, you will have the modified E2 Termination running on the Kubernetes cluster. The pod will be called `deployment-ricplt-e2term-alpha` and 3 services related to E2 Termination will be created:
+- *service-ricplt-e2term-prometheus-alpha* : Communicates with the *VES-prometheus Adapter (VESPA)* pod to exchange data which will be sent to the SMO.
+- *service-ricplt-e2term-rmr-alpha* : RMR service that manages exchange of messages between E2 Termination other components in the near-real time RIC.
+- *service-ricplt-e2term-sctp-alpha* : Accepts SCTP connections from RAN and exchanges E2 messages with the RAN. Note that this service is configured as a *NodePort* (accepts connections external to the cluster) while the other two are configured as *ClusterIP* (Networking only within the cluster). 
+
+## Commands related to E2 Termination
+- View E2 Termination logs : `kubectl logs -f -n ricplt -l app=ricplt-e2term-alpha`
+- View E2 Manager Logs : `kubectl logs -f -n ricplt -l app=ricplt-e2mgr`
+- Get the IP *service-ricplt-e2term-sctp-alpha* : `kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
+
+
+Step 4: srsRAN with E2 Manager
+-------------------------------------
+
+srsRAN with E2 Agent
+====================
+
+srsRAN is a 4G/5G software radio suite developed by [SRS](http://www.srs.io). This is a modified version of srsRAN 21.10 and POWDER's E2 agent enabled srsLTE. 
+
+See the [srsRAN project pages](https://www.srsran.com) for information, guides and project news.
+
+The srsRAN suite includes:
+  * srsUE - a full-stack SDR 4G/5G-NSA UE application (5G-SA coming soon)
+  * srsENB - a full-stack SDR 4G/5G-NSA eNodeB application (5G-SA coming soon)
+  * srsEPC - a light-weight 4G core network implementation with MME, HSS and S/P-GW
+
+For application features, build instructions and user guides see the [srsRAN documentation](https://docs.srsran.com).
+
+
+For license details, see LICENSE file.
+
+## Pre-requisites
+* System Requirements - 4 core CPU (3 - 5 GHz)
+* Operating system - Ubuntu 18.04
+* E2 Agent Integration - E2 Bindings, asn1c Compiler, O-RAN Specification documents(optional)
+* Simulated 1 UE 1 eNB/gNB setup - ZeroMQ libraries, Single Host machine/VM
+* USRP frontend - UHD version 4.1, At least two host machines/VMs
+* Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.8
+
+## Installation Procedure
+First, we need to install ZeroMQ and UHD Libraries
+Create a new directory to host all the files related to srsRAN
+
+`mkdir -p srsRAN-OAIC`
+
+### Getting ZeroMQ development Libraries
+https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html
+
+**Package Installation**
+
+`sudo apt-get install libzmq3-dev`
+
+**Installing from Sources**
+
+1. Get libzmq
+```
+git clone https://github.com/zeromq/libzmq.git
+cd libzmq
+./autogen.sh
+./configure
+make
+sudo make install
+sudo ldconfig
+cd ..
+```
+
+2. Get czmq
+```
+git clone https://github.com/zeromq/czmq.git
+cd czmq
+./autogen.sh
+./configure
+make
+sudo make install
+sudo ldconfig
+cd ..
+```
+
+### Installing UHD 4.1 
+
+Make sure you don't have UHD already installed in your system.
+
+https://files.ettus.com/manual/page_install.html
+
+**Using package manager**
+
+`sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host`
+
+**Using Binaries**
+```
+sudo add-apt-repository ppa:ettusresearch/uhd
+sudo apt-get update
+sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
+```
+
+**Installation from source**
+https://files.ettus.com/manual/page_install.html
+```
+sudo apt-get install autoconf automake build-essential ccache cmake cpufrequtils doxygen ethtool \
+g++ git inetutils-tools libboost-all-dev libncurses5 libncurses5-dev libusb-1.0-0 libusb-1.0-0-dev \
+libusb-dev python3-dev python3-mako python3-numpy python3-requests python3-scipy python3-setuptools \
+python3-ruamel.yaml 
+```
+```
+git clone https://github.com/EttusResearch/uhd.git
+cd uhd
+git checkout UHD-4.1
+cd host
+mkdir build
+cd build
+cmake ../
+make
+sudo make install
+sudo ldconfig
+cd ../../../
+```
+
+### Configuring Virtual Machines to recognize Ettus USRP devices
+***//TODO: Add this as an application note in readthedocs. This is a supplement. Not an essential part of readme.*** **
+
+Support
+=======
+
+Mailing list: https://lists.srsran.com/mailman/listinfo/srsran-users
+
+
+
 
 References
 ----------
