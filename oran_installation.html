@@ -49,13 +49,22 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#docker"><em>Docker:</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#images">Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#containers">Containers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#registry">Registry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dockerfile">DockerFile</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kubernetes"><em>Kubernetes:</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#helm"><em>Helm</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#commands-to-install-near-real-time-ric">Commands to install near-real time RIC</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#step-3-deploy-the-near-real-time-ric">Step 3: Deploy the near-Real Time RIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#near-real-time-ric">Near-Real Time RIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#commands-to-install-near-real-time-ric">Commands to install near-real time RIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-deploy-the-near-real-time-ric">Step 3: Deploy the near-Real Time RIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#structure-of-the-dep-folder">Structure of the “dep” Folder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-ric-platform-e2-termination">Step 4: RIC Platform E2 Termination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-srsran-with-e2-manager">Step 4: srsRAN with E2 Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#srsran-with-e2-agent">srsRAN with E2 Agent</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#references">References:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
@@ -129,16 +138,46 @@ better compute density.
 So, you do not need to rely on what is currently installed on the host.
 The isolation and security allow you to run many containers simultaneously on
 a given host.
-Docker is used to build agile software delivery pipelines to ship new features
+The difference between a container and a Virtual Machine is that containers provide a way to virtualize
+an OS so that multiple workloads can run on a single OS instance. With VMs, the hardware is being virtualized
+to run multiple OS instances.</p>
+<a class="reference internal image-reference" href="vm_vs_docker.jpg"><img alt="VM v/s Container Implementation" src="vm_vs_docker.jpg" style="width: 90%;" /></a>
+<p>Docker is used to build agile software delivery pipelines to ship new features
 faster, more securely and with repeatability for both Linux and Windows Server
 apps.
 Some of the core components of docker:
 ————————————–</p>
 <a class="reference internal image-reference" href="_images/docker_overview.jpg"><img alt="Docker Core Components" src="_images/docker_overview.jpg" style="width: 90%;" /></a>
-<p>Images:</p>
-<p>Containers:</p>
-<p>Registry:</p>
-<p>Docker Networking:</p>
+</section>
+<section id="images">
+<h2>Images<a class="headerlink" href="#images" title="Permalink to this headline"></a></h2>
+<p>An image is a read-only template with instructions for creating a Docker container. Docker images may be based on
+other images and is customized to contain executable application source code as well as all the tools, libraries,
+and dependencies that the application code needs to run as a container. When you run the Docker image,
+it becomes one instance (or multiple instances) of the container.</p>
+</section>
+<section id="containers">
+<h2>Containers<a class="headerlink" href="#containers" title="Permalink to this headline"></a></h2>
+<p>Containers are encapsulated environments in which you run applications and is a runnable instance of an image.
+A Docker container image is a lightweight, standalone, executable package of software that has everything you need
+to run an application – code, runtime, system tools, system libraries, and settings. Containers only have access to
+resources that are defined in the image, unless additional access is defined when building the image into a container.
+For example, a container can access environment variables defined within it but cannot access environment variables of the host machine unless specified.
+Since containers are much smaller than VMs, they can be spun up in a matter of seconds, and result in much better
+server density. When a container is removed, any changes to its state that are not stored in persistent storage disappear.</p>
+</section>
+<section id="registry">
+<h2>Registry<a class="headerlink" href="#registry" title="Permalink to this headline"></a></h2>
+<p>The Docker Registry is where the Docker Images are stored and can be downloaded. The Registry can be either a user’s
+local repository or a public repository like a Docker Hub (similar to GitHub) allowing multiple users to collaborate.
+Images can be ‘pushed’ to and ‘pulled’ from the registries as and when required.</p>
+</section>
+<section id="dockerfile">
+<h2>DockerFile<a class="headerlink" href="#dockerfile" title="Permalink to this headline"></a></h2>
+<p>A DockerFile is a text file that contains instructions on how to build a docker image.
+A Dockerfile specifies the operating system that will underlie the container, along with the languages,
+environmental variables, file locations, network ports, and other components it needs—and what the container
+will do once we run it.</p>
 </section>
 <section id="kubernetes">
 <h2><em>Kubernetes:</em><a class="headerlink" href="#kubernetes" title="Permalink to this headline"></a></h2>
@@ -152,11 +191,20 @@ Pods, in each Pod there can be any number of containers. User’s application is
 </section>
 <section id="helm">
 <h2><em>Helm</em><a class="headerlink" href="#helm" title="Permalink to this headline"></a></h2>
+<p>Helm is a package manager for Kubernetes. It is the equivalent of ‘yum’ or ‘apt’ seen in Linux OS or ‘pip’ in the case of Python. Just as how ‘apt’ gets
+and installs/deploys packaged applications on the Linux OS, Helm similarly deploys packaged applications (called Helm Charts)
+on Kubernetes clusters. To understand how Helm charts are packaged and configured, basic understanding of YAML (Yet Another Markup Language) is helpful. YAML
+files specify configuration-type information in a list/key-value format (similar to JSON). Configuration information can include name, version, labels, and other metadata.
+It can also include container info like link to images, name of the Kubernetes pod and commands to run once the pod fires up. A bunch of these YAML files constitute a chart.
+The Helm tool processes these charts and sends commands to a server running on Kubernetes called “tiller”.</p>
+</section>
+<section id="near-real-time-ric">
+<h2>Near-Real Time RIC<a class="headerlink" href="#near-real-time-ric" title="Permalink to this headline"></a></h2>
 <p>The installation of Near Realtime RAN Intelligent Controller is spread onto
 two separate Kubernetes clusters.
 The first cluster is used for deploying the Near Realtime RIC (platform and
 applications), and the other is for deploying other auxiliary functions.
-They are referred to as <strong>RIC cluster</strong> and <strong>AUX cluster</strong> respectively <a class="footnote-reference brackets" href="#id2" id="id1">1</a>.</p>
+They are referred to as <strong>RIC cluster</strong> and <strong>AUX cluster</strong> respectively <a class="footnote-reference brackets" href="#id24" id="id1">1</a>.</p>
 <p>The <strong>RIC cluster</strong> consists of 3 major Kubernetes Systems.
 Each of them is separated by their specified namespaces (kube-system ns,
 ricinfra ns, ricplt ns):</p>
@@ -171,14 +219,12 @@ framework for deployment and maintenance of pods.</p>
 </div></blockquote>
 <p>Clone the repository (“dep”) containing deployment scripts, pre generated helm charts for each of the RIC components.
 This repository also contains some “demo” scripts which can be run after complete installation.</p>
-<blockquote>
-<div><p>git clone <a class="reference external" href="http://gerrit.o-ran-sc.org/r/it/dep">http://gerrit.o-ran-sc.org/r/it/dep</a>
-cd dep  #Change directory to dep</p>
-</div></blockquote>
+<p>git clone <a class="reference external" href="https://github.com/openaicellular/RIC-Deployment.git">https://github.com/openaicellular/RIC-Deployment.git</a> -b e_rel_xapp_onboarder_support
+cd RIC-Deployment
+git submodule update –init –recursive –remote</p>
 <p>Check out the latest version of every dependent submodule within the “dep” repository.</p>
 <blockquote>
-<div><p>git submodule update –init –recursive –remote
-cd tools/k8s/bin</p>
+<div><p>git submodule update –init –recursive –remote</p>
 </div></blockquote>
 <p>This directory contains tools for generating a simple script that can help us set up a one-node Kubernetes cluster (OSC also supports a 3 node Master slave Kubernetes configuration, but I do not cover that here).
 The scripts automatically read in parameters (version specifications, setting up private containers/registries) from the following files:</p>
@@ -192,7 +238,8 @@ The scripts automatically read in parameters (version specifications, setting up
 <p>For a simple installation there is no need to modify any of the above files. The files give flexibility to define our own custom Kubernetes environment if we ever need to.
 Run the script which will generate the Kubernetes stack install script. Executing the below command will output a shell script called k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh.</p>
 <blockquote>
-<div><p>./gen-cloud-init.sh</p>
+<div><p>cd tools/k8s/bin
+./gen-cloud-init.sh</p>
 </div></blockquote>
 <p>Executing the generated script will install Kubernetes, Docker and Helm with version specified in the k8s/etc/infra.c. This also installs some pods which help cluster creation, service creation and internetworking between services. Running this script will replace any existing installation of Docker host, Kubernetes, and Helm on the VM. The script will reboot the machine upon successful completion. This will take some time (approx. 15-20 mins).</p>
 <blockquote>
@@ -204,7 +251,7 @@ Run the script which will generate the Kubernetes stack install script. Executin
 </div></blockquote>
 <p>Check if all the pods in the newly installed Kubernetes Cluster are in “Running” state using,</p>
 <blockquote>
-<div><p>kubectl get pods -A</p>
+<div><p>kubectl get pods -A  or  kubectl get pods –all-namespaces</p>
 </div></blockquote>
 <p>There should be a total of 9 pods up and running in the cluster.
 These pods serve as the Kubernetes Framework which will be helpful in deploying the RIC platform.
@@ -221,7 +268,7 @@ how the traffic is transported between hosts. Flannel uses etcd to
 maintain a mapping between allocated subnets and real host IP addresses.
 For example, this is very useful when the RAN is trying to communicate
 with the RIC since they are both different/separate nodes.</p></li>
-<li><p><cite>Etcd server</cite>: Consistent and highly available key value store used as
+<li><p><cite>Etcd server</cite>: Consistent and highly available key value store (similar to a dictionary or a map) used as
 Kubernetes’ backing store for all cluster data.
 Example : Used by Flannel to register its container’s IP. etcd server
 stores a key-value mapping of each container with its IP.</p></li>
@@ -256,40 +303,232 @@ since Helm v3 since it was seen as a security risk. But in our
 deployments, we are still using Helm v2, so tiller is essential.</p></li>
 </ul>
 </div></blockquote>
+<p>Onetime setup for Influxdb</p>
+<p>Once Kubernetes setup is done, we have to create PersistentVolume through the storage class for the influxdb database.
+The following one time process should be followed before deploying the influxdb in ricplt namespace.</p>
+<blockquote>
+<div><p><cite>Persistent Volume</cite>:</p>
+</div></blockquote>
+<dl class="simple">
+<dt>First we need to check if the “ricinfra” namespace exists.</dt><dd><p><cite>kubectl get ns ricinfra</cite></p>
+</dd>
+<dt># If the namespace doesn’t exist, then create it using:</dt><dd><p><cite>kubectl create ns ricinfra</cite></p>
+</dd>
+</dl>
+<p>The next three commands installs the nfs-common package for kubernetes through helm in the “ricinfra” namespace and for the system
+<a href="#id2"><span class="problematic" id="id3">``</span></a><a href="#id4"><span class="problematic" id="id5">`</span></a></p>
+<blockquote>
+<div><p>helm install stable/nfs-server-provisioner –namespace ricinfra –name nfs-release-1
+kubectl patch storageclass nfs -p ‘{“metadata”: {“annotations”:{“storageclass.kubernetes.io/is-default-class”:”true”}}}’
+sudo apt install nfs-common
+<a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">`</span></a></p>
+</div></blockquote>
+<p>NFS-common basically allows file sharing between systems residing on a local area network.</p>
+</section>
 <section id="step-3-deploy-the-near-real-time-ric">
-<h3>Step 3: Deploy the near-Real Time RIC<a class="headerlink" href="#step-3-deploy-the-near-real-time-ric" title="Permalink to this headline"></a></h3>
-<p>Influx db</p>
-<p>Edits to helm charts</p>
-<p>Recipe is an important concept for Near Realtime RIC deployment. Each
-deployment group has its own recipe. Recipe provides a customized
+<h2>Step 3: Deploy the near-Real Time RIC<a class="headerlink" href="#step-3-deploy-the-near-real-time-ric" title="Permalink to this headline"></a></h2>
+<p>Once the Kubernetes clusters are deployed, it is now time for us to deploy the near-real time RIC cluster.</p>
+<blockquote>
+<div><blockquote>
+<div><p><a href="#id10"><span class="problematic" id="id11">``</span></a><a href="#id12"><span class="problematic" id="id13">`</span></a></p>
+</div></blockquote>
+<p>cd dep/bin</p>
+<blockquote>
+<div><p>./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe.yaml
+<a href="#id14"><span class="problematic" id="id15">``</span></a><a href="#id16"><span class="problematic" id="id17">`</span></a></p>
+<p>This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory. A Recipe is an important concept for Near Realtime RIC deployment. Each</p>
+</div></blockquote>
+</div></blockquote>
+<p>deployment group has its own recipe. Recipe provides a customized
 specification for the components of a deployment group for a specific
-deployment site. The RECIPE_EXAMPLE directory contains the example recipes for the three deployment groups (bronze, cherry, dawn). The benefit of using
+deployment site. The RECIPE_EXAMPLE directory contains the example recipes for
+the three deployment groups (bronze, cherry, dawn). The benefit of using
 “recipe files” is that changing over from one release to another is seamless
-requiring the just the execution of a single script without having to perform
+requiring just the execution of a single script without having to perform
 “Step 2” all over again.</p>
-<p><strong>If by chance, you encounter any issues while following the instructions visit the confluence website maintained by O-RAN Software Community for possible fixes and troubleshooting advice.</strong></p>
-<p><a class="reference external" href="https://wiki.o-ran-sc.org/display/GS/Near+Realtime+RIC+Installation">Here:</a></p>
+<p>The example_recipe is a .yaml file which
+Influx db</p>
+<p>Edits to helm charts</p>
+<p>If by chance, you encounter any issues while following the instructions visit
+the confluence website maintained by O-RAN Software Community for possible
+fixes and troubleshooting advice.
+(<a class="reference external" href="https://wiki.o-ran-sc.org/display/GS/Near+Realtime+RIC+Installation">https://wiki.o-ran-sc.org/display/GS/Near+Realtime+RIC+Installation</a>)</p>
+</section>
+<section id="structure-of-the-dep-folder">
+<h2>Structure of the “dep” Folder<a class="headerlink" href="#structure-of-the-dep-folder" title="Permalink to this headline"></a></h2>
+<p>The scripts in the ./bin directory are one-click RIC deployment/undeployment scripts and will call the deployment/undeployment
+scripts in the corresponding submodule directory respectively. In each of the submodule directories, ./bin contains
+the binary and script files and ./helm contains the helm charts. For the rest of the non-submodule directories please
+refer to the README.md files in them for more details.</p>
+</section>
+<section id="step-4-ric-platform-e2-termination">
+<h2>Step 4: RIC Platform E2 Termination<a class="headerlink" href="#step-4-ric-platform-e2-termination" title="Permalink to this headline"></a></h2>
+<p>Pre-requisite: Local docker registry
+To store docker images. You can create one using, (You will need “super user” permissions)
+<cite>sudo docker run -d -p 5001:5000 –restart=always –name ric registry:2</cite></p>
+<p>Now you can either push or pull images using,
+<cite>docker push localhost:5001/&lt;image_name&gt;:&lt;image_tag&gt;</cite>  or  <cite>docker pull localhost:5001/&lt;image_name&gt;:&lt;image_tag&gt;</cite></p>
+<p>Creating Docker image
+The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">cd</span> <span class="pre">RIC-E2-TERMINATION</span>
+<span class="pre">sudo</span> <span class="pre">docker</span> <span class="pre">build</span> <span class="pre">-f</span> <span class="pre">Dockerfile</span> <span class="pre">-t</span> <span class="pre">localhost:5001/ric-plt-e2:5.5.0</span> <span class="pre">.</span>
+<span class="pre">sudo</span> <span class="pre">docker</span> <span class="pre">push</span> <span class="pre">localhost:5001/ric-plt-e2:5.5.0</span>
+<span class="pre">`</span></code></p>
+<p>Deployment
+That’s it! Now, the image you just created can be deployed on your RIC (ric-plt) Kubernetes cluster. Modify the <em>e2term</em> section in the recipe file present in <cite>dep/RECIPE_EXAMPLE/PLATFORM</cite> to include your image,</p>
+<p><a href="#id18"><span class="problematic" id="id19">``</span></a>`
+e2term:</p>
+<blockquote>
+<div><dl>
+<dt>alpha:</dt><dd><dl class="simple">
+<dt>image:</dt><dd><p>registry: “localhost:5001”
+name: ric-plt-e2
+tag: 5.5.0&lt;/b&gt;</p>
+</dd>
+</dl>
+<p>privilegedmode: false
+hostnetworkmode: false
+env:</p>
+<blockquote>
+<div><p>print: “1”
+messagecollectorfile: “/data/outgoing/”</p>
+</div></blockquote>
+<p>dataVolSize: 100Mi
+storageClassName: local-storage
+pizpub:</p>
+<blockquote>
+<div><p>enabled: false`
+<a href="#id20"><span class="problematic" id="id21">``</span></a><a href="#id22"><span class="problematic" id="id23">`</span></a></p>
+</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+<p>When the RIC platform is deployed, you will have the modified E2 Termination running on the Kubernetes cluster. The pod will be called <cite>deployment-ricplt-e2term-alpha</cite> and 3 services related to E2 Termination will be created:
+- <em>service-ricplt-e2term-prometheus-alpha</em> : Communicates with the <em>VES-prometheus Adapter (VESPA)</em> pod to exchange data which will be sent to the SMO.
+- <em>service-ricplt-e2term-rmr-alpha</em> : RMR service that manages exchange of messages between E2 Termination other components in the near-real time RIC.
+- <em>service-ricplt-e2term-sctp-alpha</em> : Accepts SCTP connections from RAN and exchanges E2 messages with the RAN. Note that this service is configured as a <em>NodePort</em> (accepts connections external to the cluster) while the other two are configured as <em>ClusterIP</em> (Networking only within the cluster).</p>
+<p>## Commands related to E2 Termination
+- View E2 Termination logs : <cite>kubectl logs -f -n ricplt -l app=ricplt-e2term-alpha</cite>
+- View E2 Manager Logs : <cite>kubectl logs -f -n ricplt -l app=ricplt-e2mgr</cite>
+- Get the IP <em>service-ricplt-e2term-sctp-alpha</em> : <cite>kubectl get svc -n ricplt –field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath=’{.items[0].spec.clusterIP}’</cite></p>
+</section>
+<section id="step-4-srsran-with-e2-manager">
+<h2>Step 4: srsRAN with E2 Manager<a class="headerlink" href="#step-4-srsran-with-e2-manager" title="Permalink to this headline"></a></h2>
+<section id="srsran-with-e2-agent">
+<h3>srsRAN with E2 Agent<a class="headerlink" href="#srsran-with-e2-agent" title="Permalink to this headline"></a></h3>
+<p>srsRAN is a 4G/5G software radio suite developed by [SRS](<a class="reference external" href="http://www.srs.io">http://www.srs.io</a>). This is a modified version of srsRAN 21.10 and POWDER’s E2 agent enabled srsLTE.</p>
+<p>See the [srsRAN project pages](<a class="reference external" href="https://www.srsran.com">https://www.srsran.com</a>) for information, guides and project news.</p>
+<dl class="simple">
+<dt>The srsRAN suite includes:</dt><dd><ul class="simple">
+<li><p>srsUE - a full-stack SDR 4G/5G-NSA UE application (5G-SA coming soon)</p></li>
+<li><p>srsENB - a full-stack SDR 4G/5G-NSA eNodeB application (5G-SA coming soon)</p></li>
+<li><p>srsEPC - a light-weight 4G core network implementation with MME, HSS and S/P-GW</p></li>
+</ul>
+</dd>
+</dl>
+<p>For application features, build instructions and user guides see the [srsRAN documentation](<a class="reference external" href="https://docs.srsran.com">https://docs.srsran.com</a>).</p>
+<p>For license details, see LICENSE file.</p>
+<p>Pre-requisites
+* System Requirements - 4 core CPU (3 - 5 GHz)
+* Operating system - Ubuntu 18.04
+* E2 Agent Integration - E2 Bindings, asn1c Compiler, O-RAN Specification documents(optional)
+* Simulated 1 UE 1 eNB/gNB setup - ZeroMQ libraries, Single Host machine/VM
+* USRP frontend - UHD version 4.1, At least two host machines/VMs
+* Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.8</p>
+<p>## Installation Procedure
+First, we need to install ZeroMQ and UHD Libraries
+Create a new directory to host all the files related to srsRAN</p>
+<p><cite>mkdir -p srsRAN-OAIC</cite></p>
+<p>### Getting ZeroMQ development Libraries
+<a class="reference external" href="https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html">https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html</a></p>
+<p><strong>Package Installation</strong></p>
+<p><cite>sudo apt-get install libzmq3-dev</cite></p>
+<p><strong>Installing from Sources</strong></p>
+<p>1. Get libzmq
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/zeromq/libzmq.git</span>
+<span class="pre">cd</span> <span class="pre">libzmq</span>
+<span class="pre">./autogen.sh</span>
+<span class="pre">./configure</span>
+<span class="pre">make</span>
+<span class="pre">sudo</span> <span class="pre">make</span> <span class="pre">install</span>
+<span class="pre">sudo</span> <span class="pre">ldconfig</span>
+<span class="pre">cd</span> <span class="pre">..</span>
+<span class="pre">`</span></code></p>
+<p>2. Get czmq
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/zeromq/czmq.git</span>
+<span class="pre">cd</span> <span class="pre">czmq</span>
+<span class="pre">./autogen.sh</span>
+<span class="pre">./configure</span>
+<span class="pre">make</span>
+<span class="pre">sudo</span> <span class="pre">make</span> <span class="pre">install</span>
+<span class="pre">sudo</span> <span class="pre">ldconfig</span>
+<span class="pre">cd</span> <span class="pre">..</span>
+<span class="pre">`</span></code></p>
+<p>### Installing UHD 4.1</p>
+<p>Make sure you don’t have UHD already installed in your system.</p>
+<p><a class="reference external" href="https://files.ettus.com/manual/page_install.html">https://files.ettus.com/manual/page_install.html</a></p>
+<p><strong>Using package manager</strong></p>
+<p><cite>sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host</cite></p>
+<p><strong>Using Binaries</strong>
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">sudo</span> <span class="pre">add-apt-repository</span> <span class="pre">ppa:ettusresearch/uhd</span>
+<span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">update</span>
+<span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libuhd-dev</span> <span class="pre">libuhd4.1.0</span> <span class="pre">uhd-host</span>
+<span class="pre">`</span></code></p>
+<p><strong>Installation from source</strong>
+<a class="reference external" href="https://files.ettus.com/manual/page_install.html">https://files.ettus.com/manual/page_install.html</a>
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">autoconf</span> <span class="pre">automake</span> <span class="pre">build-essential</span> <span class="pre">ccache</span> <span class="pre">cmake</span> <span class="pre">cpufrequtils</span> <span class="pre">doxygen</span> <span class="pre">ethtool</span> <span class="pre">\</span>
+<span class="pre">g++</span> <span class="pre">git</span> <span class="pre">inetutils-tools</span> <span class="pre">libboost-all-dev</span> <span class="pre">libncurses5</span> <span class="pre">libncurses5-dev</span> <span class="pre">libusb-1.0-0</span> <span class="pre">libusb-1.0-0-dev</span> <span class="pre">\</span>
+<span class="pre">libusb-dev</span> <span class="pre">python3-dev</span> <span class="pre">python3-mako</span> <span class="pre">python3-numpy</span> <span class="pre">python3-requests</span> <span class="pre">python3-scipy</span> <span class="pre">python3-setuptools</span> <span class="pre">\</span>
+<span class="pre">python3-ruamel.yaml</span>
+<span class="pre">`</span></code>
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/EttusResearch/uhd.git</span>
+<span class="pre">cd</span> <span class="pre">uhd</span>
+<span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">UHD-4.1</span>
+<span class="pre">cd</span> <span class="pre">host</span>
+<span class="pre">mkdir</span> <span class="pre">build</span>
+<span class="pre">cd</span> <span class="pre">build</span>
+<span class="pre">cmake</span> <span class="pre">../</span>
+<span class="pre">make</span>
+<span class="pre">sudo</span> <span class="pre">make</span> <span class="pre">install</span>
+<span class="pre">sudo</span> <span class="pre">ldconfig</span>
+<span class="pre">cd</span> <span class="pre">../../../</span>
+<span class="pre">`</span></code></p>
 </section>
 </section>
 <section id="references">
-<h2>References:<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
 <dl class="footnote brackets">
-<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dt class="label" id="id24"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p><a class="reference external" href="https://www.youtube.com/watch?v=x5MhydijWmc">https://www.youtube.com/watch?v=x5MhydijWmc</a></p>
 </dd>
-<dt class="label" id="id3"><span class="brackets">2</span></dt>
+<dt class="label" id="id25"><span class="brackets">2</span></dt>
 <dd><p><a class="reference external" href="https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster">https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster</a></p>
 </dd>
-<dt class="label" id="id4"><span class="brackets">3</span></dt>
+<dt class="label" id="id26"><span class="brackets">3</span></dt>
+<dd><p><a class="reference external" href="https://www.section.io/engineering-education/docker-concepts/">https://www.section.io/engineering-education/docker-concepts/</a></p>
+</dd>
+<dt class="label" id="id27"><span class="brackets">4</span></dt>
+<dd><p><a class="reference external" href="https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/">https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/</a></p>
+</dd>
+<dt class="label" id="id28"><span class="brackets">5</span></dt>
 <dd><p><a class="reference external" href="https://kubernetes.io/docs/concepts/overview/components/">https://kubernetes.io/docs/concepts/overview/components/</a></p>
 </dd>
-<dt class="label" id="id5"><span class="brackets">4</span></dt>
+<dt class="label" id="id29"><span class="brackets">6</span></dt>
+<dd><p><a class="reference external" href="https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes">https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes</a></p>
+</dd>
+<dt class="label" id="id30"><span class="brackets">7</span></dt>
 <dd><p><a class="reference external" href="https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers">https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers</a></p>
 </dd>
-<dt class="label" id="id6"><span class="brackets">5</span></dt>
+<dt class="label" id="id31"><span class="brackets">8</span></dt>
 <dd><p><a class="reference external" href="https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/">https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/</a></p>
 </dd>
-<dt class="label" id="id7"><span class="brackets">6</span></dt>
+<dt class="label" id="id32"><span class="brackets">9</span></dt>
 <dd><p><a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/networking/">https://kubernetes.io/docs/concepts/cluster-administration/networking/</a></p>
 </dd>
 </dl>
