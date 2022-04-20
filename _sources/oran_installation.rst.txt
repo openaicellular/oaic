@@ -16,6 +16,7 @@ O-RAN Near-Real Time RIC Software Architecture
 .. image:: near_rt_ric_cluster.jpg
    :width: 60%
    :alt: Near Real-time RIC Cluster
+
 Near-Real Time RIC Installation Procedure
 =========================================
 Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)
@@ -138,6 +139,8 @@ Commands to install near-real time RIC
 
 Enter root:
 
+.. code-block::
+
     sudo -i
 
 Clone the repository (“dep”) containing deployment scripts, pre generated helm charts for each of the RIC components.
@@ -148,6 +151,8 @@ cd RIC-Deployment
 git submodule update --init --recursive --remote
 
 Check out the latest version of every dependent submodule within the “dep” repository.
+
+.. code-block::
 
     git submodule update --init --recursive --remote
 
@@ -161,18 +166,26 @@ The scripts automatically read in parameters (version specifications, setting up
 For a simple installation there is no need to modify any of the above files. The files give flexibility to define our own custom Kubernetes environment if we ever need to.
 Run the script which will generate the Kubernetes stack install script. Executing the below command will output a shell script called k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh.
 
+.. code-block::
+
     cd tools/k8s/bin
     ./gen-cloud-init.sh
 
 Executing the generated script will install Kubernetes, Docker and Helm with version specified in the k8s/etc/infra.c. This also installs some pods which help cluster creation, service creation and internetworking between services. Running this script will replace any existing installation of Docker host, Kubernetes, and Helm on the VM. The script will reboot the machine upon successful completion. This will take some time (approx. 15-20 mins).
 
+.. code-block::
+
     ./k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh
 
 Login to root again
 
+.. code-block::
+
     sudo -i
 
 Check if all the pods in the newly installed Kubernetes Cluster are in “Running” state using,
+
+.. code-block::
 
     kubectl get pods -A  or  kubectl get pods --all-namespaces
 
@@ -232,10 +245,16 @@ The following one time process should be followed before deploying the influxdb 
     `Persistent Volume`:
 
 First we need to check if the "ricinfra" namespace exists.
-    `kubectl get ns ricinfra`
 
-# If the namespace doesn’t exist, then create it using:
-    `kubectl create ns ricinfra` 
+.. code-block::
+
+    kubectl get ns ricinfra
+
+If the namespace doesn’t exist, then create it using:
+
+.. code-block::
+
+    kubectl create ns ricinfra
 
 The next three commands installs the nfs-common package for kubernetes through helm in the "ricinfra" namespace and for the system
 ``` 
@@ -246,17 +265,76 @@ The next three commands installs the nfs-common package for kubernetes through h
 
 NFS-common basically allows file sharing between systems residing on a local area network.
 
-Step 3: Deploy the near-Real Time RIC
+Step 3: RIC Platform E2 Termination
 -------------------------------------
+
+Pre-requisite: Local docker registry
+To store docker images. You can create one using, (You will need "super user" permissions)
+
+.. code-block::
+
+    sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
+ 
+Now you can either push or pull images using,
+``docker push localhost:5001/<image_name>:<image_tag>``
+or ``docker pull localhost:5001/<image_name>:<image_tag>``
+ 
+Creating Docker image
+The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order 
+
+.. code-block::
+
+    cd RIC-E2-TERMINATION
+    sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
+    sudo docker push localhost:5001/ric-plt-e2:5.5.0
+
+Deployment
+That's it! Now, the image you just created can be deployed on your RIC (ric-plt) Kubernetes cluster. Modify the *e2term* section in the recipe file present in `dep/RECIPE_EXAMPLE/PLATFORM` to include your image,
+
+
+.. code-block::
+
+    e2term:
+      alpha:
+        image:
+          registry: "localhost:5001"
+          name: ric-plt-e2
+          tag: 5.5.0</b>
+        privilegedmode: false
+        hostnetworkmode: false
+        env:
+          print: "1"
+          messagecollectorfile: "/data/outgoing/"
+        dataVolSize: 100Mi
+        storageClassName: local-storage
+        pizpub:
+          enabled: false`
+      
+When the RIC platform is deployed, you will have the modified E2 Termination running on the Kubernetes cluster. The pod will be called `deployment-ricplt-e2term-alpha` and 3 services related to E2 Termination will be created:
+
+  - *service-ricplt-e2term-prometheus-alpha* : Communicates with the *VES-prometheus Adapter (VESPA)* pod to exchange data which will be sent to the SMO.
+  - *service-ricplt-e2term-rmr-alpha* : RMR service that manages exchange of messages between E2 Termination other components in the near-real time RIC.
+  - *service-ricplt-e2term-sctp-alpha* : Accepts SCTP connections from RAN and exchanges E2 messages with the RAN. Note that this service is configured as a *NodePort* (accepts connections external to the cluster) while the other two are configured as *ClusterIP* (Networking only within the cluster). 
+
+Commands related to E2 Termination
+==================================
+
+  - View E2 Termination logs : `kubectl logs -f -n ricplt -l app=ricplt-e2term-alpha`
+  - View E2 Manager Logs : `kubectl logs -f -n ricplt -l app=ricplt-e2mgr`
+  - Get the IP *service-ricplt-e2term-sctp-alpha* : `kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
+
+
+Step 4: Deploy the near-Real Time RIC
+-------------------------------------
+
 Once the Kubernetes clusters are deployed, it is now time for us to deploy the near-real time RIC cluster.
 
-    ``` 
-   cd dep/bin
+.. code-block::
+
+    cd RIC-Deployment/bin
+    ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
     
-    ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe.yaml
-    ``` 
-    
-    This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory. A Recipe is an important concept for Near Realtime RIC deployment. Each
+This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory. A Recipe is an important concept for Near Realtime RIC deployment. Each
 deployment group has its own recipe. Recipe provides a customized
 specification for the components of a deployment group for a specific
 deployment site. The RECIPE_EXAMPLE directory contains the example recipes for
@@ -282,57 +360,6 @@ The scripts in the ./bin directory are one-click RIC deployment/undeployment scr
 scripts in the corresponding submodule directory respectively. In each of the submodule directories, ./bin contains
 the binary and script files and ./helm contains the helm charts. For the rest of the non-submodule directories please
 refer to the README.md files in them for more details.
-
-
-Step 4: RIC Platform E2 Termination
--------------------------------------
-
-Pre-requisite: Local docker registry
-To store docker images. You can create one using, (You will need "super user" permissions)
-`sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2`
- 
-Now you can either push or pull images using,
-`docker push localhost:5001/<image_name>:<image_tag>`  or  `docker pull localhost:5001/<image_name>:<image_tag>`
- 
-Creating Docker image
-The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order 
-```
-cd RIC-E2-TERMINATION
-sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
-sudo docker push localhost:5001/ric-plt-e2:5.5.0
-```
-
-Deployment
-That's it! Now, the image you just created can be deployed on your RIC (ric-plt) Kubernetes cluster. Modify the *e2term* section in the recipe file present in `dep/RECIPE_EXAMPLE/PLATFORM` to include your image,
-
-
-```
-e2term:
-  alpha:
-    image:
-      registry: "localhost:5001"
-      name: ric-plt-e2
-      tag: 5.5.0</b>
-    privilegedmode: false
-    hostnetworkmode: false
-    env:
-      print: "1"
-      messagecollectorfile: "/data/outgoing/"
-    dataVolSize: 100Mi
-    storageClassName: local-storage
-    pizpub:
-      enabled: false`
-      ```
-      
-When the RIC platform is deployed, you will have the modified E2 Termination running on the Kubernetes cluster. The pod will be called `deployment-ricplt-e2term-alpha` and 3 services related to E2 Termination will be created:
-- *service-ricplt-e2term-prometheus-alpha* : Communicates with the *VES-prometheus Adapter (VESPA)* pod to exchange data which will be sent to the SMO.
-- *service-ricplt-e2term-rmr-alpha* : RMR service that manages exchange of messages between E2 Termination other components in the near-real time RIC.
-- *service-ricplt-e2term-sctp-alpha* : Accepts SCTP connections from RAN and exchanges E2 messages with the RAN. Note that this service is configured as a *NodePort* (accepts connections external to the cluster) while the other two are configured as *ClusterIP* (Networking only within the cluster). 
-
-## Commands related to E2 Termination
-- View E2 Termination logs : `kubectl logs -f -n ricplt -l app=ricplt-e2term-alpha`
-- View E2 Manager Logs : `kubectl logs -f -n ricplt -l app=ricplt-e2mgr`
-- Get the IP *service-ricplt-e2term-sctp-alpha* : `kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
 
 
 Step 5: srsRAN with E2 Manager
@@ -364,7 +391,9 @@ Pre-requisites
   * USRP frontend - UHD version 4.1, At least two host machines/VMs
   * Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.8
 
-## Installation Procedure
+Installation Procedure
+======================
+
 First, we need to install ZeroMQ and UHD Libraries
 Create a new directory to host all the files related to srsRAN
 

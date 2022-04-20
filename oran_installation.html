@@ -57,11 +57,15 @@
 <li class="toctree-l2"><a class="reference internal" href="#helm"><em>Helm</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#near-real-time-ric">Near-Real Time RIC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#commands-to-install-near-real-time-ric">Commands to install near-real time RIC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-3-deploy-the-near-real-time-ric">Step 3: Deploy the near-Real Time RIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-ric-platform-e2-termination">Step 3: RIC Platform E2 Termination</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#commands-related-to-e2-termination">Commands related to E2 Termination</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-deploy-the-near-real-time-ric">Step 4: Deploy the near-Real Time RIC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#structure-of-the-dep-folder">Structure of the “dep” Folder</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-4-ric-platform-e2-termination">Step 4: RIC Platform E2 Termination</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#step-5-srsran-with-e2-manager">Step 5: srsRAN with E2 Manager</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#srsran-with-e2-agent">srsRAN with E2 Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation-procedure">Installation Procedure</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
@@ -204,7 +208,7 @@ The Helm tool processes these charts and sends commands to a server running on K
 two separate Kubernetes clusters.
 The first cluster is used for deploying the Near Realtime RIC (platform and
 applications), and the other is for deploying other auxiliary functions.
-They are referred to as <strong>RIC cluster</strong> and <strong>AUX cluster</strong> respectively <a class="footnote-reference brackets" href="#id24" id="id1">1</a>.</p>
+They are referred to as <strong>RIC cluster</strong> and <strong>AUX cluster</strong> respectively <a class="footnote-reference brackets" href="#id10" id="id1">1</a>.</p>
 <p>The <strong>RIC cluster</strong> consists of 3 major Kubernetes Systems.
 Each of them is separated by their specified namespaces (kube-system ns,
 ricinfra ns, ricplt ns):</p>
@@ -214,18 +218,18 @@ framework for deployment and maintenance of pods.</p>
 <section id="commands-to-install-near-real-time-ric">
 <h2>Commands to install near-real time RIC<a class="headerlink" href="#commands-to-install-near-real-time-ric" title="Permalink to this headline"></a></h2>
 <p>Enter root:</p>
-<blockquote>
-<div><p>sudo -i</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">-</span><span class="n">i</span>
+</pre></div>
+</div>
 <p>Clone the repository (“dep”) containing deployment scripts, pre generated helm charts for each of the RIC components.
 This repository also contains some “demo” scripts which can be run after complete installation.</p>
 <p>git clone <a class="reference external" href="https://github.com/openaicellular/RIC-Deployment.git">https://github.com/openaicellular/RIC-Deployment.git</a> -b e_rel_xapp_onboarder_support
 cd RIC-Deployment
 git submodule update –init –recursive –remote</p>
 <p>Check out the latest version of every dependent submodule within the “dep” repository.</p>
-<blockquote>
-<div><p>git submodule update –init –recursive –remote</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">submodule</span> <span class="n">update</span> <span class="o">--</span><span class="n">init</span> <span class="o">--</span><span class="n">recursive</span> <span class="o">--</span><span class="n">remote</span>
+</pre></div>
+</div>
 <p>This directory contains tools for generating a simple script that can help us set up a one-node Kubernetes cluster (OSC also supports a 3 node Master slave Kubernetes configuration, but I do not cover that here).
 The scripts automatically read in parameters (version specifications, setting up private containers/registries) from the following files:</p>
 <blockquote>
@@ -237,22 +241,22 @@ The scripts automatically read in parameters (version specifications, setting up
 </div></blockquote>
 <p>For a simple installation there is no need to modify any of the above files. The files give flexibility to define our own custom Kubernetes environment if we ever need to.
 Run the script which will generate the Kubernetes stack install script. Executing the below command will output a shell script called k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh.</p>
-<blockquote>
-<div><p>cd tools/k8s/bin
-./gen-cloud-init.sh</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">tools</span><span class="o">/</span><span class="n">k8s</span><span class="o">/</span><span class="nb">bin</span>
+<span class="o">./</span><span class="n">gen</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">init</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
 <p>Executing the generated script will install Kubernetes, Docker and Helm with version specified in the k8s/etc/infra.c. This also installs some pods which help cluster creation, service creation and internetworking between services. Running this script will replace any existing installation of Docker host, Kubernetes, and Helm on the VM. The script will reboot the machine upon successful completion. This will take some time (approx. 15-20 mins).</p>
-<blockquote>
-<div><p>./k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">k8s</span><span class="o">-</span><span class="mi">1</span><span class="n">node</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">init</span><span class="o">-</span><span class="n">k_1_16</span><span class="o">-</span><span class="n">h_2_12</span><span class="o">-</span><span class="n">d_cur</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
 <p>Login to root again</p>
-<blockquote>
-<div><p>sudo -i</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">-</span><span class="n">i</span>
+</pre></div>
+</div>
 <p>Check if all the pods in the newly installed Kubernetes Cluster are in “Running” state using,</p>
-<blockquote>
-<div><p>kubectl get pods -A  or  kubectl get pods –all-namespaces</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="n">pods</span> <span class="o">-</span><span class="n">A</span>  <span class="ow">or</span>  <span class="n">kubectl</span> <span class="n">get</span> <span class="n">pods</span> <span class="o">--</span><span class="nb">all</span><span class="o">-</span><span class="n">namespaces</span>
+</pre></div>
+</div>
 <p>There should be a total of 9 pods up and running in the cluster.
 These pods serve as the Kubernetes Framework which will be helpful in deploying the RIC platform.
 Here, I list each of the pods’ functionality (Most of which help in networking between Kubernetes nodes) [].</p>
@@ -309,12 +313,14 @@ The following one time process should be followed before deploying the influxdb 
 <blockquote>
 <div><p><cite>Persistent Volume</cite>:</p>
 </div></blockquote>
-<dl class="simple">
-<dt>First we need to check if the “ricinfra” namespace exists.</dt><dd><p><cite>kubectl get ns ricinfra</cite></p>
-</dd>
-<dt># If the namespace doesn’t exist, then create it using:</dt><dd><p><cite>kubectl create ns ricinfra</cite></p>
-</dd>
-</dl>
+<p>First we need to check if the “ricinfra” namespace exists.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="n">ns</span> <span class="n">ricinfra</span>
+</pre></div>
+</div>
+<p>If the namespace doesn’t exist, then create it using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">create</span> <span class="n">ns</span> <span class="n">ricinfra</span>
+</pre></div>
+</div>
 <p>The next three commands installs the nfs-common package for kubernetes through helm in the “ricinfra” namespace and for the system
 <a href="#id2"><span class="problematic" id="id3">``</span></a><a href="#id4"><span class="problematic" id="id5">`</span></a></p>
 <blockquote>
@@ -325,21 +331,70 @@ sudo apt install nfs-common
 </div></blockquote>
 <p>NFS-common basically allows file sharing between systems residing on a local area network.</p>
 </section>
-<section id="step-3-deploy-the-near-real-time-ric">
-<h2>Step 3: Deploy the near-Real Time RIC<a class="headerlink" href="#step-3-deploy-the-near-real-time-ric" title="Permalink to this headline"></a></h2>
+<section id="step-3-ric-platform-e2-termination">
+<h2>Step 3: RIC Platform E2 Termination<a class="headerlink" href="#step-3-ric-platform-e2-termination" title="Permalink to this headline"></a></h2>
+<p>Pre-requisite: Local docker registry
+To store docker images. You can create one using, (You will need “super user” permissions)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">p</span> <span class="mi">5001</span><span class="p">:</span><span class="mi">5000</span> <span class="o">--</span><span class="n">restart</span><span class="o">=</span><span class="n">always</span> <span class="o">--</span><span class="n">name</span> <span class="n">ric</span> <span class="n">registry</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>Now you can either push or pull images using,
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">push</span> <span class="pre">localhost:5001/&lt;image_name&gt;:&lt;image_tag&gt;</span></code>
+or <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">localhost:5001/&lt;image_name&gt;:&lt;image_tag&gt;</span></code></p>
+<p>Creating Docker image
+The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">RIC</span><span class="o">-</span><span class="n">E2</span><span class="o">-</span><span class="n">TERMINATION</span>
+<span class="n">sudo</span> <span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">f</span> <span class="n">Dockerfile</span> <span class="o">-</span><span class="n">t</span> <span class="n">localhost</span><span class="p">:</span><span class="mi">5001</span><span class="o">/</span><span class="n">ric</span><span class="o">-</span><span class="n">plt</span><span class="o">-</span><span class="n">e2</span><span class="p">:</span><span class="mf">5.5</span><span class="o">.</span><span class="mi">0</span> <span class="o">.</span>
+<span class="n">sudo</span> <span class="n">docker</span> <span class="n">push</span> <span class="n">localhost</span><span class="p">:</span><span class="mi">5001</span><span class="o">/</span><span class="n">ric</span><span class="o">-</span><span class="n">plt</span><span class="o">-</span><span class="n">e2</span><span class="p">:</span><span class="mf">5.5</span><span class="o">.</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>Deployment
+That’s it! Now, the image you just created can be deployed on your RIC (ric-plt) Kubernetes cluster. Modify the <em>e2term</em> section in the recipe file present in <cite>dep/RECIPE_EXAMPLE/PLATFORM</cite> to include your image,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>e2term:
+  alpha:
+    image:
+      registry: &quot;localhost:5001&quot;
+      name: ric-plt-e2
+      tag: 5.5.0&lt;/b&gt;
+    privilegedmode: false
+    hostnetworkmode: false
+    env:
+      print: &quot;1&quot;
+      messagecollectorfile: &quot;/data/outgoing/&quot;
+    dataVolSize: 100Mi
+    storageClassName: local-storage
+    pizpub:
+      enabled: false`
+</pre></div>
+</div>
+<p>When the RIC platform is deployed, you will have the modified E2 Termination running on the Kubernetes cluster. The pod will be called <cite>deployment-ricplt-e2term-alpha</cite> and 3 services related to E2 Termination will be created:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>service-ricplt-e2term-prometheus-alpha</em> : Communicates with the <em>VES-prometheus Adapter (VESPA)</em> pod to exchange data which will be sent to the SMO.</p></li>
+<li><p><em>service-ricplt-e2term-rmr-alpha</em> : RMR service that manages exchange of messages between E2 Termination other components in the near-real time RIC.</p></li>
+<li><p><em>service-ricplt-e2term-sctp-alpha</em> : Accepts SCTP connections from RAN and exchanges E2 messages with the RAN. Note that this service is configured as a <em>NodePort</em> (accepts connections external to the cluster) while the other two are configured as <em>ClusterIP</em> (Networking only within the cluster).</p></li>
+</ul>
+</div></blockquote>
+<section id="commands-related-to-e2-termination">
+<h3>Commands related to E2 Termination<a class="headerlink" href="#commands-related-to-e2-termination" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>View E2 Termination logs : <cite>kubectl logs -f -n ricplt -l app=ricplt-e2term-alpha</cite></p></li>
+<li><p>View E2 Manager Logs : <cite>kubectl logs -f -n ricplt -l app=ricplt-e2mgr</cite></p></li>
+<li><p>Get the IP <em>service-ricplt-e2term-sctp-alpha</em> : <cite>kubectl get svc -n ricplt –field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath=’{.items[0].spec.clusterIP}’</cite></p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="step-4-deploy-the-near-real-time-ric">
+<h2>Step 4: Deploy the near-Real Time RIC<a class="headerlink" href="#step-4-deploy-the-near-real-time-ric" title="Permalink to this headline"></a></h2>
 <p>Once the Kubernetes clusters are deployed, it is now time for us to deploy the near-real time RIC cluster.</p>
-<blockquote>
-<div><blockquote>
-<div><p><a href="#id10"><span class="problematic" id="id11">``</span></a><a href="#id12"><span class="problematic" id="id13">`</span></a></p>
-</div></blockquote>
-<p>cd dep/bin</p>
-<blockquote>
-<div><p>./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe.yaml
-<a href="#id14"><span class="problematic" id="id15">``</span></a><a href="#id16"><span class="problematic" id="id17">`</span></a></p>
-<p>This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory. A Recipe is an important concept for Near Realtime RIC deployment. Each</p>
-</div></blockquote>
-</div></blockquote>
-<p>deployment group has its own recipe. Recipe provides a customized
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">RIC</span><span class="o">-</span><span class="n">Deployment</span><span class="o">/</span><span class="nb">bin</span>
+<span class="o">./</span><span class="n">deploy</span><span class="o">-</span><span class="n">ric</span><span class="o">-</span><span class="n">platform</span> <span class="o">-</span><span class="n">f</span> <span class="o">../</span><span class="n">RECIPE_EXAMPLE</span><span class="o">/</span><span class="n">PLATFORM</span><span class="o">/</span><span class="n">example_recipe_oran_e_release_modified_e2</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+<p>This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory. A Recipe is an important concept for Near Realtime RIC deployment. Each
+deployment group has its own recipe. Recipe provides a customized
 specification for the components of a deployment group for a specific
 deployment site. The RECIPE_EXAMPLE directory contains the example recipes for
 the three deployment groups (bronze, cherry, dawn). The benefit of using
@@ -360,58 +415,6 @@ fixes and troubleshooting advice.
 scripts in the corresponding submodule directory respectively. In each of the submodule directories, ./bin contains
 the binary and script files and ./helm contains the helm charts. For the rest of the non-submodule directories please
 refer to the README.md files in them for more details.</p>
-</section>
-<section id="step-4-ric-platform-e2-termination">
-<h2>Step 4: RIC Platform E2 Termination<a class="headerlink" href="#step-4-ric-platform-e2-termination" title="Permalink to this headline"></a></h2>
-<p>Pre-requisite: Local docker registry
-To store docker images. You can create one using, (You will need “super user” permissions)
-<cite>sudo docker run -d -p 5001:5000 –restart=always –name ric registry:2</cite></p>
-<p>Now you can either push or pull images using,
-<cite>docker push localhost:5001/&lt;image_name&gt;:&lt;image_tag&gt;</cite>  or  <cite>docker pull localhost:5001/&lt;image_name&gt;:&lt;image_tag&gt;</cite></p>
-<p>Creating Docker image
-The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">cd</span> <span class="pre">RIC-E2-TERMINATION</span>
-<span class="pre">sudo</span> <span class="pre">docker</span> <span class="pre">build</span> <span class="pre">-f</span> <span class="pre">Dockerfile</span> <span class="pre">-t</span> <span class="pre">localhost:5001/ric-plt-e2:5.5.0</span> <span class="pre">.</span>
-<span class="pre">sudo</span> <span class="pre">docker</span> <span class="pre">push</span> <span class="pre">localhost:5001/ric-plt-e2:5.5.0</span>
-<span class="pre">`</span></code></p>
-<p>Deployment
-That’s it! Now, the image you just created can be deployed on your RIC (ric-plt) Kubernetes cluster. Modify the <em>e2term</em> section in the recipe file present in <cite>dep/RECIPE_EXAMPLE/PLATFORM</cite> to include your image,</p>
-<p><a href="#id18"><span class="problematic" id="id19">``</span></a>`
-e2term:</p>
-<blockquote>
-<div><dl>
-<dt>alpha:</dt><dd><dl class="simple">
-<dt>image:</dt><dd><p>registry: “localhost:5001”
-name: ric-plt-e2
-tag: 5.5.0&lt;/b&gt;</p>
-</dd>
-</dl>
-<p>privilegedmode: false
-hostnetworkmode: false
-env:</p>
-<blockquote>
-<div><p>print: “1”
-messagecollectorfile: “/data/outgoing/”</p>
-</div></blockquote>
-<p>dataVolSize: 100Mi
-storageClassName: local-storage
-pizpub:</p>
-<blockquote>
-<div><p>enabled: false`
-<a href="#id20"><span class="problematic" id="id21">``</span></a><a href="#id22"><span class="problematic" id="id23">`</span></a></p>
-</div></blockquote>
-</dd>
-</dl>
-</div></blockquote>
-<p>When the RIC platform is deployed, you will have the modified E2 Termination running on the Kubernetes cluster. The pod will be called <cite>deployment-ricplt-e2term-alpha</cite> and 3 services related to E2 Termination will be created:
-- <em>service-ricplt-e2term-prometheus-alpha</em> : Communicates with the <em>VES-prometheus Adapter (VESPA)</em> pod to exchange data which will be sent to the SMO.
-- <em>service-ricplt-e2term-rmr-alpha</em> : RMR service that manages exchange of messages between E2 Termination other components in the near-real time RIC.
-- <em>service-ricplt-e2term-sctp-alpha</em> : Accepts SCTP connections from RAN and exchanges E2 messages with the RAN. Note that this service is configured as a <em>NodePort</em> (accepts connections external to the cluster) while the other two are configured as <em>ClusterIP</em> (Networking only within the cluster).</p>
-<p>## Commands related to E2 Termination
-- View E2 Termination logs : <cite>kubectl logs -f -n ricplt -l app=ricplt-e2term-alpha</cite>
-- View E2 Manager Logs : <cite>kubectl logs -f -n ricplt -l app=ricplt-e2mgr</cite>
-- Get the IP <em>service-ricplt-e2term-sctp-alpha</em> : <cite>kubectl get svc -n ricplt –field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath=’{.items[0].spec.clusterIP}’</cite></p>
 </section>
 <section id="step-5-srsran-with-e2-manager">
 <h2>Step 5: srsRAN with E2 Manager<a class="headerlink" href="#step-5-srsran-with-e2-manager" title="Permalink to this headline"></a></h2>
@@ -440,8 +443,10 @@ pizpub:</p>
 <li><p>Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.8</p></li>
 </ul>
 </div></blockquote>
-<p>## Installation Procedure
-First, we need to install ZeroMQ and UHD Libraries
+</section>
+<section id="installation-procedure">
+<h3>Installation Procedure<a class="headerlink" href="#installation-procedure" title="Permalink to this headline"></a></h3>
+<p>First, we need to install ZeroMQ and UHD Libraries
 Create a new directory to host all the files related to srsRAN</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="n">srsRAN</span><span class="o">-</span><span class="n">OAIC</span>
 </pre></div>
@@ -526,31 +531,31 @@ make test
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
 <dl class="footnote brackets">
-<dt class="label" id="id24"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p><a class="reference external" href="https://www.youtube.com/watch?v=x5MhydijWmc">https://www.youtube.com/watch?v=x5MhydijWmc</a></p>
 </dd>
-<dt class="label" id="id25"><span class="brackets">2</span></dt>
+<dt class="label" id="id11"><span class="brackets">2</span></dt>
 <dd><p><a class="reference external" href="https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster">https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster</a></p>
 </dd>
-<dt class="label" id="id26"><span class="brackets">3</span></dt>
+<dt class="label" id="id12"><span class="brackets">3</span></dt>
 <dd><p><a class="reference external" href="https://www.section.io/engineering-education/docker-concepts/">https://www.section.io/engineering-education/docker-concepts/</a></p>
 </dd>
-<dt class="label" id="id27"><span class="brackets">4</span></dt>
+<dt class="label" id="id13"><span class="brackets">4</span></dt>
 <dd><p><a class="reference external" href="https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/">https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/</a></p>
 </dd>
-<dt class="label" id="id28"><span class="brackets">5</span></dt>
+<dt class="label" id="id14"><span class="brackets">5</span></dt>
 <dd><p><a class="reference external" href="https://kubernetes.io/docs/concepts/overview/components/">https://kubernetes.io/docs/concepts/overview/components/</a></p>
 </dd>
-<dt class="label" id="id29"><span class="brackets">6</span></dt>
+<dt class="label" id="id15"><span class="brackets">6</span></dt>
 <dd><p><a class="reference external" href="https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes">https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes</a></p>
 </dd>
-<dt class="label" id="id30"><span class="brackets">7</span></dt>
+<dt class="label" id="id16"><span class="brackets">7</span></dt>
 <dd><p><a class="reference external" href="https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers">https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers</a></p>
 </dd>
-<dt class="label" id="id31"><span class="brackets">8</span></dt>
+<dt class="label" id="id17"><span class="brackets">8</span></dt>
 <dd><p><a class="reference external" href="https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/">https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/</a></p>
 </dd>
-<dt class="label" id="id32"><span class="brackets">9</span></dt>
+<dt class="label" id="id18"><span class="brackets">9</span></dt>
 <dd><p><a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/networking/">https://kubernetes.io/docs/concepts/cluster-administration/networking/</a></p>
 </dd>
 </dl>
