@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>srsRAN with E2 Agent Installation Guide &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quick Start Guide" href="quickstart.html" />
+    <link rel="prev" title="O-RAN Near-Real Time RIC Installation Guide" href="oran_installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="background_oran.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">srsRAN with E2 Agent Installation Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pre-requisites">Pre-requisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dependencies-installation">Dependencies Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#zeromq-installation">ZeroMQ Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#getting-zeromq-development-libraries">Getting ZeroMQ development Libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#uhd-4-1-installation">UHD 4.1 Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-package-manager">Using package manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation-from-source">Installation from source</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#asn1c-compiler-installation">asn1c Compiler Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#srsran-with-e2-agent-installation">srsRAN with E2 agent Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Installation from Source</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>srsRAN with E2 Agent Installation Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/srsRAN_installation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="srsran-with-e2-agent-installation-guide">
+<h1>srsRAN with E2 Agent Installation Guide<a class="headerlink" href="#srsran-with-e2-agent-installation-guide" title="Permalink to this headline"></a></h1>
+<p>srsRAN is a 4G/5G software radio suite developed by [SRS](<a class="reference external" href="http://www.srs.io">http://www.srs.io</a>). This is a modified version of srsRAN 21.10 and POWDER’s E2 agent enabled srsLTE.</p>
+<p>See the [srsRAN project pages](<a class="reference external" href="https://www.srsran.com">https://www.srsran.com</a>) for information, guides and project news.</p>
+<dl class="simple">
+<dt>The srsRAN suite includes:</dt><dd><ul class="simple">
+<li><p>srsUE - a full-stack SDR 4G/5G-NSA UE application (5G-SA coming soon)</p></li>
+<li><p>srsENB - a full-stack SDR 4G/5G-NSA eNodeB application (5G-SA coming soon)</p></li>
+<li><p>srsEPC - a light-weight 4G core network implementation with MME, HSS and S/P-GW</p></li>
+</ul>
+</dd>
+</dl>
+<p>For application features, build instructions and user guides see the [srsRAN documentation](<a class="reference external" href="https://docs.srsran.com">https://docs.srsran.com</a>).</p>
+<p>For license details, see LICENSE file - <em>Needs to be modified.</em></p>
+<section id="pre-requisites">
+<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline"></a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>System Requirements - 4 core CPU (3 - 5 GHz)</p></li>
+<li><p>Operating system - Ubuntu 20.04</p></li>
+<li><p>E2 Agent Integration - E2 Bindings, asn1c Compiler, O-RAN Specification documents(optional)</p></li>
+<li><p>Simulated 1 UE 1 eNB/gNB setup - ZeroMQ libraries, Single Host machine/VM</p></li>
+<li><p>USRP frontend - UHD version 4.1, At least two host machines/VMs</p></li>
+<li><p>Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.8</p></li>
+</ul>
+</div></blockquote>
+<section id="dependencies-installation">
+<h3>Dependencies Installation<a class="headerlink" href="#dependencies-installation" title="Permalink to this headline"></a></h3>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev
+</pre></div>
+</div>
+</section>
+</section>
+<section id="zeromq-installation">
+<h2>ZeroMQ Installation<a class="headerlink" href="#zeromq-installation" title="Permalink to this headline"></a></h2>
+<p>First, we need to install ZeroMQ and UHD Libraries
+Create a new directory to host all the files related to srsRAN</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>mkdir -p srsRAN-OAIC
+</pre></div>
+</div>
+<section id="getting-zeromq-development-libraries">
+<h3>Getting ZeroMQ development Libraries<a class="headerlink" href="#getting-zeromq-development-libraries" title="Permalink to this headline"></a></h3>
+<p><a class="reference external" href="https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html">https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html</a></p>
+<p><strong>Package Installation</strong></p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libzmq3-dev
+</pre></div>
+</div>
+<p><strong>Installing from Sources</strong></p>
+<ol class="arabic simple">
+<li><p>Get libzmq</p></li>
+</ol>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/zeromq/libzmq.git
+cd libzmq
+./autogen.sh
+./configure
+make
+sudo make install
+sudo ldconfig
+cd ..
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Get czmq</p></li>
+</ol>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/zeromq/czmq.git
+cd czmq
+./autogen.sh
+./configure
+make
+sudo make install
+sudo ldconfig
+cd ..
+</pre></div>
+</div>
+</section>
+</section>
+<section id="uhd-4-1-installation">
+<h2>UHD 4.1 Installation<a class="headerlink" href="#uhd-4-1-installation" title="Permalink to this headline"></a></h2>
+<p>Make sure you don’t have UHD already installed in your system.</p>
+<p><a class="reference external" href="https://files.ettus.com/manual/page_install.html">https://files.ettus.com/manual/page_install.html</a></p>
+<section id="using-package-manager">
+<h3>Using package manager<a class="headerlink" href="#using-package-manager" title="Permalink to this headline"></a></h3>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:ettusresearch/uhd
+sudo apt-get update
+sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
+</pre></div>
+</div>
+</section>
+<section id="installation-from-source">
+<h3>Installation from source<a class="headerlink" href="#installation-from-source" title="Permalink to this headline"></a></h3>
+<p><a class="reference external" href="https://files.ettus.com/manual/page_install.html">https://files.ettus.com/manual/page_install.html</a></p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install autoconf automake build-essential ccache cmake cpufrequtils doxygen ethtool \
+g++ git inetutils-tools libboost-all-dev libncurses5 libncurses5-dev libusb-1.0-0 libusb-1.0-0-dev \
+libusb-dev python3-dev python3-mako python3-numpy python3-requests python3-scipy python3-setuptools \
+python3-ruamel.yaml
+
+git clone https://github.com/EttusResearch/uhd.git
+cd uhd
+git checkout UHD-4.1
+cd host
+mkdir build
+cd build
+cmake ../
+make
+sudo make install
+sudo ldconfig
+cd ../../../
+</pre></div>
+</div>
+</section>
+</section>
+<section id="asn1c-compiler-installation">
+<h2>asn1c Compiler Installation<a class="headerlink" href="#asn1c-compiler-installation" title="Permalink to this headline"></a></h2>
+<p>We will be using the modified asn1c compiler (for RAN and CN) that is hosted by Open Air Interface (OAI)</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://gitlab.eurecom.fr/oai/asn1c.git
+cd asn1c
+autoreconf -iv
+./configure
+make -j<span class="nv">`nproc`</span>
+sudo make install
+cd ..
+sudo ldconfig
+cd ..
+</pre></div>
+</div>
+</section>
+<section id="srsran-with-e2-agent-installation">
+<h2>srsRAN with E2 agent Installation<a class="headerlink" href="#srsran-with-e2-agent-installation" title="Permalink to this headline"></a></h2>
+<section id="id1">
+<h3>Installation from Source<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h3>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd srsRAN-e2
+mkdir build
+export SRS=<span class="nv">`realpath .`</span>
+cd build
+cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DRIC_GENERATED_E2AP_BINDING_DIR=${SRS}/e2_bindings/E2AP-v01.01 \
+    -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
+    -DRIC_GENERATED_E2SM_NI_BINDING_DIR=${SRS}/e2_bindings/E2SM-NI \
+    -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
+make -j<span class="nv">`nproc`</span>
+make test
+sudo ldconfig
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="oran_installation.html" class="btn btn-neutral float-left" title="O-RAN Near-Real Time RIC Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="quickstart.html" class="btn btn-neutral float-right" title="Quick Start Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

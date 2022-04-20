@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Background on Docker, Kubernetes &amp; Helm &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="O-RAN Near-Real Time RIC Installation Guide" href="oran_installation.html" />
+    <link rel="prev" title="Welcome to OAIC’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Background on Docker, Kubernetes &amp; Helm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#core-components-of-docker">Core components of docker</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#images">Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#containers">Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#registry">Registry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dockerfile">DockerFile</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kubernetes">Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#helm">Helm</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Background on Docker, Kubernetes &amp; Helm</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/background_oran.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="background-on-docker-kubernetes-helm">
+<h1>Background on Docker, Kubernetes &amp; Helm<a class="headerlink" href="#background-on-docker-kubernetes-helm" title="Permalink to this headline"></a></h1>
+<section id="docker">
+<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this headline"></a></h2>
+<p>Docker is used to run and manage apps side-by-side in isolated environments
+called containers that contain everything needed to run the application to get
+better compute density.
+So, you do not need to rely on what is currently installed on the host.
+The isolation and security allow you to run many containers simultaneously on
+a given host.
+The difference between a container and a Virtual Machine is that containers provide a way to virtualize
+an OS so that multiple workloads can run on a single OS instance. With VMs, the hardware is being virtualized
+to run multiple OS instances.</p>
+<a class="reference internal image-reference" href="_images/vm_vs_docker.jpg"><img alt="VM v/s Container Implementation" src="_images/vm_vs_docker.jpg" style="width: 90%;" /></a>
+<p>Docker is used to build agile software delivery pipelines to ship new features
+faster, more securely and with repeatability for both Linux and Windows Server
+apps.</p>
+</section>
+<section id="core-components-of-docker">
+<h2>Core components of docker<a class="headerlink" href="#core-components-of-docker" title="Permalink to this headline"></a></h2>
+<a class="reference internal image-reference" href="_images/docker_overview.jpg"><img alt="Docker Core Components" src="_images/docker_overview.jpg" style="width: 90%;" /></a>
+<section id="images">
+<h3>Images<a class="headerlink" href="#images" title="Permalink to this headline"></a></h3>
+<p>An image is a read-only template with instructions for creating a Docker container. Docker images may be based on
+other images and is customized to contain executable application source code as well as all the tools, libraries,
+and dependencies that the application code needs to run as a container. When you run the Docker image,
+it becomes one instance (or multiple instances) of the container.</p>
+</section>
+<section id="containers">
+<h3>Containers<a class="headerlink" href="#containers" title="Permalink to this headline"></a></h3>
+<p>Containers are encapsulated environments in which you run applications and is a runnable instance of an image.
+A Docker container image is a lightweight, standalone, executable package of software that has everything you need
+to run an application – code, runtime, system tools, system libraries, and settings. Containers only have access to
+resources that are defined in the image, unless additional access is defined when building the image into a container.
+For example, a container can access environment variables defined within it but cannot access environment variables of the host machine unless specified.
+Since containers are much smaller than VMs, they can be spun up in a matter of seconds, and result in much better
+server density. When a container is removed, any changes to its state that are not stored in persistent storage disappear.</p>
+</section>
+<section id="registry">
+<h3>Registry<a class="headerlink" href="#registry" title="Permalink to this headline"></a></h3>
+<p>The Docker Registry is where the Docker Images are stored and can be downloaded. The Registry can be either a user’s
+local repository or a public repository like a Docker Hub (similar to GitHub) allowing multiple users to collaborate.
+Images can be ‘pushed’ to and ‘pulled’ from the registries as and when required.</p>
+</section>
+<section id="dockerfile">
+<h3>DockerFile<a class="headerlink" href="#dockerfile" title="Permalink to this headline"></a></h3>
+<p>A DockerFile is a text file that contains instructions on how to build a docker image.
+A Dockerfile specifies the operating system that will underlie the container, along with the languages,
+environmental variables, file locations, network ports, and other components it needs—and what the container
+will do once we run it.</p>
+</section>
+</section>
+<section id="kubernetes">
+<h2>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline"></a></h2>
+<p>Kubernetes is an open-source platform for automating deployment, scaling, and
+operations of application containers across clusters of hosts, providing
+container-centric infrastructure. It is an automated platform that enables
+auto-placement, auto-restart, auto-replication, auto-scaling of application
+containers.</p>
+<p>Kubernetes manages a cluster of Linux machines (might be cloud VM like AWS EC2 or physical servers), on each host machine, Kubernetes runs any number of
+Pods, in each Pod there can be any number of containers. User’s application is running in one of those containers.</p>
+</section>
+<section id="helm">
+<h2>Helm<a class="headerlink" href="#helm" title="Permalink to this headline"></a></h2>
+<p>Helm is a package manager for Kubernetes. It is the equivalent of ‘yum’ or ‘apt’ seen in Linux OS or ‘pip’ in the case of Python. Just as how ‘apt’ gets
+and installs/deploys packaged applications on the Linux OS, Helm similarly deploys packaged applications (called Helm Charts)
+on Kubernetes clusters. To understand how Helm charts are packaged and configured, basic understanding of YAML (Yet Another Markup Language) is helpful. YAML
+files specify configuration-type information in a list/key-value format (similar to JSON). Configuration information can include name, version, labels, and other metadata.
+It can also include container info like link to images, name of the Kubernetes pod and commands to run once the pod fires up. A bunch of these YAML files constitute a chart.
+The Helm tool processes these charts and sends commands to a server running on Kubernetes called “tiller”.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to OAIC’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="oran_installation.html" class="btn btn-neutral float-right" title="O-RAN Near-Real Time RIC Installation Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
