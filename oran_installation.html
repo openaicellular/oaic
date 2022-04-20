@@ -60,7 +60,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#step-3-deploy-the-near-real-time-ric">Step 3: Deploy the near-Real Time RIC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#structure-of-the-dep-folder">Structure of the “dep” Folder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#step-4-ric-platform-e2-termination">Step 4: RIC Platform E2 Termination</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-4-srsran-with-e2-manager">Step 4: srsRAN with E2 Manager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-5-srsran-with-e2-manager">Step 5: srsRAN with E2 Manager</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#srsran-with-e2-agent">srsRAN with E2 Agent</a></li>
 </ul>
 </li>
@@ -413,8 +413,8 @@ pizpub:</p>
 - View E2 Manager Logs : <cite>kubectl logs -f -n ricplt -l app=ricplt-e2mgr</cite>
 - Get the IP <em>service-ricplt-e2term-sctp-alpha</em> : <cite>kubectl get svc -n ricplt –field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath=’{.items[0].spec.clusterIP}’</cite></p>
 </section>
-<section id="step-4-srsran-with-e2-manager">
-<h2>Step 4: srsRAN with E2 Manager<a class="headerlink" href="#step-4-srsran-with-e2-manager" title="Permalink to this headline"></a></h2>
+<section id="step-5-srsran-with-e2-manager">
+<h2>Step 5: srsRAN with E2 Manager<a class="headerlink" href="#step-5-srsran-with-e2-manager" title="Permalink to this headline"></a></h2>
 <section id="srsran-with-e2-agent">
 <h3>srsRAN with E2 Agent<a class="headerlink" href="#srsran-with-e2-agent" title="Permalink to this headline"></a></h3>
 <p>srsRAN is a 4G/5G software radio suite developed by [SRS](<a class="reference external" href="http://www.srs.io">http://www.srs.io</a>). This is a modified version of srsRAN 21.10 and POWDER’s E2 agent enabled srsLTE.</p>
@@ -429,21 +429,29 @@ pizpub:</p>
 </dl>
 <p>For application features, build instructions and user guides see the [srsRAN documentation](<a class="reference external" href="https://docs.srsran.com">https://docs.srsran.com</a>).</p>
 <p>For license details, see LICENSE file.</p>
-<p>Pre-requisites
-* System Requirements - 4 core CPU (3 - 5 GHz)
-* Operating system - Ubuntu 18.04
-* E2 Agent Integration - E2 Bindings, asn1c Compiler, O-RAN Specification documents(optional)
-* Simulated 1 UE 1 eNB/gNB setup - ZeroMQ libraries, Single Host machine/VM
-* USRP frontend - UHD version 4.1, At least two host machines/VMs
-* Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.8</p>
+<p>Pre-requisites</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>System Requirements - 4 core CPU (3 - 5 GHz)</p></li>
+<li><p>Operating system - Ubuntu 18.04</p></li>
+<li><p>E2 Agent Integration - E2 Bindings, asn1c Compiler, O-RAN Specification documents(optional)</p></li>
+<li><p>Simulated 1 UE 1 eNB/gNB setup - ZeroMQ libraries, Single Host machine/VM</p></li>
+<li><p>USRP frontend - UHD version 4.1, At least two host machines/VMs</p></li>
+<li><p>Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.8</p></li>
+</ul>
+</div></blockquote>
 <p>## Installation Procedure
 First, we need to install ZeroMQ and UHD Libraries
 Create a new directory to host all the files related to srsRAN</p>
-<p><cite>mkdir -p srsRAN-OAIC</cite></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="n">srsRAN</span><span class="o">-</span><span class="n">OAIC</span>
+</pre></div>
+</div>
 <p>### Getting ZeroMQ development Libraries
 <a class="reference external" href="https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html">https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html</a></p>
 <p><strong>Package Installation</strong></p>
-<p><cite>sudo apt-get install libzmq3-dev</cite></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libzmq3</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
 <p><strong>Installing from Sources</strong></p>
 <p>1. Get libzmq
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -471,34 +479,48 @@ Create a new directory to host all the files related to srsRAN</p>
 <p>Make sure you don’t have UHD already installed in your system.</p>
 <p><a class="reference external" href="https://files.ettus.com/manual/page_install.html">https://files.ettus.com/manual/page_install.html</a></p>
 <p><strong>Using package manager</strong></p>
-<p><cite>sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host</cite></p>
-<p><strong>Using Binaries</strong>
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">sudo</span> <span class="pre">add-apt-repository</span> <span class="pre">ppa:ettusresearch/uhd</span>
-<span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">update</span>
-<span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libuhd-dev</span> <span class="pre">libuhd4.1.0</span> <span class="pre">uhd-host</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">add</span><span class="o">-</span><span class="n">apt</span><span class="o">-</span><span class="n">repository</span> <span class="n">ppa</span><span class="p">:</span><span class="n">ettusresearch</span><span class="o">/</span><span class="n">uhd</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libuhd</span><span class="o">-</span><span class="n">dev</span> <span class="n">libuhd4</span><span class="o">.</span><span class="mf">1.0</span> <span class="n">uhd</span><span class="o">-</span><span class="n">host</span>
+</pre></div>
+</div>
 <p><strong>Installation from source</strong>
-<a class="reference external" href="https://files.ettus.com/manual/page_install.html">https://files.ettus.com/manual/page_install.html</a>
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">autoconf</span> <span class="pre">automake</span> <span class="pre">build-essential</span> <span class="pre">ccache</span> <span class="pre">cmake</span> <span class="pre">cpufrequtils</span> <span class="pre">doxygen</span> <span class="pre">ethtool</span> <span class="pre">\</span>
-<span class="pre">g++</span> <span class="pre">git</span> <span class="pre">inetutils-tools</span> <span class="pre">libboost-all-dev</span> <span class="pre">libncurses5</span> <span class="pre">libncurses5-dev</span> <span class="pre">libusb-1.0-0</span> <span class="pre">libusb-1.0-0-dev</span> <span class="pre">\</span>
-<span class="pre">libusb-dev</span> <span class="pre">python3-dev</span> <span class="pre">python3-mako</span> <span class="pre">python3-numpy</span> <span class="pre">python3-requests</span> <span class="pre">python3-scipy</span> <span class="pre">python3-setuptools</span> <span class="pre">\</span>
-<span class="pre">python3-ruamel.yaml</span>
-<span class="pre">`</span></code>
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/EttusResearch/uhd.git</span>
-<span class="pre">cd</span> <span class="pre">uhd</span>
-<span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">UHD-4.1</span>
-<span class="pre">cd</span> <span class="pre">host</span>
-<span class="pre">mkdir</span> <span class="pre">build</span>
-<span class="pre">cd</span> <span class="pre">build</span>
-<span class="pre">cmake</span> <span class="pre">../</span>
-<span class="pre">make</span>
-<span class="pre">sudo</span> <span class="pre">make</span> <span class="pre">install</span>
-<span class="pre">sudo</span> <span class="pre">ldconfig</span>
-<span class="pre">cd</span> <span class="pre">../../../</span>
-<span class="pre">`</span></code></p>
+<a class="reference external" href="https://files.ettus.com/manual/page_install.html">https://files.ettus.com/manual/page_install.html</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">autoconf</span> <span class="n">automake</span> <span class="n">build</span><span class="o">-</span><span class="n">essential</span> <span class="n">ccache</span> <span class="n">cmake</span> <span class="n">cpufrequtils</span> <span class="n">doxygen</span> <span class="n">ethtool</span> \
+<span class="n">g</span><span class="o">++</span> <span class="n">git</span> <span class="n">inetutils</span><span class="o">-</span><span class="n">tools</span> <span class="n">libboost</span><span class="o">-</span><span class="nb">all</span><span class="o">-</span><span class="n">dev</span> <span class="n">libncurses5</span> <span class="n">libncurses5</span><span class="o">-</span><span class="n">dev</span> <span class="n">libusb</span><span class="o">-</span><span class="mf">1.0</span><span class="o">-</span><span class="mi">0</span> <span class="n">libusb</span><span class="o">-</span><span class="mf">1.0</span><span class="o">-</span><span class="mi">0</span><span class="o">-</span><span class="n">dev</span> \
+<span class="n">libusb</span><span class="o">-</span><span class="n">dev</span> <span class="n">python3</span><span class="o">-</span><span class="n">dev</span> <span class="n">python3</span><span class="o">-</span><span class="n">mako</span> <span class="n">python3</span><span class="o">-</span><span class="n">numpy</span> <span class="n">python3</span><span class="o">-</span><span class="n">requests</span> <span class="n">python3</span><span class="o">-</span><span class="n">scipy</span> <span class="n">python3</span><span class="o">-</span><span class="n">setuptools</span> \
+<span class="n">python3</span><span class="o">-</span><span class="n">ruamel</span><span class="o">.</span><span class="n">yaml</span>
+
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">EttusResearch</span><span class="o">/</span><span class="n">uhd</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">uhd</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="n">UHD</span><span class="o">-</span><span class="mf">4.1</span>
+<span class="n">cd</span> <span class="n">host</span>
+<span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="o">../</span>
+<span class="n">make</span>
+<span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>
+<span class="n">sudo</span> <span class="n">ldconfig</span>
+<span class="n">cd</span> <span class="o">../../../</span>
+</pre></div>
+</div>
+<p>Installing srsRAN-e2 from source</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev \
+    libboost-program-options-dev libconfig++-dev libsctp-dev
+
+cd srsRAN-e2
+mkdir build
+export SRS=`realpath .`
+cd build
+cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DRIC_GENERATED_E2AP_BINDING_DIR=${SRS}/e2_bindings/E2AP-v01.01 \
+    -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
+    -DRIC_GENERATED_E2SM_NI_BINDING_DIR=${SRS}/e2_bindings/E2SM-NI \
+    -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
+make -j4
+make test
+</pre></div>
+</div>
 </section>
 </section>
 <section id="references">
