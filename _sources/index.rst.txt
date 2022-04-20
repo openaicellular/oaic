@@ -10,7 +10,9 @@ Welcome to OAIC's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   background_oran.rst   
    oran_installation.rst
+   srsRAN_installation.rst
    quickstart.rst
 
 
