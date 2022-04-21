@@ -27,7 +27,7 @@ support multiple VMs).
 
 In this instruction set I am assuming the VM/Linux host system is already 
 configured with the specified system requirements. If you need help with VM 
-installation on Windows 10, refer []. Refer [] for help with VM configuration. 
+installation on Windows 10, refer [1]. Refer [2] for help with VM configuration. 
 This completes step 1.
 
 Step 2: Install Kubernetes, Docker, and Helm
@@ -49,19 +49,34 @@ The difference between a container and a Virtual Machine is that containers prov
 an OS so that multiple workloads can run on a single OS instance. With VMs, the hardware is being virtualized
 to run multiple OS instances.
 
-.. image:: vm_vs_docker.jpg
+.. image:: vm_vs_docker.JPG
    :width: 90%
    :alt: VM v/s Container Implementation
+
+
+
+
+
 
 Docker is used to build agile software delivery pipelines to ship new features 
 faster, more securely and with repeatability for both Linux and Windows Server 
 apps.
-Some of the core components of docker:
---------------------------------------
+
+
+
+
+
 
 .. image:: docker_overview.jpg
    :width: 90%
    :alt: Docker Core Components
+
+
+
+
+Some of the core components of docker:
+--------------------------------------
+
 
 Images
 ------
@@ -138,18 +153,22 @@ Commands to install near-real time RIC
 
 Enter root:
 
-    sudo -i
+::
+
+  $ sudo -i
+
 
 Clone the repository (“dep”) containing deployment scripts, pre generated helm charts for each of the RIC components.
 This repository also contains some “demo” scripts which can be run after complete installation.
+::
 
-git clone https://github.com/openaicellular/RIC-Deployment.git -b e_rel_xapp_onboarder_support
-cd RIC-Deployment
-git submodule update --init --recursive --remote
+  $ git clone https://github.com/openaicellular/RIC-Deployment.git -b e_rel_xapp_onboarder_support`
+  $ cd RIC-Deployment`
+  $ git submodule update --init --recursive --remote`
 
 Check out the latest version of every dependent submodule within the “dep” repository.
-
-    git submodule update --init --recursive --remote
+::
+  $ git submodule update --init --recursive --remote`
 
 This directory contains tools for generating a simple script that can help us set up a one-node Kubernetes cluster (OSC also supports a 3 node Master slave Kubernetes configuration, but I do not cover that here).
 The scripts automatically read in parameters (version specifications, setting up private containers/registries) from the following files:
@@ -160,21 +179,23 @@ The scripts automatically read in parameters (version specifications, setting up
 
 For a simple installation there is no need to modify any of the above files. The files give flexibility to define our own custom Kubernetes environment if we ever need to.
 Run the script which will generate the Kubernetes stack install script. Executing the below command will output a shell script called k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh.
-
-    cd tools/k8s/bin
-    ./gen-cloud-init.sh
+::
+  $ cd tools/k8s/bin`
+  $ ./gen-cloud-init.sh`
 
 Executing the generated script will install Kubernetes, Docker and Helm with version specified in the k8s/etc/infra.c. This also installs some pods which help cluster creation, service creation and internetworking between services. Running this script will replace any existing installation of Docker host, Kubernetes, and Helm on the VM. The script will reboot the machine upon successful completion. This will take some time (approx. 15-20 mins).
+::
+  $ ./k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh`
 
-    ./k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh
+Login to root agains
 
-Login to root again
+::
 
-    sudo -i
+  $ sudo -i`
 
-Check if all the pods in the newly installed Kubernetes Cluster are in “Running” state using,
-
-    kubectl get pods -A  or  kubectl get pods --all-namespaces
+Check if all the pods in the newly installed Kubernetes Cluster are in “Running” state using:
+::
+  $ kubectl get pods -A  or  kubectl get pods --all-namespaces
 
 There should be a total of 9 pods up and running in the cluster.
 These pods serve as the Kubernetes Framework which will be helpful in deploying the RIC platform.
@@ -229,20 +250,25 @@ Onetime setup for Influxdb
 Once Kubernetes setup is done, we have to create PersistentVolume through the storage class for the influxdb database.
 The following one time process should be followed before deploying the influxdb in ricplt namespace.
 
-    `Persistent Volume`:
+  `Persistent Volume`:
 
 First we need to check if the "ricinfra" namespace exists.
-    `kubectl get ns ricinfra`
+::  
+  $ kubectl get ns ricinfra`
 
-# If the namespace doesn’t exist, then create it using:
-    `kubectl create ns ricinfra` 
+ If the namespace doesn’t exist, then create it using:  
+::
+
+  $ kubectl create ns ricinfra` 
 
 The next three commands installs the nfs-common package for kubernetes through helm in the "ricinfra" namespace and for the system
-``` 
-    helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
-    kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-    sudo apt install nfs-common
-    ```
+
+::
+
+  $ helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
+  $ kubectl patch storageclass nfs -p
+  $ sudo apt install nfs-common
+  
 
 NFS-common basically allows file sharing between systems residing on a local area network.
 
@@ -250,14 +276,14 @@ Step 3: Deploy the near-Real Time RIC
 -------------------------------------
 Once the Kubernetes clusters are deployed, it is now time for us to deploy the near-real time RIC cluster.
 
-    ``` 
-   cd dep/bin
-    
-    ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe.yaml
-    ``` 
-    
-    This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory. A Recipe is an important concept for Near Realtime RIC deployment. Each
-deployment group has its own recipe. Recipe provides a customized
+::
+
+  $ cd dep/bin
+  $ ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe.yaml
+   
+
+This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory.
+A Recipe is an important concept for Near Realtime RIC deployment.Each deployment group has its own recipe recipe provides a customized
 specification for the components of a deployment group for a specific
 deployment site. The RECIPE_EXAMPLE directory contains the example recipes for
 the three deployment groups (bronze, cherry, dawn). The benefit of using
@@ -266,10 +292,8 @@ requiring just the execution of a single script without having to perform
 “Step 2” all over again.
 
 
-The example_recipe is a .yaml file which
-Influx db
 
-Edits to helm charts
+
 
 If by chance, you encounter any issues while following the instructions visit
 the confluence website maintained by O-RAN Software Community for possible 
@@ -289,53 +313,59 @@ Step 4: RIC Platform E2 Termination
 
 Pre-requisite: Local docker registry
 To store docker images. You can create one using, (You will need "super user" permissions)
-`sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2`
+::
+  $ sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
  
-Now you can either push or pull images using,
-`docker push localhost:5001/<image_name>:<image_tag>`  or  `docker pull localhost:5001/<image_name>:<image_tag>`
+Now you can either push or pull images using:
+::
+  docker push localhost:5001/<image_name>:<image_tag>  or  
+  docker pull localhost:5001/<image_name>:<image_tag>
  
-Creating Docker image
+**Creating Docker image**
 The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order 
-```
-cd RIC-E2-TERMINATION
-sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
-sudo docker push localhost:5001/ric-plt-e2:5.5.0
-```
 
-Deployment
-That's it! Now, the image you just created can be deployed on your RIC (ric-plt) Kubernetes cluster. Modify the *e2term* section in the recipe file present in `dep/RECIPE_EXAMPLE/PLATFORM` to include your image,
+::
+
+  $ cd RIC-E2-TERMINATION`
+  $ sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
+  $ sudo docker push localhost:5001/ric-plt-e2:5.5.0
 
 
-```
-e2term:
-  alpha:
-    image:
-      registry: "localhost:5001"
-      name: ric-plt-e2
-      tag: 5.5.0</b>
-    privilegedmode: false
-    hostnetworkmode: false
-    env:
-      print: "1"
-      messagecollectorfile: "/data/outgoing/"
-    dataVolSize: 100Mi
-    storageClassName: local-storage
-    pizpub:
-      enabled: false`
-      ```
+**Deployment**
+That's it! Now, the image you just created can be deployed on your RIC (ric-plt) Kubernetes cluster. Modify the *e2term* section in the recipe 
+file present in `dep/RECIPE_EXAMPLE/PLATFORM` to include your image,
+
+::
+  
+  e2term:
+    alpha:
+      image:
+       registry: "localhost:5001"
+       name: ric-plt-e2
+       tag: 5.5.0</b>
+     privilegedmode: false
+     hostnetworkmode: false
+     env:
+       print: "1"
+       messagecollectorfile: "/data/outgoing/"
+     dataVolSize: 100Mi
+     storageClassName: local-storage
+      pizpub:
+       enabled: false
+
       
 When the RIC platform is deployed, you will have the modified E2 Termination running on the Kubernetes cluster. The pod will be called `deployment-ricplt-e2term-alpha` and 3 services related to E2 Termination will be created:
 - *service-ricplt-e2term-prometheus-alpha* : Communicates with the *VES-prometheus Adapter (VESPA)* pod to exchange data which will be sent to the SMO.
 - *service-ricplt-e2term-rmr-alpha* : RMR service that manages exchange of messages between E2 Termination other components in the near-real time RIC.
 - *service-ricplt-e2term-sctp-alpha* : Accepts SCTP connections from RAN and exchanges E2 messages with the RAN. Note that this service is configured as a *NodePort* (accepts connections external to the cluster) while the other two are configured as *ClusterIP* (Networking only within the cluster). 
 
-## Commands related to E2 Termination
-- View E2 Termination logs : `kubectl logs -f -n ricplt -l app=ricplt-e2term-alpha`
-- View E2 Manager Logs : `kubectl logs -f -n ricplt -l app=ricplt-e2mgr`
-- Get the IP *service-ricplt-e2term-sctp-alpha* : `kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
+**Commands related to E2 Termination**
 
+| - View E2 Termination logs : ``kubectl logs -f -n ricplt -l app=ricplt-e2term-alpha``
+| - View E2 Manager Logs : ``kubectl logs -f -n ricplt -l app=ricplt-e2mgr``
+| - Get the IP *service-ricplt-e2term-sctp-alpha* : ``kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'``
 
-Step 4: srsRAN with E2 Manager
+Step 5: srsRAN with E2 Manager
 -------------------------------------
 
 srsRAN with E2 Agent
@@ -353,97 +383,309 @@ The srsRAN suite includes:
 For application features, build instructions and user guides see the [srsRAN documentation](https://docs.srsran.com).
 
 
-For license details, see LICENSE file.
+**Installation Procedure**
 
-Pre-requisites
-* System Requirements - 4 core CPU (3 - 5 GHz)
-* Operating system - Ubuntu 18.04
-* E2 Agent Integration - E2 Bindings, asn1c Compiler, O-RAN Specification documents(optional)
-* Simulated 1 UE 1 eNB/gNB setup - ZeroMQ libraries, Single Host machine/VM
-* USRP frontend - UHD version 4.1, At least two host machines/VMs
-* Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.8
-
-## Installation Procedure
 First, we need to install ZeroMQ and UHD Libraries
 Create a new directory to host all the files related to srsRAN
+::
 
-`mkdir -p srsRAN-OAIC`
+    $ mkdir -p srsRAN-OAIC
 
-### Getting ZeroMQ development Libraries
+**Getting ZeroMQ development Libraries**
 https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html
 
 **Package Installation**
+::
 
-`sudo apt-get install libzmq3-dev`
+    $ sudo apt-get install libzmq3-dev
 
 **Installing from Sources**
 
 1. Get libzmq
-```
-git clone https://github.com/zeromq/libzmq.git
-cd libzmq
-./autogen.sh
-./configure
-make
-sudo make install
-sudo ldconfig
-cd ..
-```
 
-2. Get czmq
-```
-git clone https://github.com/zeromq/czmq.git
-cd czmq
-./autogen.sh
-./configure
-make
-sudo make install
-sudo ldconfig
-cd ..
-```
 
-### Installing UHD 4.1 
+::
+
+  $ git clone https://github.com/zeromq/libzmq.git
+  $ cd libzmq
+  $ ./autogen.sh
+  $ ./configure
+  $ make
+  $ sudo make install
+  $ sudo ldconfig
+  $ cd ..
+
+
+1. Get czmq
+   
+::
+
+  $ git clone https://github.com/zeromq/czmq.git
+  $ cd libzmq
+  $ ./autogen.sh
+  $ ./configure
+  $ make
+  $ sudo make install
+  $ sudo ldconfig
+  $ cd ..
+
+Installing UHD 4.1 
+==================
 
 Make sure you don't have UHD already installed in your system.
 
 https://files.ettus.com/manual/page_install.html
 
 **Using package manager**
+::
 
-`sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host`
+  $ sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
 
 **Using Binaries**
-```
-sudo add-apt-repository ppa:ettusresearch/uhd
-sudo apt-get update
-sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
-```
+::
+
+  $ sudo add-apt-repository ppa:ettusresearch/uhd
+  $ sudo apt-get update
+  $ sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
+
 
 **Installation from source**
 https://files.ettus.com/manual/page_install.html
-```
-sudo apt-get install autoconf automake build-essential ccache cmake cpufrequtils doxygen ethtool \
-g++ git inetutils-tools libboost-all-dev libncurses5 libncurses5-dev libusb-1.0-0 libusb-1.0-0-dev \
-libusb-dev python3-dev python3-mako python3-numpy python3-requests python3-scipy python3-setuptools \
-python3-ruamel.yaml 
-```
-```
-git clone https://github.com/EttusResearch/uhd.git
-cd uhd
-git checkout UHD-4.1
-cd host
-mkdir build
-cd build
-cmake ../
-make
-sudo make install
-sudo ldconfig
-cd ../../../
-```
+
+Install all dependencies
+::
+
+
+  $ sudo apt-get install autoconf automake build-essential ccache cmake cpufrequtils doxygen ethtool 
+  g++ git inetutils-tools libboost-all-dev libncurses5 libncurses5-dev libusb-1.0-0 libusb-1.0-0-dev 
+  libusb-dev python3-dev python3-mako python3-numpy python3-requests python3-scipy python3-setuptools 
+  python3-ruamel.yaml
+
+**Run these commands to install from source**
+
+:: 
+
+
+  $ git clone https://github.com/EttusResearch/uhd.git
+  $ cd uhd
+  $ git checkout UHD-4.1
+  $ cd host
+  $ mkdir build
+  $ cd build
+  $ cmake ../
+  $ make
+  $ sudo make install
+  $ sudo ldconfig
+  $ cd ../../../
 
 
 
 
+Step 5: A1 Mediator
+-------------------------------------
+
+Overview
+========
+
+
+
+The RAN Intelligent Controller (RIC) Platform's A1 Mediator component
+listens for policy type and policy instance requests sent via HTTP
+(the "northbound" interface), and publishes those requests to running
+xApps via RMR messages (the "southbound" interface).
+
+Code
+--------
+
+To get started with the code clone the code:
+
+https://github.com/openaicellular/ric-plt-a1
+
+Policy Overview
+----------------
+
+There are two "object types" associated with policy: policy types and
+policy instances.
+
+Policy Types
+~~~~~~~~~~~~
+
+Policy types define the name, description, and most importantly the
+schema of all instances of that type.  Think of policy types as
+defining a JSON schema for the messages sent from A1 to xapps.  Xapps
+do not receive policy types from A1; types are used only by A1 to
+validate instance creation requests.  However, xapps must register to
+receive instances of type ids in their xapp descriptor.  Xapp
+developers can also create new policy types, though the exact process
+of where these are stored is still TBD.  For practical purposes, when
+the RIC is running, A1s API needs to be invoked to load the policy
+types before instances can be created.  Xapps can "sign up" for
+multiple policy types using their xapp descriptor.
+
+Policy Instances
+~~~~~~~~~~~~~~~~
+
+Policy instances are concrete instantiations of a policy type. They
+give concrete values of a policy.  There may be many instances of a
+single type. Whenever a policy instance is created in A1, messages are
+sent over RMR to all xapps registered for that policy type; see below.
+Xapps are expected to handle multiple simultaneous instances of each
+type that they are registered for.
+
+
+Known differences from A1 1.0.0 spec
+------------------------------------
+
+This is a list of some of the known differences between the API here
+and the a1 spec dated 2019.09.30.  In some cases, the spec is
+deficient and RIC is "ahead", in other cases this does not yet conform
+to recent spec changes.
+
+#. [RIC is ahead] There is no notion of policy types in the spec,
+   however this aspect is quite critical for the intended use of the
+   RIC, where many Xapps may implement the same policy, and new Xapps
+   may be created often that define new types. Moreover, policy types
+   define the schema for policy instances, and without types, A1
+   cannot validate whether instances are valid, which the RIC A1m
+   does. The RIC A1 Mediator view of things is that, there are a set
+   of schemas, called policy types, and one or more instances of each
+   schema can be created. Instances are validated against types. The
+   spec currently provides no mechanism for the implementation of A1
+   to know whether policy [instances] are correct since there is no
+   schema for them. This difference has the rather large consequence
+   that none of the RIC A1m URLs match the spec.
+#. [RIC is ahead] There is a rich status URL in the RIC A1m for policy
+   instances, but this is not in the spec.
+#. [RIC is ahead] There is a state machine for when instances are
+   actually deleted from the RIC (at which point all URLs referencing
+   it are a 404); this is a configurable option when deploying the RIC
+   A1m.
+#. [CR coming to spec] The spec contains a PATCH for partially
+   updating a policy instance, and creating/deleting multiple
+   instances, however the team agreed to remove this from a later
+   version of the Spec. The RIC A1m does not have this operation.
+#. [Spec is ahead] The RIC A1 PUT bodies for policy instances do not
+   exactly conform to the "scope" and "statements" block that the spec
+   defines. They are very close otherwise, however.   (I would argue
+   some of the spec is redundant; for example "policy [instance] id"
+   is a key inside the PUT body to create an instance, but it is
+   already in the URL.)
+#. [Spec is ahead] The RIC A1m does not yet notify external clients
+   when instance statuses change.
+#. [Spec is ahead] The spec defines that a query of all policy
+   instances should return the full bodies, however right now the RIC
+   A1m returns a list of IDs (assuming subsequent queries can fetch
+   the bodies).
+#. [?] The spec document details some very specific "types", but the
+   RIC A1m allows these to be loaded in (see #1). For example, spec
+   section 4.2.6.2. We believe this should be removed from the spec
+   and rather defined as a type. Xapps can be created that define new
+   types, so the spec will quickly become "stale" if "types" are
+   defined in the spec.
+
+
+Resiliency
+----------
+
+A1 is resilient to the majority of failures, but not all currently
+(though a solution is known).
+
+A1 uses the RIC SDL library to persist all policy state information:
+this includes the policy types, policy instances, and policy statuses.
+If state is built up in A1, and A1 fails (where Kubernetes will then
+restart it), none of this state is lost.
+
+The tiny bit of state that *is currently* in A1 (volatile) is its
+"next second" job queue.  Specifically, when policy instances are
+created or deleted, A1 creates jobs in a job queue (in memory).  An
+rmr thread polls that thread every second, dequeues the jobs, and
+performs them.
+
+If A1 were killed at *exactly* the right time, you could have jobs
+lost, meaning the PUT or DELETE of an instance wouldn't actually take.
+This isn't drastic, as the operations are idempotent and could always
+be re-performed.
+
+In order for A1 to be considered completely resilient, this job queue
+would need to be moved to SDL.  SDL uses Redis as a backend, and Redis
+natively supports queues via LIST, LPUSH, RPOP.  I've asked the SDL
+team to consider an extension to SDL to support these Redis
+operations.
+
+
+
+Installation Guide
+==================
+
+
+Environment Variables
+---------------------
+
+You can set the following environment variables when launching a container to change the A1 behavior:
+
+1. ``A1_RMR_RETRY_TIMES``: the number of times failed rmr operations such as timeouts and send failures should be retried before A1 gives up and returns a 503. The default is ``4``.
+
+2. ``INSTANCE_DELETE_NO_RESP_TTL``: Please refer to the delete flowchart in docs/; this is ``T1`` there. The default is 5 (seconds). Basically, the number of seconds that a1 waits to remove an instance from the database after a delete is called in the case that no downstream apps responded.
+
+3. ``INSTANCE_DELETE_RESP_TTL``: Please refer to the delete flowchart in docs/; this is ``T2`` there. The default is 5 (seconds). Basically, the number of seconds that a1 waits to remove an instance from the database after a delete is called in the case that downstream apps responded.
+
+4. ``USE_FAKE_SDL``: This allows testing of the A1 feature without a DBaaS SDL container.  The default is False.
+
+5. ``prometheus_multiproc_dir``: The directory where Prometheus gathers metrics.  The default is /tmp.
+
+
+Kubernetes Deployment
+---------------------
+The official Helm chart for the A1 Mediator is in a deployment repository, which holds all of the Helm charts 
+for the RIC platform. There is a helm chart in `integration_tests` here for running the integration tests as
+discussed above.
+
+Local Deployment
+----------------
+
+Build and run the A1 mediator locally using the docker CLI as follows.
+
+Build the image
+~~~~~~~~~~~~~~~
+::
+
+   docker build --no-cache -t a1:latest .
+
+.. _running-1:
+
+Start the container
+~~~~~~~~~~~~~~~~~~~
+
+The A1 container depends on a companion DBaaS (SDL) container, but if that is not convenient set
+an environment variable as shown below to mock that service.  Also a sample RMR routing table is
+supplied in file `local.rt` for mounting as a volume.  The following command uses both:
+
+::
+
+   docker run -e USE_FAKE_SDL=True -p 10000:10000 -v /path/to/local.rt:/opt/route/local.rt a1:latest
+
+View container API
+~~~~~~~~~~~~~~~~~~
+
+A web user interface generated from the OpenAPI specification can be accessed at this URL:
+
+::
+
+    http://docker-host-name-or-ip:10000/ui
+
+Check container health
+~~~~~~~~~~~~~~~~~~~~~~
+
+The following command requests the container health.  Expect an internal server error if the
+Storage Data Layer (SDL) service is not available or has not been mocked as shown above.
+
+::
+
+    curl docker-host-name-or-ip:10000/a1-p/healthcheck
+
+
+
+For more detailed instruction visit: https://docs.o-ran-sc.org/projects/o-ran-sc-ric-plt-a1/en/latest/index.html
 
 
 
