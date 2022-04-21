@@ -24,6 +24,7 @@ Welcome to OAIC's documentation!
    
    oran_installation.rst
    srsRAN_installation.rst
+   a1mediator.rst
    
 
 
