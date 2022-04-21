@@ -18,7 +18,6 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Quick Start Guide" href="quickstart.html" />
     <link rel="prev" title="O-RAN Near-Real Time RIC Installation Guide" href="oran_installation.html" /> 
 </head>
 
@@ -37,9 +36,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="background_oran.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">srsRAN with E2 Agent Installation Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pre-requisites">Pre-requisites</a><ul>
@@ -62,7 +68,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
 </ul>
 
         </div>
@@ -91,6 +96,10 @@
              
   <section id="srsran-with-e2-agent-installation-guide">
 <h1>srsRAN with E2 Agent Installation Guide<a class="headerlink" href="#srsran-with-e2-agent-installation-guide" title="Permalink to this headline"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before you begin, please clone the parent <a class="reference external" href="https://github.com/openaicellular/oaic">oaic</a> directory as outlined here</p>
+</div>
 <p>srsRAN is a 4G/5G software radio suite developed by [SRS](<a class="reference external" href="http://www.srs.io">http://www.srs.io</a>). This is a modified version of srsRAN 21.10 and POWDER’s E2 agent enabled srsLTE.</p>
 <p>See the [srsRAN project pages](<a class="reference external" href="https://www.srsran.com">https://www.srsran.com</a>) for information, guides and project news.</p>
 <dl class="simple">
@@ -105,16 +114,18 @@
 <p>For license details, see LICENSE file - <em>Needs to be modified.</em></p>
 <section id="pre-requisites">
 <h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline"></a></h2>
-<blockquote>
-<div><ul class="simple">
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p>Create a system specification table for different cellular configurations</p>
+</div>
+<ul class="simple">
 <li><p>System Requirements - 4 core CPU (3 - 5 GHz)</p></li>
 <li><p>Operating system - Ubuntu 20.04</p></li>
 <li><p>E2 Agent Integration - E2 Bindings, asn1c Compiler, O-RAN Specification documents(optional)</p></li>
 <li><p>Simulated 1 UE 1 eNB/gNB setup - ZeroMQ libraries, Single Host machine/VM</p></li>
 <li><p>USRP frontend - UHD version 4.1, At least two host machines/VMs</p></li>
-<li><p>Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.8</p></li>
+<li><p>Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.9</p></li>
 </ul>
-</div></blockquote>
 <section id="dependencies-installation">
 <h3>Dependencies Installation<a class="headerlink" href="#dependencies-installation" title="Permalink to this headline"></a></h3>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev
@@ -168,7 +179,7 @@ cd ..
 <section id="uhd-4-1-installation">
 <h2>UHD 4.1 Installation<a class="headerlink" href="#uhd-4-1-installation" title="Permalink to this headline"></a></h2>
 <p>Make sure you don’t have UHD already installed in your system.</p>
-<p><a class="reference external" href="https://files.ettus.com/manual/page_install.html">https://files.ettus.com/manual/page_install.html</a></p>
+<p><a class="reference external" href="https://files.ettus.com/manual/page_install.html">Ettus UHD Binary Installation Manual</a></p>
 <section id="using-package-manager">
 <h3>Using package manager<a class="headerlink" href="#using-package-manager" title="Permalink to this headline"></a></h3>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:ettusresearch/uhd
@@ -179,7 +190,7 @@ sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
 </section>
 <section id="installation-from-source">
 <h3>Installation from source<a class="headerlink" href="#installation-from-source" title="Permalink to this headline"></a></h3>
-<p><a class="reference external" href="https://files.ettus.com/manual/page_install.html">https://files.ettus.com/manual/page_install.html</a></p>
+<p><a class="reference external" href="https://files.ettus.com/manual/page_build_guide.html">Ettus UHD Source Installation Manual</a></p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install autoconf automake build-essential ccache cmake cpufrequtils doxygen ethtool \
 g++ git inetutils-tools libboost-all-dev libncurses5 libncurses5-dev libusb-1.0-0 libusb-1.0-0-dev \
 libusb-dev python3-dev python3-mako python3-numpy python3-requests python3-scipy python3-setuptools \
@@ -242,7 +253,6 @@ sudo ldconfig
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="oran_installation.html" class="btn btn-neutral float-left" title="O-RAN Near-Real Time RIC Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="quickstart.html" class="btn btn-neutral float-right" title="Quick Start Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search &mdash; OAIC 0.1 documentation</title>
+  <title>OAIC Features &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-    
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,10 +16,10 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
-    <script src="_static/searchtools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="#" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Background on Docker, Kubernetes &amp; Helm" href="background_oran.html" />
+    <link rel="prev" title="Getting Started" href="quickstart.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -30,16 +30,22 @@
             <a href="index.html" class="icon icon-home"> OAIC
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">OAIC Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#near-real-time-ric">Near-Real Time RIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cellular-stack">Cellular Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xapps-supported">xApps Supported</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
 <ul>
@@ -65,8 +71,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Search</li>
+      <li>OAIC Features</li>
       <li class="wy-breadcrumbs-aside">
+            <a href="_sources/oaic_features.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -74,22 +81,50 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search functionality.
-    </p>
-  </div>
-  </noscript>
+  <section id="oaic-features">
+<h1>OAIC Features<a class="headerlink" href="#oaic-features" title="Permalink to this headline"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
+</section>
+<section id="near-real-time-ric">
+<h2>Near-Real Time RIC<a class="headerlink" href="#near-real-time-ric" title="Permalink to this headline"></a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Based on O-RAN Software Community’s Near-RT RIC</p></li>
+<li><p>Compliant with E-release</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="cellular-stack">
+<h2>Cellular Stack<a class="headerlink" href="#cellular-stack" title="Permalink to this headline"></a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Based on Software Radio Systems RAN (srsRAN)</p></li>
+<li><p>Support for 5G NSA</p></li>
+<li><p>Integrated E2 Agent that can interact with OSC’s Near-Real Time RIC</p></li>
+<li><p>ZeroMQ and GNU Radio based Multiple Simulated UE Support</p></li>
+<li><p>Support for Ettus USRPs</p></li>
+<li><p>Access to CORNET Testbed (<em>Coming soon</em>)</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="xapps-supported">
+<h2>xApps Supported<a class="headerlink" href="#xapps-supported" title="Permalink to this headline"></a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>KPI Monitoring xApp</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
 
-  
-  <div id="search-results">
-  
-  </div>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="background_oran.html" class="btn btn-neutral float-right" title="Background on Docker, Kubernetes &amp; Helm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
@@ -111,14 +146,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-  <script>
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script id="searchindexloader"></script>
-   
-
+  </script> 
 
 </body>
 </html>

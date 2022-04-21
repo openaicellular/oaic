@@ -2,6 +2,10 @@
 srsRAN with E2 Agent Installation Guide
 =======================================
 
+.. note:: 
+
+   Before you begin, please clone the parent `oaic <https://github.com/openaicellular/oaic>`_ directory as outlined here
+
 srsRAN is a 4G/5G software radio suite developed by [SRS](http://www.srs.io). This is a modified version of srsRAN 21.10 and POWDER's E2 agent enabled srsLTE. 
 
 See the [srsRAN project pages](https://www.srsran.com) for information, guides and project news.
@@ -19,12 +23,16 @@ For license details, see LICENSE file - *Needs to be modified.*
 Pre-requisites
 --------------
 
-  - System Requirements - 4 core CPU (3 - 5 GHz)
-  - Operating system - Ubuntu 20.04
-  - E2 Agent Integration - E2 Bindings, asn1c Compiler, O-RAN Specification documents(optional)
-  - Simulated 1 UE 1 eNB/gNB setup - ZeroMQ libraries, Single Host machine/VM
-  - USRP frontend - UHD version 4.1, At least two host machines/VMs
-  - Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.8
+.. admonition:: TODO
+
+   Create a system specification table for different cellular configurations
+
+- System Requirements - 4 core CPU (3 - 5 GHz)
+- Operating system - Ubuntu 20.04
+- E2 Agent Integration - E2 Bindings, asn1c Compiler, O-RAN Specification documents(optional)
+- Simulated 1 UE 1 eNB/gNB setup - ZeroMQ libraries, Single Host machine/VM
+- USRP frontend - UHD version 4.1, At least two host machines/VMs
+- Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.9
 
 Dependencies Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,7 +98,9 @@ UHD 4.1 Installation
 
 Make sure you don't have UHD already installed in your system.
 
-https://files.ettus.com/manual/page_install.html
+`Ettus UHD Binary Installation Manual`_
+
+.. _Ettus UHD Binary Installation Manual: https://files.ettus.com/manual/page_install.html
 
 Using package manager
 ~~~~~~~~~~~~~~~~~~~~~
@@ -104,7 +114,10 @@ Using package manager
 Installation from source
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-https://files.ettus.com/manual/page_install.html
+`Ettus UHD Source Installation Manual`_
+
+.. _Ettus UHD Source Installation Manual: https://files.ettus.com/manual/page_build_guide.html
+
 
 .. code-block:: rst
 

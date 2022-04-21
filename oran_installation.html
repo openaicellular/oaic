@@ -37,9 +37,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="background_oran.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">O-RAN Near-Real Time RIC Installation Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pre-requisites">Pre-requisites</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#system-requirements">System Requirements</a></li>
@@ -58,7 +65,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#step-4-deploy-the-near-real-time-ric">Step 4: Deploy the near-Real Time RIC</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#structure-of-the-ric-deployment-folder">Structure of the “RIC-Deployment” Folder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#structure-of-the-ric-deployment-directory">Structure of the “RIC-Deployment” Directory</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
@@ -67,7 +74,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
 </ul>
 
         </div>
@@ -96,6 +102,10 @@
              
   <section id="o-ran-near-real-time-ric-installation-guide">
 <h1>O-RAN Near-Real Time RIC Installation Guide<a class="headerlink" href="#o-ran-near-real-time-ric-installation-guide" title="Permalink to this headline"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before you begin, please clone the parent <a class="reference external" href="https://github.com/openaicellular/oaic">oaic</a> directory as outlined <span class="xref std std-ref">here</span></p>
+</div>
 <section id="pre-requisites">
 <h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline"></a></h2>
 <section id="system-requirements">
@@ -143,23 +153,12 @@ framework for deployment and maintenance of pods.</p>
 </section>
 <section id="commands-to-install-near-real-time-ric">
 <h4>Commands to install near-real time RIC<a class="headerlink" href="#commands-to-install-near-real-time-ric" title="Permalink to this headline"></a></h4>
-<p>Enter root:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo -i
+<p>The <code class="docutils literal notranslate"><span class="pre">RIC-Deployment</span></code> directory contains the deployment scripts and pre generated helm charts for each of the RIC components. This repository also contains some “demo” scripts which can be run after complete installation.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd RIC-Deployment/tools/k8s/bin
 </pre></div>
 </div>
-<p>Clone the repository (“dep”) containing deployment scripts, pre generated helm charts for each of the RIC components.
-This repository also contains some “demo” scripts which can be run after complete installation.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/openaicellular/oaic.git
-</pre></div>
-</div>
-<p>Check out the latest version of every dependent submodule within the “oaic” repository.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git submodule update --init --recursive --remote
-cd RIC-Deployment
-cd tools/k8s/bin
-</pre></div>
-</div>
-<p>This directory contains tools for generating a simple script that can help us set up a one-node Kubernetes cluster (OSC also supports a 3 node Master slave Kubernetes configuration, but we do not cover that here).
-The scripts automatically read in parameters (version specifications, setting up private containers/registries) from the following files:</p>
+<p>This directory contains tools for generating a simple script that can help us set up a one-node Kubernetes cluster (OSC also supports a 3 node Master slave Kubernetes configuration, but we do not cover that here).</p>
+<p>The scripts automatically read in parameters (version specifications, setting up private containers/registries) from the following files:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">k8s/etc/infra.rc</span></code>: specifies the docker host, Kubernetes, and Kubernetes CNI (Cluster Networking Interfaces) versions. If left unspecified, the default version is installed.</p></li>
@@ -168,29 +167,25 @@ The scripts automatically read in parameters (version specifications, setting up
 </ul>
 </div></blockquote>
 <p>For a simple installation there is no need to modify any of the above files. The files give flexibility to define our own custom Kubernetes environment if we ever need to.
-Run the script which will generate the Kubernetes stack install script. Executing the below command will output a shell script called k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>./gen-cloud-init.sh
+Run the script which will generate the Kubernetes stack install script. Executing the below command will output a shell script called <code class="docutils literal notranslate"><span class="pre">k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh</span></code>. The file name indicates that we are installing Kubernetes v1.16 (k_1_16), Helm v2.17 (h_2_17) and the latest version of docker (d_cur).</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ./gen-cloud-init.sh
 </pre></div>
 </div>
-<p>Executing the generated script will install Kubernetes, Docker and Helm with version specified in the k8s/etc/infra.c. This also installs some pods which help cluster creation, service creation and internetworking between services. Running this script will replace any existing installation of Docker host, Kubernetes, and Helm on the VM. The script will reboot the machine upon successful completion. This will take some time (approx. 15-20 mins).</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>./k8s-1node-cloud-init-k_1_16-h_2_12-d_cur.sh
+<p>Executing the generated script <code class="docutils literal notranslate"><span class="pre">k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh</span></code> will install Kubernetes, Docker and Helm with version specified in the k8s/etc/infra.c. This also installs some pods which help cluster creation, service creation and internetworking between services. Running this script will replace any existing installation of Docker host, Kubernetes, and Helm on the VM. The script will reboot the machine upon successful completion. This will take some time (approx. 15-20 mins).</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
 </pre></div>
 </div>
-<p>Login to root again</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo -i
+<p>Once the machine is back up, check if all the pods in the newly installed Kubernetes Cluster are in “Running” state using,</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get pods -A  or
+sudo kubectl get pods --all-namespaces
 </pre></div>
 </div>
-<p>Check if all the pods in the newly installed Kubernetes Cluster are in “Running” state using,</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>kubectl get pods -A  or  kubectl get pods --all-namespaces
-</pre></div>
-</div>
-<p>There should be a total of 9 pods up and running in the cluster.
-These pods serve as the Kubernetes Framework which will be helpful in deploying the RIC platform.
-Here, I list each of the pods’ functionality (Most of which help in networking between Kubernetes nodes) [].</p>
+<p>There should be a total of <strong>9</strong> pods up and running in the cluster.</p>
+<p>These pods serve as the Kubernetes Framework which will be helpful in deploying the RIC platform.
+We briefly detail each of the pods’ functionality (Most of which help in networking between Kubernetes nodes) [].</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">CoreDNS</span></code>: DNS server that serves as the Kubernetes cluster DNS.
-This is a replacement for the default kube-dns service.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CoreDNS</span></code>: DNS server that serves as the Kubernetes cluster DNS. This is a replacement for the default kube-dns service.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Flannel</span></code>: Flannel is a basic overlay network that works by assigning a
 range of subnet addresses (usually IPv4).
 To facilitate inter-container connectivity across nodes, flannel is used.
@@ -274,31 +269,13 @@ sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
 sudo docker push localhost:5001/ric-plt-e2:5.5.0
 </pre></div>
 </div>
-<p>Deployment
-That’s it! Now, the image you just created can be deployed on your RIC (ric-plt) Kubernetes cluster. Modify the <em>e2term</em> section in the recipe file present in <cite>dep/RECIPE_EXAMPLE/PLATFORM</cite> to include your image,</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>e2term:
-  alpha:
-    image:
-      registry: &quot;localhost:5001&quot;
-      name: ric-plt-e2
-      tag: 5.5.0&lt;/b&gt;
-    privilegedmode: false
-    hostnetworkmode: false
-    env:
-      print: &quot;1&quot;
-      messagecollectorfile: &quot;/data/outgoing/&quot;
-    dataVolSize: 100Mi
-    storageClassName: local-storage
-    pizpub:
-      enabled: false`
-</pre></div>
-</div>
+<p>This image can be used when deploying the near-real time RIC Kubernetes Cluster in the next step.</p>
 <p>When the RIC platform is deployed, you will have the modified E2 Termination running on the Kubernetes cluster. The pod will be called <cite>deployment-ricplt-e2term-alpha</cite> and 3 services related to E2 Termination will be created:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><em>service-ricplt-e2term-prometheus-alpha</em> : Communicates with the <em>VES-prometheus Adapter (VESPA)</em> pod to exchange data which will be sent to the SMO.</p></li>
-<li><p><em>service-ricplt-e2term-rmr-alpha</em> : RMR service that manages exchange of messages between E2 Termination other components in the near-real time RIC.</p></li>
-<li><p><em>service-ricplt-e2term-sctp-alpha</em> : Accepts SCTP connections from RAN and exchanges E2 messages with the RAN. Note that this service is configured as a <em>NodePort</em> (accepts connections external to the cluster) while the other two are configured as <em>ClusterIP</em> (Networking only within the cluster).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">service-ricplt-e2term-prometheus-alpha</span></code> : Communicates with the <em>VES-prometheus Adapter (VESPA)</em> pod to exchange data which will be sent to the SMO.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">service-ricplt-e2term-rmr-alpha</span></code> : RMR service that manages exchange of messages between E2 Termination other components in the near-real time RIC.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">service-ricplt-e2term-sctp-alpha</span></code> : Accepts SCTP connections from RAN and exchanges E2 messages with the RAN. Note that this service is configured as a <em>NodePort</em> (accepts connections external to the cluster) while the other two are configured as <em>ClusterIP</em> (Networking only within the cluster).</p></li>
 </ul>
 </div></blockquote>
 <section id="commands-related-to-e2-termination">
@@ -315,13 +292,31 @@ That’s it! Now, the image you just created can be deployed on your RIC (ric-pl
 <section id="step-4-deploy-the-near-real-time-ric">
 <h3>Step 4: Deploy the near-Real Time RIC<a class="headerlink" href="#step-4-deploy-the-near-real-time-ric" title="Permalink to this headline"></a></h3>
 <p>Once the Kubernetes clusters are deployed, it is now time for us to deploy the near-real time RIC cluster.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd RIC-Deployment/bin
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> RIC-Deployment/bin
 ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
 </pre></div>
 </div>
 <p>This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory. A Recipe is an important concept for Near Realtime RIC deployment. Each deployment group has its own recipe. Recipe provides a customized specification for the components of a deployment group for a specific deployment site. The RECIPE_EXAMPLE directory contains the example recipes for the three deployment groups (bronze, cherry, dawn). The benefit of using “recipe files” is that changing over from one release to another is seamless requiring just the execution of a single script without having to perform “Step 2” all over again.</p>
-<section id="structure-of-the-ric-deployment-folder">
-<h4>Structure of the “RIC-Deployment” Folder<a class="headerlink" href="#structure-of-the-ric-deployment-folder" title="Permalink to this headline"></a></h4>
+<p>An example of changing the recipe file to suit our requirements is shown below. Instead of using the E2 Termination image provided by the O-RAN SC, we make use of the modified E2 Termination image created in the previous image. To do this, we modify the <em>e2term</em> section in the recipe file present in <cite>RIC-Deployment/RECIPE_EXAMPLE/PLATFORM</cite> to point to the new image,</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span> e2term:
+   alpha:
+     image:
+<span class="hll">       registry: &quot;localhost:5001&quot;
+</span><span class="hll">       name: ric-plt-e2
+</span><span class="hll">       tag: 5.5.0
+</span>     privilegedmode: false
+     hostnetworkmode: false
+     env:
+       print: &quot;1&quot;
+       messagecollectorfile: &quot;/data/outgoing/&quot;
+     dataVolSize: 100Mi
+     storageClassName: local-storage
+     pizpub:
+       enabled: false`
+</pre></div>
+</div>
+<section id="structure-of-the-ric-deployment-directory">
+<h4>Structure of the “RIC-Deployment” Directory<a class="headerlink" href="#structure-of-the-ric-deployment-directory" title="Permalink to this headline"></a></h4>
 <p>The scripts in the ./bin directory are one-click RIC deployment/undeployment scripts and will call the deployment/undeployment
 scripts in the corresponding submodule directory respectively. In each of the submodule directories, ./bin contains
 the binary and script files and ./helm contains the helm charts. For the rest of the non-submodule directories please

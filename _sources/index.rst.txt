@@ -8,12 +8,23 @@ Welcome to OAIC's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-   background_oran.rst   
+   quickstart.rst
+   oaic_features.rst
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Background Information:
+
+   background_oran.rst
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Installation Procedures:
+   
    oran_installation.rst
    srsRAN_installation.rst
-   quickstart.rst
+   
 
 
 Indices and tables
