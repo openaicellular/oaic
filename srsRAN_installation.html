@@ -18,7 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="A1 Mediator Installation Guide" href="a1mediator.html" />
+    <link rel="next" title="Additional Features" href="srsRAN_additional_features.html" />
     <link rel="prev" title="O-RAN Near-Real Time RIC Installation Guide" href="oran_installation.html" /> 
 </head>
 
@@ -43,7 +43,9 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="background_oran.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
 <ul class="current">
@@ -69,7 +71,12 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="a1mediator.html">A1 Mediator Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment</a></li>
 </ul>
 
         </div>
@@ -100,10 +107,10 @@
 <h1>srsRAN with E2 Agent Installation Guide<a class="headerlink" href="#srsran-with-e2-agent-installation-guide" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Before you begin, please clone the parent <a class="reference external" href="https://github.com/openaicellular/oaic">oaic</a> directory as outlined here</p>
+<p>Before you begin, please clone the parent <a class="reference external" href="https://github.com/openaicellular/oaic">oaic</a> directory as outlined in <a class="reference internal" href="quickstart.html#gettingstarted"><span class="std std-ref">Getting Started</span></a>.</p>
 </div>
-<p>srsRAN is a 4G/5G software radio suite developed by [SRS](<a class="reference external" href="http://www.srs.io">http://www.srs.io</a>). This is a modified version of srsRAN 21.10 and POWDER’s E2 agent enabled srsLTE.</p>
-<p>See the [srsRAN project pages](<a class="reference external" href="https://www.srsran.com">https://www.srsran.com</a>) for information, guides and project news.</p>
+<p>srsRAN is a 4G/5G software radio suite developed by <a class="reference external" href="http://www.srs.io)">SRS</a>. This is a modified version of <a class="reference external" href="https://github.com/srsran/srsRAN">srsRAN 21.10</a> and <a class="reference external" href="https://gitlab.flux.utah.edu/powderrenewpublic/srslte-ric">POWDER’s E2 agent enabled srsLTE</a>.</p>
+<p>See the <a class="reference external" href="https://www.srsran.com">srsRAN project pages</a> for information, guides and project news.</p>
 <dl class="simple">
 <dt>The srsRAN suite includes:</dt><dd><ul class="simple">
 <li><p>srsUE - a full-stack SDR 4G/5G-NSA UE application (5G-SA coming soon)</p></li>
@@ -112,7 +119,7 @@
 </ul>
 </dd>
 </dl>
-<p>For application features, build instructions and user guides see the [srsRAN documentation](<a class="reference external" href="https://docs.srsran.com">https://docs.srsran.com</a>).</p>
+<p>For application features, build instructions and user guides see the <a class="reference external" href="https://docs.srsran.com">srsRAN documentation</a>.</p>
 <p>For license details, see LICENSE file - <em>Needs to be modified.</em></p>
 <section id="pre-requisites">
 <h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline"></a></h2>
@@ -137,14 +144,10 @@
 </section>
 <section id="zeromq-installation">
 <h2>ZeroMQ Installation<a class="headerlink" href="#zeromq-installation" title="Permalink to this headline"></a></h2>
-<p>First, we need to install ZeroMQ and UHD Libraries
-Create a new directory to host all the files related to srsRAN</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>mkdir -p srsRAN-OAIC
-</pre></div>
-</div>
+<p>srsRAN software suite includes virtual radios which uses the ZeroMQ networking library to transfer radio samples between applications. This approach is very useful for development, testing, debugging, CI/CD or for teaching and demonstrating. Natively, ZeroMQ with srsRAN supports only one eNB/gNB and one UE configuration but it can be extended to support multiple UEs using GNU Radio. Have a look at the tutorial to do this <a class="reference internal" href="srsRAN_additional_features.html#multiple-ue"><span class="std std-ref">here</span></a>.</p>
 <section id="getting-zeromq-development-libraries">
 <h3>Getting ZeroMQ development Libraries<a class="headerlink" href="#getting-zeromq-development-libraries" title="Permalink to this headline"></a></h3>
-<p><a class="reference external" href="https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html">https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html</a></p>
+<p><a class="reference external" href="https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html">ZeroMQ Installation Instructions</a></p>
 <p><strong>Package Installation</strong></p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libzmq3-dev
 </pre></div>
@@ -179,8 +182,11 @@ cd ..
 </section>
 </section>
 <section id="uhd-4-1-installation">
-<h2>UHD 4.1 Installation<a class="headerlink" href="#uhd-4-1-installation" title="Permalink to this headline"></a></h2>
+<span id="uhd-installation"></span><h2>UHD 4.1 Installation<a class="headerlink" href="#uhd-4-1-installation" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
 <p>Make sure you don’t have UHD already installed in your system.</p>
+</div>
 <p><a class="reference external" href="https://files.ettus.com/manual/page_install.html">Ettus UHD Binary Installation Manual</a></p>
 <section id="using-package-manager">
 <h3>Using package manager<a class="headerlink" href="#using-package-manager" title="Permalink to this headline"></a></h3>
@@ -222,7 +228,6 @@ autoreconf -iv
 ./configure
 make -j<span class="nv">`nproc`</span>
 sudo make install
-cd ..
 sudo ldconfig
 cd ..
 </pre></div>
@@ -243,7 +248,10 @@ cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
 make -j<span class="nv">`nproc`</span>
 make test
+sudo make install
 sudo ldconfig
+srsran_install_configs.sh user
+cd ../../
 </pre></div>
 </div>
 </section>
@@ -255,7 +263,7 @@ sudo ldconfig
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="oran_installation.html" class="btn btn-neutral float-left" title="O-RAN Near-Real Time RIC Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="a1mediator.html" class="btn btn-neutral float-right" title="A1 Mediator Installation Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="srsRAN_additional_features.html" class="btn btn-neutral float-right" title="Additional Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

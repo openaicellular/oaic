@@ -2,10 +2,6 @@
 OAIC Features
 =============
 
-Introduction
-------------
-
-
 Near-Real Time RIC
 ------------------
 

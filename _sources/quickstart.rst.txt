@@ -3,6 +3,9 @@
 Getting Started
 ===============
 
+Introduction
+------------
+
 OAIC is an open-source effort led by a consortium of academic institutions to provide fully open-source software architecture, library, and toolset that encompass both the AI controllers (OAIC-C) as well as an AI testing framework (OAIC-T). This project will develop a software infrastructure that spurs research and development on AI-enabled cellular radio networks. We leverage existing open-source 5G software efforts to create a framework which integrates AI controllers into 5G processing blocks and extends the scope of the Open Radio Access Network (O-RAN) framework, the industry standard for future RANs.
 
 
@@ -20,17 +23,22 @@ oaic is the root directory for all purposes. Different components of OAIC like t
 Check out the latest version of every dependent submodule within the “oaic” repository.
 
 .. code-block:: rst
-    
+
+    cd oaic    
     git submodule update --init --recursive --remote
 
 
 How to Become a Contributor
 ---------------------------
 
-OAIC will facilitate collaboration and build an open-source software development environment and user community.
+OAIC will facilitate collaboration to build an open-source software development environment and user community.
 *More info coming Soon*
 
 
-Citation
---------
+Research Papers
+---------------
 *Coming Soon*
+
+
+Mailing List
+------------

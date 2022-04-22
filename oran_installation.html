@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="srsRAN with E2 Agent Installation Guide" href="srsRAN_installation.html" />
-    <link rel="prev" title="Background on Docker, Kubernetes &amp; Helm" href="background_oran.html" /> 
+    <link rel="prev" title="RAN Architecture" href="background_srsRAN.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,7 +43,9 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="background_oran.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
 <ul class="current">
@@ -57,10 +59,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm">Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-2-install-kubernetes-docker-and-helm">Step 2: Install Kubernetes, Docker, and Helm</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#near-real-time-ric">Near-Real Time RIC</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#commands-to-install-near-real-time-ric">Commands to install near-real time RIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ric-kubernetes-cluster-installation">RIC Kubernetes Cluster Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#onetime-setup-for-influxdb">Onetime setup for Influxdb</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#step-3-build-modified-e2-docker-image">Step 3: Build Modified E2 docker Image</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Pre-requisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-docker-image">Creating Docker image</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#commands-related-to-e2-termination">Commands related to E2 Termination</a></li>
 </ul>
 </li>
@@ -74,7 +79,12 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="a1mediator.html">A1 Mediator Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment</a></li>
 </ul>
 
         </div>
@@ -105,20 +115,22 @@
 <h1>O-RAN Near-Real Time RIC Installation Guide<a class="headerlink" href="#o-ran-near-real-time-ric-installation-guide" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Before you begin, please clone the parent <a class="reference external" href="https://github.com/openaicellular/oaic">oaic</a> directory as outlined <span class="xref std std-ref">here</span></p>
+<p>Before you begin, please clone the parent <a class="reference external" href="https://github.com/openaicellular/oaic">oaic</a> directory as outlined in <a class="reference internal" href="quickstart.html#gettingstarted"><span class="std std-ref">Getting Started</span></a>.</p>
 </div>
 <section id="pre-requisites">
 <h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline"></a></h2>
 <section id="system-requirements">
 <h3>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline"></a></h3>
-<blockquote>
-<div><ul class="simple">
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p>Check if Ubuntu 20.04 fix is merged to the right branch</p>
+</div>
+<ul class="simple">
 <li><p>OS: <a class="reference external" href="https://en.wikipedia.org/wiki/Ubuntu_version_history#:~:text=Table%20of%20versions%20%20%20%20Version%20,Future%20release%3A%202027-04-21%20%2011%20more%20rows%20">Ubuntu 20.04 LTS (Bionic Beaver)</a></p></li>
 <li><p>CPU(s): 2-4 vCPUs</p></li>
 <li><p>RAM: 6-16 GB</p></li>
 <li><p>Storage: 20-160 GB</p></li>
 </ul>
-</div></blockquote>
 </section>
 <section id="o-ran-near-real-time-ric-software-architecture">
 <h3>O-RAN Near-Real Time RIC Software Architecture<a class="headerlink" href="#o-ran-near-real-time-ric-software-architecture" title="Permalink to this headline"></a></h3>
@@ -129,13 +141,9 @@
 <h2>Near-Real Time RIC Installation Procedure<a class="headerlink" href="#near-real-time-ric-installation-procedure" title="Permalink to this headline"></a></h2>
 <section id="step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm">
 <h3>Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)<a class="headerlink" href="#step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm" title="Permalink to this headline"></a></h3>
-<p>The near-real time RIC can be run on a host machine or a VM as per your
-preference (I would recommend a VM if your system is powerful enough to
-support multiple VMs).</p>
-<p>In this instruction set I am assuming the VM/Linux host system is already
-configured with the specified system requirements. If you need help with VM
-installation on Windows 10, refer []. Refer [] for help with VM configuration.
-This completes step 1.</p>
+<p>The near-real time RIC can be run on a host machine or a VM as per your preference (A VM is recommended if your system is powerful enough to support multiple VMs).</p>
+<p>In this instruction set we assume the VM/Linux host system is already configured with the specified system requirements. If you need help with VM installation on Windows 10, <a class="reference external" href="https://www.youtube.com/watch?v=x5MhydijWmc">check out this video</a>. Checkout the <a class="reference external" href="https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster">VM Configuration Instructions</a> to configure your VM.</p>
+<p>This completes step 1.</p>
 </section>
 <section id="step-2-install-kubernetes-docker-and-helm">
 <h3>Step 2: Install Kubernetes, Docker, and Helm<a class="headerlink" href="#step-2-install-kubernetes-docker-and-helm" title="Permalink to this headline"></a></h3>
@@ -145,15 +153,15 @@ This completes step 1.</p>
 two separate Kubernetes clusters.
 The first cluster is used for deploying the Near Realtime RIC (platform and
 applications), and the other is for deploying other auxiliary functions.
-They are referred to as <strong>RIC cluster</strong> and <strong>AUX cluster</strong> respectively <a class="footnote-reference brackets" href="#id2" id="id1">1</a>.</p>
+They are referred to as <strong>RIC cluster</strong> and <strong>AUX cluster</strong> respectively <a class="footnote-reference brackets" href="#id3" id="id1">1</a>.</p>
 <p>The <strong>RIC cluster</strong> consists of 3 major Kubernetes Systems.
 Each of them is separated by their specified namespaces (kube-system ns,
 ricinfra ns, ricplt ns):</p>
 <p><strong>Kube-system ns:</strong> The underlying Kubernetes application which provides the basic
 framework for deployment and maintenance of pods.</p>
 </section>
-<section id="commands-to-install-near-real-time-ric">
-<h4>Commands to install near-real time RIC<a class="headerlink" href="#commands-to-install-near-real-time-ric" title="Permalink to this headline"></a></h4>
+<section id="ric-kubernetes-cluster-installation">
+<h4>RIC Kubernetes Cluster Installation<a class="headerlink" href="#ric-kubernetes-cluster-installation" title="Permalink to this headline"></a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">RIC-Deployment</span></code> directory contains the deployment scripts and pre generated helm charts for each of the RIC components. This repository also contains some “demo” scripts which can be run after complete installation.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd RIC-Deployment/tools/k8s/bin
 </pre></div>
@@ -177,7 +185,8 @@ Run the script which will generate the Kubernetes stack install script. Executin
 </pre></div>
 </div>
 <p>Once the machine is back up, check if all the pods in the newly installed Kubernetes Cluster are in “Running” state using,</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get pods -A  or
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get pods -A
+or
 sudo kubectl get pods --all-namespaces
 </pre></div>
 </div>
@@ -230,23 +239,25 @@ since Helm v3 since it was seen as a security risk. But in our
 deployments, we are still using Helm v2, so tiller is essential.</p></li>
 </ul>
 </div></blockquote>
-<p>Onetime setup for Influxdb</p>
+</section>
+<section id="onetime-setup-for-influxdb">
+<h4>Onetime setup for Influxdb<a class="headerlink" href="#onetime-setup-for-influxdb" title="Permalink to this headline"></a></h4>
 <p>Once Kubernetes setup is done, we have to create PersistentVolume through the storage class for the influxdb database.
 The following one time process should be followed before deploying the influxdb in ricplt namespace.</p>
 <blockquote>
-<div><p><cite>Persistent Volume</cite>:</p>
+<div><p><strong>Persistent Volume</strong>:</p>
 </div></blockquote>
 <p>First we need to check if the “ricinfra” namespace exists.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>kubectl get ns ricinfra
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get ns ricinfra
 </pre></div>
 </div>
 <p>If the namespace doesn’t exist, then create it using:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>kubectl create ns ricinfra
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl create ns ricinfra
 </pre></div>
 </div>
 <p>The next three commands installs the nfs-common package for kubernetes through helm in the “ricinfra” namespace and for the system</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
-kubectl patch storageclass nfs -p &#39;{&quot;metadata&quot;: {&quot;annotations&quot;:{&quot;storageclass.kubernetes.io/is-default-class&quot;:&quot;true&quot;}}}&#39;
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
+sudo kubectl patch storageclass nfs -p &#39;{&quot;metadata&quot;: {&quot;annotations&quot;:{&quot;storageclass.kubernetes.io/is-default-class&quot;:&quot;true&quot;}}}&#39;
 sudo apt install nfs-common
 </pre></div>
 </div>
@@ -255,30 +266,39 @@ sudo apt install nfs-common
 </section>
 <section id="step-3-build-modified-e2-docker-image">
 <h3>Step 3: Build Modified E2 docker Image<a class="headerlink" href="#step-3-build-modified-e2-docker-image" title="Permalink to this headline"></a></h3>
-<p>Pre-requisite: Local docker registry
-To store docker images. You can create one using, (You will need “super user” permissions)</p>
+<section id="id2">
+<h4>Pre-requisites<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h4>
+<p>Local docker registry to host docker images. You can create one using, (You will need “super user” permissions)</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
 </pre></div>
 </div>
 <p>Now you can either push or pull images using,
 <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">push</span> <span class="pre">localhost:5001/&lt;image_name&gt;:&lt;image_tag&gt;</span></code>
 or <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">localhost:5001/&lt;image_name&gt;:&lt;image_tag&gt;</span></code></p>
-<p>Creating Docker image
-The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order</p>
+</section>
+<section id="creating-docker-image">
+<h4>Creating Docker image<a class="headerlink" href="#creating-docker-image" title="Permalink to this headline"></a></h4>
+<p>Navigate to <code class="docutils literal notranslate"><span class="pre">ric-plt-e2</span></code> directory.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd ric-plt-e2
+</pre></div>
+</div>
+<p>The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd RIC-E2-TERMINATION
 sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
 sudo docker push localhost:5001/ric-plt-e2:5.5.0
+cd ../../
 </pre></div>
 </div>
 <p>This image can be used when deploying the near-real time RIC Kubernetes Cluster in the next step.</p>
 <p>When the RIC platform is deployed, you will have the modified E2 Termination running on the Kubernetes cluster. The pod will be called <cite>deployment-ricplt-e2term-alpha</cite> and 3 services related to E2 Termination will be created:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">service-ricplt-e2term-prometheus-alpha</span></code> : Communicates with the <em>VES-prometheus Adapter (VESPA)</em> pod to exchange data which will be sent to the SMO.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">service-ricplt-e2term-prometheus-alpha</span></code> : Communicates with the <em>VES-prometheus Adapter (VESPA)</em> pod to send data to the SMO.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">service-ricplt-e2term-rmr-alpha</span></code> : RMR service that manages exchange of messages between E2 Termination other components in the near-real time RIC.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">service-ricplt-e2term-sctp-alpha</span></code> : Accepts SCTP connections from RAN and exchanges E2 messages with the RAN. Note that this service is configured as a <em>NodePort</em> (accepts connections external to the cluster) while the other two are configured as <em>ClusterIP</em> (Networking only within the cluster).</p></li>
 </ul>
 </div></blockquote>
+</section>
 <section id="commands-related-to-e2-termination">
 <h4>Commands related to E2 Termination<a class="headerlink" href="#commands-related-to-e2-termination" title="Permalink to this headline"></a></h4>
 <blockquote>
@@ -294,11 +314,11 @@ sudo docker push localhost:5001/ric-plt-e2:5.5.0
 <h3>Step 4: Deploy the near-Real Time RIC<a class="headerlink" href="#step-4-deploy-the-near-real-time-ric" title="Permalink to this headline"></a></h3>
 <p>Once the Kubernetes clusters are deployed, it is now time for us to deploy the near-real time RIC cluster.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> RIC-Deployment/bin
-./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
+sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
 </pre></div>
 </div>
-<p>This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory. A Recipe is an important concept for Near Realtime RIC deployment. Each deployment group has its own recipe. Recipe provides a customized specification for the components of a deployment group for a specific deployment site. The RECIPE_EXAMPLE directory contains the example recipes for the three deployment groups (bronze, cherry, dawn). The benefit of using “recipe files” is that changing over from one release to another is seamless requiring just the execution of a single script without having to perform “Step 2” all over again.</p>
-<p>An example of changing the recipe file to suit our requirements is shown below. Instead of using the E2 Termination image provided by the O-RAN SC, we make use of the modified E2 Termination image created in the previous image. To do this, we modify the <em>e2term</em> section in the recipe file present in <cite>RIC-Deployment/RECIPE_EXAMPLE/PLATFORM</cite> to point to the new image,</p>
+<p>This command deploys the near-real time RIC according to the RECIPE stored in <code class="docutils literal notranslate"><span class="pre">RIC-Deployment/RECIPE_EXAMPLE/PLATFORM/</span></code> directory. A Recipe is an important concept for Near Realtime RIC deployment. Each deployment group has its own recipe. Recipe provides a customized specification for the components of a deployment group for a specific deployment site. The <code class="docutils literal notranslate"><span class="pre">RECIPE_EXAMPLE</span></code> directory contains the example recipes for the three deployment groups (bronze, cherry, dawn, e-release). The benefit of using <em>recipe files</em> is that changing over from one release to another is seamless requiring just the execution of a single script without having to perform “Step 2” all over again.</p>
+<p>An example of changing the recipe file to suit our requirements is shown below. Instead of using the E2 Termination image provided by the O-RAN SC, we make use of the modified E2 Termination image created in the previous image. To do this, we modify the <code class="docutils literal notranslate"><span class="pre">e2term</span></code> section in the recipe file present in <code class="docutils literal notranslate"><span class="pre">RIC-Deployment/RECIPE_EXAMPLE/PLATFORM</span></code> to point to the new image,</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span> e2term:
    alpha:
      image:
@@ -327,31 +347,31 @@ refer to the README.md files in them for more details.</p>
 <section id="references">
 <h3>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h3>
 <dl class="footnote brackets">
-<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p><a class="reference external" href="https://www.youtube.com/watch?v=x5MhydijWmc">https://www.youtube.com/watch?v=x5MhydijWmc</a></p>
 </dd>
-<dt class="label" id="id3"><span class="brackets">2</span></dt>
+<dt class="label" id="id4"><span class="brackets">2</span></dt>
 <dd><p><a class="reference external" href="https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster">https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster</a></p>
 </dd>
-<dt class="label" id="id4"><span class="brackets">3</span></dt>
+<dt class="label" id="id5"><span class="brackets">3</span></dt>
 <dd><p><a class="reference external" href="https://www.section.io/engineering-education/docker-concepts/">https://www.section.io/engineering-education/docker-concepts/</a></p>
 </dd>
-<dt class="label" id="id5"><span class="brackets">4</span></dt>
+<dt class="label" id="id6"><span class="brackets">4</span></dt>
 <dd><p><a class="reference external" href="https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/">https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/</a></p>
 </dd>
-<dt class="label" id="id6"><span class="brackets">5</span></dt>
+<dt class="label" id="id7"><span class="brackets">5</span></dt>
 <dd><p><a class="reference external" href="https://kubernetes.io/docs/concepts/overview/components/">https://kubernetes.io/docs/concepts/overview/components/</a></p>
 </dd>
-<dt class="label" id="id7"><span class="brackets">6</span></dt>
+<dt class="label" id="id8"><span class="brackets">6</span></dt>
 <dd><p><a class="reference external" href="https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes">https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes</a></p>
 </dd>
-<dt class="label" id="id8"><span class="brackets">7</span></dt>
+<dt class="label" id="id9"><span class="brackets">7</span></dt>
 <dd><p><a class="reference external" href="https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers">https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers</a></p>
 </dd>
-<dt class="label" id="id9"><span class="brackets">8</span></dt>
+<dt class="label" id="id10"><span class="brackets">8</span></dt>
 <dd><p><a class="reference external" href="https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/">https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/</a></p>
 </dd>
-<dt class="label" id="id10"><span class="brackets">9</span></dt>
+<dt class="label" id="id11"><span class="brackets">9</span></dt>
 <dd><p><a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/networking/">https://kubernetes.io/docs/concepts/cluster-administration/networking/</a></p>
 </dd>
 </dl>
@@ -363,7 +383,7 @@ refer to the README.md files in them for more details.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="background_oran.html" class="btn btn-neutral float-left" title="Background on Docker, Kubernetes &amp; Helm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="background_srsRAN.html" class="btn btn-neutral float-left" title="RAN Architecture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="srsRAN_installation.html" class="btn btn-neutral float-right" title="srsRAN with E2 Agent Installation Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

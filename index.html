@@ -42,13 +42,20 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="background_oran.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="a1mediator.html">A1 Mediator Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment</a></li>
 </ul>
 
         </div>
@@ -80,13 +87,14 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#structure-of-oaic">Structure of OAIC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#how-to-become-a-contributor">How to Become a Contributor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#citation">Citation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#research-papers">Research Papers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#mailing-list">Mailing List</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="oaic_features.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="oaic_features.html#near-real-time-ric">Near-Real Time RIC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="oaic_features.html#cellular-stack">Cellular Stack</a></li>
 <li class="toctree-l2"><a class="reference internal" href="oaic_features.html#xapps-supported">xApps Supported</a></li>
@@ -97,13 +105,15 @@
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="background_oran.html">Background on Docker, Kubernetes &amp; Helm</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="background_oran.html#docker">Docker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="background_oran.html#core-components-of-docker">Core components of docker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="background_oran.html#kubernetes">Kubernetes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="background_oran.html#helm">Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="background_cloud.html#docker">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background_cloud.html#core-components-of-docker">Core components of docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background_cloud.html#kubernetes">Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background_cloud.html#helm">Helm</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -122,9 +132,28 @@
 <li class="toctree-l2"><a class="reference internal" href="srsRAN_installation.html#srsran-with-e2-agent-installation">srsRAN with E2 agent Installation</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#multiple-simulated-ues-using-gnu-radio-companion">Multiple Simulated UEs using GNU Radio Companion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#connecting-to-an-external-server-internet">Connecting to an external server/internet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#connecting-usrps-to-virtualbox-vms">Connecting USRPs to VirtualBox VMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#uhd-usrp-performance-enhancement-tips-and-tricks">UHD USRP Performance Enhancement Tips and Tricks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#cots-ue-configuration">COTS UE Configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="a1mediator.html">A1 Mediator Installation Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="a1mediator.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="a1mediator.html#installation-guide">Installation Guide</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="xapp_deployment.html#creating-xapp-docker-image">Creating xApp Docker Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xapp_deployment.html#xapp-onboarder-deployment">xApp Onboarder Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xapp_deployment.html#dms-cli-deployment">DMS-CLI Deployment</a></li>
 </ul>
 </li>
 </ul>
