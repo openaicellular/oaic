@@ -4,7 +4,7 @@ O-RAN Near-Real Time RIC Installation Guide
 
 .. note:: 
 
-   Before you begin, please clone the parent `oaic <https://github.com/openaicellular/oaic>`_ directory as outlined :ref:`here <.. _gettingstarted:>`
+   Before you begin, please clone the parent `oaic <https://github.com/openaicellular/oaic>`_ directory as outlined in :ref:`Getting Started <gettingstarted>`.
 
 Pre-requisites
 ==============
@@ -12,10 +12,14 @@ Pre-requisites
 System Requirements
 -------------------
 
-  * OS: `Ubuntu 20.04 LTS (Bionic Beaver) <https://en.wikipedia.org/wiki/Ubuntu_version_history#:~:text=Table%20of%20versions%20%20%20%20Version%20,Future%20release%3A%202027-04-21%20%2011%20more%20rows%20>`_
-  * CPU(s): 2-4 vCPUs
-  * RAM: 6-16 GB
-  * Storage: 20-160 GB
+.. admonition:: TODO
+
+	Check if Ubuntu 20.04 fix is merged to the right branch
+
+* OS: `Ubuntu 20.04 LTS (Bionic Beaver) <https://en.wikipedia.org/wiki/Ubuntu_version_history#:~:text=Table%20of%20versions%20%20%20%20Version%20,Future%20release%3A%202027-04-21%20%2011%20more%20rows%20>`_
+* CPU(s): 2-4 vCPUs
+* RAM: 6-16 GB
+* Storage: 20-160 GB
 
 O-RAN Near-Real Time RIC Software Architecture
 ----------------------------------------------
@@ -32,13 +36,10 @@ Near-Real Time RIC Installation Procedure
 Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)
 --------------------------------------------------------------------------
 
-The near-real time RIC can be run on a host machine or a VM as per your 
-preference (I would recommend a VM if your system is powerful enough to 
-support multiple VMs).
+The near-real time RIC can be run on a host machine or a VM as per your preference (A VM is recommended if your system is powerful enough to support multiple VMs).
 
-In this instruction set I am assuming the VM/Linux host system is already 
-configured with the specified system requirements. If you need help with VM 
-installation on Windows 10, refer []. Refer [] for help with VM configuration. 
+In this instruction set we assume the VM/Linux host system is already configured with the specified system requirements. If you need help with VM installation on Windows 10, `check out this video <https://www.youtube.com/watch?v=x5MhydijWmc>`_. Checkout the `VM Configuration Instructions <https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster>`_ to configure your VM. 
+
 This completes step 1.
 
 Step 2: Install Kubernetes, Docker, and Helm
@@ -60,10 +61,9 @@ ricinfra ns, ricplt ns):
 **Kube-system ns:** The underlying Kubernetes application which provides the basic 
 framework for deployment and maintenance of pods.
 
-Commands to install near-real time RIC
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+RIC Kubernetes Cluster Installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        
 
 The ``RIC-Deployment`` directory contains the deployment scripts and pre generated helm charts for each of the RIC components. This repository also contains some “demo” scripts which can be run after complete installation.
 
@@ -98,7 +98,8 @@ Once the machine is back up, check if all the pods in the newly installed Kubern
 
 .. code-block:: rst
 
-    sudo kubectl get pods -A  or 
+    sudo kubectl get pods -A  
+    or 
     sudo kubectl get pods --all-namespaces
 
 There should be a total of **9** pods up and running in the cluster.
@@ -150,40 +151,44 @@ We briefly detail each of the pods’ functionality (Most of which help in netwo
     deployments, we are still using Helm v2, so tiller is essential.
 
 Onetime setup for Influxdb
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Once Kubernetes setup is done, we have to create PersistentVolume through the storage class for the influxdb database.
 The following one time process should be followed before deploying the influxdb in ricplt namespace.
 
-    `Persistent Volume`:
+    **Persistent Volume**:
 
 First we need to check if the "ricinfra" namespace exists.
 
 .. code-block:: rst
 
-    kubectl get ns ricinfra
+    sudo kubectl get ns ricinfra
 
 If the namespace doesn’t exist, then create it using:
 
 .. code-block:: rst
 
-    kubectl create ns ricinfra
+    sudo kubectl create ns ricinfra
 
 The next three commands installs the nfs-common package for kubernetes through helm in the "ricinfra" namespace and for the system
 
 .. code-block:: rst
 
-    helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
-    kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+    sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
+    sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
     sudo apt install nfs-common
     
 
 NFS-common basically allows file sharing between systems residing on a local area network.
 
+
 Step 3: Build Modified E2 docker Image
 --------------------------------------
 
-Pre-requisite: Local docker registry
-To store docker images. You can create one using, (You will need "super user" permissions)
+Pre-requisites
+~~~~~~~~~~~~~~	
+
+Local docker registry to host docker images. You can create one using, (You will need "super user" permissions)
 
 .. code-block:: rst
 
@@ -193,7 +198,16 @@ Now you can either push or pull images using,
 ``docker push localhost:5001/<image_name>:<image_tag>``
 or ``docker pull localhost:5001/<image_name>:<image_tag>``
  
+
 Creating Docker image
+~~~~~~~~~~~~~~~~~~~~~
+
+Navigate to ``ric-plt-e2`` directory.
+
+.. code-block:: rst
+    
+   cd ric-plt-e2 
+
 The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order 
 
 .. code-block:: rst
@@ -201,13 +215,14 @@ The code in this repo needs to be packaged as a docker container. We make use of
     cd RIC-E2-TERMINATION
     sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
     sudo docker push localhost:5001/ric-plt-e2:5.5.0
+    cd ../../
 
 This image can be used when deploying the near-real time RIC Kubernetes Cluster in the next step.
 
       
 When the RIC platform is deployed, you will have the modified E2 Termination running on the Kubernetes cluster. The pod will be called `deployment-ricplt-e2term-alpha` and 3 services related to E2 Termination will be created:
 
-  - ``service-ricplt-e2term-prometheus-alpha`` : Communicates with the *VES-prometheus Adapter (VESPA)* pod to exchange data which will be sent to the SMO.
+  - ``service-ricplt-e2term-prometheus-alpha`` : Communicates with the *VES-prometheus Adapter (VESPA)* pod to send data to the SMO.
   - ``service-ricplt-e2term-rmr-alpha`` : RMR service that manages exchange of messages between E2 Termination other components in the near-real time RIC.
   - ``service-ricplt-e2term-sctp-alpha`` : Accepts SCTP connections from RAN and exchanges E2 messages with the RAN. Note that this service is configured as a *NodePort* (accepts connections external to the cluster) while the other two are configured as *ClusterIP* (Networking only within the cluster). 
 
@@ -227,11 +242,11 @@ Once the Kubernetes clusters are deployed, it is now time for us to deploy the n
 .. code-block:: bash
 
     cd RIC-Deployment/bin
-    ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
+    sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
     
-This command deploys the near-real time RIC according to the RECIPE stored in dep/RECIPE_EXAMPLE/PLATFORM/ directory. A Recipe is an important concept for Near Realtime RIC deployment. Each deployment group has its own recipe. Recipe provides a customized specification for the components of a deployment group for a specific deployment site. The RECIPE_EXAMPLE directory contains the example recipes for the three deployment groups (bronze, cherry, dawn). The benefit of using “recipe files” is that changing over from one release to another is seamless requiring just the execution of a single script without having to perform “Step 2” all over again.
+This command deploys the near-real time RIC according to the RECIPE stored in ``RIC-Deployment/RECIPE_EXAMPLE/PLATFORM/`` directory. A Recipe is an important concept for Near Realtime RIC deployment. Each deployment group has its own recipe. Recipe provides a customized specification for the components of a deployment group for a specific deployment site. The ``RECIPE_EXAMPLE`` directory contains the example recipes for the three deployment groups (bronze, cherry, dawn, e-release). The benefit of using *recipe files* is that changing over from one release to another is seamless requiring just the execution of a single script without having to perform “Step 2” all over again.
 
-An example of changing the recipe file to suit our requirements is shown below. Instead of using the E2 Termination image provided by the O-RAN SC, we make use of the modified E2 Termination image created in the previous image. To do this, we modify the *e2term* section in the recipe file present in `RIC-Deployment/RECIPE_EXAMPLE/PLATFORM` to point to the new image,
+An example of changing the recipe file to suit our requirements is shown below. Instead of using the E2 Termination image provided by the O-RAN SC, we make use of the modified E2 Termination image created in the previous image. To do this, we modify the ``e2term`` section in the recipe file present in ``RIC-Deployment/RECIPE_EXAMPLE/PLATFORM`` to point to the new image,
 
 
 .. code-block:: rst

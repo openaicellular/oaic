@@ -16,7 +16,9 @@ Welcome to OAIC's documentation!
    :maxdepth: 2
    :caption: Background Information:
 
-   background_oran.rst
+   background_cloud.rst
+   background_oran_architecture.rst
+   background_srsRAN.rst
 
 .. toctree::
    :maxdepth: 2
@@ -24,7 +26,14 @@ Welcome to OAIC's documentation!
    
    oran_installation.rst
    srsRAN_installation.rst
+   srsRAN_additional_features.rst
    a1mediator.rst
+
+.. toctree::
+   :maxdepth: 2
+   :caption: xApp Deployment:
+
+   xapp_deployment.rst
    
 
 
