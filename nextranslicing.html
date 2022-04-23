@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexRAN Slicing xApp Installation &amp; running in Kubernetes &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="a1mediator.html">A1 Mediator Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>NexRAN Slicing xApp Installation &amp; running in Kubernetes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/nextranslicing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nexran-slicing-xapp-installation-running-in-kubernetes">
+<h1>NexRAN Slicing xApp Installation &amp; running in Kubernetes<a class="headerlink" href="#nexran-slicing-xapp-installation-running-in-kubernetes" title="Permalink to this headline"></a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export KONG_PROXY=`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`
+export E2MGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2mgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`
+export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`
+export E2TERM_SCTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`
+export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`
+export RTMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-rtmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">f</span> <span class="n">Dockerfile</span> <span class="o">-</span><span class="n">t</span> <span class="n">docker</span><span class="o">-</span><span class="n">repository</span><span class="o">.</span><span class="n">local</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">nexran</span> <span class="o">.</span>
+<span class="n">sudo</span> <span class="n">docker</span> <span class="n">push</span> <span class="n">docker</span><span class="o">-</span><span class="n">repository</span><span class="o">.</span><span class="n">local</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">nexran</span>
+<span class="n">sudo</span> <span class="n">docker</span> <span class="n">tag</span> <span class="n">localhost</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">nexran</span> <span class="n">docker</span><span class="o">-</span><span class="n">repository</span><span class="o">.</span><span class="n">local</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">nexran</span>
+</pre></div>
+</div>
+<p>Create nexran-config file (copy from nexran.sh in powder code)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;config-file.json_url&quot;</span><span class="p">:</span><span class="s2">&quot;https://cdn-123.anonfiles.com/Rfn702Bdu5/6ebc2dd4-1628643253/nexran-config-file.json&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Create nexran-onboard.url file &amp; copy “”
+<a class="reference external" href="https://cdn-123.anonfiles.com/Rfn702Bdu5/6ebc2dd4-1628643253/nexran-config-file.json">https://cdn-123.anonfiles.com/Rfn702Bdu5/6ebc2dd4-1628643253/nexran-config-file.json</a> (copy link nexran-onboard.url as per nexran.sh file (as per line 91))</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">L</span> <span class="o">-</span><span class="n">X</span> <span class="n">POST</span> \
+        <span class="s2">&quot;http://$KONG_PROXY:32080/onboard/api/v1/onboard/download&quot;</span> \
+        <span class="o">--</span><span class="n">header</span> <span class="s1">&#39;Content-Type: application/json&#39;</span> \
+<span class="o">--</span><span class="n">data</span><span class="o">-</span><span class="n">binary</span> <span class="s2">&quot;@nexran-onboard.url&quot;</span>
+
+<span class="n">curl</span> <span class="o">-</span><span class="n">L</span><span class="o">-</span><span class="n">XGET</span> \        <span class="s2">&quot;http://$KONG_PROXY:32080/onboard/api/v1/charts&quot;</span>
+
+<span class="n">curl</span> <span class="o">-</span><span class="n">L</span><span class="o">-</span><span class="n">XPOST</span> \        <span class="s2">&quot;http://$KONG_PROXY:32080/appmgr/ric/v1/xapps&quot;</span>\
+<span class="o">--</span><span class="n">header</span><span class="s1">&#39;Content-Type: application/json&#39;</span>\
+<span class="o">--</span><span class="n">data</span><span class="o">-</span><span class="n">raw</span><span class="s1">&#39;{&quot;xappName&quot;: &quot;nexran&quot;}&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="srsran-nexran-running-procedure">
+<h1>srsRAN nexRAN Running Procedure<a class="headerlink" href="#srsran-nexran-running-procedure" title="Permalink to this headline"></a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sudo /home/pratheek/kumar/srslte-ric/build/srsepc/src/srsepc --spgw.sgi_if_addr=192.168.0.1
+
+export E2TERM_SCTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`
+
+sudo /home/pratheek/kumar/srslte-ric/build/srsenb/src/srsenb \
+    --enb.n_prb=15 --enb.name=enb1 --enb.enb_id=0x19B --rf.device_name=zmq \
+    --rf.device_args=&quot;fail_on_disconnect=true,id=enb,base_srate=23.04e6,tx_port=tcp://*:2000,rx_port=tcp://localhost:2001&quot; \
+    --ric.agent.remote_ipv4_addr=${E2TERM_SCTP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout \
+    --slicer.enable=1 --slicer.workshare=0
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sudo ip netns add ue1
+sudo /home/pratheek/kumar/srslte-ric/build/srsue/src/srsue \
+    --rf.device_name=zmq --rf.device_args=&quot;tx_port=tcp://*:2001,rx_port=tcp://localhost:2000,id=ue,base_srate=23.04e6&quot; \
+    --usim.algo=xor --usim.imsi=001010123456789 --usim.k=00112233445566778899aabbccddeeff --usim.imei=353490069873310 \
+    --log.all_level=warn --log.filename=stdout --gw.netns=ue1
+
+kubectl logs -f -n ricxapp -l app=ricxapp-nexran
+
+export NEXRAN_XAPP=`kubectl get svc -n ricxapp --field-selector metadata.name=service-ricxapp-nexran-rmr -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;` ; echo $NEXRAN_XAPP
+
+curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/version ; echo ; echo
+
+sudo ip netns exec ue1 iperf -s -p 5010 -i 4 -t 36000
+
+iperf -c 192.168.0.2 -p 5010 -i 4 -t 36000
+
+#!/bin/sh
+
+SLEEPINT=4
+
+export NEXRAN_XAPP=`kubectl get svc -n ricxapp --field-selector metadata.name=service-ricxapp-nexran-rmr -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`
+
+echo NEXRAN_XAPP=$NEXRAN_XAPP ; echo
+
+echo Listing NodeBs: ; echo
+curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/nodebs ; echo ; echo
+echo Listing Slices: ; echo
+curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/slices ; echo ; echo
+echo Listing Ues: ; echo
+curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/ues ; echo ; echo
+
+sleep $SLEEPINT
+
+echo &quot;Creating NodeB (id=1):&quot; ; echo
+curl -i -X POST -H &quot;Content-type: application/json&quot; -d &#39;{&quot;type&quot;:&quot;eNB&quot;,&quot;id&quot;:411,&quot;mcc&quot;:&quot;001&quot;,&quot;mnc&quot;:&quot;01&quot;}&#39; http://${NEXRAN_XAPP}:8000/v1/nodebs ; echo ; echo
+echo Listing NodeBs: ; echo
+curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/nodebs ; echo ; echo
+
+sleep $SLEEPINT
+
+echo &quot;Creating Slice (name=fast)&quot;: ; echo
+curl -i -X POST -H &quot;Content-type: application/json&quot; -d &#39;{&quot;name&quot;:&quot;fast&quot;,&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:1024}}&#39; http://${NEXRAN_XAPP}:8000/v1/slices ; echo ; echo
+echo Listing Slices: ; echo
+curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/slices ; echo ; echo
+
+sleep $SLEEPINT
+
+echo &quot;Creating Slice (name=slow)&quot;: ; echo
+curl -i -X POST -H &quot;Content-type: application/json&quot; -d &#39;{&quot;name&quot;:&quot;slow&quot;,&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:256}}&#39; http://${NEXRAN_XAPP}:8000/v1/slices ; echo ; echo
+echo Listing Slices: ; echo
+curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/slices ; echo ; echo
+
+sleep $SLEEPINT
+
+echo &quot;Binding Slice to NodeB (name=fast):&quot; ; echo
+curl -i -X POST http://${NEXRAN_XAPP}:8000/v1/nodebs/enB_macro_001_001_0019b0/slices/fast ; echo ; echo
+echo &quot;Getting NodeB (name=enB_macro_001_001_0019b0):&quot; ; echo
+curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/nodebs/enB_macro_001_001_0019b0 ; echo ; echo
+
+sleep $SLEEPINT
+
+echo &quot;Binding Slice to NodeB (name=slow):&quot; ; echo
+curl -i -X POST http://${NEXRAN_XAPP}:8000/v1/nodebs/enB_macro_001_001_0019b0/slices/slow ; echo ; echo
+echo &quot;Getting NodeB (name=enB_macro_001_001_0019b0):&quot; ; echo
+curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/nodebs/enB_macro_001_001_0019b0 ; echo ; echo
+
+sleep $SLEEPINT
+
+echo &quot;Creating Ue (ue=001010123456789)&quot; ; echo
+curl -i -X POST -H &quot;Content-type: application/json&quot; -d &#39;{&quot;imsi&quot;:&quot;001010123456789&quot;}&#39; http://${NEXRAN_XAPP}:8000/v1/ues ; echo ; echo
+echo Listing Ues: ; echo
+curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/ues ; echo ; echo
+
+sleep $SLEEPINT
+
+echo &quot;Binding Ue to Slice fast (imsi=001010123456789):&quot; ; echo
+curl -i -X POST http://${NEXRAN_XAPP}:8000/v1/slices/fast/ues/001010123456789 ; echo ; echo
+echo &quot;Getting Slice (name=fast):&quot; ; echo
+curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/slices/fast ; echo ; echo
+
+#echo &quot;Creating Ue (ue=001010123456788)&quot; ; echo
+#curl -i -X POST -H &quot;Content-type: application/json&quot; -d &#39;{&quot;imsi&quot;:&quot;001010123456788&quot;}&#39; http://${NEXRAN_XAPP}:8000/v1/ues ; echo ; echo
+#echo Listing Ues: ; echo
+#curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/ues ; echo ; echo
+
+#echo &quot;Binding Ue (imsi=001010123456788):&quot; ; echo
+#curl -i -X POST http://${NEXRAN_XAPP}:8000/v1/slices/slow/ues/001010123456788 ; echo ; echo
+#echo &quot;Getting Slice (name=slow):&quot; ; echo
+#curl -i -X GET http://${NEXRAN_XAPP}:8000/v1/slices/slow ; echo ; echo
+
+#sleep $SLEEPINT
+
+#echo &quot;Inverting priority of fast and slow slices:&quot; ; echo
+
+#curl -i -X PUT -H &quot;Content-type: application/json&quot; -d &#39;{&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:1024}}&#39; http://${NEXRAN_XAPP}:8000/v1/slices/slow ; echo ; echo ;
+
+#sleep $SLEEPINT
+
+#curl -i -X PUT -H &quot;Content-type: application/json&quot; -d &#39;{&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:256}}&#39; http://${NEXRAN_XAPP}:8000/v1/slices/fast ; echo ; echo
+
+
+
+curl -i -X PUT -H &quot;Content-type: application/json&quot; -d &#39;{&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:1024}}&#39; http://${NEXRAN_XAPP}:8000/v1/slices/slow ; echo ; echo ;
+curl -i -X PUT -H &quot;Content-type: application/json&quot; -d &#39;{&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:256}}&#39; http://${NEXRAN_XAPP}:8000/v1/slices/fast ; echo ; echo
+
+curl -i -X PUT -H &quot;Content-type: application/json&quot; -d &#39;{&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:1024}}&#39; http://${NEXRAN_XAPP}:8000/v1/slices/fast ; echo ; echo
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
