@@ -35,6 +35,12 @@ OAIC will facilitate collaboration to build an open-source software development 
 *More info coming Soon*
 
 
+Source Code
+-----------
+
+`OAIC on Github <https://github.com/openaicellular/oaic>`_
+
+
 Research Papers
 ---------------
 *Coming Soon*
@@ -42,3 +48,6 @@ Research Papers
 
 Mailing List
 ------------
+
+
+
