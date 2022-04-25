@@ -91,9 +91,26 @@
 <h1>xApp Deployment<a class="headerlink" href="#xapp-deployment" title="Permalink to this headline"></a></h1>
 <section id="creating-xapp-docker-image">
 <h2>Creating xApp Docker Image<a class="headerlink" href="#creating-xapp-docker-image" title="Permalink to this headline"></a></h2>
+<p>First we need to create a registry to host our xApp images. Here we create a local docker registry called <code class="docutils literal notranslate"><span class="pre">xApp-repository.local:5008</span></code>. 5008 indicates the port number on which the registry is listening.</p>
+<p>Now, we need the xapp image using the given Dockerfile within the xApp repository.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>docker build . -t xApp-repository.local:5008/&lt;xapp-name&gt;:<span class="nt">&lt;version&gt;</span> (Example : xappkpimon:1.0.0).
+</pre></div>
+</div>
+<p>What we are essentially doing here is that we are storing our built image in a local docker repository. This is done to keep things simple. We could use cloud servers too (in that case the image needs to be pushed to the respective server using docker push).</p>
+<p>Now that we have the docker image, we need to push it to our local registry <code class="docutils literal notranslate"><span class="pre">xApp-respository.local:5008</span></code></p>
 </section>
 <section id="xapp-onboarder-deployment">
 <h2>xApp Onboarder Deployment<a class="headerlink" href="#xapp-onboarder-deployment" title="Permalink to this headline"></a></h2>
+<p>Getting Variables ready</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export KONG_PROXY=<span class="nv">`kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+export APPMGR_HTTP=<span class="nv">`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+export ONBOARDER_HTTP=<span class="nv">`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+</pre></div>
+</div>
+<p>Get helm charts and check if the current xApp is one of them. If there is no helm chart, then we are good to go. Otherwise, we have to use the existing chart or delete it and then proceed forward.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>curl --location --request GET &quot;http://$KONG_PROXY:32080/onboard/api/v1/charts&quot;
+</pre></div>
+</div>
 </section>
 <section id="dms-cli-deployment">
 <h2>DMS-CLI Deployment<a class="headerlink" href="#dms-cli-deployment" title="Permalink to this headline"></a></h2>

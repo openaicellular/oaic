@@ -36,62 +36,6 @@ GNU Radio 3.10 will need *python packaging*.
 	sudo apt install python3-pip
 	pip install packaging
 
-Installation from Source
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-If the binary package installation does not work, then we can install from sources
-
-.. Note::
-
-	Make sure you already have :ref:`UHD installed <uhd_installation>`.
-
-Install Dependencies
-********************
-
-.. code-block:: rst
-
-	sudo apt install git cmake g++ libboost-all-dev libgmp-dev swig python3-numpy \
-	python3-mako python3-sphinx python3-lxml doxygen libfftw3-dev \
-	libsdl1.2-dev libgsl-dev libqwt-qt5-dev libqt5opengl5-dev python3-pyqt5 \
-	liblog4cpp5-dev libzmq3-dev python3-yaml python3-click python3-click-plugins \
-	python3-zmq python3-scipy python3-gi python3-gi-cairo gir1.2-gtk-3.0 \
-	libcodec2-dev libgsm1-dev pybind11-dev python3-matplotlib libsndfile1-dev \
-	python3-pip libsoapysdr-dev soapysdr-tools libiio-dev libad9361-dev libspdlog-dev \
-	python3-packaging python3-jsonschema
-
-	pip install pygccxml
-	pip install pyqtgraph
-
-Install Volk. This has to be done separately since Volk is no longer considered as a submodule of GNU Radio.
-
-.. code-block:: rst
-
-	git clone --recursive https://github.com/gnuradio/volk.git
-	cd volk
-	mkdir build
-	cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 ../
-	make
-	make test
-	sudo make install
-	sudo ldconfig
-	cd ../../
-
-Install GNU Radio 3.10
-**********************
-
-.. code-block:: rst
-
-	git clone https://github.com/gnuradio/gnuradio.git
-	cd gnuradio
-	git checkout maint-3.10
-	mkdir build
-	cd build
-	cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 ../
-	make -j`nproc`
-	sudo make install
-	sudo ldconfig
-	cd ../../
 
 .. tip::
 

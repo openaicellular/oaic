@@ -61,12 +61,11 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#uhd-4-1-installation">UHD 4.1 Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#using-package-manager">Using package manager</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#installation-from-source">Installation from source</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#asn1c-compiler-installation">asn1c Compiler Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#srsran-with-e2-agent-installation">srsRAN with E2 agent Installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">Installation from Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation-from-source">Installation from Source</a></li>
 </ul>
 </li>
 </ul>
@@ -152,33 +151,6 @@
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libzmq3-dev
 </pre></div>
 </div>
-<p><strong>Installing from Sources</strong></p>
-<ol class="arabic simple">
-<li><p>Get libzmq</p></li>
-</ol>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/zeromq/libzmq.git
-cd libzmq
-./autogen.sh
-./configure
-make
-sudo make install
-sudo ldconfig
-cd ..
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>Get czmq</p></li>
-</ol>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/zeromq/czmq.git
-cd czmq
-./autogen.sh
-./configure
-make
-sudo make install
-sudo ldconfig
-cd ..
-</pre></div>
-</div>
 </section>
 </section>
 <section id="uhd-4-1-installation">
@@ -193,28 +165,6 @@ cd ..
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:ettusresearch/uhd
 sudo apt-get update
 sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
-</pre></div>
-</div>
-</section>
-<section id="installation-from-source">
-<h3>Installation from source<a class="headerlink" href="#installation-from-source" title="Permalink to this headline"></a></h3>
-<p><a class="reference external" href="https://files.ettus.com/manual/page_build_guide.html">Ettus UHD Source Installation Manual</a></p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install autoconf automake build-essential ccache cmake cpufrequtils doxygen ethtool \
-g++ git inetutils-tools libboost-all-dev libncurses5 libncurses5-dev libusb-1.0-0 libusb-1.0-0-dev \
-libusb-dev python3-dev python3-mako python3-numpy python3-requests python3-scipy python3-setuptools \
-python3-ruamel.yaml
-
-git clone https://github.com/EttusResearch/uhd.git
-cd uhd
-git checkout UHD-4.1
-cd host
-mkdir build
-cd build
-cmake ../
-make
-sudo make install
-sudo ldconfig
-cd ../../../
 </pre></div>
 </div>
 </section>
@@ -235,8 +185,8 @@ cd ..
 </section>
 <section id="srsran-with-e2-agent-installation">
 <h2>srsRAN with E2 agent Installation<a class="headerlink" href="#srsran-with-e2-agent-installation" title="Permalink to this headline"></a></h2>
-<section id="id1">
-<h3>Installation from Source<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h3>
+<section id="installation-from-source">
+<h3>Installation from Source<a class="headerlink" href="#installation-from-source" title="Permalink to this headline"></a></h3>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd srsRAN-e2
 mkdir build
 export SRS=<span class="nv">`realpath .`</span>

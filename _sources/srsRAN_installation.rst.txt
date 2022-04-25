@@ -59,34 +59,6 @@ Getting ZeroMQ development Libraries
 
     sudo apt-get install libzmq3-dev
 
-**Installing from Sources**
-
-1. Get libzmq
-
-.. code-block:: rst
-
-    git clone https://github.com/zeromq/libzmq.git
-    cd libzmq
-    ./autogen.sh
-    ./configure
-    make
-    sudo make install
-    sudo ldconfig
-    cd ..
-
-
-2. Get czmq
-
-.. code-block:: rst
-
-    git clone https://github.com/zeromq/czmq.git
-    cd czmq
-    ./autogen.sh
-    ./configure
-    make
-    sudo make install
-    sudo ldconfig
-    cd ..
 
 
 .. _uhd_installation:
@@ -110,33 +82,6 @@ Using package manager
     sudo apt-get update
     sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
 
-
-Installation from source
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-`Ettus UHD Source Installation Manual`_
-
-.. _Ettus UHD Source Installation Manual: https://files.ettus.com/manual/page_build_guide.html
-
-
-.. code-block:: rst
-
-    sudo apt-get install autoconf automake build-essential ccache cmake cpufrequtils doxygen ethtool \
-    g++ git inetutils-tools libboost-all-dev libncurses5 libncurses5-dev libusb-1.0-0 libusb-1.0-0-dev \
-    libusb-dev python3-dev python3-mako python3-numpy python3-requests python3-scipy python3-setuptools \
-    python3-ruamel.yaml 
-
-    git clone https://github.com/EttusResearch/uhd.git
-    cd uhd
-    git checkout UHD-4.1
-    cd host
-    mkdir build
-    cd build
-    cmake ../
-    make
-    sudo make install
-    sudo ldconfig
-    cd ../../../
 
 
 asn1c Compiler Installation

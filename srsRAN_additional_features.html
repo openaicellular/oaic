@@ -55,7 +55,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#multiple-simulated-ues-using-gnu-radio-companion">Multiple Simulated UEs using GNU Radio Companion</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installing-gnu-radio-companion">Installing GNU Radio Companion</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#installation-from-binaries">Installation From Binaries</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#installation-from-source">Installation from Source</a></li>
 </ul>
 </li>
 </ul>
@@ -126,62 +125,10 @@ sudo apt install gnuradio
 pip install packaging
 </pre></div>
 </div>
-</section>
-<section id="installation-from-source">
-<h4>Installation from Source<a class="headerlink" href="#installation-from-source" title="Permalink to this headline"></a></h4>
-<p>If the binary package installation does not work, then we can install from sources</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Make sure you already have <a class="reference internal" href="srsRAN_installation.html#uhd-installation"><span class="std std-ref">UHD installed</span></a>.</p>
-</div>
-<section id="install-dependencies">
-<h5>Install Dependencies<a class="headerlink" href="#install-dependencies" title="Permalink to this headline"></a></h5>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt install git cmake g++ libboost-all-dev libgmp-dev swig python3-numpy \
-python3-mako python3-sphinx python3-lxml doxygen libfftw3-dev \
-libsdl1.2-dev libgsl-dev libqwt-qt5-dev libqt5opengl5-dev python3-pyqt5 \
-liblog4cpp5-dev libzmq3-dev python3-yaml python3-click python3-click-plugins \
-python3-zmq python3-scipy python3-gi python3-gi-cairo gir1.2-gtk-3.0 \
-libcodec2-dev libgsm1-dev pybind11-dev python3-matplotlib libsndfile1-dev \
-python3-pip libsoapysdr-dev soapysdr-tools libiio-dev libad9361-dev libspdlog-dev \
-python3-packaging python3-jsonschema
-
-pip install pygccxml
-pip install pyqtgraph
-</pre></div>
-</div>
-<p>Install Volk. This has to be done separately since Volk is no longer considered as a submodule of GNU Radio.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone --recursive https://github.com/gnuradio/volk.git
-cd volk
-mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 ../
-make
-make test
-sudo make install
-sudo ldconfig
-cd ../../
-</pre></div>
-</div>
-</section>
-<section id="install-gnu-radio-3-10">
-<h5>Install GNU Radio 3.10<a class="headerlink" href="#install-gnu-radio-3-10" title="Permalink to this headline"></a></h5>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/gnuradio/gnuradio.git
-cd gnuradio
-git checkout maint-3.10
-mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 ../
-make -j<span class="nv">`nproc`</span>
-sudo make install
-sudo ldconfig
-cd ../../
-</pre></div>
-</div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>(<strong>Optional</strong>) If you need to increase performance, you can run <code class="docutils literal notranslate"><span class="pre">volk_profile</span></code>. If you encounter <em>cannot import gnuradio</em> error, follow the steps given <a class="reference external" href="https://wiki.gnuradio.org/index.php?title=ModuleNotFoundError#B._Finding_the_Python_library">here</a>.</p>
 </div>
-</section>
 </section>
 </section>
 </section>
