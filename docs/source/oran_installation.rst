@@ -2,19 +2,12 @@
 O-RAN Near-Real Time RIC Installation Guide
 ===========================================
 
-.. note:: 
-
-   Before you begin, please clone the parent `oaic <https://github.com/openaicellular/oaic>`_ directory as outlined in :ref:`Getting Started <gettingstarted>`.
 
 Pre-requisites
 ==============
 
 System Requirements
 -------------------
-
-.. admonition:: TODO
-
-	Check if Ubuntu 20.04 fix is merged to the right branch
 
 * OS: `Ubuntu 20.04 LTS (Bionic Beaver) <https://en.wikipedia.org/wiki/Ubuntu_version_history#:~:text=Table%20of%20versions%20%20%20%20Version%20,Future%20release%3A%202027-04-21%20%2011%20more%20rows%20>`_
 * CPU(s): 2-4 vCPUs
@@ -42,8 +35,14 @@ In this instruction set we assume the VM/Linux host system is already configured
 
 This completes step 1.
 
+
 Step 2: Install Kubernetes, Docker, and Helm
 --------------------------------------------
+
+.. note:: 
+
+   Before you begin, please clone the parent `oaic <https://github.com/openaicellular/oaic>`_ directory as outlined in :ref:`Getting Started <gettingstarted>`.
+
 
 Near-Real Time RIC
 ~~~~~~~~~~~~~~~~~~
@@ -60,6 +59,7 @@ ricinfra ns, ricplt ns):
 
 **Kube-system ns:** The underlying Kubernetes application which provides the basic 
 framework for deployment and maintenance of pods.
+
 
 RIC Kubernetes Cluster Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -85,7 +85,7 @@ Run the script which will generate the Kubernetes stack install script. Executin
 
 .. code-block:: rst
 
-    sudo ./gen-cloud-init.sh
+    ./gen-cloud-init.sh
 
 Executing the generated script ``k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh`` will install Kubernetes, Docker and Helm with version specified in the k8s/etc/infra.c. This also installs some pods which help cluster creation, service creation and internetworking between services. Running this script will replace any existing installation of Docker host, Kubernetes, and Helm on the VM. The script will reboot the machine upon successful completion. This will take some time (approx. 15-20 mins).
 
