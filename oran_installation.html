@@ -113,18 +113,10 @@
              
   <section id="o-ran-near-real-time-ric-installation-guide">
 <h1>O-RAN Near-Real Time RIC Installation Guide<a class="headerlink" href="#o-ran-near-real-time-ric-installation-guide" title="Permalink to this headline"></a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Before you begin, please clone the parent <a class="reference external" href="https://github.com/openaicellular/oaic">oaic</a> directory as outlined in <a class="reference internal" href="quickstart.html#gettingstarted"><span class="std std-ref">Getting Started</span></a>.</p>
-</div>
 <section id="pre-requisites">
 <h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline"></a></h2>
 <section id="system-requirements">
 <h3>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline"></a></h3>
-<div class="admonition-todo admonition">
-<p class="admonition-title">TODO</p>
-<p>Check if Ubuntu 20.04 fix is merged to the right branch</p>
-</div>
 <ul class="simple">
 <li><p>OS: <a class="reference external" href="https://en.wikipedia.org/wiki/Ubuntu_version_history#:~:text=Table%20of%20versions%20%20%20%20Version%20,Future%20release%3A%202027-04-21%20%2011%20more%20rows%20">Ubuntu 20.04 LTS (Bionic Beaver)</a></p></li>
 <li><p>CPU(s): 2-4 vCPUs</p></li>
@@ -147,6 +139,10 @@
 </section>
 <section id="step-2-install-kubernetes-docker-and-helm">
 <h3>Step 2: Install Kubernetes, Docker, and Helm<a class="headerlink" href="#step-2-install-kubernetes-docker-and-helm" title="Permalink to this headline"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before you begin, please clone the parent <a class="reference external" href="https://github.com/openaicellular/oaic">oaic</a> directory as outlined in <a class="reference internal" href="quickstart.html#gettingstarted"><span class="std std-ref">Getting Started</span></a>.</p>
+</div>
 <section id="near-real-time-ric">
 <h4>Near-Real Time RIC<a class="headerlink" href="#near-real-time-ric" title="Permalink to this headline"></a></h4>
 <p>The installation of Near Realtime RAN Intelligent Controller is spread onto
@@ -177,7 +173,7 @@ framework for deployment and maintenance of pods.</p>
 </div></blockquote>
 <p>For a simple installation there is no need to modify any of the above files. The files give flexibility to define our own custom Kubernetes environment if we ever need to.
 Run the script which will generate the Kubernetes stack install script. Executing the below command will output a shell script called <code class="docutils literal notranslate"><span class="pre">k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh</span></code>. The file name indicates that we are installing Kubernetes v1.16 (k_1_16), Helm v2.17 (h_2_17) and the latest version of docker (d_cur).</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ./gen-cloud-init.sh
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>./gen-cloud-init.sh
 </pre></div>
 </div>
 <p>Executing the generated script <code class="docutils literal notranslate"><span class="pre">k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh</span></code> will install Kubernetes, Docker and Helm with version specified in the k8s/etc/infra.c. This also installs some pods which help cluster creation, service creation and internetworking between services. Running this script will replace any existing installation of Docker host, Kubernetes, and Helm on the VM. The script will reboot the machine upon successful completion. This will take some time (approx. 15-20 mins).</p>
