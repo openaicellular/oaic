@@ -174,6 +174,7 @@ sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
 <p>We will be using the modified asn1c compiler (for RAN and CN) that is hosted by Open Air Interface (OAI)</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://gitlab.eurecom.fr/oai/asn1c.git
 cd asn1c
+git checkout velichkov_s1ap_plus_option_group
 autoreconf -iv
 ./configure
 make -j<span class="nv">`nproc`</span>

@@ -93,6 +93,7 @@ We will be using the modified asn1c compiler (for RAN and CN) that is hosted by 
 
     git clone https://gitlab.eurecom.fr/oai/asn1c.git
     cd asn1c
+    git checkout velichkov_s1ap_plus_option_group
     autoreconf -iv
     ./configure
     make -j`nproc`
