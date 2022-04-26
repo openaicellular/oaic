@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Getting Started &mdash; OAIC 0.1 documentation</title>
+  <title>Hardware and Software Requirements &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,8 +18,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="OAIC Features" href="oaic_features.html" />
-    <link rel="prev" title="Welcome to OAIC’s documentation!" href="index.html" /> 
+    <link rel="next" title="O-RAN Near-Real Time RIC Installation Guide" href="oran_installation.html" />
+    <link rel="prev" title="RAN Architecture" href="background_srsRAN.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,16 +37,8 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#structure-of-oaic">Structure of OAIC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#how-to-become-a-contributor">How to Become a Contributor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#source-code">Source Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#research-papers">Research Papers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mailing-list">Mailing List</a></li>
-</ul>
-</li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
@@ -56,8 +48,23 @@
 <li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hardware and Software Requirements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#hardware-requirements">Hardware Requirements:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#integrated-o-ran-solution">Integrated O-RAN Solution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#o-ran-system">O-RAN system:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#each-ue">Each UE:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#software-requirements">Software Requirements:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#os-and-packages">OS and Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software-framework-components">Software Framework Components:</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
@@ -82,9 +89,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Getting Started</li>
+      <li>Hardware and Software Requirements</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/requirements.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -92,40 +99,52 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="getting-started">
-<span id="gettingstarted"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline"></a></h1>
-<section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
-<p>OAIC is an open-source effort led by a consortium of academic institutions to provide fully open-source software architecture, library, and toolset that encompass both the AI controllers (OAIC-C) as well as an AI testing framework (OAIC-T). This project will develop a software infrastructure that spurs research and development on AI-enabled cellular radio networks. We leverage existing open-source 5G software efforts to create a framework which integrates AI controllers into 5G processing blocks and extends the scope of the Open Radio Access Network (O-RAN) framework, the industry standard for future RANs.</p>
+  <section id="hardware-and-software-requirements">
+<h1>Hardware and Software Requirements<a class="headerlink" href="#hardware-and-software-requirements" title="Permalink to this headline"></a></h1>
+<section id="hardware-requirements">
+<h2>Hardware Requirements:<a class="headerlink" href="#hardware-requirements" title="Permalink to this headline"></a></h2>
+<section id="integrated-o-ran-solution">
+<h3>Integrated O-RAN Solution<a class="headerlink" href="#integrated-o-ran-solution" title="Permalink to this headline"></a></h3>
+<section id="o-ran-system">
+<h4>O-RAN system:<a class="headerlink" href="#o-ran-system" title="Permalink to this headline"></a></h4>
+<ul class="simple">
+<li><p>1 computer with 10 Gbps NIC</p></li>
+<li><p>1 SDR (X or N for 5G)</p></li>
+</ul>
 </section>
-<section id="structure-of-oaic">
-<h2>Structure of OAIC<a class="headerlink" href="#structure-of-oaic" title="Permalink to this headline"></a></h2>
-<p>To use Open AI Cellular, first clone the <a class="reference external" href="https://github.com/openaicellular/oaic.git">oaic</a> repository:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/openaicellular/oaic.git
-</pre></div>
-</div>
-<p>oaic is the root directory for all purposes. Different components of OAIC like the Near-real time RIC, srsRAN and xApps are linked as submodules in this directory. Performing an update of the submodules will provide all the files required to run OAIC.</p>
-<p>Check out the latest version of every dependent submodule within the “oaic” repository.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd oaic
-git submodule update --init --recursive --remote
-</pre></div>
-</div>
+<section id="each-ue">
+<h4>Each UE:<a class="headerlink" href="#each-ue" title="Permalink to this headline"></a></h4>
+<ul class="simple">
+<li><p>1 computer with 10 Gbps NIC</p></li>
+<li><dl class="simple">
+<dt>1 SDR (X or N for 5G)</dt><dd><ul>
+<li><p>e.g. X310 or N310 USRP</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
 </section>
-<section id="how-to-become-a-contributor">
-<h2>How to Become a Contributor<a class="headerlink" href="#how-to-become-a-contributor" title="Permalink to this headline"></a></h2>
-<p>OAIC will facilitate collaboration to build an open-source software development environment and user community.
-<em>More info coming Soon</em></p>
 </section>
-<section id="source-code">
-<h2>Source Code<a class="headerlink" href="#source-code" title="Permalink to this headline"></a></h2>
-<p><a class="reference external" href="https://github.com/openaicellular/oaic">OAIC on Github</a></p>
 </section>
-<section id="research-papers">
-<h2>Research Papers<a class="headerlink" href="#research-papers" title="Permalink to this headline"></a></h2>
-<p><em>Coming Soon</em></p>
+<section id="software-requirements">
+<h2>Software Requirements:<a class="headerlink" href="#software-requirements" title="Permalink to this headline"></a></h2>
+<section id="os-and-packages">
+<h3>OS and Packages<a class="headerlink" href="#os-and-packages" title="Permalink to this headline"></a></h3>
+<p>Operating System: Ubuntu 20.04
+Major Packages: Docker,Kubernetes, Helm</p>
 </section>
-<section id="mailing-list">
-<h2>Mailing List<a class="headerlink" href="#mailing-list" title="Permalink to this headline"></a></h2>
+<section id="software-framework-components">
+<h3>Software Framework Components:<a class="headerlink" href="#software-framework-components" title="Permalink to this headline"></a></h3>
+<p>Near Real Time RIC - based on ORAN-SC E release:</p>
+<p><a class="reference external" href="https://github.com/openaicellular/RIC-Deployment/tree/e_rel_xapp_onboarder_support">https://github.com/openaicellular/RIC-Deployment/tree/e_rel_xapp_onboarder_support</a></p>
+<p>E2 Termination for Near Real Time RIC:</p>
+<p><a class="reference external" href="https://github.com/openaicellular/ric-plt-e2/tree/e-release">https://github.com/openaicellular/ric-plt-e2/tree/e-release</a></p>
+<p>Cellular Stack - Based on Software Radio Systems RAN (srsRAN):</p>
+<p><a class="reference external" href="https://github.com/openaicellular/srsRAN-e2/tree/master">https://github.com/openaicellular/srsRAN-e2/tree/master</a></p>
+<p>A1 Mediator:</p>
+<p><a class="reference external" href="https://github.com/openaicellular/ric-plt-a1">https://github.com/openaicellular/ric-plt-a1</a></p>
+</section>
 </section>
 </section>
 
@@ -133,8 +152,8 @@ git submodule update --init --recursive --remote
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to OAIC’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="oaic_features.html" class="btn btn-neutral float-right" title="OAIC Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="background_srsRAN.html" class="btn btn-neutral float-left" title="RAN Architecture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="oran_installation.html" class="btn btn-neutral float-right" title="O-RAN Near-Real Time RIC Installation Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

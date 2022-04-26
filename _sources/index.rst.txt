@@ -23,7 +23,8 @@ Welcome to OAIC's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Installation Procedures:
-   
+
+   requirements.rst
    oran_installation.rst
    srsRAN_installation.rst
    srsRAN_additional_features.rst
