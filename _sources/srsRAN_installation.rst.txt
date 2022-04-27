@@ -39,7 +39,7 @@ Dependencies Installation
 
 .. code-block:: rst
     
-    sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev
+    sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
 
 
 ZeroMQ Installation

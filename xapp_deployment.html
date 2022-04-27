@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>xApp Deployment &mdash; OAIC 0.1 documentation</title>
+  <title>xApp Deployment - General Guidelines &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -56,7 +56,16 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">xApp Deployment</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">xApp Deployment - General Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pre-requisites">Pre-requisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-an-xapp-image-registry">Create an xApp Image Registry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hosting-files-on-a-web-server">Hosting Files on a Web Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-the-nginx-web-server">Configuring the Nginx Web server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hosting-the-config-files">Hosting the config Files</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-xapp-docker-image">Creating xApp Docker Image</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#xapp-onboarder-deployment">xApp Onboarder Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dms-cli-deployment">DMS-CLI Deployment</a></li>
@@ -78,7 +87,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>xApp Deployment</li>
+      <li>xApp Deployment - General Guidelines</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/xapp_deployment.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -88,17 +97,94 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="xapp-deployment">
-<h1>xApp Deployment<a class="headerlink" href="#xapp-deployment" title="Permalink to this headline"></a></h1>
+  <section id="xapp-deployment-general-guidelines">
+<h1>xApp Deployment - General Guidelines<a class="headerlink" href="#xapp-deployment-general-guidelines" title="Permalink to this headline"></a></h1>
+<section id="pre-requisites">
+<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline"></a></h2>
+<section id="create-an-xapp-image-registry">
+<h3>Create an xApp Image Registry<a class="headerlink" href="#create-an-xapp-image-registry" title="Permalink to this headline"></a></h3>
+<p>First we need to create a registry to host our xApp images. Here we create a local docker registry called <code class="docutils literal notranslate"><span class="pre">xApp-registry.local:5008</span></code>. 5008 indicates the port number on which the registry is listening.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+<section id="hosting-files-on-a-web-server">
+<h3>Hosting Files on a Web Server<a class="headerlink" href="#hosting-files-on-a-web-server" title="Permalink to this headline"></a></h3>
+<p>The xApp descriptor files (config.json) must be hosted on a webserver when we use the <strong>xapp-onboarder</strong> to deploy xApps. To host these files we use Nginx to create a web server.</p>
+<section id="configuring-the-nginx-web-server">
+<h4>Configuring the Nginx Web server<a class="headerlink" href="#configuring-the-nginx-web-server" title="Permalink to this headline"></a></h4>
+<p>First, we need to install Nginx and check if it is in <code class="docutils literal notranslate"><span class="pre">active</span> <span class="pre">(running)</span></code>  state.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install nginx
+sudo systemctl status nginx
+</pre></div>
+</div>
+<p>Unlink the default Configuration file and check if it is unlinked</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd /etc/nginx/sites-enabled
+sudo unlink default
+cd ../
+</pre></div>
+</div>
+<p>Now we create some directories which can be accessed by the server and where the config files can be hosted</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd ../../var/www
+sudo mkdir xApp_config.local
+cd xApp_config.local/
+sudo mkdir config_files
+</pre></div>
+</div>
+<p>Create a Custom Configuration File and define file locations</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd ../../../etc/nginx/conf.d
+sudo vim xApp_config.local.conf
+</pre></div>
+</div>
+<p>Paste the following content in the <em>conf</em> file.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>server {
+    listen 5010 default_server;
+    server_name xApp_config.local;
+    location /config_files/ {
+
+        root /var/www/xApp_config.local/;
+    }
+
+}
+</pre></div>
+</div>
+<p>Save the configuration file and check if there are any errors in the configuration file.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>nginx -t
+</pre></div>
+</div>
+</section>
+<section id="hosting-the-config-files">
+<h4>Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Permalink to this headline"></a></h4>
+<p>Copy the xApp config file to this directory. Reload Nginx once this has been done</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo cp &lt;path_to_config_file&gt;/config-file.json /var/www/xApp_config.local/config_files/
+sudo systemctl reload nginx
+</pre></div>
+</div>
+<p>Now, you can check if the config file can be accessed from the newly created server. Place all files you want to host in the <code class="docutils literal notranslate"><span class="pre">config_files</span></code> directory</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>curl http://&lt;machine_ip_addr&gt;:5010/config_files/config-file.json
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ul class="simple">
+<li><p>Place all files you want to host in the <code class="docutils literal notranslate"><span class="pre">config_files</span></code> directory.</p></li>
+<li><p>Make sure all files have a unique name</p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
 <section id="creating-xapp-docker-image">
 <h2>Creating xApp Docker Image<a class="headerlink" href="#creating-xapp-docker-image" title="Permalink to this headline"></a></h2>
-<p>First we need to create a registry to host our xApp images. Here we create a local docker registry called <code class="docutils literal notranslate"><span class="pre">xApp-repository.local:5008</span></code>. 5008 indicates the port number on which the registry is listening.</p>
-<p>Now, we need the xapp image using the given Dockerfile within the xApp repository.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>docker build . -t xApp-repository.local:5008/&lt;xapp-name&gt;:<span class="nt">&lt;version&gt;</span> (Example : xappkpimon:1.0.0).
+<p>We create the xapp image using the given Dockerfile within the xApp repository.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>docker build . -t xApp-registry.local:5008/&lt;xapp-name&gt;:<span class="nt">&lt;version&gt;</span> (Example : xappkpimon:1.0.0).
 </pre></div>
 </div>
 <p>What we are essentially doing here is that we are storing our built image in a local docker repository. This is done to keep things simple. We could use cloud servers too (in that case the image needs to be pushed to the respective server using docker push).</p>
 <p>Now that we have the docker image, we need to push it to our local registry <code class="docutils literal notranslate"><span class="pre">xApp-respository.local:5008</span></code></p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>docker push xApp-repository.local:5008/&lt;xapp-name&gt;:<span class="nt">&lt;version&gt;</span>
+</pre></div>
+</div>
 </section>
 <section id="xapp-onboarder-deployment">
 <h2>xApp Onboarder Deployment<a class="headerlink" href="#xapp-onboarder-deployment" title="Permalink to this headline"></a></h2>
