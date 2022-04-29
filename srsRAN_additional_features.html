@@ -68,6 +68,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#uhd-usrp-performance-enhancement-tips-and-tricks">UHD USRP Performance Enhancement Tips and Tricks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#cots-ue-configuration">COTS UE Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#starting-epc-nodeb-ue-s">Starting EPC/NodeB/UE(s)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="a1mediator.html">A1 Mediator Installation Guide</a></li>
@@ -224,7 +225,43 @@ uhd_find_devices
 </section>
 <section id="cots-ue-configuration">
 <h2>COTS UE Configuration<a class="headerlink" href="#cots-ue-configuration" title="Permalink to this headline"></a></h2>
+<p>Now you should be able to ping the USRP from the VM</p>
 </section>
+<section id="starting-epc-nodeb-ue-s">
+<h2>Starting EPC/NodeB/UE(s)<a class="headerlink" href="#starting-epc-nodeb-ue-s" title="Permalink to this headline"></a></h2>
+<ol class="arabic simple">
+<li><p>In a new command windows run srsRAN EPC:</p></li>
+</ol>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsepc
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>In a new command windows run srsRAN eNodeB.</p></li>
+</ol>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>In a new command windows run UE, placing its network interface into a separate network namespace:</p></li>
+</ol>
+<p>Creating Namespace:
+.. code-block:: rst</p>
+<blockquote>
+<div><p>sudo ip netns add ue1</p>
+</div></blockquote>
+<p>Run srsUE with the new assigned namespace
+.. code-block:: rst</p>
+<blockquote>
+<div><p>sudo srsue –gw.netns=ue1</p>
+</div></blockquote>
+<p>Send some simple signaling-like traffic from UE to EPC, Perform commands from ue1:
+.. code-block:: rst</p>
+<blockquote>
+<div><p>sudo ip netns exec ue1 ping 172.16.0.1</p>
+</div></blockquote>
+<p>You can find configuration files and database file related to ‘ue1’, ‘enb’, ‘epc’  in <cite>/root/.config/</cite> directory.  If you want to change the contents of the ‘ue.config’ and ‘user_db.csv’ files such as IMSI and other values, make sure to first kill the EPC process, then modify, then restart EPC.  The EPC process updates this file when it exits.</p>
+<hr class="docutils" />
+<span class="target" id="id1"></span></section>
 </section>
 
 
