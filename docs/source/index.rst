@@ -27,6 +27,7 @@ Welcome to OAIC's documentation!
    requirements.rst
    oran_installation.rst
    srsRAN_installation.rst
+   setup5gnetwork.rst
    srsRAN_additional_features.rst
    a1mediator.rst
 
