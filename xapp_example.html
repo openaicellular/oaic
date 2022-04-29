@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>This document describes how to write an xApp and how to deploy it on the RIC platform. &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="xApp Deployment - General Guidelines" href="xapp_deployment.html" />
+    <link rel="prev" title="A1 Mediator Installation Guide" href="a1mediator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="a1mediator.html">A1 Mediator Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">This document describes how to write an xApp and how to deploy it on the RIC platform.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#getting-started-developing-xapps">Getting started: Developing xapps</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#the-xapp-frame-common-functions-and-interfaces">The Xapp Frame common functions and interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#hello-world-xapp-code-and-deployment">Hello world xAPP code and deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#software-installation-and-deployment">Software Installation and Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>This document describes how to write an xApp and how to deploy it on the RIC platform.</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/xapp_example.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="this-document-describes-how-to-write-an-xapp-and-how-to-deploy-it-on-the-ric-platform">
+<h1>This document describes how to write an xApp and how to deploy it on the RIC platform.<a class="headerlink" href="#this-document-describes-how-to-write-an-xapp-and-how-to-deploy-it-on-the-ric-platform" title="Permalink to this headline"></a></h1>
+</section>
+<section id="getting-started-developing-xapps">
+<h1>Getting started: Developing xapps<a class="headerlink" href="#getting-started-developing-xapps" title="Permalink to this headline"></a></h1>
+<p>For a full reference, it is recommended to use the xApps Writers Guide:
+<a class="reference external" href="https://wiki.o-ran-sc.org/download/attachments/17269011/xApp_Writer_s_Guide_v2.pdf?version=4&amp;modificationDate=1625642899082&amp;api=v2">https://wiki.o-ran-sc.org/download/attachments/17269011/xApp_Writer_s_Guide_v2.pdf?version=4&amp;modificationDate=1625642899082&amp;api=v2</a></p>
+<section id="overview">
+<h2>Overview:<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>The RIC platform currently provides frameworks that make it easier to construct
+xApps in several languages. We will use the go xapp framework, but other languages do not differ much.</p>
+<p>xApp framework is a simple skeleton designed for rapid development of RIC
+xapps based on Go. Following figure depicts the high level architecture of xApp-
+framework, which consists of several loosely linked components that provide the
+common functions needed by the xApp developers.
+For GO-based xApps, application developers do not need to write xApp code
+from the scratch, but can use xApp-framework, which is designed to facilitate and
+rapidly build a full-fledged RIC xApps. The xApp-framework can be found
+[xapp-frame] and a simple example-Xapp that illustrates how the framework
+can be used is located at [example] The dependencies and prerequisites of xApp
+development are also described in the above links.</p>
+</section>
+</section>
+<section id="the-xapp-frame-common-functions-and-interfaces">
+<h1>The Xapp Frame common functions and interfaces<a class="headerlink" href="#the-xapp-frame-common-functions-and-interfaces" title="Permalink to this headline"></a></h1>
+<ul class="simple">
+<li><p>RESTful (new resources can be injected dynamically)</p></li>
+<li><p>RMR (with message filtering based on application rules)</p></li>
+<li><p>Database backend services (with configurable namespaces, etc)</p></li>
+<li><p>Watching and populating config-map changes in K8S environment</p></li>
+<li><p>Logging (via MDCLOG + tracing support in the future)</p></li>
+<li><p>ASN.1 decoding and encoding.</p></li>
+</ul>
+<ul class="simple">
+<li><p>RESTful: HTTP services, health probes and injecting new resources can be dynamically</p></li>
+<li><p>RMR client: Sending and receiving of RMR messages with message filtering based on application rules).</p></li>
+<li><p>DB client: Database backend services (with configurable namespaces etc) for SDL, RNIB and UENIB.</p></li>
+<li><p>Config: Reading, watching and populating config-map changes in K8S environment on runtime</p></li>
+<li><p>Logging and tracing: Generic system logging and tracing services (in the future).</p></li>
+<li><p>Metrics and statistics: Generating and publishing metrics to the met- rics server (Prometheus interface used to collect (or “scrap”) metrics and counters.</p></li>
+<li><p>ASN.1 decoding and encoding.</p></li>
+</ul>
+<p>For more information on the go-xapp-frame: <a class="reference external" href="https://gerrit.o-ran-sc.org/r/admin/repos/ric-plt/xapp-frame">https://gerrit.o-ran-sc.org/r/admin/repos/ric-plt/xapp-frame</a></p>
+</section>
+<section id="hello-world-xapp-code-and-deployment">
+<h1>Hello world xAPP code and deployment<a class="headerlink" href="#hello-world-xapp-code-and-deployment" title="Permalink to this headline"></a></h1>
+<p>For demonstration purposes the hello world xapp written in go will be used.</p>
+<p>To get started clone the code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">o</span><span class="o">-</span><span class="n">ran</span><span class="o">-</span><span class="n">sc</span><span class="o">/</span><span class="n">ric</span><span class="o">-</span><span class="n">app</span><span class="o">-</span><span class="n">hw</span><span class="o">-</span><span class="n">go</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>This xAPP aims to provide basic implementation of :</p>
+<ol class="arabic simple">
+<li><p>A1 interfaces interactions</p></li>
+<li><p>Read-write operations into a persistent storage.</p></li>
+<li><p>xAPP Configuration management</p></li>
+<li><p>RMR Health Check</p></li>
+<li><p>xAPP SDL Check</p></li>
+<li><p>Raising alarms</p></li>
+<li><p>Generating metrics</p></li>
+<li><p>E2 Interface intereactions</p></li>
+</ol>
+<p>The methods in the source code show these functionalities.</p>
+<p>hwApp.go source code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+        <span class="s2">&quot;gerrit.o-ran-sc.org/r/ric-plt/xapp-frame/pkg/xapp&quot;</span>
+<span class="p">)</span>
+
+<span class="nb">type</span> <span class="n">HWApp</span> <span class="n">struct</span> <span class="p">{</span>
+<span class="p">}</span>
+
+<span class="n">var</span> <span class="p">(</span>
+        <span class="n">A1_POLICY_QUERY</span>      <span class="o">=</span> <span class="mi">20013</span>
+        <span class="n">POLICY_QUERY_PAYLOAD</span> <span class="o">=</span> <span class="s2">&quot;{</span><span class="se">\&quot;</span><span class="s2">policy_type_id</span><span class="se">\&quot;</span><span class="s2">:20000}&quot;</span>
+<span class="p">)</span>
+
+<span class="n">func</span> <span class="p">(</span><span class="n">e</span> <span class="o">*</span><span class="n">HWApp</span><span class="p">)</span> <span class="n">sendPolicyQuery</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">xapp</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s2">&quot;Invoked method to send  policy query message&quot;</span><span class="p">)</span>
+
+        <span class="o">//</span> <span class="n">prepare</span> <span class="ow">and</span> <span class="n">send</span> <span class="n">policy</span> <span class="n">query</span> <span class="n">message</span> <span class="n">over</span> <span class="n">RMR</span>
+        <span class="n">rmrParams</span> <span class="p">:</span><span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="n">xapp</span><span class="o">.</span><span class="n">RMRParams</span><span class="p">)</span>
+        <span class="n">rmrParams</span><span class="o">.</span><span class="n">Mtype</span> <span class="o">=</span> <span class="n">A1_POLICY_QUERY</span> <span class="o">//</span> <span class="n">A1_POLICY_QUERY</span>
+        <span class="n">rmrParams</span><span class="o">.</span><span class="n">Payload</span> <span class="o">=</span> <span class="p">[]</span><span class="n">byte</span><span class="p">(</span><span class="n">POLICY_QUERY_PAYLOAD</span><span class="p">)</span>
+
+        <span class="o">//</span> <span class="n">send</span> <span class="n">rmr</span> <span class="n">message</span>
+        <span class="n">flg</span> <span class="p">:</span><span class="o">=</span> <span class="n">xapp</span><span class="o">.</span><span class="n">Rmr</span><span class="o">.</span><span class="n">SendMsg</span><span class="p">(</span><span class="n">rmrParams</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">flg</span> <span class="p">{</span>
+                <span class="n">xapp</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s2">&quot;Successfully sent policy query message over RMR&quot;</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">xapp</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s2">&quot;Failed to send policy query message over RMR&quot;</span><span class="p">)</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="p">(</span><span class="n">e</span> <span class="o">*</span><span class="n">HWApp</span><span class="p">)</span> <span class="n">ConfigChangeHandler</span><span class="p">(</span><span class="n">f</span> <span class="n">string</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">xapp</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s2">&quot;Config file changed&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="p">(</span><span class="n">e</span> <span class="o">*</span><span class="n">HWApp</span><span class="p">)</span> <span class="n">xAppStartCB</span><span class="p">(</span><span class="n">d</span> <span class="n">interface</span><span class="p">{})</span> <span class="p">{</span>
+        <span class="n">xapp</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s2">&quot;xApp ready call back received&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="p">(</span><span class="n">e</span> <span class="o">*</span><span class="n">HWApp</span><span class="p">)</span> <span class="n">Consume</span><span class="p">(</span><span class="n">msg</span> <span class="o">*</span><span class="n">xapp</span><span class="o">.</span><span class="n">RMRParams</span><span class="p">)</span> <span class="p">(</span><span class="n">err</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">id</span> <span class="p">:</span><span class="o">=</span> <span class="n">xapp</span><span class="o">.</span><span class="n">Rmr</span><span class="o">.</span><span class="n">GetRicMessageName</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">Mtype</span><span class="p">)</span>
+
+        <span class="n">xapp</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s2">&quot;Message received: name=</span><span class="si">%s</span><span class="s2"> meid=</span><span class="si">%s</span><span class="s2"> subId=</span><span class="si">%d</span><span class="s2"> txid=</span><span class="si">%s</span><span class="s2"> len=</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">Meid</span><span class="o">.</span><span class="n">RanName</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">SubId</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">Xid</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">PayloadLen</span><span class="p">)</span>
+
+        <span class="n">switch</span> <span class="nb">id</span> <span class="p">{</span>
+        <span class="o">//</span> <span class="n">policy</span> <span class="n">request</span> <span class="n">handler</span>
+        <span class="n">case</span> <span class="s2">&quot;A1_POLICY_REQUEST&quot;</span><span class="p">:</span>
+                <span class="n">xapp</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s2">&quot;Recived policy instance list&quot;</span><span class="p">)</span>
+
+        <span class="o">//</span> <span class="n">health</span> <span class="n">check</span> <span class="n">request</span>
+        <span class="n">case</span> <span class="s2">&quot;RIC_HEALTH_CHECK_REQ&quot;</span><span class="p">:</span>
+                <span class="n">xapp</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s2">&quot;Received health check request&quot;</span><span class="p">)</span>
+
+        <span class="n">default</span><span class="p">:</span>
+                <span class="n">xapp</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s2">&quot;Unknown message type &#39;</span><span class="si">%d</span><span class="s2">&#39;, discarding&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">Mtype</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="n">defer</span> <span class="n">func</span><span class="p">()</span> <span class="p">{</span>
+                <span class="n">xapp</span><span class="o">.</span><span class="n">Rmr</span><span class="o">.</span><span class="n">Free</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">Mbuf</span><span class="p">)</span>
+                <span class="n">msg</span><span class="o">.</span><span class="n">Mbuf</span> <span class="o">=</span> <span class="n">nil</span>
+        <span class="p">}()</span>
+        <span class="k">return</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="p">(</span><span class="n">e</span> <span class="o">*</span><span class="n">HWApp</span><span class="p">)</span> <span class="n">Run</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="o">//</span> <span class="nb">set</span> <span class="n">MDC</span>
+        <span class="n">xapp</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">SetMdc</span><span class="p">(</span><span class="s2">&quot;HWApp&quot;</span><span class="p">,</span> <span class="s2">&quot;0.0.1&quot;</span><span class="p">)</span>
+
+        <span class="o">//</span> <span class="nb">set</span> <span class="n">config</span> <span class="n">change</span> <span class="n">listener</span>
+        <span class="n">xapp</span><span class="o">.</span><span class="n">AddConfigChangeListener</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">ConfigChangeHandler</span><span class="p">)</span>
+
+        <span class="o">//</span> <span class="n">register</span> <span class="n">callback</span> <span class="n">after</span> <span class="n">xapp</span> <span class="n">ready</span>
+        <span class="n">xapp</span><span class="o">.</span><span class="n">SetReadyCB</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">xAppStartCB</span><span class="p">,</span> <span class="n">true</span><span class="p">)</span>
+
+        <span class="o">//</span> <span class="n">reading</span> <span class="n">configuration</span> <span class="kn">from</span> <span class="nn">config</span> <span class="n">file</span>
+        <span class="n">waitForSdl</span> <span class="p">:</span><span class="o">=</span> <span class="n">xapp</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">GetBool</span><span class="p">(</span><span class="s2">&quot;db.waitForSdl&quot;</span><span class="p">)</span>
+
+        <span class="o">//</span> <span class="n">start</span> <span class="n">xapp</span>
+        <span class="n">xapp</span><span class="o">.</span><span class="n">RunWithParams</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">waitForSdl</span><span class="p">)</span>
+
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">hw</span> <span class="p">:</span><span class="o">=</span> <span class="n">HWApp</span><span class="p">{}</span>
+        <span class="n">hw</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This xAPP can be run directly as a Linux binary, as a docker image, or in a pod in a Kubernetes environment.  The first
+two can be used for dev testing. The last option is how an xAPP is deployed in the RAN Intelligent Controller environment.
+This covers all three methods.</p>
+<ol class="arabic simple">
+<li><p>Docker</p></li>
+<li><p>Linux Binary</p></li>
+<li><p>Kubernetes</p></li>
+</ol>
+</section>
+<section id="software-installation-and-deployment">
+<h1>Software Installation and Deployment<a class="headerlink" href="#software-installation-and-deployment" title="Permalink to this headline"></a></h1>
+<p>dms_cli offers rich set of command line utility to onboard hw-go xapp
+to chartmuseme.</p>
+<p>First checkout the [hw-go](<a class="reference external" href="https://gerrit.o-ran-sc.org/r/admin/repos/ric-app/hw-go">https://gerrit.o-ran-sc.org/r/admin/repos/ric-app/hw-go</a>) repository from gerrit.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="s2">&quot;https://gerrit.o-ran-sc.org/r/ric-app/hw-go&quot;</span>
+</pre></div>
+</div>
+<p>hw-go has following folder structure</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── Dockerfile
+├── INFO.yaml
+├── LICENSES.txt
+├── README.md
+├── config
+│   ├── config-file.json           // descriptor for hw-go
+│   ├── schema.json                // schema for controls section of descriptor
+│   └── uta_rtg.rt                 // local route file
+├── docs
+├── go.mod
+├── go.sum
+└── hwApp.go
+</pre></div>
+</div>
+<p>For onboarding hw-go make sure that dms_cli and helm3 is installed.
+One can follow [documentation](<a class="reference external" href="https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#ric-applications">https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#ric-applications</a>) to configure dms-cli.</p>
+<p>Once dms_cli is availabe we can proceed to onboarding proceure.</p>
+<p>configure the export CHART_REPO_URL to point chartmuseme.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ export CHART_REPO_URL=http://&lt;service-ricplt-xapp-onboarder-http.ricplt&gt;:8080
+</pre></div>
+</div>
+<p>check if dms_cli working fine.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dms_cli</span> <span class="n">health</span>
+<span class="kc">True</span>
+</pre></div>
+</div>
+<p>Now move to config folder to initiate onboarding.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd config
+$ dms_cli onboard --config_file_path=config-file.json --shcema_file_path=schema.json
+httpGet:
+path: &#39;{{ index .Values &quot;readinessProbe&quot; &quot;httpGet&quot; &quot;path&quot; | toJson }}&#39;
+port: &#39;{{ index .Values &quot;readinessProbe&quot; &quot;httpGet&quot; &quot;port&quot; | toJson }}&#39;
+initialDelaySeconds: &#39;{{ index .Values &quot;readinessProbe&quot; &quot;initialDelaySeconds&quot; | toJson }}&#39;
+periodSeconds: &#39;{{ index .Values &quot;readinessProbe&quot; &quot;periodSeconds&quot; | toJson }}&#39;
+
+httpGet:
+path: &#39;{{ index .Values &quot;livenessProbe&quot; &quot;httpGet&quot; &quot;path&quot; | toJson }}&#39;
+port: &#39;{{ index .Values &quot;livenessProbe&quot; &quot;httpGet&quot; &quot;port&quot; | toJson }}&#39;
+initialDelaySeconds: &#39;{{ index .Values &quot;livenessProbe&quot; &quot;initialDelaySeconds&quot; | toJson }}&#39;
+periodSeconds: &#39;{{ index .Values &quot;livenessProbe&quot; &quot;periodSeconds&quot; | toJson }}&#39;
+
+{
+ &quot;status&quot;: &quot;Created&quot;
+}
+</pre></div>
+</div>
+<p>Check if hw-go is onborded</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ curl --location --request GET &quot;http://&lt;appmgr&gt;:32080/onboard/api/v1/charts&quot;  --header &#39;Content-Type: application/json&#39;
+
+{
+ &quot;hw-go&quot;: [
+     {
+         &quot;name&quot;: &quot;hw-go&quot;,
+         &quot;version&quot;: &quot;1.0.0&quot;,
+         &quot;description&quot;: &quot;Standard xApp Helm Chart&quot;,
+         &quot;apiVersion&quot;: &quot;v1&quot;,
+         &quot;appVersion&quot;: &quot;1.0&quot;,
+         &quot;urls&quot;: [
+             &quot;charts/hw-go-1.0.0.tgz&quot;
+         ],
+         &quot;created&quot;: &quot;2021-06-24T18:57:41.98056196Z&quot;,
+         &quot;digest&quot;: &quot;14a484d9a394ed34eab66e5241ec33e73be8fa70a2107579d19d037f2adf57a0&quot;
+     }
+ ]
+}
+</pre></div>
+</div>
+<p>If we would wish to download the charts then we can perform following curl operation :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">--</span><span class="n">location</span> <span class="o">--</span><span class="n">request</span> <span class="n">GET</span> <span class="s2">&quot;http://&lt;appmgr&gt;:32080/onboard/api/v1/charts/xapp/hw-go/ver/1.0.0&quot;</span>  <span class="o">--</span><span class="n">header</span> <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="o">--</span><span class="n">output</span> <span class="n">hw</span><span class="o">-</span><span class="n">go</span><span class="o">.</span><span class="n">tgz</span>
+</pre></div>
+</div>
+<p>Now the onboarding is done.</p>
+<p>Once charts are available we can deploy the the hw-go using following curl command :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ curl --location --request POST &quot;http://&lt;appmgr&gt;:32080/appmgr/ric/v1/xapps&quot;  --header &#39;Content-Type: application/json&#39;  --data-raw &#39;{&quot;xappName&quot;: &quot;hw-go&quot;, &quot;helmVersion&quot;: &quot;1.0.0&quot;}&#39;
+{&quot;instances&quot;:null,&quot;name&quot;:&quot;hw-go&quot;,&quot;status&quot;:&quot;deployed&quot;,&quot;version&quot;:&quot;1.0&quot;}
+</pre></div>
+</div>
+<p>Deployment will be done in ricxapp ns :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="n">po</span> <span class="o">-</span><span class="n">n</span> <span class="n">ricxapp</span>
+<span class="n">NAME</span>                             <span class="n">READY</span>   <span class="n">STATUS</span>    <span class="n">RESTARTS</span>   <span class="n">AGE</span>
+<span class="n">ricxapp</span><span class="o">-</span><span class="n">hw</span><span class="o">-</span><span class="n">go</span><span class="o">-</span><span class="mi">55</span><span class="n">ff7549df</span><span class="o">-</span><span class="n">kpj6k</span>   <span class="mi">1</span><span class="o">/</span><span class="mi">1</span>     <span class="n">Running</span>   <span class="mi">0</span>          <span class="mi">2</span><span class="n">m</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="n">svc</span> <span class="o">-</span><span class="n">n</span> <span class="n">ricxapp</span>
+<span class="n">NAME</span>                         <span class="n">TYPE</span>        <span class="n">CLUSTER</span><span class="o">-</span><span class="n">IP</span>      <span class="n">EXTERNAL</span><span class="o">-</span><span class="n">IP</span>   <span class="n">PORT</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>             <span class="n">AGE</span>
+<span class="n">aux</span><span class="o">-</span><span class="n">entry</span>                    <span class="n">ClusterIP</span>   <span class="n">IP1</span>             <span class="o">&lt;</span><span class="n">none</span><span class="o">&gt;</span>        <span class="mi">80</span><span class="o">/</span><span class="n">TCP</span><span class="p">,</span><span class="mi">443</span><span class="o">/</span><span class="n">TCP</span>      <span class="mi">73</span><span class="n">d</span>
+<span class="n">service</span><span class="o">-</span><span class="n">ricxapp</span><span class="o">-</span><span class="n">hw</span><span class="o">-</span><span class="n">go</span><span class="o">-</span><span class="n">http</span>   <span class="n">ClusterIP</span>   <span class="n">IP2</span>             <span class="o">&lt;</span><span class="n">none</span><span class="o">&gt;</span>        <span class="mi">8080</span><span class="o">/</span><span class="n">TCP</span>            <span class="mi">103</span><span class="n">m</span>
+<span class="n">service</span><span class="o">-</span><span class="n">ricxapp</span><span class="o">-</span><span class="n">hw</span><span class="o">-</span><span class="n">go</span><span class="o">-</span><span class="n">rmr</span>    <span class="n">ClusterIP</span>   <span class="n">IP3</span>             <span class="o">&lt;</span><span class="n">none</span><span class="o">&gt;</span>        <span class="mi">4560</span><span class="o">/</span><span class="n">TCP</span><span class="p">,</span><span class="mi">4561</span><span class="o">/</span><span class="n">TCP</span>   <span class="mi">103</span><span class="n">m</span>
+</pre></div>
+</div>
+<p>Now we can query to appmgr to get list of all the deployed xapps :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">service</span><span class="o">-</span><span class="n">ricplt</span><span class="o">-</span><span class="n">appmgr</span><span class="o">-</span><span class="n">http</span><span class="o">.</span><span class="n">ricplt</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">ric</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">xapps</span> <span class="o">|</span> <span class="n">jq</span> <span class="o">.</span>
+<span class="o">%</span> <span class="n">Total</span>    <span class="o">%</span> <span class="n">Received</span> <span class="o">%</span> <span class="n">Xferd</span>  <span class="n">Average</span> <span class="n">Speed</span>   <span class="n">Time</span>    <span class="n">Time</span>     <span class="n">Time</span>  <span class="n">Current</span>
+                             <span class="n">Dload</span>  <span class="n">Upload</span>   <span class="n">Total</span>   <span class="n">Spent</span>    <span class="n">Left</span>  <span class="n">Speed</span>
+<span class="mi">100</span>   <span class="mi">347</span>  <span class="mi">100</span>   <span class="mi">347</span>    <span class="mi">0</span>     <span class="mi">0</span>    <span class="mi">578</span>      <span class="mi">0</span> <span class="o">--</span><span class="p">:</span><span class="o">--</span><span class="p">:</span><span class="o">--</span> <span class="o">--</span><span class="p">:</span><span class="o">--</span><span class="p">:</span><span class="o">--</span> <span class="o">--</span><span class="p">:</span><span class="o">--</span><span class="p">:</span><span class="o">--</span>   <span class="mi">579</span>
+<span class="p">[</span>
+<span class="p">{</span>
+ <span class="s2">&quot;instances&quot;</span><span class="p">:</span> <span class="p">[</span>
+   <span class="p">{</span>
+     <span class="s2">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;service-ricxapp-hw-go-rmr.ricxapp&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;hw-go-55ff7549df-kpj6k&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;policies&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="mi">1</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">4560</span><span class="p">,</span>
+        <span class="s2">&quot;rxMessages&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;RIC_SUB_RESP&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;A1_POLICY_REQ&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RIC_HEALTH_CHECK_REQ&quot;</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;running&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;txMessages&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;RIC_SUB_REQ&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;A1_POLICY_RESP&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;A1_POLICY_QUERY&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RIC_HEALTH_CHECK_RESP&quot;</span>
+     <span class="p">]</span>
+    <span class="p">}</span>
+    <span class="p">]</span>   <span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;hw-go&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;deployed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0&quot;</span>
+<span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>To view logs from hw-go:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span>  <span class="n">logs</span> <span class="n">ricxapp</span><span class="o">-</span><span class="n">hw</span><span class="o">-</span><span class="n">go</span><span class="o">-</span><span class="mi">55</span><span class="n">ff7549df</span><span class="o">-</span><span class="n">kpj6k</span> <span class="o">-</span><span class="n">n</span> <span class="n">ricxapp</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="a1mediator.html" class="btn btn-neutral float-left" title="A1 Mediator Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="xapp_deployment.html" class="btn btn-neutral float-right" title="xApp Deployment - General Guidelines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
