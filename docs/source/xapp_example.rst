@@ -1,37 +1,26 @@
 
-This document describes how to write an xApp and how to deploy it on the RIC platform.
 =================================
 Getting started: Developing xapps
 =================================
+
+This document describes how to write an xApp and how to deploy it on the RIC platform.
 
 For a full reference, it is recommended to use the xApps Writers Guide:
 https://wiki.o-ran-sc.org/download/attachments/17269011/xApp_Writer_s_Guide_v2.pdf?version=4&modificationDate=1625642899082&api=v2
 
 
-Overview:
-----------
+Overview
+--------
 
-The RIC platform currently provides frameworks that make it easier to construct
-xApps in several languages. We will use the go xapp framework, but other languages do not differ much.
-
-
-xApp framework is a simple skeleton designed for rapid development of RIC
-xapps based on Go. Following figure depicts the high level architecture of xApp-
-framework, which consists of several loosely linked components that provide the
-common functions needed by the xApp developers.
-For GO-based xApps, application developers do not need to write xApp code
-from the scratch, but can use xApp-framework, which is designed to facilitate and
-rapidly build a full-fledged RIC xApps. The xApp-framework can be found
-[xapp-frame] and a simple example-Xapp that illustrates how the framework
-can be used is located at [example] The dependencies and prerequisites of xApp
-development are also described in the above links.
+The RIC platform currently provides frameworks that make it easier to construct xApps in several languages. We will use the go xapp framework, but other languages do not differ much.
 
 
+xApp framework is a simple skeleton designed for rapid development of RIC xapps based on Go. Following figure depicts the high level architecture of xApp-framework, which consists of several loosely linked components that provide the common functions needed by the xApp developers. For GO-based xApps, application developers do not need to write xApp code from the scratch, but can use xApp-framework, which is designed to facilitate and rapidly build a full-fledged RIC xApps. The xApp-framework can be found [xapp-frame] and a simple example-Xapp that illustrates how the framework can be used is located at [example] The dependencies and prerequisites of xApp development are also described in the above links.
 
 
 
 The Xapp Frame common functions and interfaces
-===============================================
+----------------------------------------------
 
 
 • RESTful (new resources can be injected dynamically)
@@ -42,8 +31,8 @@ The Xapp Frame common functions and interfaces
 • ASN.1 decoding and encoding.
 
 
-The GO xApp Framework supports various essential components such as:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The GO xApp Framework supports various essential components
+-----------------------------------------------------------
 
 • RESTful: HTTP services, health probes and injecting new resources can be dynamically
 • RMR client: Sending and receiving of RMR messages with message filtering based on application rules). 
@@ -65,7 +54,7 @@ For demonstration purposes the hello world xapp written in go will be used.
 
 To get started clone the code:
 
-::
+.. code-block:: rst
     
     git clone https://github.com/o-ran-sc/ric-app-hw-go.git
 
@@ -94,7 +83,7 @@ The methods in the source code show these functionalities.
 
 hwApp.go source code:
 
-:: 
+.. code-block:: rst
 
     package main
 
@@ -187,16 +176,11 @@ hwApp.go source code:
 
 
 
+*The repository provides several optiuons for running the xAPP. The instructions are mirrored below from the github repository*
 
 
 
-The repository provides several optiuons for running the xAPP. The instructions are mirrored below from the github repository.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-This xAPP can be run directly as a Linux binary, as a docker image, or in a pod in a Kubernetes environment.  The first
-two can be used for dev testing. The last option is how an xAPP is deployed in the RAN Intelligent Controller environment.
-This covers all three methods. 
+This xAPP can be run directly as a Linux binary, as a docker image, or in a pod in a Kubernetes environment. The first two can be used for dev testing. The last option is how an xAPP is deployed in the RAN Intelligent Controller environment. This covers all three methods. 
 
 1. Docker 
 
@@ -209,8 +193,9 @@ This covers all three methods.
 Software Installation and Deployment
 ====================================
 
+
 Onboarding of hw-go using dms_cli tool
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------------
 
 
 dms_cli offers rich set of command line utility to onboard hw-go xapp
@@ -218,13 +203,14 @@ to chartmuseme.
 
 First checkout the [hw-go](https://gerrit.o-ran-sc.org/r/admin/repos/ric-app/hw-go) repository from gerrit.
 
-::
+.. code-block:: rst
 
     git clone "https://gerrit.o-ran-sc.org/r/ric-app/hw-go"
 
 
 hw-go has following folder structure
-::
+
+.. code-block:: rst
 
     ├── Dockerfile
     ├── INFO.yaml
@@ -248,13 +234,14 @@ Once dms_cli is availabe we can proceed to onboarding proceure.
 
 configure the export CHART_REPO_URL to point chartmuseme.
 
-:: 
+.. code-block:: rst
     
     $ export CHART_REPO_URL=http://<service-ricplt-xapp-onboarder-http.ricplt>:8080
 
 
 check if dms_cli working fine.
-::
+
+.. code-block:: rst
 
     dms_cli health
     True
@@ -262,7 +249,7 @@ check if dms_cli working fine.
 
 Now move to config folder to initiate onboarding.
 
-::
+.. code-block:: rst
    
     $ cd config
     $ dms_cli onboard --config_file_path=config-file.json --shcema_file_path=schema.json
@@ -285,7 +272,7 @@ Now move to config folder to initiate onboarding.
 
 Check if hw-go is onborded
 
-::
+.. code-block:: rst
    
     $ curl --location --request GET "http://<appmgr>:32080/onboard/api/v1/charts"  --header 'Content-Type: application/json'
 
@@ -310,7 +297,7 @@ Check if hw-go is onborded
 
 If we would wish to download the charts then we can perform following curl operation :
 
-::
+.. code-block:: rst
     
     curl --location --request GET "http://<appmgr>:32080/onboard/api/v1/charts/xapp/hw-go/ver/1.0.0"  --header 'Content-Type: application/json' --output hw-go.tgz
 
@@ -324,7 +311,7 @@ Deployment of hw-go
 
 Once charts are available we can deploy the the hw-go using following curl command :
 
-::
+.. code-block:: rst
     
     $ curl --location --request POST "http://<appmgr>:32080/appmgr/ric/v1/xapps"  --header 'Content-Type: application/json'  --data-raw '{"xappName": "hw-go", "helmVersion": "1.0.0"}'
     {"instances":null,"name":"hw-go","status":"deployed","version":"1.0"}
@@ -332,13 +319,13 @@ Once charts are available we can deploy the the hw-go using following curl comma
 
 Deployment will be done in ricxapp ns :
 
-::
+.. code-block:: rst
 
     kubectl get po -n ricxapp
     NAME                             READY   STATUS    RESTARTS   AGE
     ricxapp-hw-go-55ff7549df-kpj6k   1/1     Running   0          2m
 
-::
+.. code-block:: rst
 
     kubectl get svc -n ricxapp
     NAME                         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
@@ -349,7 +336,7 @@ Deployment will be done in ricxapp ns :
 
 Now we can query to appmgr to get list of all the deployed xapps :
 
-::
+.. code-block:: rst
 
     curl http://service-ricplt-appmgr-http.ricplt:8080/ric/v1/xapps | jq .
     % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -389,9 +376,9 @@ Now we can query to appmgr to get list of all the deployed xapps :
 
 To view logs from hw-go:
 
-::
+.. code-block:: rst
     
-    kubectl  logs ricxapp-hw-go-55ff7549df-kpj6k -n ricxapp
+    kubectl logs ricxapp-hw-go-55ff7549df-kpj6k -n ricxapp
 
 
 
