@@ -74,6 +74,8 @@ Save the configuration file and check if there are any errors in the configurati
 
 	nginx -t
 
+.. _hostxAppdescriptor:
+
 Hosting the config Files
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -99,22 +101,22 @@ Now, you can check if the config file can be accessed from the newly created ser
 Creating xApp Docker Image
 ==========================
 
-	
 
 We create the xapp image using the given Dockerfile within the xApp repository.
 
 .. code-block:: rst
 
-	docker build . -t xApp-registry.local:5008/<xapp-name>:<version> (Example : xappkpimon:1.0.0).
+	docker build . -t xApp-registry.local:5008/<xapp-image-name>:<version> (Example : xappkpimon:1.0.0).
 
-What we are essentially doing here is that we are storing our built image in a local docker repository. This is done to keep things simple. We could use cloud servers too (in that case the image needs to be pushed to the respective server using docker push).
+What we are essentially doing here is that we are storing our built image in a local docker repository. This is done to keep things simple. We could use cloud servers too (in that case the image needs to be pushed to the respective server using ``docker push``).
 
-Now that we have the docker image, we need to push it to our local registry ``xApp-respository.local:5008``
+Now that we have built the docker image, we need to push it to our local registry ``xApp-registry.local:5008``
 
 .. code-block:: rst 
 
-	docker push xApp-repository.local:5008/<xapp-name>:<version>
-	
+	docker push xApp-registry.local:5008/<xapp-name>:<version>
+
+
 
 xApp Onboarder Deployment
 =========================
@@ -123,15 +125,61 @@ Getting Variables ready
 
 .. code-block:: rst
 
-	export KONG_PROXY=`kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath='{.items[0].spec.clusterIP}'`
-	export APPMGR_HTTP=`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
-	export ONBOARDER_HTTP=`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
+	export KONG_PROXY=`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath='{.items[0].spec.clusterIP}'`
+	export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
+	export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
 
 Get helm charts and check if the current xApp is one of them. If there is no helm chart, then we are good to go. Otherwise, we have to use the existing chart or delete it and then proceed forward.
 
 .. code-block:: rst
 
 	curl --location --request GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"
+
+Now, we need to indicate in the xapp descriptor ``config-file.json`` to use the image we built in the previous step. To do this, in the ``image`` section edit the ``registry`` field to  ``xApp-registry.local:5008``, ``name`` to ``<xapp-image-name>`` and ``tag`` to ``<version>``. An example is given below
+
+.. code-block:: rst
+
+	 "image": {
+                "registry": "xApp-registry.local:5008",
+                "name": "<xApp-image-name>",
+                "tag": "<version>"
+	}
+
+Save the xApp descriptor file and :ref:`host <hostxAppdescriptor>` it in the Nginx server we previously created. Also, perform the check to see if the config-file is hosted on the server.
+
+
+Next, we need to create a ``.url`` file to point the ``xApp-onboarder`` to the Ngnix server to get the xApp descriptor file and use it to create a helm chart and deploy the xApp.
+
+.. code-block:: rst
+
+	vim <xApp-name>-onboard.url	
+
+Paste the following in the ``onboard.url`` file. Substitue the ``<machine_ip_addr>`` with the IP address of your machine. You can find this out through ``ifconfig``.
+
+.. code-block:: rst
+
+	{"config-file.json_url":"http://<machine_ip_addr>:5010/<xApp-name->config-file.json"}
+
+Save the file. Now we are ready to deploy the xApp. 
+
+.. code-block:: rst
+
+	curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' -data-binary "@<xApp-name>-onboard.url"
+	curl -L -X GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"    
+	curl -L -X POST "http://$KONG_PROXY:32080/appmgr/ric/v1/xapps" --header 'Content-Type: application/json' --data-raw '{"xappName": "scp-kpimon"}'
+
+Verify if the xApp is deployed. There should be a <xApp-name> pod in "ricxapp" namespace
+
+.. code-block:: rst
+
+	sudo kubectl get pods -A
+
+We can check the xApp logs using
+
+.. code-block:: rst
+
+	kubectl logs -f -n ricxapp -l app=<xApp-pod-name>
+
 
 
 DMS-CLI Deployment

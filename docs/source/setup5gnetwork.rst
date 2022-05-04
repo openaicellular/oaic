@@ -1,30 +1,31 @@
-
-=======================
-Starting EPC/NodeB/UE(s)
-=======================
+=========================
+Setup your own 5G Network
+=========================
 
 In a new command windows run srsRAN EPC:
 
-::
+.. code-block:: rst
 
         sudo srsepc
 
 In a new command windows run srsRAN eNodeB.
 
-::
+.. code-block:: rst
 
 
         sudo srsenb
 
 In a new command windows run UE, placing its network interface into a separate network namespace:
 
-Creating Namespace: .. code-block:: rst
-::
+Creating Namespace: 
+
+.. code-block:: rst
 
         sudo ip netns add ue1
 
-Run srsUE with the new assigned namespace .. code-block:: rst
-::
+Run srsUE with the new assigned namespace 
+
+.. code-block:: rst
 
     sudo srsue –gw.netns=ue1
 

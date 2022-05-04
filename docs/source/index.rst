@@ -35,9 +35,15 @@ Welcome to OAIC's documentation!
    :maxdepth: 2
    :caption: xApp Deployment:
 
-   xapp_example.rst
    xapp_deployment.rst
    
+
+.. toctree::
+   :maxdepth: 2
+   :caption: xApp Development:
+
+   xapp_example.rst
+
 
 
 Indices and tables
