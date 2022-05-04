@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="A1 Mediator Installation Guide" href="a1mediator.html" />
-    <link rel="prev" title="Starting EPC/NodeB/UE(s)" href="setup5gnetwork.html" /> 
+    <link rel="prev" title="Setup your own 5G Network" href="setup5gnetwork.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,7 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Starting EPC/NodeB/UE(s)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Additional Features</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#multiple-simulated-ues-using-gnu-radio-companion">Multiple Simulated UEs using GNU Radio Companion</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installing-gnu-radio-companion">Installing GNU Radio Companion</a><ul>
@@ -69,19 +69,17 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#uhd-usrp-performance-enhancement-tips-and-tricks">UHD USRP Performance Enhancement Tips and Tricks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#cots-ue-configuration">COTS UE Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#starting-epc-nodeb-ue-s">Starting EPC/NodeB/UE(s)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="a1mediator.html">A1 Mediator Installation Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html">This document describes how to write an xApp and how to deploy it on the RIC platform.</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html#getting-started-developing-xapps">Getting started: Developing xapps</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html#the-xapp-frame-common-functions-and-interfaces">The Xapp Frame common functions and interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html#hello-world-xapp-code-and-deployment">Hello world xAPP code and deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html#software-installation-and-deployment">Software Installation and Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Development:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="xapp_example.html">Getting started: Developing xapps</a></li>
 </ul>
 
         </div>
@@ -226,50 +224,14 @@ uhd_find_devices
 </section>
 <section id="cots-ue-configuration">
 <h2>COTS UE Configuration<a class="headerlink" href="#cots-ue-configuration" title="Permalink to this headline"></a></h2>
-<p>Now you should be able to ping the USRP from the VM</p>
 </section>
-<section id="starting-epc-nodeb-ue-s">
-<h2>Starting EPC/NodeB/UE(s)<a class="headerlink" href="#starting-epc-nodeb-ue-s" title="Permalink to this headline"></a></h2>
-<ol class="arabic simple">
-<li><p>In a new command windows run srsRAN EPC:</p></li>
-</ol>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsepc
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>In a new command windows run srsRAN eNodeB.</p></li>
-</ol>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb
-</pre></div>
-</div>
-<ol class="arabic simple" start="3">
-<li><p>In a new command windows run UE, placing its network interface into a separate network namespace:</p></li>
-</ol>
-<p>Creating Namespace:
-.. code-block:: rst</p>
-<blockquote>
-<div><p>sudo ip netns add ue1</p>
-</div></blockquote>
-<p>Run srsUE with the new assigned namespace
-.. code-block:: rst</p>
-<blockquote>
-<div><p>sudo srsue –gw.netns=ue1</p>
-</div></blockquote>
-<p>Send some simple signaling-like traffic from UE to EPC, Perform commands from ue1:
-.. code-block:: rst</p>
-<blockquote>
-<div><p>sudo ip netns exec ue1 ping 172.16.0.1</p>
-</div></blockquote>
-<p>You can find configuration files and database file related to ‘ue1’, ‘enb’, ‘epc’  in <cite>/root/.config/</cite> directory.  If you want to change the contents of the ‘ue.config’ and ‘user_db.csv’ files such as IMSI and other values, make sure to first kill the EPC process, then modify, then restart EPC.  The EPC process updates this file when it exits.</p>
-<hr class="docutils" />
-<span class="target" id="id1"></span></section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="setup5gnetwork.html" class="btn btn-neutral float-left" title="Starting EPC/NodeB/UE(s)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="setup5gnetwork.html" class="btn btn-neutral float-left" title="Setup your own 5G Network" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="a1mediator.html" class="btn btn-neutral float-right" title="A1 Mediator Installation Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

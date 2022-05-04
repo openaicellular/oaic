@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Starting EPC/NodeB/UE(s) &mdash; OAIC 0.1 documentation</title>
+  <title>Setup your own 5G Network &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -52,18 +52,17 @@
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Starting EPC/NodeB/UE(s)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Setup your own 5G Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="a1mediator.html">A1 Mediator Installation Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html">This document describes how to write an xApp and how to deploy it on the RIC platform.</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html#getting-started-developing-xapps">Getting started: Developing xapps</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html#the-xapp-frame-common-functions-and-interfaces">The Xapp Frame common functions and interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html#hello-world-xapp-code-and-deployment">Hello world xAPP code and deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html#software-installation-and-deployment">Software Installation and Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Development:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="xapp_example.html">Getting started: Developing xapps</a></li>
 </ul>
 
         </div>
@@ -80,7 +79,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Starting EPC/NodeB/UE(s)</li>
+      <li>Setup your own 5G Network</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/setup5gnetwork.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -90,23 +89,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="starting-epc-nodeb-ue-s">
-<h1>Starting EPC/NodeB/UE(s)<a class="headerlink" href="#starting-epc-nodeb-ue-s" title="Permalink to this headline"></a></h1>
+  <section id="setup-your-own-5g-network">
+<h1>Setup your own 5G Network<a class="headerlink" href="#setup-your-own-5g-network" title="Permalink to this headline"></a></h1>
 <p>In a new command windows run srsRAN EPC:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">srsepc</span>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsepc
 </pre></div>
 </div>
 <p>In a new command windows run srsRAN eNodeB.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">srsenb</span>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb
 </pre></div>
 </div>
 <p>In a new command windows run UE, placing its network interface into a separate network namespace:</p>
-<p>Creating Namespace: .. code-block:: rst</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">ip</span> <span class="n">netns</span> <span class="n">add</span> <span class="n">ue1</span>
+<p>Creating Namespace:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns add ue1
 </pre></div>
 </div>
-<p>Run srsUE with the new assigned namespace .. code-block:: rst</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sudo srsue –gw.netns=ue1
+<p>Run srsUE with the new assigned namespace</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsue –gw.netns=ue1
 </pre></div>
 </div>
 <p>Send some simple signaling-like traffic from UE to EPC, Perform commands from ue1:</p>

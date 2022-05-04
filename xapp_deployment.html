@@ -18,7 +18,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="This document describes how to write an xApp and how to deploy it on the RIC platform." href="xapp_example.html" /> 
+    <link rel="next" title="Getting started: Developing xapps" href="xapp_example.html" />
+    <link rel="prev" title="A1 Mediator Installation Guide" href="a1mediator.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,17 +52,12 @@
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Starting EPC/NodeB/UE(s)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="a1mediator.html">A1 Mediator Installation Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html">This document describes how to write an xApp and how to deploy it on the RIC platform.</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html#getting-started-developing-xapps">Getting started: Developing xapps</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html#the-xapp-frame-common-functions-and-interfaces">The Xapp Frame common functions and interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html#hello-world-xapp-code-and-deployment">Hello world xAPP code and deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html#software-installation-and-deployment">Software Installation and Deployment</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">xApp Deployment - General Guidelines</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pre-requisites">Pre-requisites</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#create-an-xapp-image-registry">Create an xApp Image Registry</a></li>
@@ -77,6 +73,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#dms-cli-deployment">DMS-CLI Deployment</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Development:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="xapp_example.html">Getting started: Developing xapps</a></li>
 </ul>
 
         </div>
@@ -160,7 +160,7 @@ sudo vim xApp_config.local.conf
 </div>
 </section>
 <section id="hosting-the-config-files">
-<h4>Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Permalink to this headline"></a></h4>
+<span id="hostxappdescriptor"></span><h4>Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Permalink to this headline"></a></h4>
 <p>Copy the xApp config file to this directory. Reload Nginx once this has been done</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo cp &lt;path_to_config_file&gt;/config-file.json /var/www/xApp_config.local/config_files/
 sudo systemctl reload nginx
@@ -183,25 +183,56 @@ sudo systemctl reload nginx
 <section id="creating-xapp-docker-image">
 <h2>Creating xApp Docker Image<a class="headerlink" href="#creating-xapp-docker-image" title="Permalink to this headline"></a></h2>
 <p>We create the xapp image using the given Dockerfile within the xApp repository.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>docker build . -t xApp-registry.local:5008/&lt;xapp-name&gt;:<span class="nt">&lt;version&gt;</span> (Example : xappkpimon:1.0.0).
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>docker build . -t xApp-registry.local:5008/&lt;xapp-image-name&gt;:<span class="nt">&lt;version&gt;</span> (Example : xappkpimon:1.0.0).
 </pre></div>
 </div>
-<p>What we are essentially doing here is that we are storing our built image in a local docker repository. This is done to keep things simple. We could use cloud servers too (in that case the image needs to be pushed to the respective server using docker push).</p>
-<p>Now that we have the docker image, we need to push it to our local registry <code class="docutils literal notranslate"><span class="pre">xApp-respository.local:5008</span></code></p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>docker push xApp-repository.local:5008/&lt;xapp-name&gt;:<span class="nt">&lt;version&gt;</span>
+<p>What we are essentially doing here is that we are storing our built image in a local docker repository. This is done to keep things simple. We could use cloud servers too (in that case the image needs to be pushed to the respective server using <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">push</span></code>).</p>
+<p>Now that we have built the docker image, we need to push it to our local registry <code class="docutils literal notranslate"><span class="pre">xApp-registry.local:5008</span></code></p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>docker push xApp-registry.local:5008/&lt;xapp-name&gt;:<span class="nt">&lt;version&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="xapp-onboarder-deployment">
 <h2>xApp Onboarder Deployment<a class="headerlink" href="#xapp-onboarder-deployment" title="Permalink to this headline"></a></h2>
 <p>Getting Variables ready</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export KONG_PROXY=<span class="nv">`kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
-export APPMGR_HTTP=<span class="nv">`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
-export ONBOARDER_HTTP=<span class="nv">`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export KONG_PROXY=<span class="nv">`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+export APPMGR_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+export ONBOARDER_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 </pre></div>
 </div>
 <p>Get helm charts and check if the current xApp is one of them. If there is no helm chart, then we are good to go. Otherwise, we have to use the existing chart or delete it and then proceed forward.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>curl --location --request GET &quot;http://$KONG_PROXY:32080/onboard/api/v1/charts&quot;
+</pre></div>
+</div>
+<p>Now, we need to indicate in the xapp descriptor <code class="docutils literal notranslate"><span class="pre">config-file.json</span></code> to use the image we built in the previous step. To do this, in the <code class="docutils literal notranslate"><span class="pre">image</span></code> section edit the <code class="docutils literal notranslate"><span class="pre">registry</span></code> field to  <code class="docutils literal notranslate"><span class="pre">xApp-registry.local:5008</span></code>, <code class="docutils literal notranslate"><span class="pre">name</span></code> to <code class="docutils literal notranslate"><span class="pre">&lt;xapp-image-name&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">tag</span></code> to <code class="docutils literal notranslate"><span class="pre">&lt;version&gt;</span></code>. An example is given below</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span> &quot;image&quot;: {
+        &quot;registry&quot;: &quot;xApp-registry.local:5008&quot;,
+        &quot;name&quot;: &quot;&lt;xApp-image-name&gt;&quot;,
+        &quot;tag&quot;: &quot;&lt;version&gt;&quot;
+}
+</pre></div>
+</div>
+<p>Save the xApp descriptor file and <a class="reference internal" href="#hostxappdescriptor"><span class="std std-ref">host</span></a> it in the Nginx server we previously created. Also, perform the check to see if the config-file is hosted on the server.</p>
+<p>Next, we need to create a <code class="docutils literal notranslate"><span class="pre">.url</span></code> file to point the <code class="docutils literal notranslate"><span class="pre">xApp-onboarder</span></code> to the Ngnix server to get the xApp descriptor file and use it to create a helm chart and deploy the xApp.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>vim &lt;xApp-name&gt;-onboard.url
+</pre></div>
+</div>
+<p>Paste the following in the <code class="docutils literal notranslate"><span class="pre">onboard.url</span></code> file. Substitue the <code class="docutils literal notranslate"><span class="pre">&lt;machine_ip_addr&gt;</span></code> with the IP address of your machine. You can find this out through <code class="docutils literal notranslate"><span class="pre">ifconfig</span></code>.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>{&quot;config-file.json_url&quot;:&quot;http://&lt;machine_ip_addr&gt;:5010/&lt;xApp-name-&gt;config-file.json&quot;}
+</pre></div>
+</div>
+<p>Save the file. Now we are ready to deploy the xApp.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>curl -L -X POST &quot;http://$KONG_PROXY:32080/onboard/api/v1/onboard/download&quot; --header &#39;Content-Type: application/json&#39; -data-binary &quot;@&lt;xApp-name&gt;-onboard.url&quot;
+curl -L -X GET &quot;http://$KONG_PROXY:32080/onboard/api/v1/charts&quot;
+curl -L -X POST &quot;http://$KONG_PROXY:32080/appmgr/ric/v1/xapps&quot; --header &#39;Content-Type: application/json&#39; --data-raw &#39;{&quot;xappName&quot;: &quot;scp-kpimon&quot;}&#39;
+</pre></div>
+</div>
+<p>Verify if the xApp is deployed. There should be a &lt;xApp-name&gt; pod in “ricxapp” namespace</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get pods -A
+</pre></div>
+</div>
+<p>We can check the xApp logs using</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>kubectl logs -f -n ricxapp -l app=&lt;xApp-pod-name&gt;
 </pre></div>
 </div>
 </section>
@@ -214,7 +245,8 @@ export ONBOARDER_HTTP=<span class="nv">`kubectl get svc -n ricplt --field-select
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="xapp_example.html" class="btn btn-neutral float-left" title="This document describes how to write an xApp and how to deploy it on the RIC platform." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="a1mediator.html" class="btn btn-neutral float-left" title="A1 Mediator Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="xapp_example.html" class="btn btn-neutral float-right" title="Getting started: Developing xapps" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
