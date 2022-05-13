@@ -247,6 +247,7 @@ srsENB
 
 	Within the ``enb.conf`` file change the path of the ``sib_config``, ``rr_config`` and ``rb_config`` to reflect the current path of the respective config files.
 	The RF gains depend on the channel conditions in your area and will have to be modified as required.
+	The sample rates will have to be modified depending on the machine spec and the USRP being used. Try 11.52e6 and 23.04e6.
 
 .. code-block:: rst
 
