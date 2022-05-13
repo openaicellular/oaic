@@ -20,6 +20,9 @@ For application features, build instructions and user guides see the `srsRAN doc
 
 For license details, see LICENSE file - *Needs to be modified.*
 
+Installation
+============
+
 Pre-requisites
 --------------
 
@@ -341,17 +344,5 @@ If using SDRs, the iperf client can be run on the UE machine using,
 
 	sudo iperf3 -c 10.45.0.1 -b 10M -i 1 -t 60
 
-
-
-
-
-
-
-
-
-
-
-
-	
 
 
