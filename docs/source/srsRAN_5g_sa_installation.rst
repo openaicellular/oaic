@@ -1,12 +1,6 @@
-=======================================
-srsRAN with E2 Agent Installation Guide
-=======================================
-
-.. note:: 
-
-   Before you begin, please clone the parent `oaic <https://github.com/openaicellular/oaic>`_ directory as outlined in :ref:`Getting Started <gettingstarted>`.
-
-srsRAN is a 4G/5G software radio suite developed by `SRS <http://www.srs.io)>`_. This is a modified version of `srsRAN 21.10 <https://github.com/srsran/srsRAN>`_ and `POWDER's E2 agent enabled srsLTE <https://gitlab.flux.utah.edu/powderrenewpublic/srslte-ric>`_. 
+===============================
+srsRAN 5G SA Installation Guide
+===============================
 
 See the `srsRAN project pages <https://www.srsran.com>`_ for information, guides and project news.
 
@@ -32,7 +26,6 @@ Pre-requisites
 
 - System Requirements - 4 core CPU (3 - 5 GHz)
 - Operating system - Ubuntu 20.04
-- E2 Agent Integration - E2 Bindings, asn1c Compiler, O-RAN Specification documents(optional)
 - Simulated 1 UE 1 eNB/gNB setup - ZeroMQ libraries, Single Host machine/VM
 - USRP frontend - UHD version 4.1, At least two host machines/VMs
 - Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.9
@@ -118,25 +111,8 @@ Using package manager
 
 
 
-asn1c Compiler Installation
----------------------------
-
-We will be using the modified asn1c compiler (for RAN and CN) that is hosted by Open Air Interface (OAI)
-
-.. code-block:: rst
-
-    git clone https://gitlab.eurecom.fr/oai/asn1c.git
-    cd asn1c
-    git checkout velichkov_s1ap_plus_option_group
-    autoreconf -iv
-    ./configure
-    make -j`nproc`
-    sudo make install
-    sudo ldconfig
-    cd ..
-
-srsRAN with E2 agent Installation
----------------------------------
+srsRAN Installation
+-------------------
  
 Installation from Source
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -154,6 +130,10 @@ Installation from Source
     srsran_install_configs.sh user
     cd ../../
 
+.. note::
+
+	Place the config files provided in the srsRAN directory.
+
 Configure Open5GS to run as a 5G Core
 -------------------------------------
 
@@ -163,9 +143,9 @@ You will need to modify your 5G AMF config to support your PLMN and TAC. The int
 
 If you are aiming to connect an external gNB to your core, you will also need to change the NGAP bind address of the AMF and the GTPU bind address of the UPF. If you are running an gNB stack locally, you will not need to make these changes.
 
-Modify ``/etc/open5gs/amf.yaml`` to set the NGAP IP address, PLMN ID, TAC and NSSAI.
+We need to set the NGAP IP address, PLMN ID, TAC and NSSAI.
 
-Replace ``/etc/open5gs/amf.yaml`` and ``/etc/open5gs/upf.yaml``	with the given ``amf.yaml`` and ``upf.yaml`` files in the ``/config_files/5g_sa_zmq`` directory.
+Replace ``/etc/open5gs/amf.yaml`` and ``/etc/open5gs/upf.yaml``	with the given ``amf.yaml`` and ``upf.yaml`` files in the ``/config_files/core_config_files`` directory.
 
 .. code-block:: rst
 
@@ -192,7 +172,7 @@ If we are using zeroMQ, we need to create a namespace for the UE, otherwise the 
 
 .. note::
 
-	If using X310 Radio Frontend skip the above step.
+	If using USRP Radio Frontend skip the above step.
 
 Next, we have to enter the subscriber information using Open5GS WebGUI
 
@@ -246,7 +226,9 @@ srsENB
 .. note:: 
 
 	Within the ``enb.conf`` file change the path of the ``sib_config``, ``rr_config`` and ``rb_config`` to reflect the current path of the respective config files.
+
 	The RF gains depend on the channel conditions in your area and will have to be modified as required.
+
 	The sample rates will have to be modified depending on the machine spec and the USRP being used. Try 11.52e6 and 23.04e6.
 
 .. code-block:: rst
