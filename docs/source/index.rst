@@ -29,7 +29,7 @@ Welcome to OAIC's documentation!
    srsRAN_installation.rst
    setup5gnetwork.rst
    srsRAN_additional_features.rst
-   a1mediator.rst
+   example_xapp_deployment.rst
 
 .. toctree::
    :maxdepth: 2
