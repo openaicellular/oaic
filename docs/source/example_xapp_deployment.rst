@@ -75,36 +75,19 @@ Now we are ready to deploy the xApp:
 
 .. code-block:: rst
 
-	curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@scp-kpimon-onboard.url"
+  curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@scp-kpimon-onboard.url"
   curl -L -X GET "http://$KONG_PROXY:32080/onboard/api/v1/charts
   curl -L -X POST "http://$KONG_PROXY:32080/appmgr/ric/v1/xapps" --header 'Content-Type: application/json' --data-raw '{"xappName": "scp-kpimon"}'
   
-  The xApp should be successfully deployed. Verify this using:
+The xApp should be successfully deployed. Verify this using:
   
-  .. code-block:: rst
+.. code-block:: rst
 
-	sudo kubectl get pods -A
+  sudo kubectl get pods -A
 
 
 
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
