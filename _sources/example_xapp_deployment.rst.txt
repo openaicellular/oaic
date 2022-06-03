@@ -2,11 +2,7 @@
 Example xApp Deployment
 =======================
 
-Hosting Files on a Web Server 
------------------------------
-
-The xApp descriptor files (config.json) must be hosted on a webserver when we use the **xapp-onboarder** to deploy xApps. To host these files we use Nginx to create a web server.
-
+Here we are going to deploy KPIMON xApp as an example of xApp deployment. Please follow the steps to see the results.
 
 Get some variables ready
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

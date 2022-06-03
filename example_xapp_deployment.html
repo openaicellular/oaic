@@ -56,14 +56,11 @@
 <li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example xApp Deployment</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#hosting-files-on-a-web-server">Hosting Files on a Web Server</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#get-some-variables-ready">Get some variables ready</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#check-helm-charts-to-see-if-kpimon-is-one-of-them">Check helm charts to see if KPIMON is one of them</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#build-docker-image-of-kpimon">Build Docker image of KPIMON</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#host-onboard-the-xapp-descriptor-config-file-jason">Host &amp; Onboard the xApp descriptor ‘config-file.jason’</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#deploy-the-kpimon-xapp">Deploy the KPIMON xApp</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#get-some-variables-ready">Get some variables ready</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#check-helm-charts-to-see-if-kpimon-is-one-of-them">Check helm charts to see if KPIMON is one of them</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-docker-image-of-kpimon">Build Docker image of KPIMON</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#host-onboard-the-xapp-descriptor-config-file-jason">Host &amp; Onboard the xApp descriptor ‘config-file.jason’</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deploy-the-kpimon-xapp">Deploy the KPIMON xApp</a></li>
 </ul>
 </li>
 </ul>
@@ -102,11 +99,9 @@
              
   <section id="example-xapp-deployment">
 <h1>Example xApp Deployment<a class="headerlink" href="#example-xapp-deployment" title="Permalink to this heading"></a></h1>
-<section id="hosting-files-on-a-web-server">
-<h2>Hosting Files on a Web Server<a class="headerlink" href="#hosting-files-on-a-web-server" title="Permalink to this heading"></a></h2>
-<p>The xApp descriptor files (config.json) must be hosted on a webserver when we use the <strong>xapp-onboarder</strong> to deploy xApps. To host these files we use Nginx to create a web server.</p>
+<p>Here we are going to deploy KPIMON xApp as an example of xApp deployment. Please follow the steps to see the results.</p>
 <section id="get-some-variables-ready">
-<h3>Get some variables ready<a class="headerlink" href="#get-some-variables-ready" title="Permalink to this heading"></a></h3>
+<h2>Get some variables ready<a class="headerlink" href="#get-some-variables-ready" title="Permalink to this heading"></a></h2>
 <p>First, we need to get some variable of ricplt ready:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>      export KONG_PROXY=<span class="nv">`kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 export E2MGR_HTTP=<span class="nv">`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2mgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
@@ -118,14 +113,14 @@ export RTMGR_HTTP=<span class="nv">`kubectl get svc -n ricplt --field-selector m
 </div>
 </section>
 <section id="check-helm-charts-to-see-if-kpimon-is-one-of-them">
-<h3>Check helm charts to see if KPIMON is one of them<a class="headerlink" href="#check-helm-charts-to-see-if-kpimon-is-one-of-them" title="Permalink to this heading"></a></h3>
+<h2>Check helm charts to see if KPIMON is one of them<a class="headerlink" href="#check-helm-charts-to-see-if-kpimon-is-one-of-them" title="Permalink to this heading"></a></h2>
 <p>If there is no helm chart for KPIMON, it’s good to continue. Otherwise, we have to use the existing chart or delete it and then proceed forward.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>curl --location --request GET &quot;http://$KONG_PROXY:32080/onboard/api/v1/charts&quot;
 </pre></div>
 </div>
 </section>
 <section id="build-docker-image-of-kpimon">
-<h3>Build Docker image of KPIMON<a class="headerlink" href="#build-docker-image-of-kpimon" title="Permalink to this heading"></a></h3>
+<h2>Build Docker image of KPIMON<a class="headerlink" href="#build-docker-image-of-kpimon" title="Permalink to this heading"></a></h2>
 <p>Build the Docker image of KPIMON xApp:
 First, clone the KPIMON and change the file’s content to e2sm-kpm-01.00 commit:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://gitlab.flux.utah.edu/powderrenewpublic/ric-scp-kpimon.git
@@ -151,11 +146,11 @@ git checkout revert-to-e2sm-kpm-01.00
 </div>
 </section>
 <section id="host-onboard-the-xapp-descriptor-config-file-jason">
-<h3>Host &amp; Onboard the xApp descriptor ‘config-file.jason’<a class="headerlink" href="#host-onboard-the-xapp-descriptor-config-file-jason" title="Permalink to this heading"></a></h3>
+<h2>Host &amp; Onboard the xApp descriptor ‘config-file.jason’<a class="headerlink" href="#host-onboard-the-xapp-descriptor-config-file-jason" title="Permalink to this heading"></a></h2>
 <p>The xApp descriptor files (config.json) must be hosted on a webserver when we use the <strong>xapp-onboarder</strong> to deploy xApps. To host these files we use Nginx to create a web server. Next, we need to create a .url file to point the xApp-onboarder to the Ngnix server to get the xApp descriptor file and use it to create a helm chart and deploy the xApp. Please follow instruction on ‘xApp Deployment’ section &lt;<a class="reference external" href="https://openaicellular.github.io/oaic/xapp_deployment.html">https://openaicellular.github.io/oaic/xapp_deployment.html</a>&gt;, to host the config-file.json of KPIMON xApp on a server. Just consider to use ‘scp-kpimon’ for ‘xApp-name’</p>
 </section>
 <section id="deploy-the-kpimon-xapp">
-<h3>Deploy the KPIMON xApp<a class="headerlink" href="#deploy-the-kpimon-xapp" title="Permalink to this heading"></a></h3>
+<h2>Deploy the KPIMON xApp<a class="headerlink" href="#deploy-the-kpimon-xapp" title="Permalink to this heading"></a></h2>
 <p>Now we are ready to deploy the xApp:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>      curl -L -X POST &quot;http://$KONG_PROXY:32080/onboard/api/v1/onboard/download&quot; --header &#39;Content-Type: application/json&#39; --data-binary &quot;@scp-kpimon-onboard.url&quot;
 curl -L -X GET &quot;http://$KONG_PROXY:32080/onboard/api/v1/charts
@@ -168,7 +163,6 @@ The xApp should be successfully deployed. Verify this using:
       sudo kubectl get pods -A
 </pre></div>
 </div>
-</section>
 </section>
 </section>
 
