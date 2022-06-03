@@ -103,7 +103,7 @@
 <section id="get-some-variables-ready">
 <h2>Get some variables ready<a class="headerlink" href="#get-some-variables-ready" title="Permalink to this heading"></a></h2>
 <p>First, we need to get some variable of ricplt ready:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>      export KONG_PROXY=<span class="nv">`kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export KONG_PROXY=<span class="nv">`kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 export E2MGR_HTTP=<span class="nv">`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2mgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 export APPMGR_HTTP=<span class="nv">`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 export E2TERM_SCTP=<span class="nv">`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
