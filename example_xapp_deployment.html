@@ -152,15 +152,13 @@ git checkout revert-to-e2sm-kpm-01.00
 <section id="deploy-the-kpimon-xapp">
 <h2>Deploy the KPIMON xApp<a class="headerlink" href="#deploy-the-kpimon-xapp" title="Permalink to this heading"></a></h2>
 <p>Now we are ready to deploy the xApp:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>      curl -L -X POST &quot;http://$KONG_PROXY:32080/onboard/api/v1/onboard/download&quot; --header &#39;Content-Type: application/json&#39; --data-binary &quot;@scp-kpimon-onboard.url&quot;
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>curl -L -X POST &quot;http://$KONG_PROXY:32080/onboard/api/v1/onboard/download&quot; --header &#39;Content-Type: application/json&#39; --data-binary &quot;@scp-kpimon-onboard.url&quot;
 curl -L -X GET &quot;http://$KONG_PROXY:32080/onboard/api/v1/charts
 curl -L -X POST &quot;http://$KONG_PROXY:32080/appmgr/ric/v1/xapps&quot; --header &#39;Content-Type: application/json&#39; --data-raw &#39;{&quot;xappName&quot;: &quot;scp-kpimon&quot;}&#39;
-
-The xApp should be successfully deployed. Verify this using:
-
-<span class="p">..</span> <span class="ow">code-block</span><span class="p">::</span> rst
-
-      sudo kubectl get pods -A
+</pre></div>
+</div>
+<p>The xApp should be successfully deployed. Verify this using:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get pods -A
 </pre></div>
 </div>
 </section>
