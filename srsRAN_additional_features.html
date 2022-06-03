@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Additional Features &mdash; OAIC 0.1 documentation</title>
@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -107,19 +108,19 @@
            <div itemprop="articleBody">
              
   <section id="additional-features">
-<h1>Additional Features<a class="headerlink" href="#additional-features" title="Permalink to this headline"></a></h1>
+<h1>Additional Features<a class="headerlink" href="#additional-features" title="Permalink to this heading"></a></h1>
 <section id="multiple-simulated-ues-using-gnu-radio-companion">
-<span id="multiple-ue"></span><h2>Multiple Simulated UEs using GNU Radio Companion<a class="headerlink" href="#multiple-simulated-ues-using-gnu-radio-companion" title="Permalink to this headline"></a></h2>
+<span id="multiple-ue"></span><h2>Multiple Simulated UEs using GNU Radio Companion<a class="headerlink" href="#multiple-simulated-ues-using-gnu-radio-companion" title="Permalink to this heading"></a></h2>
 <p>GNU Radio Companion (GRC) can be used to manipulate, and/or visualize base band I/Q data as it is sent between the UE and eNB. GRC contains ZeroMQ compatible blocks that are connected to the TCP ports used to transmit data between the UE and eNB. The Broker basically acts as a channel for information flow.</p>
 <section id="installing-gnu-radio-companion">
-<h3>Installing GNU Radio Companion<a class="headerlink" href="#installing-gnu-radio-companion" title="Permalink to this headline"></a></h3>
+<h3>Installing GNU Radio Companion<a class="headerlink" href="#installing-gnu-radio-companion" title="Permalink to this heading"></a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Make sure you do not have GNU Radio already installed in your system. If so, uninstall previous versions. Also, remove other gnuradio ppas if already configured.</p>
 </div>
 <p><a class="reference external" href="https://wiki.gnuradio.org/index.php/InstallingGR">GNU Radio Installation</a></p>
 <section id="installation-from-binaries">
-<h4>Installation From Binaries<a class="headerlink" href="#installation-from-binaries" title="Permalink to this headline"></a></h4>
+<h4>Installation From Binaries<a class="headerlink" href="#installation-from-binaries" title="Permalink to this heading"></a></h4>
 <p>To access the current released version (3.10), add the gnuradio/gnuradio-releases ppa, update the sources and install gnuradio</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:gnuradio/gnuradio-releases
 sudo apt-get update
@@ -139,7 +140,7 @@ pip install packaging
 </section>
 </section>
 <section id="connecting-to-an-external-server-internet">
-<h2>Connecting to an external server/internet<a class="headerlink" href="#connecting-to-an-external-server-internet" title="Permalink to this headline"></a></h2>
+<h2>Connecting to an external server/internet<a class="headerlink" href="#connecting-to-an-external-server-internet" title="Permalink to this heading"></a></h2>
 <p>To allow UE to connect to the internet via the EPC, the pre-configured masquerading script <code class="docutils literal notranslate"><span class="pre">srsepc_if_masq.sh</span></code> must be run . The script can be found in <a class="reference external" href="https://github.com/openaicellular/srsRAN-e2/tree/test_branch/srsepc">srsRAN-e2/srsepc</a>. The masquerading script enables IP forwarding and sets up Network Address Translation to pass traffic between the srsRAN network (through EPC) and the external network.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -189,12 +190,12 @@ Here we assume that the UE is assigned an IP address <code class="docutils liter
 </div>
 </section>
 <section id="connecting-usrps-to-virtualbox-vms">
-<h2>Connecting USRPs to VirtualBox VMs<a class="headerlink" href="#connecting-usrps-to-virtualbox-vms" title="Permalink to this headline"></a></h2>
+<h2>Connecting USRPs to VirtualBox VMs<a class="headerlink" href="#connecting-usrps-to-virtualbox-vms" title="Permalink to this heading"></a></h2>
 <section id="connecting-b210-b-205-mini-over-usb-3-0">
-<h3>Connecting B210/B-205 mini over USB 3.0<a class="headerlink" href="#connecting-b210-b-205-mini-over-usb-3-0" title="Permalink to this headline"></a></h3>
+<h3>Connecting B210/B-205 mini over USB 3.0<a class="headerlink" href="#connecting-b210-b-205-mini-over-usb-3-0" title="Permalink to this heading"></a></h3>
 </section>
 <section id="connecting-x310-n310-through-ethernet">
-<h3>Connecting X310/N310 through ethernet<a class="headerlink" href="#connecting-x310-n310-through-ethernet" title="Permalink to this headline"></a></h3>
+<h3>Connecting X310/N310 through ethernet<a class="headerlink" href="#connecting-x310-n310-through-ethernet" title="Permalink to this heading"></a></h3>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>If your machine, does not support 10G Ethernet then you can use adapters (USB-C/USB3.0 to 10G ethernet adapters)</p>
@@ -220,10 +221,10 @@ uhd_find_devices
 </section>
 </section>
 <section id="uhd-usrp-performance-enhancement-tips-and-tricks">
-<span id="performance-tips"></span><h2>UHD USRP Performance Enhancement Tips and Tricks<a class="headerlink" href="#uhd-usrp-performance-enhancement-tips-and-tricks" title="Permalink to this headline"></a></h2>
+<span id="performance-tips"></span><h2>UHD USRP Performance Enhancement Tips and Tricks<a class="headerlink" href="#uhd-usrp-performance-enhancement-tips-and-tricks" title="Permalink to this heading"></a></h2>
 </section>
 <section id="cots-ue-configuration">
-<h2>COTS UE Configuration<a class="headerlink" href="#cots-ue-configuration" title="Permalink to this headline"></a></h2>
+<h2>COTS UE Configuration<a class="headerlink" href="#cots-ue-configuration" title="Permalink to this heading"></a></h2>
 </section>
 </section>
 

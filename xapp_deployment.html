@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>xApp Deployment - General Guidelines &mdash; OAIC 0.1 documentation</title>
@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -104,18 +105,18 @@
            <div itemprop="articleBody">
              
   <section id="xapp-deployment-general-guidelines">
-<h1>xApp Deployment - General Guidelines<a class="headerlink" href="#xapp-deployment-general-guidelines" title="Permalink to this headline"></a></h1>
+<h1>xApp Deployment - General Guidelines<a class="headerlink" href="#xapp-deployment-general-guidelines" title="Permalink to this heading"></a></h1>
 <section id="pre-requisites">
-<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline"></a></h2>
+<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this heading"></a></h2>
 <section id="create-an-xapp-image-registry">
-<h3>Create an xApp Image Registry<a class="headerlink" href="#create-an-xapp-image-registry" title="Permalink to this headline"></a></h3>
+<h3>Create an xApp Image Registry<a class="headerlink" href="#create-an-xapp-image-registry" title="Permalink to this heading"></a></h3>
 <p>First we need to create a registry to host our xApp images. Here we create a local docker registry called <code class="docutils literal notranslate"><span class="pre">xApp-registry.local:5008</span></code>. 5008 indicates the port number on which the registry is listening.</p>
 </section>
 <section id="hosting-files-on-a-web-server">
-<h3>Hosting Files on a Web Server<a class="headerlink" href="#hosting-files-on-a-web-server" title="Permalink to this headline"></a></h3>
+<h3>Hosting Files on a Web Server<a class="headerlink" href="#hosting-files-on-a-web-server" title="Permalink to this heading"></a></h3>
 <p>The xApp descriptor files (config.json) must be hosted on a webserver when we use the <strong>xapp-onboarder</strong> to deploy xApps. To host these files we use Nginx to create a web server.</p>
 <section id="configuring-the-nginx-web-server">
-<h4>Configuring the Nginx Web server<a class="headerlink" href="#configuring-the-nginx-web-server" title="Permalink to this headline"></a></h4>
+<h4>Configuring the Nginx Web server<a class="headerlink" href="#configuring-the-nginx-web-server" title="Permalink to this heading"></a></h4>
 <p>First, we need to install Nginx and check if it is in <code class="docutils literal notranslate"><span class="pre">active</span> <span class="pre">(running)</span></code>  state.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install nginx
 sudo systemctl status nginx
@@ -157,7 +158,7 @@ sudo vim xApp_config.local.conf
 </div>
 </section>
 <section id="hosting-the-config-files">
-<span id="hostxappdescriptor"></span><h4>Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Permalink to this headline"></a></h4>
+<span id="hostxappdescriptor"></span><h4>Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Permalink to this heading"></a></h4>
 <p>Copy the xApp config file to this directory. Reload Nginx once this has been done</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo cp &lt;path_to_config_file&gt;/config-file.json /var/www/xApp_config.local/config_files/
 sudo systemctl reload nginx
@@ -178,7 +179,7 @@ sudo systemctl reload nginx
 </section>
 </section>
 <section id="creating-xapp-docker-image">
-<h2>Creating xApp Docker Image<a class="headerlink" href="#creating-xapp-docker-image" title="Permalink to this headline"></a></h2>
+<h2>Creating xApp Docker Image<a class="headerlink" href="#creating-xapp-docker-image" title="Permalink to this heading"></a></h2>
 <p>We create the xapp image using the given Dockerfile within the xApp repository.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>docker build . -t xApp-registry.local:5008/&lt;xapp-image-name&gt;:<span class="nt">&lt;version&gt;</span> (Example : xappkpimon:1.0.0).
 </pre></div>
@@ -190,7 +191,7 @@ sudo systemctl reload nginx
 </div>
 </section>
 <section id="xapp-onboarder-deployment">
-<h2>xApp Onboarder Deployment<a class="headerlink" href="#xapp-onboarder-deployment" title="Permalink to this headline"></a></h2>
+<h2>xApp Onboarder Deployment<a class="headerlink" href="#xapp-onboarder-deployment" title="Permalink to this heading"></a></h2>
 <p>Getting Variables ready</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export KONG_PROXY=<span class="nv">`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 export APPMGR_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
@@ -234,7 +235,7 @@ curl -L -X POST &quot;http://$KONG_PROXY:32080/appmgr/ric/v1/xapps&quot; --heade
 </div>
 </section>
 <section id="dms-cli-deployment">
-<h2>DMS-CLI Deployment<a class="headerlink" href="#dms-cli-deployment" title="Permalink to this headline"></a></h2>
+<h2>DMS-CLI Deployment<a class="headerlink" href="#dms-cli-deployment" title="Permalink to this heading"></a></h2>
 </section>
 </section>
 

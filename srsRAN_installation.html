@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>srsRAN with E2 Agent Installation Guide &mdash; OAIC 0.1 documentation</title>
@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -109,7 +110,7 @@
            <div itemprop="articleBody">
              
   <section id="srsran-with-e2-agent-installation-guide">
-<h1>srsRAN with E2 Agent Installation Guide<a class="headerlink" href="#srsran-with-e2-agent-installation-guide" title="Permalink to this headline"></a></h1>
+<h1>srsRAN with E2 Agent Installation Guide<a class="headerlink" href="#srsran-with-e2-agent-installation-guide" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Before you begin, please clone the parent <a class="reference external" href="https://github.com/openaicellular/oaic">oaic</a> directory as outlined in <a class="reference internal" href="quickstart.html#gettingstarted"><span class="std std-ref">Getting Started</span></a>.</p>
@@ -127,7 +128,7 @@
 <p>For application features, build instructions and user guides see the <a class="reference external" href="https://docs.srsran.com">srsRAN documentation</a>.</p>
 <p>For license details, see LICENSE file - <em>Needs to be modified.</em></p>
 <section id="pre-requisites">
-<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline"></a></h2>
+<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this heading"></a></h2>
 <div class="admonition-todo admonition">
 <p class="admonition-title">TODO</p>
 <p>Create a system specification table for different cellular configurations</p>
@@ -141,17 +142,17 @@
 <li><p>Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.9</p></li>
 </ul>
 <section id="dependencies-installation">
-<h3>Dependencies Installation<a class="headerlink" href="#dependencies-installation" title="Permalink to this headline"></a></h3>
+<h3>Dependencies Installation<a class="headerlink" href="#dependencies-installation" title="Permalink to this heading"></a></h3>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
 </pre></div>
 </div>
 </section>
 </section>
 <section id="zeromq-installation">
-<h2>ZeroMQ Installation<a class="headerlink" href="#zeromq-installation" title="Permalink to this headline"></a></h2>
+<h2>ZeroMQ Installation<a class="headerlink" href="#zeromq-installation" title="Permalink to this heading"></a></h2>
 <p>srsRAN software suite includes virtual radios which uses the ZeroMQ networking library to transfer radio samples between applications. This approach is very useful for development, testing, debugging, CI/CD or for teaching and demonstrating. Natively, ZeroMQ with srsRAN supports only one eNB/gNB and one UE configuration but it can be extended to support multiple UEs using GNU Radio. Have a look at the tutorial to do this <a class="reference internal" href="srsRAN_additional_features.html#multiple-ue"><span class="std std-ref">here</span></a>.</p>
 <section id="getting-zeromq-development-libraries">
-<h3>Getting ZeroMQ development Libraries<a class="headerlink" href="#getting-zeromq-development-libraries" title="Permalink to this headline"></a></h3>
+<h3>Getting ZeroMQ development Libraries<a class="headerlink" href="#getting-zeromq-development-libraries" title="Permalink to this heading"></a></h3>
 <p><a class="reference external" href="https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html">ZeroMQ Installation Instructions</a></p>
 <p><strong>Package Installation</strong></p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libzmq3-dev
@@ -160,14 +161,14 @@
 </section>
 </section>
 <section id="uhd-4-1-installation">
-<span id="uhd-installation"></span><h2>UHD 4.1 Installation<a class="headerlink" href="#uhd-4-1-installation" title="Permalink to this headline"></a></h2>
+<span id="uhd-installation"></span><h2>UHD 4.1 Installation<a class="headerlink" href="#uhd-4-1-installation" title="Permalink to this heading"></a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Make sure you don’t have UHD already installed in your system.</p>
 </div>
 <p><a class="reference external" href="https://files.ettus.com/manual/page_install.html">Ettus UHD Binary Installation Manual</a></p>
 <section id="using-package-manager">
-<h3>Using package manager<a class="headerlink" href="#using-package-manager" title="Permalink to this headline"></a></h3>
+<h3>Using package manager<a class="headerlink" href="#using-package-manager" title="Permalink to this heading"></a></h3>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:ettusresearch/uhd
 sudo apt-get update
 sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
@@ -176,7 +177,7 @@ sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
 </section>
 </section>
 <section id="asn1c-compiler-installation">
-<h2>asn1c Compiler Installation<a class="headerlink" href="#asn1c-compiler-installation" title="Permalink to this headline"></a></h2>
+<h2>asn1c Compiler Installation<a class="headerlink" href="#asn1c-compiler-installation" title="Permalink to this heading"></a></h2>
 <p>We will be using the modified asn1c compiler (for RAN and CN) that is hosted by Open Air Interface (OAI)</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://gitlab.eurecom.fr/oai/asn1c.git
 cd asn1c
@@ -191,9 +192,9 @@ cd ..
 </div>
 </section>
 <section id="srsran-with-e2-agent-installation">
-<h2>srsRAN with E2 agent Installation<a class="headerlink" href="#srsran-with-e2-agent-installation" title="Permalink to this headline"></a></h2>
+<h2>srsRAN with E2 agent Installation<a class="headerlink" href="#srsran-with-e2-agent-installation" title="Permalink to this heading"></a></h2>
 <section id="installation-from-source">
-<h3>Installation from Source<a class="headerlink" href="#installation-from-source" title="Permalink to this headline"></a></h3>
+<h3>Installation from Source<a class="headerlink" href="#installation-from-source" title="Permalink to this heading"></a></h3>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd srsRAN-e2
 mkdir build
 export SRS=<span class="nv">`realpath .`</span>

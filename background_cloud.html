@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Background on Docker, Kubernetes &amp; Helm &mdash; OAIC 0.1 documentation</title>
@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -102,9 +103,9 @@
            <div itemprop="articleBody">
              
   <section id="background-on-docker-kubernetes-helm">
-<h1>Background on Docker, Kubernetes &amp; Helm<a class="headerlink" href="#background-on-docker-kubernetes-helm" title="Permalink to this headline"></a></h1>
+<h1>Background on Docker, Kubernetes &amp; Helm<a class="headerlink" href="#background-on-docker-kubernetes-helm" title="Permalink to this heading"></a></h1>
 <section id="docker">
-<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this headline"></a></h2>
+<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this heading"></a></h2>
 <p>Docker is used to run and manage apps side-by-side in isolated environments
 called containers that contain everything needed to run the application to get
 better compute density.
@@ -120,17 +121,17 @@ faster, more securely and with repeatability for both Linux and Windows Server
 apps.</p>
 </section>
 <section id="core-components-of-docker">
-<h2>Core components of docker<a class="headerlink" href="#core-components-of-docker" title="Permalink to this headline"></a></h2>
+<h2>Core components of docker<a class="headerlink" href="#core-components-of-docker" title="Permalink to this heading"></a></h2>
 <a class="reference internal image-reference" href="_images/docker_overview.jpg"><img alt="Docker Core Components" src="_images/docker_overview.jpg" style="width: 90%;" /></a>
 <section id="images">
-<h3>Images<a class="headerlink" href="#images" title="Permalink to this headline"></a></h3>
+<h3>Images<a class="headerlink" href="#images" title="Permalink to this heading"></a></h3>
 <p>An image is a read-only template with instructions for creating a Docker container. Docker images may be based on
 other images and is customized to contain executable application source code as well as all the tools, libraries,
 and dependencies that the application code needs to run as a container. When you run the Docker image,
 it becomes one instance (or multiple instances) of the container.</p>
 </section>
 <section id="containers">
-<h3>Containers<a class="headerlink" href="#containers" title="Permalink to this headline"></a></h3>
+<h3>Containers<a class="headerlink" href="#containers" title="Permalink to this heading"></a></h3>
 <p>Containers are encapsulated environments in which you run applications and is a runnable instance of an image.
 A Docker container image is a lightweight, standalone, executable package of software that has everything you need
 to run an application – code, runtime, system tools, system libraries, and settings. Containers only have access to
@@ -140,13 +141,13 @@ Since containers are much smaller than VMs, they can be spun up in a matter of s
 server density. When a container is removed, any changes to its state that are not stored in persistent storage disappear.</p>
 </section>
 <section id="registry">
-<h3>Registry<a class="headerlink" href="#registry" title="Permalink to this headline"></a></h3>
+<h3>Registry<a class="headerlink" href="#registry" title="Permalink to this heading"></a></h3>
 <p>The Docker Registry is where the Docker Images are stored and can be downloaded. The Registry can be either a user’s
 local repository or a public repository like a Docker Hub (similar to GitHub) allowing multiple users to collaborate.
 Images can be ‘pushed’ to and ‘pulled’ from the registries as and when required.</p>
 </section>
 <section id="dockerfile">
-<h3>DockerFile<a class="headerlink" href="#dockerfile" title="Permalink to this headline"></a></h3>
+<h3>DockerFile<a class="headerlink" href="#dockerfile" title="Permalink to this heading"></a></h3>
 <p>A DockerFile is a text file that contains instructions on how to build a docker image.
 A Dockerfile specifies the operating system that will underlie the container, along with the languages,
 environmental variables, file locations, network ports, and other components it needs—and what the container
@@ -154,7 +155,7 @@ will do once we run it.</p>
 </section>
 </section>
 <section id="kubernetes">
-<h2>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline"></a></h2>
+<h2>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this heading"></a></h2>
 <p>Kubernetes is an open-source platform for automating deployment, scaling, and
 operations of application containers across clusters of hosts, providing
 container-centric infrastructure. It is an automated platform that enables
@@ -164,7 +165,7 @@ containers.</p>
 Pods, in each Pod there can be any number of containers. User’s application is running in one of those containers.</p>
 </section>
 <section id="helm">
-<h2>Helm<a class="headerlink" href="#helm" title="Permalink to this headline"></a></h2>
+<h2>Helm<a class="headerlink" href="#helm" title="Permalink to this heading"></a></h2>
 <p>Helm is a package manager for Kubernetes. It is the equivalent of ‘yum’ or ‘apt’ seen in Linux OS or ‘pip’ in the case of Python. Just as how ‘apt’ gets
 and installs/deploys packaged applications on the Linux OS, Helm similarly deploys packaged applications (called Helm Charts)
 on Kubernetes clusters. To understand how Helm charts are packaged and configured, basic understanding of YAML (Yet Another Markup Language) is helpful. YAML

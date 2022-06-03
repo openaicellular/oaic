@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>A1 Mediator Installation Guide &mdash; OAIC 0.1 documentation</title>
@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -88,24 +89,24 @@
            <div itemprop="articleBody">
              
   <section id="a1-mediator-installation-guide">
-<h1>A1 Mediator Installation Guide<a class="headerlink" href="#a1-mediator-installation-guide" title="Permalink to this headline"></a></h1>
+<h1>A1 Mediator Installation Guide<a class="headerlink" href="#a1-mediator-installation-guide" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p>The RAN Intelligent Controller (RIC) Platform’s A1 Mediator component
 listens for policy type and policy instance requests sent via HTTP
 (the “northbound” interface), and publishes those requests to running
 xApps via RMR messages (the “southbound” interface).</p>
 <section id="code">
-<h3>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h3>
+<h3>Code<a class="headerlink" href="#code" title="Permalink to this heading"></a></h3>
 <p>To get started with the code clone the code:</p>
 <p><a class="reference external" href="https://github.com/openaicellular/ric-plt-a1">https://github.com/openaicellular/ric-plt-a1</a></p>
 </section>
 <section id="policy-overview">
-<h3>Policy Overview<a class="headerlink" href="#policy-overview" title="Permalink to this headline"></a></h3>
+<h3>Policy Overview<a class="headerlink" href="#policy-overview" title="Permalink to this heading"></a></h3>
 <p>There are two “object types” associated with policy: policy types and
 policy instances.</p>
 <section id="policy-types">
-<h4>Policy Types<a class="headerlink" href="#policy-types" title="Permalink to this headline"></a></h4>
+<h4>Policy Types<a class="headerlink" href="#policy-types" title="Permalink to this heading"></a></h4>
 <p>Policy types define the name, description, and most importantly the
 schema of all instances of that type.  Think of policy types as
 defining a JSON schema for the messages sent from A1 to xapps.  Xapps
@@ -119,7 +120,7 @@ types before instances can be created.  Xapps can “sign up” for
 multiple policy types using their xapp descriptor.</p>
 </section>
 <section id="policy-instances">
-<h4>Policy Instances<a class="headerlink" href="#policy-instances" title="Permalink to this headline"></a></h4>
+<h4>Policy Instances<a class="headerlink" href="#policy-instances" title="Permalink to this heading"></a></h4>
 <p>Policy instances are concrete instantiations of a policy type. They
 give concrete values of a policy.  There may be many instances of a
 single type. Whenever a policy instance is created in A1, messages are
@@ -129,7 +130,7 @@ type that they are registered for.</p>
 </section>
 </section>
 <section id="known-differences-from-a1-1-0-0-spec">
-<h3>Known differences from A1 1.0.0 spec<a class="headerlink" href="#known-differences-from-a1-1-0-0-spec" title="Permalink to this headline"></a></h3>
+<h3>Known differences from A1 1.0.0 spec<a class="headerlink" href="#known-differences-from-a1-1-0-0-spec" title="Permalink to this heading"></a></h3>
 <p>This is a list of some of the known differences between the API here
 and the a1 spec dated 2019.09.30.  In some cases, the spec is
 deficient and RIC is “ahead”, in other cases this does not yet conform
@@ -179,7 +180,7 @@ defined in the spec.</p></li>
 </ol>
 </section>
 <section id="resiliency">
-<h3>Resiliency<a class="headerlink" href="#resiliency" title="Permalink to this headline"></a></h3>
+<h3>Resiliency<a class="headerlink" href="#resiliency" title="Permalink to this heading"></a></h3>
 <p>A1 is resilient to the majority of failures, but not all currently
 (though a solution is known).</p>
 <p>A1 uses the RIC SDL library to persist all policy state information:
@@ -203,9 +204,9 @@ operations.</p>
 </section>
 </section>
 <section id="installation-guide">
-<h2>Installation Guide<a class="headerlink" href="#installation-guide" title="Permalink to this headline"></a></h2>
+<h2>Installation Guide<a class="headerlink" href="#installation-guide" title="Permalink to this heading"></a></h2>
 <section id="environment-variables">
-<h3>Environment Variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline"></a></h3>
+<h3>Environment Variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading"></a></h3>
 <p>You can set the following environment variables when launching a container to change the A1 behavior:</p>
 <ol class="arabic simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">A1_RMR_RETRY_TIMES</span></code>: the number of times failed rmr operations such as timeouts and send failures should be retried before A1 gives up and returns a 503. The default is <code class="docutils literal notranslate"><span class="pre">4</span></code>.</p></li>
@@ -216,22 +217,22 @@ operations.</p>
 </ol>
 </section>
 <section id="kubernetes-deployment">
-<h3>Kubernetes Deployment<a class="headerlink" href="#kubernetes-deployment" title="Permalink to this headline"></a></h3>
+<h3>Kubernetes Deployment<a class="headerlink" href="#kubernetes-deployment" title="Permalink to this heading"></a></h3>
 <p>The official Helm chart for the A1 Mediator is in a deployment repository, which holds all of the Helm charts
 for the RIC platform. There is a helm chart in <cite>integration_tests</cite> here for running the integration tests as
 discussed above.</p>
 </section>
 <section id="local-deployment">
-<h3>Local Deployment<a class="headerlink" href="#local-deployment" title="Permalink to this headline"></a></h3>
+<h3>Local Deployment<a class="headerlink" href="#local-deployment" title="Permalink to this heading"></a></h3>
 <p>Build and run the A1 mediator locally using the docker CLI as follows.</p>
 <section id="build-the-image">
-<h4>Build the image<a class="headerlink" href="#build-the-image" title="Permalink to this headline"></a></h4>
+<h4>Build the image<a class="headerlink" href="#build-the-image" title="Permalink to this heading"></a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">cache</span> <span class="o">-</span><span class="n">t</span> <span class="n">a1</span><span class="p">:</span><span class="n">latest</span> <span class="o">.</span>
 </pre></div>
 </div>
 </section>
 <section id="start-the-container">
-<span id="running-1"></span><h4>Start the container<a class="headerlink" href="#start-the-container" title="Permalink to this headline"></a></h4>
+<span id="running-1"></span><h4>Start the container<a class="headerlink" href="#start-the-container" title="Permalink to this heading"></a></h4>
 <p>The A1 container depends on a companion DBaaS (SDL) container, but if that is not convenient set
 an environment variable as shown below to mock that service.  Also a sample RMR routing table is
 supplied in file <cite>local.rt</cite> for mounting as a volume.  The following command uses both:</p>
@@ -240,14 +241,14 @@ supplied in file <cite>local.rt</cite> for mounting as a volume.  The following 
 </div>
 </section>
 <section id="view-container-api">
-<h4>View container API<a class="headerlink" href="#view-container-api" title="Permalink to this headline"></a></h4>
+<h4>View container API<a class="headerlink" href="#view-container-api" title="Permalink to this heading"></a></h4>
 <p>A web user interface generated from the OpenAPI specification can be accessed at this URL:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">docker</span><span class="o">-</span><span class="n">host</span><span class="o">-</span><span class="n">name</span><span class="o">-</span><span class="ow">or</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="mi">10000</span><span class="o">/</span><span class="n">ui</span>
 </pre></div>
 </div>
 </section>
 <section id="check-container-health">
-<h4>Check container health<a class="headerlink" href="#check-container-health" title="Permalink to this headline"></a></h4>
+<h4>Check container health<a class="headerlink" href="#check-container-health" title="Permalink to this heading"></a></h4>
 <p>The following command requests the container health.  Expect an internal server error if the
 Storage Data Layer (SDL) service is not available or has not been mocked as shown above.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="n">docker</span><span class="o">-</span><span class="n">host</span><span class="o">-</span><span class="n">name</span><span class="o">-</span><span class="ow">or</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="mi">10000</span><span class="o">/</span><span class="n">a1</span><span class="o">-</span><span class="n">p</span><span class="o">/</span><span class="n">healthcheck</span>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>O-RAN Near-Real Time RIC Installation Guide &mdash; OAIC 0.1 documentation</title>
@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -118,11 +119,11 @@
            <div itemprop="articleBody">
              
   <section id="o-ran-near-real-time-ric-installation-guide">
-<h1>O-RAN Near-Real Time RIC Installation Guide<a class="headerlink" href="#o-ran-near-real-time-ric-installation-guide" title="Permalink to this headline"></a></h1>
+<h1>O-RAN Near-Real Time RIC Installation Guide<a class="headerlink" href="#o-ran-near-real-time-ric-installation-guide" title="Permalink to this heading"></a></h1>
 <section id="pre-requisites">
-<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline"></a></h2>
+<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this heading"></a></h2>
 <section id="system-requirements">
-<h3>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline"></a></h3>
+<h3>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>OS: <a class="reference external" href="https://en.wikipedia.org/wiki/Ubuntu_version_history#:~:text=Table%20of%20versions%20%20%20%20Version%20,Future%20release%3A%202027-04-21%20%2011%20more%20rows%20">Ubuntu 20.04 LTS (Bionic Beaver)</a></p></li>
 <li><p>CPU(s): 2-4 vCPUs</p></li>
@@ -131,31 +132,31 @@
 </ul>
 </section>
 <section id="o-ran-near-real-time-ric-software-architecture">
-<h3>O-RAN Near-Real Time RIC Software Architecture<a class="headerlink" href="#o-ran-near-real-time-ric-software-architecture" title="Permalink to this headline"></a></h3>
+<h3>O-RAN Near-Real Time RIC Software Architecture<a class="headerlink" href="#o-ran-near-real-time-ric-software-architecture" title="Permalink to this heading"></a></h3>
 <a class="reference internal image-reference" href="_images/near_rt_ric_cluster.jpg"><img alt="Near Real-time RIC Cluster" src="_images/near_rt_ric_cluster.jpg" style="width: 60%;" /></a>
 </section>
 </section>
 <section id="near-real-time-ric-installation-procedure">
-<h2>Near-Real Time RIC Installation Procedure<a class="headerlink" href="#near-real-time-ric-installation-procedure" title="Permalink to this headline"></a></h2>
+<h2>Near-Real Time RIC Installation Procedure<a class="headerlink" href="#near-real-time-ric-installation-procedure" title="Permalink to this heading"></a></h2>
 <section id="step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm">
-<h3>Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)<a class="headerlink" href="#step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm" title="Permalink to this headline"></a></h3>
+<h3>Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)<a class="headerlink" href="#step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm" title="Permalink to this heading"></a></h3>
 <p>The near-real time RIC can be run on a host machine or a VM as per your preference (A VM is recommended if your system is powerful enough to support multiple VMs).</p>
 <p>In this instruction set we assume the VM/Linux host system is already configured with the specified system requirements. If you need help with VM installation on Windows 10, <a class="reference external" href="https://www.youtube.com/watch?v=x5MhydijWmc">check out this video</a>.</p>
 <p>This completes step 1.</p>
 </section>
 <section id="step-2-install-kubernetes-docker-and-helm">
-<h3>Step 2: Install Kubernetes, Docker, and Helm<a class="headerlink" href="#step-2-install-kubernetes-docker-and-helm" title="Permalink to this headline"></a></h3>
+<h3>Step 2: Install Kubernetes, Docker, and Helm<a class="headerlink" href="#step-2-install-kubernetes-docker-and-helm" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Before you begin, please clone the parent <a class="reference external" href="https://github.com/openaicellular/oaic">oaic</a> directory as outlined in <a class="reference internal" href="quickstart.html#gettingstarted"><span class="std std-ref">Getting Started</span></a>.</p>
 </div>
 <section id="near-real-time-ric">
-<h4>Near-Real Time RIC<a class="headerlink" href="#near-real-time-ric" title="Permalink to this headline"></a></h4>
+<h4>Near-Real Time RIC<a class="headerlink" href="#near-real-time-ric" title="Permalink to this heading"></a></h4>
 <p>The installation of Near Realtime RAN Intelligent Controller is spread onto
 two separate Kubernetes clusters.
 The first cluster is used for deploying the Near Realtime RIC (platform and
 applications), and the other is for deploying other auxiliary functions.
-They are referred to as <strong>RIC cluster</strong> and <strong>AUX cluster</strong> respectively <a class="footnote-reference brackets" href="#id3" id="id1">1</a>.</p>
+They are referred to as <strong>RIC cluster</strong> and <strong>AUX cluster</strong> respectively <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
 <p>The <strong>RIC cluster</strong> consists of 3 major Kubernetes Systems.
 Each of them is separated by their specified namespaces (kube-system ns,
 ricinfra ns, ricplt ns):</p>
@@ -163,7 +164,7 @@ ricinfra ns, ricplt ns):</p>
 framework for deployment and maintenance of pods.</p>
 </section>
 <section id="ric-kubernetes-cluster-installation">
-<h4>RIC Kubernetes Cluster Installation<a class="headerlink" href="#ric-kubernetes-cluster-installation" title="Permalink to this headline"></a></h4>
+<h4>RIC Kubernetes Cluster Installation<a class="headerlink" href="#ric-kubernetes-cluster-installation" title="Permalink to this heading"></a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">RIC-Deployment</span></code> directory contains the deployment scripts and pre generated helm charts for each of the RIC components. This repository also contains some “demo” scripts which can be run after complete installation.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd RIC-Deployment/tools/k8s/bin
 </pre></div>
@@ -243,7 +244,7 @@ deployments, we are still using Helm v2, so tiller is essential.</p></li>
 </div></blockquote>
 </section>
 <section id="onetime-setup-for-influxdb">
-<h4>Onetime setup for Influxdb<a class="headerlink" href="#onetime-setup-for-influxdb" title="Permalink to this headline"></a></h4>
+<h4>Onetime setup for Influxdb<a class="headerlink" href="#onetime-setup-for-influxdb" title="Permalink to this heading"></a></h4>
 <p>Once Kubernetes setup is done, we have to create PersistentVolume through the storage class for the influxdb database.
 The following one time process should be followed before deploying the influxdb in ricplt namespace.</p>
 <blockquote>
@@ -267,9 +268,9 @@ sudo apt install nfs-common
 </section>
 </section>
 <section id="step-3-build-modified-e2-docker-image">
-<h3>Step 3: Build Modified E2 docker Image<a class="headerlink" href="#step-3-build-modified-e2-docker-image" title="Permalink to this headline"></a></h3>
+<h3>Step 3: Build Modified E2 docker Image<a class="headerlink" href="#step-3-build-modified-e2-docker-image" title="Permalink to this heading"></a></h3>
 <section id="id2">
-<h4>Pre-requisites<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h4>
+<h4>Pre-requisites<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
 <p>Local docker registry to host docker images. You can create one using, (You will need “super user” permissions)</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
 </pre></div>
@@ -279,7 +280,7 @@ sudo apt install nfs-common
 or <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">localhost:5001/&lt;image_name&gt;:&lt;image_tag&gt;</span></code></p>
 </section>
 <section id="creating-docker-image">
-<h4>Creating Docker image<a class="headerlink" href="#creating-docker-image" title="Permalink to this headline"></a></h4>
+<h4>Creating Docker image<a class="headerlink" href="#creating-docker-image" title="Permalink to this heading"></a></h4>
 <p>Navigate to <code class="docutils literal notranslate"><span class="pre">ric-plt-e2</span></code> directory.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd ric-plt-e2
 </pre></div>
@@ -302,7 +303,7 @@ cd ../../
 </div></blockquote>
 </section>
 <section id="commands-related-to-e2-termination">
-<h4>Commands related to E2 Termination<a class="headerlink" href="#commands-related-to-e2-termination" title="Permalink to this headline"></a></h4>
+<h4>Commands related to E2 Termination<a class="headerlink" href="#commands-related-to-e2-termination" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><ul class="simple">
 <li><p>View E2 Termination logs : <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">logs</span> <span class="pre">-f</span> <span class="pre">-n</span> <span class="pre">ricplt</span> <span class="pre">-l</span> <span class="pre">app=ricplt-e2term-alpha</span></code></p></li>
@@ -313,7 +314,7 @@ cd ../../
 </section>
 </section>
 <section id="step-4-deploy-the-near-real-time-ric">
-<h3>Step 4: Deploy the near-Real Time RIC<a class="headerlink" href="#step-4-deploy-the-near-real-time-ric" title="Permalink to this headline"></a></h3>
+<h3>Step 4: Deploy the near-Real Time RIC<a class="headerlink" href="#step-4-deploy-the-near-real-time-ric" title="Permalink to this heading"></a></h3>
 <p>Once the Kubernetes clusters are deployed, it is now time for us to deploy the near-real time RIC cluster.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> RIC-Deployment/bin
 sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
@@ -339,7 +340,7 @@ sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_r
 </pre></div>
 </div>
 <section id="structure-of-the-ric-deployment-directory">
-<h4>Structure of the “RIC-Deployment” Directory<a class="headerlink" href="#structure-of-the-ric-deployment-directory" title="Permalink to this headline"></a></h4>
+<h4>Structure of the “RIC-Deployment” Directory<a class="headerlink" href="#structure-of-the-ric-deployment-directory" title="Permalink to this heading"></a></h4>
 <p>The scripts in the ./bin directory are one-click RIC deployment/undeployment scripts and will call the deployment/undeployment
 scripts in the corresponding submodule directory respectively. In each of the submodule directories, ./bin contains
 the binary and script files and ./helm contains the helm charts. For the rest of the non-submodule directories please
@@ -347,36 +348,43 @@ refer to the README.md files in them for more details.</p>
 </section>
 </section>
 <section id="references">
-<h3>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h3>
-<dl class="footnote brackets">
-<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p><a class="reference external" href="https://www.youtube.com/watch?v=x5MhydijWmc">https://www.youtube.com/watch?v=x5MhydijWmc</a></p>
-</dd>
-<dt class="label" id="id4"><span class="brackets">2</span></dt>
-<dd><p><a class="reference external" href="https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster">https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster</a></p>
-</dd>
-<dt class="label" id="id5"><span class="brackets">3</span></dt>
-<dd><p><a class="reference external" href="https://www.section.io/engineering-education/docker-concepts/">https://www.section.io/engineering-education/docker-concepts/</a></p>
-</dd>
-<dt class="label" id="id6"><span class="brackets">4</span></dt>
-<dd><p><a class="reference external" href="https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/">https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/</a></p>
-</dd>
-<dt class="label" id="id7"><span class="brackets">5</span></dt>
-<dd><p><a class="reference external" href="https://kubernetes.io/docs/concepts/overview/components/">https://kubernetes.io/docs/concepts/overview/components/</a></p>
-</dd>
-<dt class="label" id="id8"><span class="brackets">6</span></dt>
-<dd><p><a class="reference external" href="https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes">https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes</a></p>
-</dd>
-<dt class="label" id="id9"><span class="brackets">7</span></dt>
-<dd><p><a class="reference external" href="https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers">https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers</a></p>
-</dd>
-<dt class="label" id="id10"><span class="brackets">8</span></dt>
-<dd><p><a class="reference external" href="https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/">https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/</a></p>
-</dd>
-<dt class="label" id="id11"><span class="brackets">9</span></dt>
-<dd><p><a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/networking/">https://kubernetes.io/docs/concepts/cluster-administration/networking/</a></p>
-</dd>
-</dl>
+<h3>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h3>
+<aside class="footnote brackets" id="id3" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://www.youtube.com/watch?v=x5MhydijWmc">https://www.youtube.com/watch?v=x5MhydijWmc</a></p>
+</aside>
+<aside class="footnote brackets" id="id4" role="note">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster">https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster</a></p>
+</aside>
+<aside class="footnote brackets" id="id5" role="note">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://www.section.io/engineering-education/docker-concepts/">https://www.section.io/engineering-education/docker-concepts/</a></p>
+</aside>
+<aside class="footnote brackets" id="id6" role="note">
+<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/">https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/</a></p>
+</aside>
+<aside class="footnote brackets" id="id7" role="note">
+<span class="label"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://kubernetes.io/docs/concepts/overview/components/">https://kubernetes.io/docs/concepts/overview/components/</a></p>
+</aside>
+<aside class="footnote brackets" id="id8" role="note">
+<span class="label"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes">https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes</a></p>
+</aside>
+<aside class="footnote brackets" id="id9" role="note">
+<span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers">https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers</a></p>
+</aside>
+<aside class="footnote brackets" id="id10" role="note">
+<span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/">https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/</a></p>
+</aside>
+<aside class="footnote brackets" id="id11" role="note">
+<span class="label"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/networking/">https://kubernetes.io/docs/concepts/cluster-administration/networking/</a></p>
+</aside>
 </section>
 </section>
 </section>
