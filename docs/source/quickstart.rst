@@ -12,6 +12,13 @@ OAIC is an open-source effort led by a consortium of academic institutions to pr
 Structure of OAIC
 -----------------
 
+For deployment please follow structure below, also we've provided step-by-step installation videos to help you for better understanding of our deployment structure:
+.. code-block:: rst
+
+   https://www.youtube.com/watch?v=LMui8HqKdyg&t=315s
+   https://www.youtube.com/watch?v=R9gCBWsLZJw&t=1s
+   https://www.youtube.com/watch?v=dWhrVLuswaQ
+
 To use Open AI Cellular, first clone the `oaic <https://github.com/openaicellular/oaic.git>`_ repository:
 
 .. code-block:: rst
