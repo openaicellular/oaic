@@ -9,4 +9,4 @@
 [submodule "srsRAN-e2"]
 	path = srsRAN-e2
 	url = https://github.com/openaicellular/srsRAN-e2.git
-	branch = master
+	branch = srs_KPIMON_5G
