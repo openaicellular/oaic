@@ -1,13 +1,15 @@
-=======================
-Example xApp Deployment
-=======================
+.. _kpimon_deployment:
+
+======================
+KPIMON xApp Deployment
+======================
 
 Here we are going to deploy KPIMON xApp as an example of xApp deployment. Please follow the steps to see the results.
 
 Get some variables ready
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-First, we need to get some variable of ricplt ready: 
+First, we need to get some variables of RIC Platform ready. The following variables represent the IP addresses of the services running on the RIC Platform.
 
 .. code-block:: rst
    
