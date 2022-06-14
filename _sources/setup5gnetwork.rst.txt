@@ -34,7 +34,7 @@ Running the en-gNB & connecting to near-RT RIC
 
 .. note::
 
-	If you want an xApp to communicate with the RAN, make sure that the xApp is already deployed on the near-RT RIC platform. Instructions to do this can be found in :ref:`Deploying xApp <kpimon_deployment>` and :ref:`Deploying example xApp <xapp_deployment>`sections.
+	If you want an xApp to communicate with the RAN, make sure that the xApp is already deployed on the near-RT RIC platform. Instructions to do this can be found in :ref:`Deploying example xApp <kpimon_deployment>` and :ref:`Genral guidelines to Deploy an xApp <xappdeployment>`sections.
 
 In a new command window on Machine 1 run srsRAN en-gNB. Here we outline two options - one with USRP X310 and the other with zeroMQ simulation.
 
