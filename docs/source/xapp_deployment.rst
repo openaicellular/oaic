@@ -1,4 +1,4 @@
-.. _xapp_deployment:
+.. _xappdeployment:
 
 ====================================
 xApp Deployment - General Guidelines
