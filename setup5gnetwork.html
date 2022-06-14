@@ -53,9 +53,23 @@
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Setup your own 5G Network</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Setup your own 5G Network</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-epc">Running the EPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#en-gnb-and-ue-in-zeromq-mode">en-gNB and UE in ZeroMQ Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#running-the-en-gnb-connecting-to-near-rt-ric">Running the en-gNB &amp; connecting to near-RT RIC</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#srsenb-in-zeromq-mode">srsENB in ZeroMQ mode</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#srsue-in-zeromq-mode">srsUE in ZeroMQ mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exchanging-traffic">Exchanging traffic</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#en-gnb-in-uhd-usrp-x310-mode">en-gNB in UHD USRP (X310) Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-srsue">Running the srsUE</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">Example xApp Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
 <ul>
@@ -92,28 +106,74 @@
              
   <section id="setup-your-own-5g-network">
 <h1>Setup your own 5G Network<a class="headerlink" href="#setup-your-own-5g-network" title="Permalink to this heading"></a></h1>
-<p>In a new command windows run srsRAN EPC:</p>
+<p>In this example, the EPC and en-gNB (NSA mode) and near-RT RIC are assumed to run on the same machine/VM (Machine 1). The UE, if using USRPs should be run on a different machine/VM (Machine 2). But if zeroMQ mode is used, a single machine suffices for all components. Refer to GNU radio integration for instructions to include multiple simulated UEs.</p>
+<section id="running-the-epc">
+<h2>Running the EPC<a class="headerlink" href="#running-the-epc" title="Permalink to this heading"></a></h2>
+<p>Before we start the EPC, we need to create a separate network namespace for the UE since all components are running on the same machine.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns add ue1
+sudo ip netns list
+</pre></div>
+</div>
+<p>Now, in a new command window on Machine 1 run srsRAN EPC:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsepc
 </pre></div>
 </div>
-<p>In a new command windows run srsRAN eNodeB.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The EPC can be run on a different machine and the eNB can connect to it based on its IP address. This IP address has to be specified in the eNB config file.</p>
+</div>
+</section>
+<section id="en-gnb-and-ue-in-zeromq-mode">
+<h2>en-gNB and UE in ZeroMQ Mode<a class="headerlink" href="#en-gnb-and-ue-in-zeromq-mode" title="Permalink to this heading"></a></h2>
+<section id="running-the-en-gnb-connecting-to-near-rt-ric">
+<h3>Running the en-gNB &amp; connecting to near-RT RIC<a class="headerlink" href="#running-the-en-gnb-connecting-to-near-rt-ric" title="Permalink to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want an xApp to communicate with the RAN, make sure that the xApp is already deployed on the near-RT RIC platform. Instructions to do this can be found in <a class="reference internal" href="example_xapp_deployment.html#kpimon-deployment"><span class="std std-ref">Deploying xApp</span></a> and :ref:<a href="#id1"><span class="problematic" id="id2">`</span></a>Deploying example xApp &lt;xapp_deployment&gt;`sections.</p>
+</div>
+<p>In a new command window on Machine 1 run srsRAN en-gNB. Here we outline two options - one with USRP X310 and the other with zeroMQ simulation.</p>
+<p>But before we start the en-gNB, we need to get the current machine’s IP address and the IP address of the E2 Termination service at the near-RT RIC.</p>
+<section id="srsenb-in-zeromq-mode">
+<h4>srsENB in ZeroMQ mode<a class="headerlink" href="#srsenb-in-zeromq-mode" title="Permalink to this heading"></a></h4>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb --enb.n_prb=15 --enb.name=enb1 --enb.enb_id=0x19B \
+--rf.device_name=zmq --rf.device_args=&quot;fail_on_disconnect=true,tx_port0=tcp://<span class="ge">*:2000,rx_port0=tcp://localhost:2001,tx_port1=tcp://*</span>:2100,rx_port1=tcp://localhost:2101,id=enb,base_srate=23.04e6&quot; \
+--ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT}
 </pre></div>
 </div>
-<p>In a new command windows run UE, placing its network interface into a separate network namespace:</p>
-<p>Creating Namespace:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns add ue1
+<p>Once the en-gNB is up and successfully connected to the near-RT RIC, you will see <strong>E2 Setup</strong> and <strong>E2 Response</strong> messages on the console. You will also see <code class="docutils literal notranslate"><span class="pre">RIC</span> <span class="pre">Connection</span> <span class="pre">Initialized</span></code> and <code class="docutils literal notranslate"><span class="pre">RIC</span> <span class="pre">state</span> <span class="pre">established</span></code> messages.</p>
+</section>
+</section>
+<section id="srsue-in-zeromq-mode">
+<h3>srsUE in ZeroMQ mode<a class="headerlink" href="#srsue-in-zeromq-mode" title="Permalink to this heading"></a></h3>
+<p>This command uses the default config file
+.. code-block:: rst</p>
+<blockquote>
+<div><p>sudo srsue</p>
+</div></blockquote>
+</section>
+<section id="exchanging-traffic">
+<h3>Exchanging traffic<a class="headerlink" href="#exchanging-traffic" title="Permalink to this heading"></a></h3>
+</section>
+</section>
+<section id="en-gnb-in-uhd-usrp-x310-mode">
+<h2>en-gNB in UHD USRP (X310) Mode<a class="headerlink" href="#en-gnb-in-uhd-usrp-x310-mode" title="Permalink to this heading"></a></h2>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb --enb.name=enb1 --enb.enb_id=0x19B \
+--rf.device_name=uhd --rf.device_args=&quot;type=x300,clock=internal,sampling_rate=11.52e6,lo_freq_offset_hz=23.04e6,send_frame_size=8000,recv_frame_size=8000,num_send_frames=64,num_recv_frames=64,None&quot; \
+--ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT}
 </pre></div>
 </div>
-<p>Run srsUE with the new assigned namespace</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsue –gw.netns=ue1
-</pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If the near-RT RIC is hosted on a separate machine, we can input the IP address of the machine as the E2 Termination’s IP. The IP address of the machine can be found by running <code class="docutils literal notranslate"><span class="pre">ifconfig</span></code></p>
 </div>
-<p>Send some simple signaling-like traffic from UE to EPC, Perform commands from ue1:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns exec ue1 ping 172.16.0.1
-</pre></div>
+</section>
+<section id="running-the-srsue">
+<h2>Running the srsUE<a class="headerlink" href="#running-the-srsue" title="Permalink to this heading"></a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can find configuration files and database file related to ‘ue1’, ‘enb’, ‘epc’ in /home/.config/srsran directory. If you want to change the contents of the ‘ue.config’ and ‘user_db.csv’ files      such as IMSI and other values, make sure to first kill the EPC process, make modifications and then restart EPC. The EPC process updates this file when it exits.</p>
 </div>
-<p>You can find configuration files and database file related to ‘ue1’, ‘enb’, ‘epc’ in /root/.config/ directory. If you want to change the contents of the ‘ue.config’ and ‘user_db.csv’ files such as IMSI and other values, make sure to first kill the EPC process, then modify, then restart EPC. The EPC process updates this file when it exits.</p>
+</section>
 </section>
 
 

@@ -121,5 +121,5 @@ Installation from Source
     make test
     sudo make install
     sudo ldconfig
-    srsran_install_configs.sh user
+    srsran_install_configs.sh user --force
     cd ../../

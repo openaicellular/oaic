@@ -1,17 +1,11 @@
+.. _xapp_deployment:
+
 ====================================
 xApp Deployment - General Guidelines
 ====================================
 
 Pre-requisites
 ==============
-
-Create an xApp Image Registry
------------------------------
-
-First we need to create a registry to host our xApp images. Here we create a local docker registry called ``xApp-registry.local:5008``. 5008 indicates the port number on which the registry is listening. 
-
-
-	
 
 Hosting Files on a Web Server 
 -----------------------------

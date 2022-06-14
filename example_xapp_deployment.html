@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example xApp Deployment &mdash; OAIC 0.1 documentation</title>
+  <title>KPIMON xApp Deployment &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -55,7 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Example xApp Deployment</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">KPIMON xApp Deployment</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#get-some-variables-ready">Get some variables ready</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#check-helm-charts-to-see-if-kpimon-is-one-of-them">Check helm charts to see if KPIMON is one of them</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#build-docker-image-of-kpimon">Build Docker image of KPIMON</a></li>
@@ -87,7 +87,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Example xApp Deployment</li>
+      <li>KPIMON xApp Deployment</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/example_xapp_deployment.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -97,12 +97,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="example-xapp-deployment">
-<h1>Example xApp Deployment<a class="headerlink" href="#example-xapp-deployment" title="Permalink to this heading"></a></h1>
+  <section id="kpimon-xapp-deployment">
+<span id="kpimon-deployment"></span><h1>KPIMON xApp Deployment<a class="headerlink" href="#kpimon-xapp-deployment" title="Permalink to this heading"></a></h1>
 <p>Here we are going to deploy KPIMON xApp as an example of xApp deployment. Please follow the steps to see the results.</p>
 <section id="get-some-variables-ready">
 <h2>Get some variables ready<a class="headerlink" href="#get-some-variables-ready" title="Permalink to this heading"></a></h2>
-<p>First, we need to get some variable of ricplt ready:</p>
+<p>First, we need to get some variables of RIC Platform ready. The following variables represent the IP addresses of the services running on the RIC Platform.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export KONG_PROXY=<span class="nv">`kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 export E2MGR_HTTP=<span class="nv">`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2mgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 export APPMGR_HTTP=<span class="nv">`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
