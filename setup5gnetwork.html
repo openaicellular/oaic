@@ -133,6 +133,11 @@ sudo ip netns list
 </div>
 <p>In a new command window on Machine 1 run srsRAN en-gNB. Here we outline two options - one with USRP X310 and the other with zeroMQ simulation.</p>
 <p>But before we start the en-gNB, we need to get the current machine’s IP address and the IP address of the E2 Termination service at the near-RT RIC.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export E2NODE_IP=<span class="nv">`hostname  -I | cut -f1 -d&#39; &#39;`</span>
+export E2NODE_PORT=5006
+export E2TERM_IP=<span class="nv">`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+</pre></div>
+</div>
 <section id="srsenb-in-zeromq-mode">
 <h4>srsENB in ZeroMQ mode<a class="headerlink" href="#srsenb-in-zeromq-mode" title="Permalink to this heading"></a></h4>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb --enb.n_prb=15 --enb.name=enb1 --enb.enb_id=0x19B \
