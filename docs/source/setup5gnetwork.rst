@@ -40,7 +40,7 @@ In a new command window on Machine 1 run srsRAN en-gNB. Here we outline two opti
 
 But before we start the en-gNB, we need to get the current machine's IP address and the IP address of the E2 Termination service at the near-RT RIC.
 
-.. code-block::rst 
+.. code-block:: rst 
 	
 	export E2NODE_IP=`hostname  -I | cut -f1 -d' '`
 	export E2NODE_PORT=5006
