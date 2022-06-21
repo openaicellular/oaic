@@ -53,16 +53,17 @@
 <li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
-<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">xApp Development:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html">Getting started: Developing xapps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
 </ul>
 
         </div>
@@ -148,20 +149,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="setup5gnetwork.html#running-the-epc">Running the EPC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup5gnetwork.html#en-gnb-and-ue-in-zeromq-mode">en-gNB and UE in ZeroMQ Mode</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#multiple-simulated-ues-using-gnu-radio-companion">Multiple Simulated UEs using GNU Radio Companion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#connecting-to-an-external-server-internet">Connecting to an external server/internet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#connecting-usrps-to-virtualbox-vms">Connecting USRPs to VirtualBox VMs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#uhd-usrp-performance-enhancement-tips-and-tricks">UHD USRP Performance Enhancement Tips and Tricks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#cots-ue-configuration">COTS UE Configuration</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="example_xapp_deployment.html#hosting-the-config-files">Hosting the config Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example_xapp_deployment.html#creating-kpimon-xapp-docker-image">Creating KPIMON xApp Docker image</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example_xapp_deployment.html#xapp-onboarder-deployment">xApp Onboarder Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup5gnetwork.html#en-gnb-and-ue-in-usrp-mode">en-gNB and UE in USRP Mode</a></li>
 </ul>
 </li>
 </ul>
@@ -169,6 +157,12 @@
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="example_xapp_deployment.html#hosting-the-config-files">Hosting the config Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_xapp_deployment.html#creating-kpimon-xapp-docker-image">Creating KPIMON xApp Docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_xapp_deployment.html#xapp-onboarder-deployment">xApp Onboarder Deployment</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="xapp_deployment.html#pre-requisites">Pre-requisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="xapp_deployment.html#creating-xapp-docker-image">Creating xApp Docker Image</a></li>
@@ -179,13 +173,24 @@
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">xApp Development:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html">Getting started: Developing xapps</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="xapp_example.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="xapp_example.html#the-xapp-frame-common-functions-and-interfaces">The Xapp Frame common functions and interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="xapp_example.html#the-go-xapp-framework-supports-various-essential-components">The GO xApp Framework supports various essential components</a></li>
-<li class="toctree-l2"><a class="reference internal" href="xapp_example.html#onboarding-of-hw-go-using-dms-cli-tool">Onboarding of hw-go using dms_cli tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="undeploy_ric.html#un-deploying-and-re-deploying-xapps">Un-deploying and Re-deploying xApps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#multiple-simulated-ues-using-gnu-radio-companion">Multiple Simulated UEs using GNU Radio Companion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#connecting-to-an-external-server-internet">Connecting to an external server/internet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#connecting-usrps-to-virtualbox-vms">Connecting USRPs to VirtualBox VMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#uhd-usrp-performance-enhancement-tips-and-tricks">UHD USRP Performance Enhancement Tips and Tricks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srsRAN_additional_features.html#cots-ue-configuration">COTS UE Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kubectl_commands.html#check-the-kubernetes-pods-and-services">Check the Kubernetes pods and services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubectl_commands.html#view-logs-of-kubernetes-pods">View logs of Kubernetes pods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubectl_commands.html#run-commands-in-a-kubernetes-pod">Run commands in a Kubernetes pod</a></li>
 </ul>
 </li>
 </ul>

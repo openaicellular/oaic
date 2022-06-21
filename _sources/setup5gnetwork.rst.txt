@@ -27,6 +27,8 @@ Now, in a new command window on Machine 1 run srsRAN EPC:
 	
 	The EPC can be run on a different machine and the eNB can connect to it based on its IP address. This IP address has to be specified in the eNB config file.
 
+Here we outline two options to bring up the en-gNB and the UE - one with  zeroMQ simulation and the other with USRP X310.
+
 en-gNB and UE in ZeroMQ Mode
 ============================
 
@@ -36,9 +38,11 @@ Running the en-gNB & connecting to near-RT RIC
 
 .. note::
 
-	If you want an xApp to communicate with the RAN, make sure that the xApp is already deployed on the near-RT RIC platform. Instructions to do this can be found in :ref:`Deploying example xApp <kpimon_deployment>` and :ref:`Genral guidelines to Deploy an xApp <xappdeployment>` sections.
+	If you want an xApp to communicate with the RAN, make sure that the xApp is not already deployed on the near-RT RIC platform. 
 
-In a new command window on Machine 1 run srsRAN en-gNB. Here we outline two options - one with USRP X310 and the other with zeroMQ simulation.
+.. Instructions to do this can be found in :ref:`Deploying example xApp <kpimon_deployment>` and :ref:`Genral guidelines to Deploy an xApp <xappdeployment>` sections.
+
+In a new command window on Machine 1 run srsRAN en-gNB. 
 
 But before we start the en-gNB, we need to get the current machine's IP address and the IP address of the E2 Termination service at the near-RT RIC.
 
@@ -54,7 +58,7 @@ srsENB in ZeroMQ mode
 
 .. code-block:: rst
 
-        sudo srsenb --enb.n_prb=50 --enb.name=enb1 --enb.enb_id=0x19B \
+        sudo srsenb --enb.n_prb=50 --enb.name=enb1 --enb.enb_id=0x19B --gw.netns=ue1 \
         --rf.device_name=zmq --rf.device_args="fail_on_disconnect=true,tx_port0=tcp://*:2000,rx_port0=tcp://localhost:2001,tx_port1=tcp://*:2100,rx_port1=tcp://localhost:2101,id=enb,base_srate=23.04e6" \
         --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT}
 
@@ -64,7 +68,7 @@ Once the en-gNB is up and successfully connected to the near-RT RIC, you will se
 srsUE in ZeroMQ mode
 --------------------
 
-This command uses the default config file. The following message ``RRC NR reconfiguration successful`` confirms that the UE has connected to the NR cell. This will be used for the data link, while the LTE cell will be used for control messaging.
+This command uses the default config file. The following message ``RRC NR reconfiguration successful`` confirms that the UE has connected to the NR cell. This will be used for the data link, while the LTE cell will be used for control messaging. On a new command terminal on the same machine run,
  
 
 .. code-block:: rst
@@ -137,11 +141,25 @@ Again, since we are using zeroMQ, the iperf client should be run from the UE's n
 
 	sudo ip netns exec ue1 iperf3 -c 172.16.0.1 -b 10M -i 1 -t 60
 
+en-gNB and UE in USRP Mode
+==========================
+
 
 en-gNB in UHD USRP (X310) Mode
 ------------------------------
 
 The srsENB should be run on the same machine as the EPC.
+
+In a new command window on Machine 1 run srsRAN en-gNB. 
+
+Before we start the en-gNB, we need to get the current machine's IP address and the IP address of the E2 Termination service at the near-RT RIC.
+
+.. code-block:: rst 
+	
+	export E2NODE_IP=`hostname  -I | cut -f1 -d' '`
+	export E2NODE_PORT=5006
+	export E2TERM_IP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
+
 
 .. code-block:: rst
 
@@ -159,7 +177,7 @@ The srsENB should be run on the same machine as the EPC.
 Running the srsUE
 -----------------
 
-For this mode, the UE should run on a different machine (can be a VM)
+For this mode, the UE should run on Machine 2 (can be a VM).
 
 .. code-block:: rst
 

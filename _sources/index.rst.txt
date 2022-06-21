@@ -28,22 +28,24 @@ Welcome to OAIC's documentation!
    oran_installation.rst
    srsRAN_installation.rst
    setup5gnetwork.rst
-   srsRAN_additional_features.rst
-   example_xapp_deployment.rst
+   
+   
 
 .. toctree::
    :maxdepth: 2
    :caption: xApp Deployment:
 
+   example_xapp_deployment.rst
    xapp_deployment.rst
    
 
 .. toctree::
    :maxdepth: 2
-   :caption: xApp Development:
+   :caption: Additional Features
 
-   xapp_example.rst
-
+   undeploy_ric.rst
+   srsRAN_additional_features.rst
+   kubectl_commands.rst
 
 
 Indices and tables

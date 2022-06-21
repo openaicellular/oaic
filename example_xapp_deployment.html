@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="xApp Deployment - General Guidelines" href="xapp_deployment.html" />
-    <link rel="prev" title="Additional Features" href="srsRAN_additional_features.html" /> 
+    <link rel="prev" title="Setup your own 5G Network" href="setup5gnetwork.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,12 +49,14 @@
 <li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
-<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">KPIMON xApp Deployment</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#hosting-the-config-files">Hosting the config Files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-kpimon-xapp-docker-image">Creating KPIMON xApp Docker image</a></li>
@@ -68,14 +70,13 @@
 </li>
 </ul>
 </li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">xApp Development:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html">Getting started: Developing xapps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
 </ul>
 
         </div>
@@ -119,7 +120,7 @@ sudo systemctl reload nginx
 </div>
 <p>Now, you can check if the config file can be accessed from the newly created server. Place all files you want to host in the <code class="docutils literal notranslate"><span class="pre">config_files</span></code> directory</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export MACHINE_IP=<span class="nv">`hostname  -I | cut -f1 -d&#39; &#39;`</span>
-curl http://${MACHINE_IP}:5010/config_files/config-file.json
+curl http://${MACHINE_IP}:5010/config_files/scp-kpimon-config-file.json
 </pre></div>
 </div>
 <p>We host the config file on the web server to make it possible for the onboarder to download and use it for deployment.</p>
@@ -136,7 +137,7 @@ sudo docker build . -t xApp-registry.local:5008/scp-kpimon:1.0.1
 <h2>xApp Onboarder Deployment<a class="headerlink" href="#xapp-onboarder-deployment" title="Permalink to this heading"></a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Before Deploying the xApp, it is essential to have the <a class="reference internal" href="xapp_deployment.html#xappdeployment"><span class="std std-ref">5G Network Up and Running</span></a>. Otherwise the subscription procedure will not be sucessful.</p>
+<p>Before Deploying the xApp, it is essential to have the <a class="reference internal" href="xapp_deployment.html#xappdeployment"><span class="std std-ref">5G Network Up and Running</span></a>. Otherwise the subscription procedure will not be successful.</p>
 </div>
 <section id="get-variables">
 <h3>Get Variables<a class="headerlink" href="#get-variables" title="Permalink to this heading"></a></h3>
@@ -184,6 +185,10 @@ curl -L -X POST &quot;http://$KONG_PROXY:32080/appmgr/ric/v1/xapps&quot; --heade
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
 </pre></div>
 </div>
+<p>Since the E2 Node is already up and running and the Key Performance Metrics (KPM) RAN function is enabled by default, the xApp will be able to subscribe to the E2 Node and start getting <strong>INDICATION</strong> messages. The decoded message containing information about the metrics is stored in the <code class="docutils literal notranslate"><span class="pre">kpimon.log</span></code> within the pod. This can be viewed by,</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>kubectl exec -it -n ricxapp <span class="nv">`kubectl get pod -n ricxapp -l app=ricxapp-scp-kpimon -o jsonpath=&#39;{.items[0].metadata.name}&#39;`</span> -- tail -F /opt/kpimon.log
+</pre></div>
+</div>
 </section>
 </section>
 </section>
@@ -192,7 +197,7 @@ curl -L -X POST &quot;http://$KONG_PROXY:32080/appmgr/ric/v1/xapps&quot; --heade
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="srsRAN_additional_features.html" class="btn btn-neutral float-left" title="Additional Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="setup5gnetwork.html" class="btn btn-neutral float-left" title="Setup your own 5G Network" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="xapp_deployment.html" class="btn btn-neutral float-right" title="xApp Deployment - General Guidelines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

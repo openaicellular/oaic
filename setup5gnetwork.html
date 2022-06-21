@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Additional Features" href="srsRAN_additional_features.html" />
+    <link rel="next" title="KPIMON xApp Deployment" href="example_xapp_deployment.html" />
     <link rel="prev" title="srsRAN with E2 Agent Installation Guide" href="srsRAN_installation.html" /> 
 </head>
 
@@ -66,6 +66,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#iperf3">iPerf3</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#en-gnb-and-ue-in-usrp-mode">en-gNB and UE in USRP Mode</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#en-gnb-in-uhd-usrp-x310-mode">en-gNB in UHD USRP (X310) Mode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#running-the-srsue">Running the srsUE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#testing-the-network">Testing the Network</a><ul>
@@ -77,16 +80,17 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">xApp Development:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html">Getting started: Developing xapps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
 </ul>
 
         </div>
@@ -131,6 +135,7 @@ sudo ip netns list
 <p class="admonition-title">Note</p>
 <p>The EPC can be run on a different machine and the eNB can connect to it based on its IP address. This IP address has to be specified in the eNB config file.</p>
 </div>
+<p>Here we outline two options to bring up the en-gNB and the UE - one with  zeroMQ simulation and the other with USRP X310.</p>
 </section>
 <section id="en-gnb-and-ue-in-zeromq-mode">
 <h2>en-gNB and UE in ZeroMQ Mode<a class="headerlink" href="#en-gnb-and-ue-in-zeromq-mode" title="Permalink to this heading"></a></h2>
@@ -138,9 +143,9 @@ sudo ip netns list
 <h3>Running the en-gNB &amp; connecting to near-RT RIC<a class="headerlink" href="#running-the-en-gnb-connecting-to-near-rt-ric" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you want an xApp to communicate with the RAN, make sure that the xApp is already deployed on the near-RT RIC platform. Instructions to do this can be found in <a class="reference internal" href="example_xapp_deployment.html#kpimon-deployment"><span class="std std-ref">Deploying example xApp</span></a> and <a class="reference internal" href="xapp_deployment.html#xappdeployment"><span class="std std-ref">Genral guidelines to Deploy an xApp</span></a> sections.</p>
+<p>If you want an xApp to communicate with the RAN, make sure that the xApp is not already deployed on the near-RT RIC platform.</p>
 </div>
-<p>In a new command window on Machine 1 run srsRAN en-gNB. Here we outline two options - one with USRP X310 and the other with zeroMQ simulation.</p>
+<p>In a new command window on Machine 1 run srsRAN en-gNB.</p>
 <p>But before we start the en-gNB, we need to get the current machine’s IP address and the IP address of the E2 Termination service at the near-RT RIC.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export E2NODE_IP=<span class="nv">`hostname  -I | cut -f1 -d&#39; &#39;`</span>
 export E2NODE_PORT=5006
@@ -149,7 +154,7 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </div>
 <section id="srsenb-in-zeromq-mode">
 <h4>srsENB in ZeroMQ mode<a class="headerlink" href="#srsenb-in-zeromq-mode" title="Permalink to this heading"></a></h4>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb --enb.n_prb=50 --enb.name=enb1 --enb.enb_id=0x19B \
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb --enb.n_prb=50 --enb.name=enb1 --enb.enb_id=0x19B --gw.netns=ue1 \
 --rf.device_name=zmq --rf.device_args=&quot;fail_on_disconnect=true,tx_port0=tcp://<span class="ge">*:2000,rx_port0=tcp://localhost:2001,tx_port1=tcp://*</span>:2100,rx_port1=tcp://localhost:2101,id=enb,base_srate=23.04e6&quot; \
 --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT}
 </pre></div>
@@ -159,7 +164,7 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </section>
 <section id="srsue-in-zeromq-mode">
 <h3>srsUE in ZeroMQ mode<a class="headerlink" href="#srsue-in-zeromq-mode" title="Permalink to this heading"></a></h3>
-<p>This command uses the default config file. The following message <code class="docutils literal notranslate"><span class="pre">RRC</span> <span class="pre">NR</span> <span class="pre">reconfiguration</span> <span class="pre">successful</span></code> confirms that the UE has connected to the NR cell. This will be used for the data link, while the LTE cell will be used for control messaging.</p>
+<p>This command uses the default config file. The following message <code class="docutils literal notranslate"><span class="pre">RRC</span> <span class="pre">NR</span> <span class="pre">reconfiguration</span> <span class="pre">successful</span></code> confirms that the UE has connected to the NR cell. This will be used for the data link, while the LTE cell will be used for control messaging. On a new command terminal on the same machine run,</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsue
 </pre></div>
 </div>
@@ -216,9 +221,19 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </section>
 </section>
 </section>
+</section>
+<section id="en-gnb-and-ue-in-usrp-mode">
+<h2>en-gNB and UE in USRP Mode<a class="headerlink" href="#en-gnb-and-ue-in-usrp-mode" title="Permalink to this heading"></a></h2>
 <section id="en-gnb-in-uhd-usrp-x310-mode">
 <h3>en-gNB in UHD USRP (X310) Mode<a class="headerlink" href="#en-gnb-in-uhd-usrp-x310-mode" title="Permalink to this heading"></a></h3>
 <p>The srsENB should be run on the same machine as the EPC.</p>
+<p>In a new command window on Machine 1 run srsRAN en-gNB.</p>
+<p>Before we start the en-gNB, we need to get the current machine’s IP address and the IP address of the E2 Termination service at the near-RT RIC.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export E2NODE_IP=<span class="nv">`hostname  -I | cut -f1 -d&#39; &#39;`</span>
+export E2NODE_PORT=5006
+export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+</pre></div>
+</div>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb --enb.name=enb1 --enb.enb_id=0x19B \
 --rf.device_name=uhd --rf.device_args=&quot;type=x300,clock=internal,sampling_rate=11.52e6,lo_freq_offset_hz=23.04e6,send_frame_size=8000,recv_frame_size=8000,num_send_frames=64,num_recv_frames=64,None&quot; \
 --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT}
@@ -231,7 +246,7 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </section>
 <section id="running-the-srsue">
 <h3>Running the srsUE<a class="headerlink" href="#running-the-srsue" title="Permalink to this heading"></a></h3>
-<p>For this mode, the UE should run on a different machine (can be a VM)</p>
+<p>For this mode, the UE should run on Machine 2 (can be a VM).</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsue --rf.device_name=uhd --rf.device_args=&quot;type=x300,clock=internal,sampling_rate=11.52e6,lo_freq_offset_hz=23.04e6,send_frame_size=8000,recv_frame_size=8000,num_send_frames=64,num_recv_frames=64,None&quot; \
 --rf.srate=11.52e6 --rrc.release=15 --rat.nr.bands=3 --rat.nr.nof_carriers=1
 </pre></div>
@@ -292,7 +307,7 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="srsRAN_installation.html" class="btn btn-neutral float-left" title="srsRAN with E2 Agent Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="srsRAN_additional_features.html" class="btn btn-neutral float-right" title="Additional Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="example_xapp_deployment.html" class="btn btn-neutral float-right" title="KPIMON xApp Deployment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Additional Features &mdash; OAIC 0.1 documentation</title>
+  <title>srsRAN Additional Features &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="KPIMON xApp Deployment" href="example_xapp_deployment.html" />
-    <link rel="prev" title="Setup your own 5G Network" href="setup5gnetwork.html" /> 
+    <link rel="next" title="Kubectl Commands - Cheat Sheet" href="kubectl_commands.html" />
+    <link rel="prev" title="UnDeploying RIC Platform" href="undeploy_ric.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,12 +49,21 @@
 <li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Additional Features</a><ul>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">srsRAN Additional Features</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#multiple-simulated-ues-using-gnu-radio-companion">Multiple Simulated UEs using GNU Radio Companion</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installing-gnu-radio-companion">Installing GNU Radio Companion</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#installation-from-binaries">Installation From Binaries</a></li>
@@ -72,15 +81,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#cots-ue-configuration">COTS UE Configuration</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">xApp Development:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="xapp_example.html">Getting started: Developing xapps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
 </ul>
 
         </div>
@@ -97,7 +98,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Additional Features</li>
+      <li>srsRAN Additional Features</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/srsRAN_additional_features.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -107,8 +108,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="additional-features">
-<h1>Additional Features<a class="headerlink" href="#additional-features" title="Permalink to this heading"></a></h1>
+  <section id="srsran-additional-features">
+<h1>srsRAN Additional Features<a class="headerlink" href="#srsran-additional-features" title="Permalink to this heading"></a></h1>
 <section id="multiple-simulated-ues-using-gnu-radio-companion">
 <span id="multiple-ue"></span><h2>Multiple Simulated UEs using GNU Radio Companion<a class="headerlink" href="#multiple-simulated-ues-using-gnu-radio-companion" title="Permalink to this heading"></a></h2>
 <p>GNU Radio Companion (GRC) can be used to manipulate, and/or visualize base band I/Q data as it is sent between the UE and eNB. GRC contains ZeroMQ compatible blocks that are connected to the TCP ports used to transmit data between the UE and eNB. The Broker basically acts as a channel for information flow.</p>
@@ -232,8 +233,8 @@ uhd_find_devices
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="setup5gnetwork.html" class="btn btn-neutral float-left" title="Setup your own 5G Network" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="example_xapp_deployment.html" class="btn btn-neutral float-right" title="KPIMON xApp Deployment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="undeploy_ric.html" class="btn btn-neutral float-left" title="UnDeploying RIC Platform" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="kubectl_commands.html" class="btn btn-neutral float-right" title="Kubectl Commands - Cheat Sheet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RAN Architecture &mdash; OAIC 0.1 documentation</title>
+  <title>Kubectl Commands - Cheat Sheet &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Hardware and Software Requirements" href="requirements.html" />
-    <link rel="prev" title="O-RAN Architecture" href="background_oran_architecture.html" /> 
+    <link rel="prev" title="srsRAN Additional Features" href="srsRAN_additional_features.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,10 +42,10 @@
 <li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
 <ul>
@@ -61,10 +60,19 @@
 <li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Kubectl Commands - Cheat Sheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#check-the-kubernetes-pods-and-services">Check the Kubernetes pods and services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#view-logs-of-kubernetes-pods">View logs of Kubernetes pods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-commands-in-a-kubernetes-pod">Run commands in a Kubernetes pod</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#get-the-full-pod-name">Get the full pod name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-the-ip-of-a-service-offered-by-a-pod">Get the IP of a service offered by a pod</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -81,9 +89,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>RAN Architecture</li>
+      <li>Kubectl Commands - Cheat Sheet</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/background_srsRAN.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/kubectl_commands.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -91,16 +99,62 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="ran-architecture">
-<h1>RAN Architecture<a class="headerlink" href="#ran-architecture" title="Permalink to this heading"></a></h1>
+  <section id="kubectl-commands-cheat-sheet">
+<h1>Kubectl Commands - Cheat Sheet<a class="headerlink" href="#kubectl-commands-cheat-sheet" title="Permalink to this heading"></a></h1>
+<section id="check-the-kubernetes-pods-and-services">
+<h2>Check the Kubernetes pods and services<a class="headerlink" href="#check-the-kubernetes-pods-and-services" title="Permalink to this heading"></a></h2>
+<p>View all pods deployed</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get pods -A
+</pre></div>
+</div>
+<p>View all services offered</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get services -A
+</pre></div>
+</div>
+<p>View pods in a particular namespace. For example, the namespace can be <code class="docutils literal notranslate"><span class="pre">ricplt</span></code>, <code class="docutils literal notranslate"><span class="pre">ricxapp</span></code> or <code class="docutils literal notranslate"><span class="pre">ricinfra</span></code></p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get pods -n &lt;namespace&gt;  or sudo kubectl get pods -n ricplt
+</pre></div>
+</div>
+<p>View services in a particular namespace</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get services -n ricplt
+</pre></div>
+</div>
+</section>
+<section id="view-logs-of-kubernetes-pods">
+<h2>View logs of Kubernetes pods<a class="headerlink" href="#view-logs-of-kubernetes-pods" title="Permalink to this heading"></a></h2>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl logs -f -n &lt;namespace&gt; -l app=&lt;pod_name&gt;
+</pre></div>
+</div>
+<p>In our setup the &lt;namespace&gt; can be <code class="docutils literal notranslate"><span class="pre">ricplt</span></code>, <code class="docutils literal notranslate"><span class="pre">ricxapp</span></code> or <code class="docutils literal notranslate"><span class="pre">ricinfra</span></code>. An example would look like the following</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl logs -f -n ricplt -l app=ricplt-e2mgr
+</pre></div>
+</div>
+</section>
+<section id="run-commands-in-a-kubernetes-pod">
+<h2>Run commands in a Kubernetes pod<a class="headerlink" href="#run-commands-in-a-kubernetes-pod" title="Permalink to this heading"></a></h2>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl exec -it -n &lt;namespace&gt; &lt;pod_name&gt; &lt;command&gt;
+</pre></div>
+</div>
+<section id="get-the-full-pod-name">
+<h3>Get the full pod name<a class="headerlink" href="#get-the-full-pod-name" title="Permalink to this heading"></a></h3>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get pod -n ricxapp -l app=&lt;pod_name&gt; -o jsonpath=&#39;{.items[0].metadata.name}&#39;
+</pre></div>
+</div>
+</section>
+<section id="get-the-ip-of-a-service-offered-by-a-pod">
+<h3>Get the IP of a service offered by a pod<a class="headerlink" href="#get-the-ip-of-a-service-offered-by-a-pod" title="Permalink to this heading"></a></h3>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get svc -n ricxapp --field-selector metadata.name=&lt;service_name&gt; -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="background_oran_architecture.html" class="btn btn-neutral float-left" title="O-RAN Architecture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="requirements.html" class="btn btn-neutral float-right" title="Hardware and Software Requirements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="srsRAN_additional_features.html" class="btn btn-neutral float-left" title="srsRAN Additional Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
