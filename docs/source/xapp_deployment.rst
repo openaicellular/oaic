@@ -104,13 +104,6 @@ We create the xapp image using the given Dockerfile within the xApp repository.
 
 What we are essentially doing here is that we are storing our built image in a local docker repository. This is done to keep things simple. We could use cloud servers too (in that case the image needs to be pushed to the respective server using ``docker push``).
 
-Now that we have built the docker image, we need to push it to our local registry ``xApp-registry.local:5008``
-
-.. code-block:: rst 
-
-	docker push xApp-registry.local:5008/<xapp-name>:<version>
-
-
 
 xApp Onboarder Deployment
 =========================
@@ -158,7 +151,7 @@ Save the file. Now we are ready to deploy the xApp.
 
 .. code-block:: rst
 
-	curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' -data-binary "@<xApp-name>-onboard.url"
+	curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@<xApp-name>-onboard.url"
 	curl -L -X GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"    
 	curl -L -X POST "http://$KONG_PROXY:32080/appmgr/ric/v1/xapps" --header 'Content-Type: application/json' --data-raw '{"xappName": "scp-kpimon"}'
 

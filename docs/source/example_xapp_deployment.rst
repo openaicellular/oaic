@@ -8,92 +8,111 @@ Here we are going to deploy KPIMON xApp as an example of xApp deployment. Please
 
 .. note::
 
-	The near-RT RIC installation has to be complete before proceeding with the following sections.
+	The near-RT RIC installation has to be completed before proceeding with the following sections.
 
-As indicated in the General xApp guidelines section , we 
 
-Get some variables ready
-~~~~~~~~~~~~~~~~~~~~~~~~
+Hosting the config Files
+========================
+
+As indicated in the :ref:`Genral guidelines to Deploy an xApp <xappdeployment>` section , we first need to host the config file (xApp descriptor) provided in the web server we have created already. Copy the xApp config file to this directory. Reload Nginx once this has been done. 
+
+.. code-block:: rst
+	
+	sudo cp ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
+	sudo systemctl reload nginx
+
+Now, you can check if the config file can be accessed from the newly created server. Place all files you want to host in the ``config_files`` directory
+
+.. code-block:: rst
+	
+	export MACHINE_IP=`hostname  -I | cut -f1 -d' '`
+	curl http://${MACHINE_IP}:5010/config_files/config-file.json
+
+We host the config file on the web server to make it possible for the onboarder to download and use it for deployment.
+
+Creating KPIMON xApp Docker image
+=================================
+
+Now, we create a docker image of the KPIMON xApp using the given docker file.
+
+.. code-block::rst
+
+	cd ric-scp-kpimon
+	sudo docker build . -t xApp-registry.local:5008/scp-kpimon:1.0.1
+	
+
+xApp Onboarder Deployment
+=========================
+
+.. warning::
+
+	Before Deploying the xApp, it is essential to have the :ref:`5G Network Up and Running <xappdeployment>`. Otherwise the subscription procedure will not be sucessful.
+
+Get variables ready
+-------------------
 
 First, we need to get some variables of RIC Platform ready. The following variables represent the IP addresses of the services running on the RIC Platform.
 
 .. code-block:: rst
-   
-  export KONG_PROXY=`kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath='{.items[0].spec.clusterIP}'`
-  export E2MGR_HTTP=`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2mgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
-  export APPMGR_HTTP=`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
-  export E2TERM_SCTP=`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
-  export ONBOARDER_HTTP=`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
-  export RTMGR_HTTP=`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-rtmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
 
-Check helm charts to see if KPIMON is one of them
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	export KONG_PROXY=`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath='{.items[0].spec.clusterIP}'`
+	export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
+	export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
 
-If there is no helm chart for KPIMON, it's good to continue. Otherwise, we have to use the existing chart or delete it and then proceed forward.
+
+Check helm repo for helm charts
+-------------------------------
+
+Get helm charts and check if the current xApp is one of them. If there is no helm chart, then we are good to go. Otherwise, we have to use the existing chart or delete it and then proceed forward.
 
 .. code-block:: rst
 
 	curl --location --request GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"
 
-Build Docker image of KPIMON
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create a .url file
+------------------
 
-Build the Docker image of KPIMON xApp:
-First, clone the KPIMON and change the file's content to e2sm-kpm-01.00 commit:
-
-.. code-block:: rst
-
-	git clone https://gitlab.flux.utah.edu/powderrenewpublic/ric-scp-kpimon.git
-	cd ric-scp-kpimon
-	git checkout revert-to-e2sm-kpm-01.00
-
-Now you have a Docker image in ric-scp-kpimon directory that should be replaced with the existing Docker image in OAIC github repository. First download the Docker file and:
+Next, we need to create a ``.url`` file to point the ``xApp-onboarder`` to the Ngnix server to get the xApp descriptor file and use it to create a helm chart and deploy the xApp.
 
 .. code-block:: rst
 
-	cp -R /home/<directory>/Dockerfile /home/<directory>/ric–scp–kpimon 
+	vim scp-kpimon-onboard.url	
+
+Paste the following in the ``onboard.url`` file. Substitue the ``<machine_ip_addr>`` with the IP address of your machine. You can find this out through ``ifconfig``.
+
+.. code-block:: rst
+
+	{"config-file.json_url":"http://<machine_ip_addr>:5010/scp-kpimon-config-file.json"}
+
+Save the file. Now we are ready to deploy the xApp. 
+
+Deploying the xApp
+------------------
+
+.. code-block:: rst
+
+	curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@scp-kpimon-onboard.url"
+	curl -L -X GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"    
+	curl -L -X POST "http://$KONG_PROXY:32080/appmgr/ric/v1/xapps" --header 'Content-Type: application/json' --data-raw '{"xappName": "scp-kpimon"}'
+
+
+Verifying xApp Deployment
+-------------------------
+
+There should be a ``ricxapp-scp-kpimon`` pod in ``ricxapp`` namespace
+
+.. code-block:: rst
+
+	sudo kubectl get pods -A
+
+We can check the xApp logs using
+
+.. code-block:: rst
+
+	kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
+
+
   
-Second, build the docker image:
-
-.. code-block:: rst
-
-	sudo docker build . -f Dockerfile --tag docker-repository.local:5000/scp-kpimon:1.0.1
-  
-Third, push the docker image:
-
-.. code-block:: rst
-
-	sudo docker push localhost:5000/scp-kpimon:1.0.1
-  
-If a local registry is not present, create it with name "docker-repository.local" and give it port number '5000':
-
-.. code-block:: rst
-
-	sudo docker run -d -p 5000:5000 --restart=always --name docker-repository.local registry:2
-  
-Host & Onboard the xApp descriptor 'config-file.jason'
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The xApp descriptor files (config.json) must be hosted on a webserver when we use the **xapp-onboarder** to deploy xApps. To host these files we use Nginx to create a web server. Next, we need to create a .url file to point the xApp-onboarder to the Ngnix server to get the xApp descriptor file and use it to create a helm chart and deploy the xApp. Please follow instruction on 'xApp Deployment' section <https://openaicellular.github.io/oaic/xapp_deployment.html>, to host the config-file.json of KPIMON xApp on a server. Just consider to use 'scp-kpimon' for 'xApp-name'
-
-Deploy the KPIMON xApp
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Now we are ready to deploy the xApp:
-
-.. code-block:: rst
-
-  curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@scp-kpimon-onboard.url"
-  curl -L -X GET "http://$KONG_PROXY:32080/onboard/api/v1/charts
-  curl -L -X POST "http://$KONG_PROXY:32080/appmgr/ric/v1/xapps" --header 'Content-Type: application/json' --data-raw '{"xappName": "scp-kpimon"}'
-  
-The xApp should be successfully deployed. Verify this using:
-  
-.. code-block:: rst
-
-  sudo kubectl get pods -A
-
-
 
   
 
