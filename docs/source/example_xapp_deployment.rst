@@ -6,8 +6,14 @@ KPIMON xApp Deployment
 
 Here we are going to deploy KPIMON xApp as an example of xApp deployment. Please follow the steps to see the results.
 
+.. note::
+
+	The near-RT RIC installation has to be complete before proceeding with the following sections.
+
+As indicated in the General xApp guidelines section , we 
+
 Get some variables ready
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 First, we need to get some variables of RIC Platform ready. The following variables represent the IP addresses of the services running on the RIC Platform.
 
