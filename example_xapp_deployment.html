@@ -59,8 +59,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#hosting-the-config-files">Hosting the config Files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-kpimon-xapp-docker-image">Creating KPIMON xApp Docker image</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#xapp-onboarder-deployment">xApp Onboarder Deployment</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#get-variables-ready">Get variables ready</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#check-helm-repo-for-helm-charts">Check helm repo for helm charts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-variables">Get Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#check-for-helm-charts">Check for helm charts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-a-url-file">Create a .url file</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#deploying-the-xapp">Deploying the xApp</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#verifying-xapp-deployment">Verifying xApp Deployment</a></li>
@@ -111,7 +111,8 @@
 </div>
 <section id="hosting-the-config-files">
 <h2>Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Permalink to this heading"></a></h2>
-<p>As indicated in the <a class="reference internal" href="xapp_deployment.html#xappdeployment"><span class="std std-ref">Genral guidelines to Deploy an xApp</span></a> section , we first need to host the config file (xApp descriptor) provided in the web server we have created already. Copy the xApp config file to this directory. Reload Nginx once this has been done.</p>
+<p>As indicated in the <a class="reference internal" href="xapp_deployment.html#xappdeployment"><span class="std std-ref">Genral guidelines to Deploy an xApp</span></a> section , we first need to host the config file (xApp descriptor) provided in the web server we have created already. Follow the instructions to <a class="reference internal" href="xapp_deployment.html#createnginx"><span class="std std-ref">create a Web server</span></a> and continue with next steps</p>
+<p>Copy the xApp config file to this directory. Reload Nginx once this has been done.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo cp ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
 sudo systemctl reload nginx
 </pre></div>
@@ -126,6 +127,10 @@ curl http://${MACHINE_IP}:5010/config_files/config-file.json
 <section id="creating-kpimon-xapp-docker-image">
 <h2>Creating KPIMON xApp Docker image<a class="headerlink" href="#creating-kpimon-xapp-docker-image" title="Permalink to this heading"></a></h2>
 <p>Now, we create a docker image of the KPIMON xApp using the given docker file.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd ric-scp-kpimon
+sudo docker build . -t xApp-registry.local:5008/scp-kpimon:1.0.1
+</pre></div>
+</div>
 </section>
 <section id="xapp-onboarder-deployment">
 <h2>xApp Onboarder Deployment<a class="headerlink" href="#xapp-onboarder-deployment" title="Permalink to this heading"></a></h2>
@@ -133,8 +138,8 @@ curl http://${MACHINE_IP}:5010/config_files/config-file.json
 <p class="admonition-title">Warning</p>
 <p>Before Deploying the xApp, it is essential to have the <a class="reference internal" href="xapp_deployment.html#xappdeployment"><span class="std std-ref">5G Network Up and Running</span></a>. Otherwise the subscription procedure will not be sucessful.</p>
 </div>
-<section id="get-variables-ready">
-<h3>Get variables ready<a class="headerlink" href="#get-variables-ready" title="Permalink to this heading"></a></h3>
+<section id="get-variables">
+<h3>Get Variables<a class="headerlink" href="#get-variables" title="Permalink to this heading"></a></h3>
 <p>First, we need to get some variables of RIC Platform ready. The following variables represent the IP addresses of the services running on the RIC Platform.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export KONG_PROXY=<span class="nv">`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 export APPMGR_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
@@ -142,8 +147,8 @@ export ONBOARDER_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-s
 </pre></div>
 </div>
 </section>
-<section id="check-helm-repo-for-helm-charts">
-<h3>Check helm repo for helm charts<a class="headerlink" href="#check-helm-repo-for-helm-charts" title="Permalink to this heading"></a></h3>
+<section id="check-for-helm-charts">
+<h3>Check for helm charts<a class="headerlink" href="#check-for-helm-charts" title="Permalink to this heading"></a></h3>
 <p>Get helm charts and check if the current xApp is one of them. If there is no helm chart, then we are good to go. Otherwise, we have to use the existing chart or delete it and then proceed forward.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>curl --location --request GET &quot;http://$KONG_PROXY:32080/onboard/api/v1/charts&quot;
 </pre></div>
