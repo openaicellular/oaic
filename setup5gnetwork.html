@@ -61,11 +61,20 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#srsue-in-zeromq-mode">srsUE in ZeroMQ mode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#exchanging-traffic">Exchanging traffic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exchanging-traffic">Exchanging Traffic</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ping">PING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iperf3">iPerf3</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#en-gnb-in-uhd-usrp-x310-mode">en-gNB in UHD USRP (X310) Mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running-the-srsue">Running the srsUE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#en-gnb-in-uhd-usrp-x310-mode">en-gNB in UHD USRP (X310) Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-the-srsue">Running the srsUE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#testing-the-network">Testing the Network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">PING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">iPerf3</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">Additional Features</a></li>
@@ -135,12 +144,12 @@ sudo ip netns list
 <p>But before we start the en-gNB, we need to get the current machine’s IP address and the IP address of the E2 Termination service at the near-RT RIC.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export E2NODE_IP=<span class="nv">`hostname  -I | cut -f1 -d&#39; &#39;`</span>
 export E2NODE_PORT=5006
-export E2TERM_IP=<span class="nv">`kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 </pre></div>
 </div>
 <section id="srsenb-in-zeromq-mode">
 <h4>srsENB in ZeroMQ mode<a class="headerlink" href="#srsenb-in-zeromq-mode" title="Permalink to this heading"></a></h4>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb --enb.n_prb=15 --enb.name=enb1 --enb.enb_id=0x19B \
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb --enb.n_prb=50 --enb.name=enb1 --enb.enb_id=0x19B \
 --rf.device_name=zmq --rf.device_args=&quot;fail_on_disconnect=true,tx_port0=tcp://<span class="ge">*:2000,rx_port0=tcp://localhost:2001,tx_port1=tcp://*</span>:2100,rx_port1=tcp://localhost:2101,id=enb,base_srate=23.04e6&quot; \
 --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT}
 </pre></div>
@@ -150,18 +159,66 @@ export E2TERM_IP=<span class="nv">`kubectl get svc -n ricplt --field-selector me
 </section>
 <section id="srsue-in-zeromq-mode">
 <h3>srsUE in ZeroMQ mode<a class="headerlink" href="#srsue-in-zeromq-mode" title="Permalink to this heading"></a></h3>
-<p>This command uses the default config file
-.. code-block:: rst</p>
-<blockquote>
-<div><p>sudo srsue</p>
-</div></blockquote>
+<p>This command uses the default config file. The following message <code class="docutils literal notranslate"><span class="pre">RRC</span> <span class="pre">NR</span> <span class="pre">reconfiguration</span> <span class="pre">successful</span></code> confirms that the UE has connected to the NR cell. This will be used for the data link, while the LTE cell will be used for control messaging.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsue
+</pre></div>
+</div>
+<p>Once the UE connects successfully to the network, the UE will be assigned an IP.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can find configuration files and database file related to ‘ue1’, ‘enb’, ‘epc’ in /home/.config/srsran directory. If you want to change the contents of the ‘ue.config’ and ‘user_db.csv’ files      such as IMSI and other values, make sure to first kill the EPC process, make modifications and then restart EPC. The EPC process updates this file when it exits.</p>
+</div>
 </section>
 <section id="exchanging-traffic">
-<h3>Exchanging traffic<a class="headerlink" href="#exchanging-traffic" title="Permalink to this heading"></a></h3>
+<h3>Exchanging Traffic<a class="headerlink" href="#exchanging-traffic" title="Permalink to this heading"></a></h3>
+<p>We outline testing the network through <code class="docutils literal notranslate"><span class="pre">ping</span></code> and <code class="docutils literal notranslate"><span class="pre">iperf</span></code>.</p>
+<section id="ping">
+<h4>PING<a class="headerlink" href="#ping" title="Permalink to this heading"></a></h4>
+<p>This is the simplest way to test the network. This will test whether or not the UE and core can successfully communicate.</p>
+<section id="uplink">
+<h5>Uplink<a class="headerlink" href="#uplink" title="Permalink to this heading"></a></h5>
+<p>When using zeroMQ, the ping command should be executed on a new terminal from the UE’s network space</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns exec ue1 ping 172.16.0.1
+</pre></div>
+</div>
+</section>
+<section id="downlink">
+<h5>Downlink<a class="headerlink" href="#downlink" title="Permalink to this heading"></a></h5>
+<p>For Downlink, on a new terminal run</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ping &lt;ue_ip&gt;
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Check the IP address of the UE before issuing the ping command.</p>
+</div>
+</section>
+</section>
+<section id="iperf3">
+<h4>iPerf3<a class="headerlink" href="#iperf3" title="Permalink to this heading"></a></h4>
+<p>In this scenario, client will run on the UE side with the server on the network side (core). UDP traffic will be generated at 10Mbps for 60 seconds. It is important to start the server first, and then the client.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Both the client and server should be run on the same machine but on different terminal windows.</p>
+</div>
+<section id="network-side">
+<h5>Network Side<a class="headerlink" href="#network-side" title="Permalink to this heading"></a></h5>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>iperf3 -s -i 1
+</pre></div>
+</div>
+</section>
+<section id="ue-side">
+<h5>UE-Side<a class="headerlink" href="#ue-side" title="Permalink to this heading"></a></h5>
+<p>Again, since we are using zeroMQ, the iperf client should be run from the UE’s network namespace.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns exec ue1 iperf3 -c 172.16.0.1 -b 10M -i 1 -t 60
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 <section id="en-gnb-in-uhd-usrp-x310-mode">
-<h2>en-gNB in UHD USRP (X310) Mode<a class="headerlink" href="#en-gnb-in-uhd-usrp-x310-mode" title="Permalink to this heading"></a></h2>
+<h3>en-gNB in UHD USRP (X310) Mode<a class="headerlink" href="#en-gnb-in-uhd-usrp-x310-mode" title="Permalink to this heading"></a></h3>
+<p>The srsENB should be run on the same machine as the EPC.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb --enb.name=enb1 --enb.enb_id=0x19B \
 --rf.device_name=uhd --rf.device_args=&quot;type=x300,clock=internal,sampling_rate=11.52e6,lo_freq_offset_hz=23.04e6,send_frame_size=8000,recv_frame_size=8000,num_send_frames=64,num_recv_frames=64,None&quot; \
 --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT}
@@ -173,11 +230,60 @@ export E2TERM_IP=<span class="nv">`kubectl get svc -n ricplt --field-selector me
 </div>
 </section>
 <section id="running-the-srsue">
-<h2>Running the srsUE<a class="headerlink" href="#running-the-srsue" title="Permalink to this heading"></a></h2>
+<h3>Running the srsUE<a class="headerlink" href="#running-the-srsue" title="Permalink to this heading"></a></h3>
+<p>For this mode, the UE should run on a different machine (can be a VM)</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsue --rf.device_name=uhd --rf.device_args=&quot;type=x300,clock=internal,sampling_rate=11.52e6,lo_freq_offset_hz=23.04e6,send_frame_size=8000,recv_frame_size=8000,num_send_frames=64,num_recv_frames=64,None&quot; \
+--rf.srate=11.52e6 --rrc.release=15 --rat.nr.bands=3 --rat.nr.nof_carriers=1
+</pre></div>
+</div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>You can find configuration files and database file related to ‘ue1’, ‘enb’, ‘epc’ in /home/.config/srsran directory. If you want to change the contents of the ‘ue.config’ and ‘user_db.csv’ files      such as IMSI and other values, make sure to first kill the EPC process, make modifications and then restart EPC. The EPC process updates this file when it exits.</p>
+<p>If youhave multiple USRPs with different IP addresses connected to a single machine, and you want to indicate particular USRPs to be used, you can do so by adding <code class="docutils literal notranslate"><span class="pre">addr=&lt;ip_aadress_of_usrp&gt;</span></code> to the <code class="docutils literal notranslate"><span class="pre">rf.device_args</span></code> argument.</p>
 </div>
+</section>
+<section id="testing-the-network">
+<h3>Testing the Network<a class="headerlink" href="#testing-the-network" title="Permalink to this heading"></a></h3>
+<p>We outline testing the network through <code class="docutils literal notranslate"><span class="pre">ping</span></code> and <code class="docutils literal notranslate"><span class="pre">iperf</span></code>.</p>
+<section id="id3">
+<h4>PING<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<p>This is the simplest way to test the network. This will test whether or not the UE and core can successfully communicate.</p>
+<section id="id4">
+<h5>Uplink<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h5>
+<p>When using SDRs, we can directly run ping from a new terminal on the UE machine.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ping 172.16.0.1
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h5>Downlink<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h5>
+<p>For Downlink, on the machine running EPC, run the following command on a new terminal.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ping &lt;ue_ip_addr&gt;
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Check the IP address of the UE before issuing the ping command.</p>
+</div>
+</section>
+</section>
+<section id="id6">
+<h4>iPerf3<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
+<p>In this scenario, client will run on the UE side with the server on the network side (core). UDP traffic will be generated at 10Mbps for 60 seconds. It is important to start the server first, and then the client.</p>
+<section id="id7">
+<h5>Network Side<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h5>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo iperf3 -s -i 1
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h5>UE-Side<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h5>
+<p>If using SDRs, the iperf client can be run on the UE machine using on a new terminal,</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo iperf3 -c 172.16.0.1 -b 10M -i 1 -t 60
+</pre></div>
+</div>
+</section>
+</section>
+</section>
 </section>
 </section>
 
