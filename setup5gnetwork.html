@@ -69,8 +69,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#en-gnb-in-uhd-usrp-x310-mode">en-gNB in UHD USRP (X310) Mode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#running-the-srsue">Running the srsUE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#testing-the-network">Testing the Network</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id3">PING</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id6">iPerf3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1">PING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">iPerf3</a></li>
 </ul>
 </li>
 </ul>
@@ -114,7 +114,7 @@
            <div itemprop="articleBody">
              
   <section id="setup-your-own-5g-network">
-<h1>Setup your own 5G Network<a class="headerlink" href="#setup-your-own-5g-network" title="Permalink to this heading"></a></h1>
+<span id="setup5gnet"></span><h1>Setup your own 5G Network<a class="headerlink" href="#setup-your-own-5g-network" title="Permalink to this heading"></a></h1>
 <p>In this example, the EPC and en-gNB (NSA mode) and near-RT RIC are assumed to run on the same machine/VM (Machine 1). The UE, if using USRPs should be run on a different machine/VM (Machine 2). But if zeroMQ mode is used, a single machine suffices for all components. Refer to GNU radio integration for instructions to include multiple simulated UEs.</p>
 <section id="running-the-epc">
 <h2>Running the EPC<a class="headerlink" href="#running-the-epc" title="Permalink to this heading"></a></h2>
@@ -138,7 +138,7 @@ sudo ip netns list
 <h3>Running the en-gNB &amp; connecting to near-RT RIC<a class="headerlink" href="#running-the-en-gnb-connecting-to-near-rt-ric" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you want an xApp to communicate with the RAN, make sure that the xApp is already deployed on the near-RT RIC platform. Instructions to do this can be found in <a class="reference internal" href="example_xapp_deployment.html#kpimon-deployment"><span class="std std-ref">Deploying example xApp</span></a> and :ref:<a href="#id1"><span class="problematic" id="id2">`</span></a>Genral guidelines to Deploy an xApp &lt;xappdeployment&gt;`sections.</p>
+<p>If you want an xApp to communicate with the RAN, make sure that the xApp is already deployed on the near-RT RIC platform. Instructions to do this can be found in <a class="reference internal" href="example_xapp_deployment.html#kpimon-deployment"><span class="std std-ref">Deploying example xApp</span></a> and <a class="reference internal" href="xapp_deployment.html#xappdeployment"><span class="std std-ref">Genral guidelines to Deploy an xApp</span></a> sections.</p>
 </div>
 <p>In a new command window on Machine 1 run srsRAN en-gNB. Here we outline two options - one with USRP X310 and the other with zeroMQ simulation.</p>
 <p>But before we start the en-gNB, we need to get the current machine’s IP address and the IP address of the E2 Termination service at the near-RT RIC.</p>
@@ -244,18 +244,18 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 <section id="testing-the-network">
 <h3>Testing the Network<a class="headerlink" href="#testing-the-network" title="Permalink to this heading"></a></h3>
 <p>We outline testing the network through <code class="docutils literal notranslate"><span class="pre">ping</span></code> and <code class="docutils literal notranslate"><span class="pre">iperf</span></code>.</p>
-<section id="id3">
-<h4>PING<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<section id="id1">
+<h4>PING<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
 <p>This is the simplest way to test the network. This will test whether or not the UE and core can successfully communicate.</p>
-<section id="id4">
-<h5>Uplink<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h5>
+<section id="id2">
+<h5>Uplink<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h5>
 <p>When using SDRs, we can directly run ping from a new terminal on the UE machine.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ping 172.16.0.1
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h5>Downlink<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h5>
+<section id="id3">
+<h5>Downlink<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h5>
 <p>For Downlink, on the machine running EPC, run the following command on a new terminal.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ping &lt;ue_ip_addr&gt;
 </pre></div>
@@ -266,17 +266,17 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </div>
 </section>
 </section>
-<section id="id6">
-<h4>iPerf3<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
+<section id="id4">
+<h4>iPerf3<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
 <p>In this scenario, client will run on the UE side with the server on the network side (core). UDP traffic will be generated at 10Mbps for 60 seconds. It is important to start the server first, and then the client.</p>
-<section id="id7">
-<h5>Network Side<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h5>
+<section id="id5">
+<h5>Network Side<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h5>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo iperf3 -s -i 1
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h5>UE-Side<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h5>
+<section id="id6">
+<h5>UE-Side<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h5>
 <p>If using SDRs, the iperf client can be run on the UE machine using on a new terminal,</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo iperf3 -c 172.16.0.1 -b 10M -i 1 -t 60
 </pre></div>
