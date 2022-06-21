@@ -28,7 +28,7 @@ Now, you can check if the config file can be accessed from the newly created ser
 .. code-block:: rst
 	
 	export MACHINE_IP=`hostname  -I | cut -f1 -d' '`
-	curl http://${MACHINE_IP}:5010/config_files/config-file.json
+	curl http://${MACHINE_IP}:5010/config_files/scp-kpimon-config-file.json
 
 We host the config file on the web server to make it possible for the onboarder to download and use it for deployment.
 
@@ -48,7 +48,7 @@ xApp Onboarder Deployment
 
 .. warning::
 
-	Before Deploying the xApp, it is essential to have the :ref:`5G Network Up and Running <xappdeployment>`. Otherwise the subscription procedure will not be sucessful.
+	Before Deploying the xApp, it is essential to have the :ref:`5G Network Up and Running <xappdeployment>`. Otherwise the subscription procedure will not be successful.
 
 Get Variables
 -------------
@@ -113,9 +113,21 @@ We can check the xApp logs using
 
 	kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
 
+Since the E2 Node is already up and running and the Key Performance Metrics (KPM) RAN function is enabled by default, the xApp will be able to subscribe to the E2 Node and start getting **INDICATION** messages. The decoded message containing information about the metrics is stored in the ``kpimon.log`` within the pod. This can be viewed by,
+
+.. code-block:: rst
+
+	kubectl exec -it -n ricxapp `kubectl get pod -n ricxapp -l app=ricxapp-scp-kpimon -o jsonpath='{.items[0].metadata.name}'` -- tail -F /opt/kpimon.log
+
+ 
+
+
+
+
+
+
 
   
-
   
 
 
