@@ -14,7 +14,9 @@ Here we are going to deploy KPIMON xApp as an example of xApp deployment. Please
 Hosting the config Files
 ========================
 
-As indicated in the :ref:`Genral guidelines to Deploy an xApp <xappdeployment>` section , we first need to host the config file (xApp descriptor) provided in the web server we have created already. Copy the xApp config file to this directory. Reload Nginx once this has been done. 
+As indicated in the :ref:`Genral guidelines to Deploy an xApp <xappdeployment>` section , we first need to host the config file (xApp descriptor) provided in the web server we have created already. Follow the instructions to :ref:`create a Web server <createnginx>` and continue with next steps
+
+Copy the xApp config file to this directory. Reload Nginx once this has been done. 
 
 .. code-block:: rst
 	
@@ -35,7 +37,7 @@ Creating KPIMON xApp Docker image
 
 Now, we create a docker image of the KPIMON xApp using the given docker file.
 
-.. code-block::rst
+.. code-block:: rst
 
 	cd ric-scp-kpimon
 	sudo docker build . -t xApp-registry.local:5008/scp-kpimon:1.0.1
@@ -48,8 +50,8 @@ xApp Onboarder Deployment
 
 	Before Deploying the xApp, it is essential to have the :ref:`5G Network Up and Running <xappdeployment>`. Otherwise the subscription procedure will not be sucessful.
 
-Get variables ready
--------------------
+Get Variables
+-------------
 
 First, we need to get some variables of RIC Platform ready. The following variables represent the IP addresses of the services running on the RIC Platform.
 
@@ -60,8 +62,8 @@ First, we need to get some variables of RIC Platform ready. The following variab
 	export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
 
 
-Check helm repo for helm charts
--------------------------------
+Check for helm charts
+---------------------
 
 Get helm charts and check if the current xApp is one of them. If there is no helm chart, then we are good to go. Otherwise, we have to use the existing chart or delete it and then proceed forward.
 

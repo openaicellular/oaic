@@ -12,6 +12,7 @@ Hosting Files on a Web Server
 
 The xApp descriptor files (config.json) must be hosted on a webserver when we use the **xapp-onboarder** to deploy xApps. To host these files we use Nginx to create a web server.
 
+.. _createnginx:
 
 Configuring the Nginx Web server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
