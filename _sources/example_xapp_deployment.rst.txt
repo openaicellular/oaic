@@ -84,7 +84,7 @@ Paste the following in the ``onboard.url`` file. Substitue the ``<machine_ip_add
 
 .. code-block:: rst
 
-	{"config-file.json_url":"http://<machine_ip_addr>:5010/scp-kpimon-config-file.json"}
+	{"config-file.json_url":"http://<machine_ip_addr>:5010/config_files/scp-kpimon-config-file.json"}
 
 Save the file. Now we are ready to deploy the xApp. 
 
