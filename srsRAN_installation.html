@@ -144,7 +144,7 @@
 </ul>
 <section id="dependencies-installation">
 <h3>Dependencies Installation<a class="headerlink" href="#dependencies-installation" title="Permalink to this heading"></a></h3>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
 </pre></div>
 </div>
 </section>
@@ -156,7 +156,7 @@
 <h3>Getting ZeroMQ development Libraries<a class="headerlink" href="#getting-zeromq-development-libraries" title="Permalink to this heading"></a></h3>
 <p><a class="reference external" href="https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html">ZeroMQ Installation Instructions</a></p>
 <p><strong>Package Installation</strong></p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libzmq3-dev
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libzmq3-dev
 </pre></div>
 </div>
 </section>
@@ -170,7 +170,7 @@
 <p><a class="reference external" href="https://files.ettus.com/manual/page_install.html">Ettus UHD Binary Installation Manual</a></p>
 <section id="using-package-manager">
 <h3>Using package manager<a class="headerlink" href="#using-package-manager" title="Permalink to this heading"></a></h3>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:ettusresearch/uhd
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:ettusresearch/uhd
 sudo apt-get update
 sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
 </pre></div>
@@ -180,15 +180,16 @@ sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
 <section id="asn1c-compiler-installation">
 <h2>asn1c Compiler Installation<a class="headerlink" href="#asn1c-compiler-installation" title="Permalink to this heading"></a></h2>
 <p>We will be using the modified asn1c compiler (for RAN and CN) that is hosted by Open Air Interface (OAI)</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://gitlab.eurecom.fr/oai/asn1c.git
-cd asn1c
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ../../..
+git clone https://gitlab.eurecom.fr/oai/asn1c.git
+<span class="nb">cd</span> asn1c
 git checkout velichkov_s1ap_plus_option_group
 autoreconf -iv
 ./configure
-make -j<span class="nv">`nproc`</span>
+make -j<span class="sb">`</span>nproc<span class="sb">`</span>
 sudo make install
 sudo ldconfig
-cd ..
+<span class="nb">cd</span> ..
 </pre></div>
 </div>
 </section>
@@ -196,20 +197,20 @@ cd ..
 <h2>srsRAN with E2 agent Installation<a class="headerlink" href="#srsran-with-e2-agent-installation" title="Permalink to this heading"></a></h2>
 <section id="installation-from-source">
 <h3>Installation from Source<a class="headerlink" href="#installation-from-source" title="Permalink to this heading"></a></h3>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd srsRAN-e2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> srsRAN-e2
 mkdir build
-export SRS=<span class="nv">`realpath .`</span>
-cd build
-cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    -DRIC_GENERATED_E2AP_BINDING_DIR=${SRS}/e2_bindings/E2AP-v01.01 \
-    -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
-    -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
-make -j<span class="nv">`nproc`</span>
-make test
+<span class="nb">export</span> <span class="nv">SRS</span><span class="o">=</span><span class="sb">`</span>realpath .<span class="sb">`</span>
+<span class="nb">cd</span> build
+cmake ../ -DCMAKE_BUILD_TYPE<span class="o">=</span>RelWithDebInfo <span class="se">\</span>
+    -DRIC_GENERATED_E2AP_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2AP-v01.01 <span class="se">\</span>
+    -DRIC_GENERATED_E2SM_KPM_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-KPM <span class="se">\</span>
+    -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-GNB-NRT
+make -j<span class="sb">`</span>nproc<span class="sb">`</span>
+make <span class="nb">test</span>
 sudo make install
 sudo ldconfig
 srsran_install_configs.sh user --force
-cd ../../
+<span class="nb">cd</span> ../../
 </pre></div>
 </div>
 </section>

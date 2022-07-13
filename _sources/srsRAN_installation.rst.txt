@@ -37,7 +37,7 @@ Pre-requisites
 Dependencies Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: rst
+.. code-block:: bash
     
     sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
 
@@ -55,7 +55,7 @@ Getting ZeroMQ development Libraries
 
 **Package Installation**
 
-.. code-block:: rst
+.. code-block:: bash
 
     sudo apt-get install libzmq3-dev
 
@@ -76,7 +76,7 @@ UHD 4.1 Installation
 Using package manager
 ~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: rst
+.. code-block:: bash
 
     sudo add-apt-repository ppa:ettusresearch/uhd
     sudo apt-get update
@@ -89,8 +89,9 @@ asn1c Compiler Installation
 
 We will be using the modified asn1c compiler (for RAN and CN) that is hosted by Open Air Interface (OAI)
 
-.. code-block:: rst
+.. code-block:: bash
 
+    cd ../../..
     git clone https://gitlab.eurecom.fr/oai/asn1c.git
     cd asn1c
     git checkout velichkov_s1ap_plus_option_group
@@ -107,7 +108,7 @@ srsRAN with E2 agent Installation
 Installation from Source
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: rst
+.. code-block:: bash
 
     cd srsRAN-e2
     mkdir build
