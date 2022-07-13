@@ -167,7 +167,7 @@ framework for deployment and maintenance of pods.</p>
 <section id="ric-kubernetes-cluster-installation">
 <h4>RIC Kubernetes Cluster Installation<a class="headerlink" href="#ric-kubernetes-cluster-installation" title="Permalink to this heading"></a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">RIC-Deployment</span></code> directory contains the deployment scripts and pre generated helm charts for each of the RIC components. This repository also contains some “demo” scripts which can be run after complete installation.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd RIC-Deployment/tools/k8s/bin
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> RIC-Deployment/tools/k8s/bin
 </pre></div>
 </div>
 <p>This directory contains tools for generating a simple script that can help us set up a one-node Kubernetes cluster (OSC also supports a 3 node Master slave Kubernetes configuration, but we do not cover that here).</p>
@@ -181,17 +181,15 @@ framework for deployment and maintenance of pods.</p>
 </div></blockquote>
 <p>For a simple installation there is no need to modify any of the above files. The files give flexibility to define our own custom Kubernetes environment if we ever need to.
 Run the script which will generate the Kubernetes stack install script. Executing the below command will output a shell script called <code class="docutils literal notranslate"><span class="pre">k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh</span></code>. The file name indicates that we are installing Kubernetes v1.16 (k_1_16), Helm v2.17 (h_2_17) and the latest version of docker (d_cur).</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>./gen-cloud-init.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./gen-cloud-init.sh
 </pre></div>
 </div>
 <p>Executing the generated script <code class="docutils literal notranslate"><span class="pre">k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh</span></code> will install Kubernetes, Docker and Helm with version specified in the k8s/etc/infra.c. This also installs some pods which help cluster creation, service creation and internetworking between services. Running this script will replace any existing installation of Docker host, Kubernetes, and Helm on the VM. The script will reboot the machine upon successful completion. This will take some time (approx. 15-20 mins).</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
 </pre></div>
 </div>
 <p>Once the machine is back up, check if all the pods in the newly installed Kubernetes Cluster are in “Running” state using,</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get pods -A
-or
-sudo kubectl get pods --all-namespaces
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo kubectl get pods -A
 </pre></div>
 </div>
 <p>There should be a total of <strong>9</strong> pods up and running in the cluster.</p>
@@ -256,12 +254,12 @@ The following one time process should be followed before deploying the influxdb 
 </pre></div>
 </div>
 <p>If the namespace doesn’t exist, then create it using:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl create ns ricinfra
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo kubectl create ns ricinfra
 </pre></div>
 </div>
 <p>The next three commands installs the nfs-common package for kubernetes through helm in the “ricinfra” namespace and for the system</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
-sudo kubectl patch storageclass nfs -p &#39;{&quot;metadata&quot;: {&quot;annotations&quot;:{&quot;storageclass.kubernetes.io/is-default-class&quot;:&quot;true&quot;}}}&#39;
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
+sudo kubectl patch storageclass nfs -p <span class="s1">&#39;{&quot;metadata&quot;: {&quot;annotations&quot;:{&quot;storageclass.kubernetes.io/is-default-class&quot;:&quot;true&quot;}}}&#39;</span>
 sudo apt install nfs-common
 </pre></div>
 </div>
@@ -273,7 +271,7 @@ sudo apt install nfs-common
 <section id="id2">
 <h4>Pre-requisites<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
 <p>Local docker registry to host docker images. You can create one using, (You will need “super user” permissions)</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo docker run -d -p <span class="m">5001</span>:5000 --restart<span class="o">=</span>always --name ric registry:2
 </pre></div>
 </div>
 <p>Now you can either push or pull images using,
@@ -283,14 +281,15 @@ or <code class="docutils literal notranslate"><span class="pre">docker</span> <s
 <section id="creating-docker-image">
 <h4>Creating Docker image<a class="headerlink" href="#creating-docker-image" title="Permalink to this heading"></a></h4>
 <p>Navigate to <code class="docutils literal notranslate"><span class="pre">ric-plt-e2</span></code> directory.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd ric-plt-e2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ../../../..
+<span class="nb">cd</span> ric-plt-e2
 </pre></div>
 </div>
 <p>The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd RIC-E2-TERMINATION
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> RIC-E2-TERMINATION
 sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
 sudo docker push localhost:5001/ric-plt-e2:5.5.0
-cd ../../
+<span class="nb">cd</span> ../../
 </pre></div>
 </div>
 <p>This image can be used when deploying the near-real time RIC Kubernetes Cluster in the next step.</p>
