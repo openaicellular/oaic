@@ -67,7 +67,7 @@ RIC Kubernetes Cluster Installation
 
 The ``RIC-Deployment`` directory contains the deployment scripts and pre generated helm charts for each of the RIC components. This repository also contains some “demo” scripts which can be run after complete installation.
 
-.. code-block:: rst
+.. code-block:: bash
 
     cd RIC-Deployment/tools/k8s/bin
     
@@ -83,22 +83,24 @@ The scripts automatically read in parameters (version specifications, setting up
 For a simple installation there is no need to modify any of the above files. The files give flexibility to define our own custom Kubernetes environment if we ever need to.
 Run the script which will generate the Kubernetes stack install script. Executing the below command will output a shell script called ``k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh``. The file name indicates that we are installing Kubernetes v1.16 (k_1_16), Helm v2.17 (h_2_17) and the latest version of docker (d_cur).
 
-.. code-block:: rst
+.. code-block:: bash
 
     ./gen-cloud-init.sh
 
 Executing the generated script ``k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh`` will install Kubernetes, Docker and Helm with version specified in the k8s/etc/infra.c. This also installs some pods which help cluster creation, service creation and internetworking between services. Running this script will replace any existing installation of Docker host, Kubernetes, and Helm on the VM. The script will reboot the machine upon successful completion. This will take some time (approx. 15-20 mins).
 
-.. code-block:: rst
+.. code-block:: bash
 
     sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
 
 
 Once the machine is back up, check if all the pods in the newly installed Kubernetes Cluster are in “Running” state using,
 
-.. code-block:: rst
+.. code-block:: bash
 
     sudo kubectl get pods -A  
+    
+.. code-block:: rst
     or 
     sudo kubectl get pods --all-namespaces
 
@@ -166,13 +168,13 @@ First we need to check if the "ricinfra" namespace exists.
 
 If the namespace doesn’t exist, then create it using:
 
-.. code-block:: rst
+.. code-block:: bash
 
     sudo kubectl create ns ricinfra
 
 The next three commands installs the nfs-common package for kubernetes through helm in the "ricinfra" namespace and for the system
 
-.. code-block:: rst
+.. code-block:: bash
 
     sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
     sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
@@ -190,7 +192,7 @@ Pre-requisites
 
 Local docker registry to host docker images. You can create one using, (You will need "super user" permissions)
 
-.. code-block:: rst
+.. code-block:: bash
 
     sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
  
@@ -204,13 +206,14 @@ Creating Docker image
 
 Navigate to ``ric-plt-e2`` directory.
 
-.. code-block:: rst
-    
+.. code-block:: bash
+   
+   cd ../../../..
    cd ric-plt-e2 
 
 The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order 
 
-.. code-block:: rst
+.. code-block:: bash
 
     cd RIC-E2-TERMINATION
     sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
