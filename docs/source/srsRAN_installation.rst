@@ -91,7 +91,7 @@ We will be using the modified asn1c compiler (for RAN and CN) that is hosted by 
 
 .. code-block:: bash
 
-    cd ../../..
+    cd ../..
     git clone https://gitlab.eurecom.fr/oai/asn1c.git
     cd asn1c
     git checkout velichkov_s1ap_plus_option_group
