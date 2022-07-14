@@ -263,6 +263,10 @@ sudo kubectl patch storageclass nfs -p <span class="s1">&#39;{&quot;metadata&quo
 sudo apt install nfs-common
 </pre></div>
 </div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>When the RIC platform is undeployed, the <code class="docutils literal notranslate"><span class="pre">ricinfra</span></code> namespace will also be removed. So, you will need to run the one-time setup procedure again when re-deploying    the RIC.</p>
+</div>
 <p>NFS-common basically allows file sharing between systems residing on a local area network.</p>
 </section>
 </section>
