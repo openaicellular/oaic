@@ -180,6 +180,9 @@ The next three commands installs the nfs-common package for kubernetes through h
     sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
     sudo apt install nfs-common
     
+.. tip::
+
+   When the RIC platform is undeployed, the ``ricinfra`` namespace will also be removed. So, you will need to run the one-time setup procedure again when re-deploying    the RIC.
 
 NFS-common basically allows file sharing between systems residing on a local area network.
 
