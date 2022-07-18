@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAIC-T &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>OAIC-T</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/oaic_t.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="oaic-t">
+<h1>OAIC-T<a class="headerlink" href="#oaic-t" title="Permalink to this heading"></a></h1>
+<section id="about-oaic-t">
+<h2>About OAIC-T<a class="headerlink" href="#about-oaic-t" title="Permalink to this heading"></a></h2>
+<p>OAIC-T is an open-source AI cellular testing platform which supports automated, distributed, and AI-enhanced testing of xApps in O-RAN.
+The OAIC-T framework consists of three major components: i). Test Input, which includes both test configuration and test script files,
+ii). the Server, which sets up the testing environment as described in test configuration files and orchestrates the test execution as
+defined in test scripts, and iii) the Actor(s), which executes test actions as instructed by the server.</p>
+<a class="reference internal image-reference" href="_images/oaci_t_framework.jpg"><img alt="OAIC-T Framework" src="_images/oaci_t_framework.jpg" style="width: 90%;" /></a>
+<p>The server manages a number of remote testing actors, including maintaining the socket connection to each actor and monitoring its resource
+usage (e.g., CPU, memory, disk, and SDR hardware) and test status.</p>
+<p>One actor consists of the actor manager, AI core, and test executor, as well as two adapters to interface with the unit under test
+(i.e., a cellular radio network controller). Each actor can interact with xApps/rApps under test through either the SIM Adapter or the
+SDR Adapter. The SIM Adapter acts as a testing xApp/rApp which can be deployed in a non-RT, near-RT, or RT RIC to send testing data and
+receive response to/from the RAN through socket communications. The SDR Adapter acts as a user equipment (UE) which leverages SDR-based
+software suite (e.g., srsRAN) to send radio testing signals to the RAN through antennas.</p>
+</section>
+<section id="get-started">
+<h2>Get Started<a class="headerlink" href="#get-started" title="Permalink to this heading"></a></h2>
+<p>To use OAIC-T, first clone the <a class="reference external" href="https://github.com/openaicellular/oaic-t.git">oaic-t</a> repository:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/openaicellular/oaic-t.git
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The OAIC-T now only supports the testing of O-RAN under ZeroMQ mode, i.e., both eNodeB and UE are running in the same machine without
+the use of SDRs, also known as virtual radio. Also the srsRAN has to be installed and configured in a way that a UE can be started by
+running the command like “sudo srsue …”. This involves to i). set srsRAN/UE path to the environment, and ii). configure the system
+to run sudo commands without typeing password.</p>
+</div>
+<section id="zeromq-mode">
+<h3>ZeroMQ Mode<a class="headerlink" href="#zeromq-mode" title="Permalink to this heading"></a></h3>
+<p>This test example “test_virtual_traffics.json” can creates a network namespace, starts a UE, and generates downlink/uplink traffics to the eNodeB.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The EPC and the eNodeB must be started before running this test example.</p>
+</div>
+<p>Open a terminal, and start the Server first:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd oaic-t/server/src
+python3 server_main.py test_virtual_traffics.json
+</pre></div>
+</div>
+<p>Open a terminal, and then start one Actor:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd oaic-t/actor/src
+python3 actor_main.py
+</pre></div>
+</div>
+<p>More actors can be started, but each actor should have a unique name. Edit the actor/src/config.txt to change the actor name before running it.</p>
+<p>More test script examples and test actions will be provided later.</p>
+</section>
+<section id="sdr-mode">
+<h3>SDR Mode<a class="headerlink" href="#sdr-mode" title="Permalink to this heading"></a></h3>
+<p>To be released soon.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
