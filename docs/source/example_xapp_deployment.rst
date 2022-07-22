@@ -16,11 +16,11 @@ Hosting the config Files
 
 As indicated in the :ref:`Genral guidelines to Deploy an xApp <xappdeployment>` section , we first need to host the config file (xApp descriptor) provided in the web server we have created already. Follow the instructions to :ref:`create a Web server <createnginx>` and continue with next steps
 
-Copy the xApp config file to this directory. Reload Nginx once this has been done. 
+Create a symlink from the xapp's config file (in this case kpimon).This can be replaced by another symlink in the future. Reload Nginx once this has been done. 
 
 .. code-block:: rst
 	
-	sudo cp ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
+	sudo ln -s ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/config
 	sudo systemctl reload nginx
 
 Now, you can check if the config file can be accessed from the newly created server. Place all files you want to host in the ``config_files`` directory
