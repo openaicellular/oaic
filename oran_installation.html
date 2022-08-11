@@ -321,7 +321,7 @@ sudo docker push localhost:5001/ric-plt-e2:5.5.0
 <h3>Step 4: Deploy the near-Real Time RIC<a class="headerlink" href="#step-4-deploy-the-near-real-time-ric" title="Permalink to this heading"></a></h3>
 <p>Once the Kubernetes clusters are deployed, it is now time for us to deploy the near-real time RIC cluster.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> RIC-Deployment/bin
-sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release.yaml
+sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
 </pre></div>
 </div>
 <p>This command deploys the near-real time RIC according to the RECIPE stored in <code class="docutils literal notranslate"><span class="pre">RIC-Deployment/RECIPE_EXAMPLE/PLATFORM/</span></code> directory. A Recipe is an important concept for Near Realtime RIC deployment. Each deployment group has its own recipe. Recipe provides a customized specification for the components of a deployment group for a specific deployment site. The <code class="docutils literal notranslate"><span class="pre">RECIPE_EXAMPLE</span></code> directory contains the example recipes for the three deployment groups (bronze, cherry, dawn, e-release). The benefit of using <em>recipe files</em> is that changing over from one release to another is seamless requiring just the execution of a single script without having to perform “Step 2” all over again.</p>
