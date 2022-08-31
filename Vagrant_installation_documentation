@@ -1,0 +1,12 @@
+1. Install Vagrant: https://www.vagrantup.com/docs/installation
+
+2. Initialize a base box:
+	a) Create an empty folder ensuring disk space of 10GB
+	b)  Run 'vagrant init'
+
+3. Set up the OAIC VM using Vagrant Cloud: 
+	a) Navigate to https://app.vagrantup.com/romilkb/boxes/test_oaic to access the latest vagrant box
+	b) Copy Latest VagrantFile and replace the local VagrantFile with it
+
+4. Run 'vagrant up'
+5. Run 'vagrant ssh'
