@@ -46,6 +46,7 @@ Welcome to OAIC's documentation!
    undeploy_ric.rst
    srsRAN_additional_features.rst
    kubectl_commands.rst
+   vagrant.rst
 
 
 Indices and tables
