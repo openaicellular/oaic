@@ -14,17 +14,17 @@ Install Vagrant: https://www.vagrantup.com/docs/installation (Warning: Do not us
 
 
 Provision a base box
-====================
+--------------------
 
 To create a base box, we follow the below steps:-
 
 Initialize Vagrant
-------------------
+~~~~~~~~~~~~~~~~~~
 
 In an empty directory, run 'vagrant init'. This creates a VagrantFile with base specifications.
 
 Provision Vagrant for OAIC
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For OAIC, we need to provision certain networking protocols and additional RAM and disk space. This is done by replacing the default VagrantFile with the file 'VagrantFile' included with OAIC.
 
@@ -36,7 +36,7 @@ The installation of the OAIC software can now begin by running the installation 
 
 
 Installing OAIC VM
-==================
+------------------
 
 Initialize Vagrant by running 'vagrant init' in an empty directory with a minimum of 10GB of disk space.
 
