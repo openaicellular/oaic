@@ -123,7 +123,17 @@ to run sudo commands without typeing password.</p>
 <h3>ZeroMQ Mode<a class="headerlink" href="#zeromq-mode" title="Permalink to this heading"></a></h3>
 <p>How To Run OAIC-T, assuming both server and actor run in the same machine:
 Step 1. Run the OAIC-T Server:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd server/src
+
+python3 server_main.py
+</pre></div>
+</div>
 <p>Step 2. Run the OAIC-T Actor(s):</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd actor/src
+
+sudo python3 actor_main.py
+</pre></div>
+</div>
 <p>More actors can be started, but each actor should have a unique name. Edit the actor/src/config.txt to change the actor name before running it.</p>
 <p>Once the actor starts, you will see a message in the server console showing one Actor is registered with its name.
 Then, you can type commands in the console to interact with the Server. The following commands are currently supported:</p>
