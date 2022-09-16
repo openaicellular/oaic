@@ -44,27 +44,40 @@ To use OAIC-T, first clone the `oaic-t <https://github.com/openaicellular/oaic-t
 ZeroMQ Mode
 ===========
 
-This test example "test_virtual_traffics.json" can creates a network namespace, starts a UE, and generates downlink/uplink traffics to the eNodeB. 
 
-.. note::
-
-	The EPC and the eNodeB must be started before running this test example. 	
+How To Run OAIC-T, assuming both server and actor run in the same machine:
+Step 1. Run the OAIC-T Server: 
+.. code-block:: rst
+	cd server/src 
+	python3 server_main.py 
 	
-Open a terminal, and start the Server first:
-
+Step 2. Run the OAIC-T Actor(s): 
 .. code-block:: rst
+	cd actor/src	
+	sudo python3 actor_main.py
 
-   cd oaic-t/server/src
-   python3 server_main.py test_virtual_traffics.json
-
-Open a terminal, and then start one Actor:
-
-.. code-block:: rst
-
-   cd oaic-t/actor/src
-   python3 actor_main.py
-   
 More actors can be started, but each actor should have a unique name. Edit the actor/src/config.txt to change the actor name before running it.
+
+Once the actor starts, you will see a message in the server console showing one Actor is registered with its name.
+Then, you can type commands in the console to interact with the Server. The following commands are currently supported:
+
+1. "list actors": It will list all registered Actors.
+2. "run --test test_script_file --actor actor_name": It will run the test script in the specified actor. Currently six test script exampls are included (more will become available soon):
+
+"start_epc.json": This script will run the srsepc (Note: only one running epc is allowed in one actor).
+
+"stop_epc.json": This script will stop the running srsepc.
+
+"start_enodeb.json": This script will run the srsenb (Note: only one running enodeb is allowed in one actor).
+
+"stop_enodeb.json": This script will stop the running srsenb.
+
+"test_virtual_traffics.json": This script will run a UE and generate traffics using ping methods (Note: epc and enodeb have to be started before starting the UE, either mannually starting them or using the above two scripts).
+
+"test_virtual_traffics_iperf.json": Similar to the "test_virtual_traffics.json" script, but using the iperf method which allows to generate traffics with specific bandwidth, e.g., 10Mbps for 20 seconds.
+
+"test_virtual_traffics_all.json": This script will include a whole workflow to generate traffics, combining "start epc", "start enodeb", "generate traffics using ping", "stop ue", "stop enodeb" and "stop epc" actions. 
+
 
 More test script examples and test actions will be provided later.
 
