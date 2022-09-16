@@ -47,13 +47,15 @@ ZeroMQ Mode
 
 How To Run OAIC-T, assuming both server and actor run in the same machine:
 Step 1. Run the OAIC-T Server: 
+
 .. code-block:: rst
 	cd server/src 
 	python3 server_main.py 
 	
 Step 2. Run the OAIC-T Actor(s): 
+
 .. code-block:: rst
-	cd actor/src	
+	cd actor/src
 	sudo python3 actor_main.py
 
 More actors can be started, but each actor should have a unique name. Edit the actor/src/config.txt to change the actor name before running it.
