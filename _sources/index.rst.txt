@@ -28,6 +28,7 @@ Welcome to OAIC's documentation!
    oran_installation.rst
    srsRAN_installation.rst
    setup5gnetwork.rst
+   multi_ue_example.rst
    
    
 

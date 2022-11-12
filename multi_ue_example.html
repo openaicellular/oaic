@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multiple Ue’s with ZMQ Example &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="KPIMON xApp Deployment" href="example_xapp_deployment.html" />
+    <link rel="prev" title="Setup your own 5G Network" href="setup5gnetwork.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Multiple Ue’s with ZMQ Example</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-example">Running the example</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Multiple Ue’s with ZMQ Example</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/multi_ue_example.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="multiple-ue-s-with-zmq-example">
+<h1>Multiple Ue’s with ZMQ Example<a class="headerlink" href="#multiple-ue-s-with-zmq-example" title="Permalink to this heading"></a></h1>
+<p>This example uses a gnuradio flowgraph (broker) to establish the connection between 5 ues.</p>
+<p>Please download this file to be run later in the example: <a class="reference external" href="https://github.com/openaicellular/main-file-repo/blob/master/OAIC_FIVE_UEs.grc">https://github.com/openaicellular/main-file-repo/blob/master/OAIC_FIVE_UEs.grc</a></p>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<p>edit user_db.csv in /rrot/.config/srsran, make sure of the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ue2,xor,001010123456780,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8000,000000001590,7,dynamic
+ue3,xor,001010123456781,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8002,000000001488,7,dynamic
+ue4,xor,001010123456782,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8003,000000001446,7,dynamic
+ue5,xor,001010123456783,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8004,000000001467,7,dynamic
+ue1,xor,001010123456789,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,9001,000000001656,7,dynamic
+</pre></div>
+</div>
+<p>In a terminal run the following commands for each ue</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo ip netns add ue1
+sudo ip netns add ue2
+sudo ip netns add ue3
+sudo ip netns add ue4
+sudo ip netns add ue5
+</pre></div>
+</div>
+<p>Set the environment variables</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">E2NODE_IP</span><span class="o">=</span><span class="sb">`</span>hostname  -I <span class="p">|</span> cut -f1 -d<span class="s1">&#39; &#39;</span><span class="sb">`</span>
+<span class="nb">export</span> <span class="nv">E2NODE_PORT</span><span class="o">=</span><span class="m">5006</span>
+<span class="nb">export</span> <span class="nv">E2TERM_IP</span><span class="o">=</span><span class="sb">`</span>sudo kubectl get svc -n ricplt --field-selector metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+</pre></div>
+</div>
+</section>
+<section id="running-the-example">
+<h2>Running the example<a class="headerlink" href="#running-the-example" title="Permalink to this heading"></a></h2>
+<p>Terminal 1</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo srsepc
+</pre></div>
+</div>
+<p>Terminal 2</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo srsenb --enb.n_prb<span class="o">=</span><span class="m">50</span> --enb.name<span class="o">=</span>enb1 --enb.enb_id<span class="o">=</span>0x19B --rf.device_name<span class="o">=</span>zmq --rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port0=tcp://*:2000,rx_port0=tcp://localhost:2009,tx_port1=tcp://*:2200,rx_port1=tcp://localhost:2201,id=enb,base_srate=23.04e6&quot;</span> --ric.agent.remote_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2TERM_IP</span><span class="si">}</span> --log.all_level<span class="o">=</span>warn --ric.agent.log_level<span class="o">=</span>debug --log.filename<span class="o">=</span>stdout --ric.agent.local_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_IP</span><span class="si">}</span> --ric.agent.local_port<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_PORT</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>Terminal 3</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo srsue --rf.device_name<span class="o">=</span>zmq --rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port=tcp://*:2010,rx_port=tcp://localhost:2008,id=ue1,base_srate=23.04e6&quot;</span> --gw.netns<span class="o">=</span>ue1 --usim.algo<span class="o">=</span>xor --usim.imsi<span class="o">=</span><span class="m">001010123456789</span>
+</pre></div>
+</div>
+<p>Terminal 4</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo srsue --rf.device_name<span class="o">=</span>zmq --rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port=tcp://*:2007,rx_port=tcp://localhost:2006,id=ue2,base_srate=23.04e6&quot;</span> --gw.netns<span class="o">=</span>ue2 --usim.algo<span class="o">=</span>xor --usim.imsi<span class="o">=</span><span class="m">001010123456780</span>
+</pre></div>
+</div>
+<p>Terminal 5</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo srsue --rf.device_name<span class="o">=</span>zmq --rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port=tcp://*:2301,rx_port=tcp://localhost:2300,id=ue3,base_srate=23.04e6&quot;</span> --gw.netns<span class="o">=</span>ue3 --usim.algo<span class="o">=</span>xor --usim.imsi<span class="o">=</span><span class="m">001010123456781</span>
+</pre></div>
+</div>
+<p>Terminal 6</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo srsue --rf.device_name<span class="o">=</span>zmq --rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port=tcp://*:2401,rx_port=tcp://localhost:2400,id=ue4,base_srate=23.04e6&quot;</span> --gw.netns<span class="o">=</span>ue4 --usim.algo<span class="o">=</span>xor --usim.imsi<span class="o">=</span><span class="m">001010123456782</span>
+</pre></div>
+</div>
+<p>Terminal 7</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo srsue --rf.device_name<span class="o">=</span>zmq --rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port=tcp://*:2501,rx_port=tcp://localhost:2500,id=ue5,base_srate=23.04e6&quot;</span> --gw.netns<span class="o">=</span>ue5 --usim.algo<span class="o">=</span>xor --usim.imsi<span class="o">=</span><span class="m">001010123456783</span>
+</pre></div>
+</div>
+<p>Open gnuradio companion and run the provided grc file by opening the file and pressing the play button.</p>
+<p>Ping and Iperf test can now be performed to measure performance or generate traffic to each connected UE.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="setup5gnetwork.html" class="btn btn-neutral float-left" title="Setup your own 5G Network" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="example_xapp_deployment.html" class="btn btn-neutral float-right" title="KPIMON xApp Deployment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
