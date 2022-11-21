@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Multiple Ue’s with ZMQ Example &mdash; OAIC 0.1 documentation</title>
+  <title>Multiple UEs with ZMQ Example &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -55,7 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Multiple Ue’s with ZMQ Example</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Multiple UEs with ZMQ Example</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#running-the-example">Running the example</a></li>
 </ul>
@@ -88,7 +88,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Multiple Ue’s with ZMQ Example</li>
+      <li class="breadcrumb-item active">Multiple UEs with ZMQ Example</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/multi_ue_example.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -98,13 +98,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="multiple-ue-s-with-zmq-example">
-<h1>Multiple Ue’s with ZMQ Example<a class="headerlink" href="#multiple-ue-s-with-zmq-example" title="Permalink to this heading"></a></h1>
-<p>This example uses a gnuradio flowgraph (broker) to establish the connection between 5 ues.</p>
-<p>Please download this file to be run later in the example: <a class="reference external" href="https://github.com/openaicellular/main-file-repo/blob/master/OAIC_FIVE_UEs.grc">https://github.com/openaicellular/main-file-repo/blob/master/OAIC_FIVE_UEs.grc</a></p>
+  <section id="multiple-ues-with-zmq-example">
+<h1>Multiple UEs with ZMQ Example<a class="headerlink" href="#multiple-ues-with-zmq-example" title="Permalink to this heading"></a></h1>
+<p>This example uses a gnuradio flowgraph (broker) to establish the connection between 5 UEs.</p>
+<p>Below is a flowgraph for gnuradio that makes the connection among the uplink and downlink channels for each UE. You will need the free and open source software Gnu Radio which can be obtained on Ubuntu by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt install gnuradio
+</pre></div>
+</div>
+<p>Please download this file to be run later in the example:
+<a class="reference external" href="https://github.com/openaicellular/main-file-repo/blob/master/OAIC_FIVE_UEs.grc">https://github.com/openaicellular/main-file-repo/blob/master/OAIC_FIVE_UEs.grc</a></p>
 <section id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
-<p>edit user_db.csv in /rrot/.config/srsran, make sure of the following:</p>
+<p>edit user_db.csv in /rrot/.config/srsran, with the following:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ue2,xor,001010123456780,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8000,000000001590,7,dynamic
 ue3,xor,001010123456781,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8002,000000001488,7,dynamic
 ue4,xor,001010123456782,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8003,000000001446,7,dynamic
@@ -112,7 +117,7 @@ ue5,xor,001010123456783,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff1
 ue1,xor,001010123456789,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,9001,000000001656,7,dynamic
 </pre></div>
 </div>
-<p>In a terminal run the following commands for each ue</p>
+<p>In a terminal run the following commands for each UE</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo ip netns add ue1
 sudo ip netns add ue2
 sudo ip netns add ue3

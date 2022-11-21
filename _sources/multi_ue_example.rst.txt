@@ -1,10 +1,19 @@
 ==================================
-Multiple Ue's with ZMQ Example
+Multiple UEs with ZMQ Example
 ==================================
 
-This example uses a gnuradio flowgraph (broker) to establish the connection between 5 ues.
+This example uses a gnuradio flowgraph (broker) to establish the connection between 5 UEs.
 
-Please download this file to be run later in the example: https://github.com/openaicellular/main-file-repo/blob/master/OAIC_FIVE_UEs.grc
+Below is a flowgraph for gnuradio that makes the connection among the uplink and downlink channels for each UE. You will need the free and open source software Gnu Radio which can be obtained on Ubuntu by running:
+
+
+.. code-block:: bash
+
+   sudo apt install gnuradio 
+
+
+Please download this file to be run later in the example: 
+https://github.com/openaicellular/main-file-repo/blob/master/OAIC_FIVE_UEs.grc
 
 
 
@@ -12,7 +21,7 @@ Setup
 ======
 
 
-edit user_db.csv in /rrot/.config/srsran, make sure of the following: 
+edit user_db.csv in /rrot/.config/srsran, with the following: 
 
 .. code-block:: bash
 
@@ -24,7 +33,7 @@ edit user_db.csv in /rrot/.config/srsran, make sure of the following:
     ue1,xor,001010123456789,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,9001,000000001656,7,dynamic
 
 
-In a terminal run the following commands for each ue
+In a terminal run the following commands for each UE
 
 .. code-block:: bash
 
