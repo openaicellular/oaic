@@ -15,3 +15,4 @@ jobs:
         fetch-depth: 0 # otherwise will fail to push refs to dest repo
     - run: pip3 install docutils
     - run: python3 generate_installation_sctipt.py
+    - run: sudo bash run.sh
