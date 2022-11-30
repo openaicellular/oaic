@@ -16,3 +16,5 @@ jobs:
     - run: pip3 install docutils
     - run: python3 generate_installation_sctipt.py
     - run: sudo bash run.sh
+    - run: sudo bash setup5GNetwork.sh
+    - run: sudo bash deployKPIMON.sh
