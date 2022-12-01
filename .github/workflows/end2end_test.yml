@@ -15,7 +15,7 @@ jobs:
         fetch-depth: 0 # otherwise will fail to push refs to dest repo
     - run: pip3 install docutils
     - run: python3 generate_installation_sctipt.py
-    - run: ls
+    - run: ls RIC-Deployment/tools/k8s/bin
     - run: sudo bash run.sh
     - run: sudo bash setup5GNetwork.sh
     - run: sudo bash deployKPIMON.sh
