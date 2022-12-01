@@ -17,6 +17,8 @@ jobs:
     - run: git submodule update --init --recursive --remote
     - run: python3 generate_installation_sctipt.py
     - run: ls RIC-Deployment
-    - run: sudo bash run.sh
+    - run: | 
+          cd RIC-Deployment/tools/k8s/bin
+          ./gen-cloud-init.sh 
     - run: sudo bash setup5GNetwork.sh
     - run: sudo bash deployKPIMON.sh
