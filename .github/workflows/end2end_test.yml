@@ -20,5 +20,10 @@ jobs:
     - run: | 
           cd RIC-Deployment/tools/k8s/bin/asdasdasd
           ./gen-cloud-init.sh 
-    - run: sudo bash setup5GNetwork.sh
-    - run: sudo bash deployKPIMON.sh
+          sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
+          sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
+
+          
+
+    #- run: sudo bash setup5GNetwork.sh
+    #- run: sudo bash deployKPIMON.sh
