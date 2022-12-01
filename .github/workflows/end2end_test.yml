@@ -18,7 +18,7 @@ jobs:
     - run: python3 generate_installation_sctipt.py
     - run: ls RIC-Deployment
     - run: | 
-          cd RIC-Deployment/tools/k8s/bin/asdasdasd
+          cd RIC-Deployment/tools/k8s/bin
           ./gen-cloud-init.sh 
           sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
           sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
