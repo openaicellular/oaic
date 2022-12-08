@@ -18,7 +18,7 @@ jobs:
     - run: git submodule update --init --recursive --remote
     - run: python3 generate_installation_sctipt.py
     - run: ls RIC-Deployment
-    - run: swapoff -a
+    - run: sudo swapoff -a
     - name: build ORAN test
       run: | 
           cd RIC-Deployment/tools/k8s/bin
