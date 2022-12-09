@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>O-RAN Near-Real Time RIC Installation Guide &mdash; OAIC 0.1 documentation</title>
@@ -160,7 +160,7 @@
 two separate Kubernetes clusters.
 The first cluster is used for deploying the Near Realtime RIC (platform and
 applications), and the other is for deploying other auxiliary functions.
-They are referred to as <strong>RIC cluster</strong> and <strong>AUX cluster</strong> respectively <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+They are referred to as <strong>RIC cluster</strong> and <strong>AUX cluster</strong> respectively <a class="footnote-reference brackets" href="#id3" id="id1">1</a>.</p>
 <p>The <strong>RIC cluster</strong> consists of 3 major Kubernetes Systems.
 Each of them is separated by their specified namespaces (kube-system ns,
 ricinfra ns, ricplt ns):</p>
@@ -356,44 +356,35 @@ refer to the README.md files in them for more details.</p>
 </section>
 <section id="references">
 <h3>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h3>
-<aside class="footnote-list brackets">
-<aside class="footnote brackets" id="id3" role="note">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
-<p><a class="reference external" href="https://www.youtube.com/watch?v=x5MhydijWmc">https://www.youtube.com/watch?v=x5MhydijWmc</a></p>
-</aside>
-<aside class="footnote brackets" id="id4" role="note">
-<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
-<p><a class="reference external" href="https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster">https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster</a></p>
-</aside>
-<aside class="footnote brackets" id="id5" role="note">
-<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
-<p><a class="reference external" href="https://www.section.io/engineering-education/docker-concepts/">https://www.section.io/engineering-education/docker-concepts/</a></p>
-</aside>
-<aside class="footnote brackets" id="id6" role="note">
-<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
-<p><a class="reference external" href="https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/">https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/</a></p>
-</aside>
-<aside class="footnote brackets" id="id7" role="note">
-<span class="label"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></span>
-<p><a class="reference external" href="https://kubernetes.io/docs/concepts/overview/components/">https://kubernetes.io/docs/concepts/overview/components/</a></p>
-</aside>
-<aside class="footnote brackets" id="id8" role="note">
-<span class="label"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></span>
-<p><a class="reference external" href="https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes">https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes</a></p>
-</aside>
-<aside class="footnote brackets" id="id9" role="note">
-<span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
-<p><a class="reference external" href="https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers">https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers</a></p>
-</aside>
-<aside class="footnote brackets" id="id10" role="note">
-<span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
-<p><a class="reference external" href="https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/">https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/</a></p>
-</aside>
-<aside class="footnote brackets" id="id11" role="note">
-<span class="label"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></span>
-<p><a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/networking/">https://kubernetes.io/docs/concepts/cluster-administration/networking/</a></p>
-</aside>
-</aside>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://www.youtube.com/watch?v=x5MhydijWmc">https://www.youtube.com/watch?v=x5MhydijWmc</a></p>
+</dd>
+<dt class="label" id="id4"><span class="brackets">2</span></dt>
+<dd><p><a class="reference external" href="https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster">https://docs.o-ran-sc.org/projects/o-ran-sc-it-dep/en/latest/installation-guides.html#one-node-kubernetes-cluster</a></p>
+</dd>
+<dt class="label" id="id5"><span class="brackets">3</span></dt>
+<dd><p><a class="reference external" href="https://www.section.io/engineering-education/docker-concepts/">https://www.section.io/engineering-education/docker-concepts/</a></p>
+</dd>
+<dt class="label" id="id6"><span class="brackets">4</span></dt>
+<dd><p><a class="reference external" href="https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/">https://www.aquasec.com/cloud-native-academy/docker-container/docker-architecture/</a></p>
+</dd>
+<dt class="label" id="id7"><span class="brackets">5</span></dt>
+<dd><p><a class="reference external" href="https://kubernetes.io/docs/concepts/overview/components/">https://kubernetes.io/docs/concepts/overview/components/</a></p>
+</dd>
+<dt class="label" id="id8"><span class="brackets">6</span></dt>
+<dd><p><a class="reference external" href="https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes">https://www.digitalocean.com/community/tutorials/an-introduction-to-helm-the-package-manager-for-kubernetes</a></p>
+</dd>
+<dt class="label" id="id9"><span class="brackets">7</span></dt>
+<dd><p><a class="reference external" href="https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers">https://www.velotio.com/engineering-blog/flannel-a-network-fabric-for-containers</a></p>
+</dd>
+<dt class="label" id="id10"><span class="brackets">8</span></dt>
+<dd><p><a class="reference external" href="https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/">https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/</a></p>
+</dd>
+<dt class="label" id="id11"><span class="brackets">9</span></dt>
+<dd><p><a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/networking/">https://kubernetes.io/docs/concepts/cluster-administration/networking/</a></p>
+</dd>
+</dl>
 </section>
 </section>
 </section>
