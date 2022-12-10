@@ -58,8 +58,19 @@ jobs:
           sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
     - name: Install srsRAN with E2 Agent
       run: |
-          pwd
-          ls
+          cd srsRAN-e2
+          mkdir build
+          export SRS=`realpath .`
+          cd build
+          cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+              -DRIC_GENERATED_E2AP_BINDING_DIR=${SRS}/e2_bindings/E2AP-v01.01 \
+              -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
+              -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
+          make -j2
+          make test
+          sudo make install
+          sudo ldconfig
+          srsran_install_configs.sh user --force
 
     #- run: sudo bash setup5GNetwork.sh
     #- run: sudo bash deployKPIMON.sh
