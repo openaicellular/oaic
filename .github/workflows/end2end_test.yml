@@ -26,7 +26,9 @@ jobs:
           sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
           sudo kubectl get pods -A
           sudo kubectl create ns ricinfra
-          
+          sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
+          sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+          sudo apt install nfs-common
 
     #- run: sudo bash setup5GNetwork.sh
     #- run: sudo bash deployKPIMON.sh
