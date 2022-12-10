@@ -19,6 +19,22 @@ jobs:
     - run: python3 generate_installation_script.py
     - run: ls RIC-Deployment
     - run: sudo swapoff -a
+    - name: Install Dependencies
+      run: |
+          sudo apt install nfs-common
+          sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
+          sudo apt-get install libzmq3-dev
+          sudo apt install libtool autoconf
+    - name: Install asn1c Compiler
+      run: |
+          git clone https://gitlab.eurecom.fr/oai/asn1c.git
+          cd asn1c
+          git checkout velichkov_s1ap_plus_option_group
+          autoreconf -iv
+          ./configure
+          make -j`nproc`
+          sudo make install
+          sudo ldconfig
     - name: Install O-RAN Near Real-Time RIC
       run: |
           # Step 2: Install Kubernetes, Docker, and Helm (4 minutes)
@@ -29,7 +45,6 @@ jobs:
           sudo kubectl create ns ricinfra
           sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
           sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-          sudo apt install nfs-common
           # Step 3: Build Modified E2 docker Image (7 minutes)
           sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
           cd ../../../..
@@ -41,9 +56,10 @@ jobs:
           # Step 4: Deploy the near-Real Time RIC (3 minutes)
           cd RIC-Deployment/bin
           sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
-          # set up 5G network
-          cd ../../
-          sudo bash setup5GNetwork.sh
+    - name: Install srsRAN with E2 Agent
+      run: |
+          pwd
+          ls
 
     #- run: sudo bash setup5GNetwork.sh
     #- run: sudo bash deployKPIMON.sh
