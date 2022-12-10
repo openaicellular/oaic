@@ -19,7 +19,7 @@ jobs:
     - run: python3 generate_installation_script.py
     - run: ls RIC-Deployment
     - run: sudo swapoff -a
-    - name: Install Kubernetes, Docker, and Helm
+    - name: Install O-RAN Near Real-Time RIC
       run: | 
           cd RIC-Deployment/tools/k8s/bin
           ./gen-cloud-init.sh 
@@ -29,11 +29,6 @@ jobs:
           sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
           sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
           sudo apt install nfs-common
-    - name: Build Modified E2 docker Image
-      run: |
-          git rev-parse --show-toplevel
-          pwd
-          ls
           sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
           cd ../../../..
           cd ric-plt-e2
