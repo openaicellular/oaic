@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import docutils.nodes
 import docutils.parsers.rst
 import docutils.utils
