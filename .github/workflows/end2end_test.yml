@@ -30,7 +30,10 @@ jobs:
           sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
           sudo apt install nfs-common
     - name: Build Modified E2 docker Image
-      run: | 
+      run: |
+          git rev-parse --show-toplevel
+          pwd
+          ls
           sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
           cd ../../../..
           cd ric-plt-e2
