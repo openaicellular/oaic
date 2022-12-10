@@ -42,6 +42,7 @@ jobs:
           cd RIC-Deployment/bin
           sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
           # set up 5G network
+          cd ../../
           sudo bash setup5GNetwork.sh
 
     #- run: sudo bash setup5GNetwork.sh
