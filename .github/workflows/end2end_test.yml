@@ -2,8 +2,8 @@ name: test
 on:
   push:
     branches:
-    - e2e-test-dev
     - master
+    - gitlab-cicd
 
 jobs:
   build:
