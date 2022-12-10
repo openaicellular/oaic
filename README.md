@@ -17,7 +17,7 @@ Clone this repository and its submodules recursively:
 Install [sphinx](https://www.sphinx-doc.org/en/master/) with the
 [read-the-docs](https://readthedocs.org/) theme:
 
-    sudo -H python3 -m pip install sphinx sphinx_rtd_theme
+    sudo -H python3 -m pip install -r requirements.txt
 
 To build the core documentation, simply run `make`.
 The resulting documentation is put in `docs/build/html`.
