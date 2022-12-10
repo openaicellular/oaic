@@ -16,7 +16,7 @@ jobs:
         fetch-depth: 0 # otherwise will fail to push refs to dest repo
     - run: pip3 install docutils
     - run: git submodule update --init --recursive --remote
-    - run: python3 generate_installation_sctipt.py
+    - run: python3 generate_installation_script.py
     - run: ls RIC-Deployment
     - run: sudo swapoff -a
     - name: build ORAN test
