@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>srsRAN with E2 Agent Installation Guide &mdash; OAIC 0.1 documentation</title>
@@ -184,6 +184,7 @@ sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
 <h2>asn1c Compiler Installation<a class="headerlink" href="#asn1c-compiler-installation" title="Permalink to this heading"></a></h2>
 <p>We will be using the modified asn1c compiler (for RAN and CN) that is hosted by Open Air Interface (OAI)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ../..
+sudo apt install libtool autoconf
 git clone https://gitlab.eurecom.fr/oai/asn1c.git
 <span class="nb">cd</span> asn1c
 git checkout velichkov_s1ap_plus_option_group
