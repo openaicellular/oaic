@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: Ubuntu-20.04
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
     - name: Checkout
       uses: actions/checkout@master
@@ -20,7 +20,8 @@ jobs:
     - run: ls RIC-Deployment
     - run: sudo swapoff -a
     - name: Install O-RAN Near Real-Time RIC
-      run: | 
+      run: |
+          # Step 2: Install Kubernetes, Docker, and Helm (4 minutes)
           cd RIC-Deployment/tools/k8s/bin
           ./gen-cloud-init.sh 
           sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
@@ -29,6 +30,7 @@ jobs:
           sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
           sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
           sudo apt install nfs-common
+          # Step 3: Build Modified E2 docker Image (7 minutes)
           sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
           cd ../../../..
           cd ric-plt-e2
@@ -36,7 +38,9 @@ jobs:
           sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
           sudo docker push localhost:5001/ric-plt-e2:5.5.0
           cd ../../
-          ls
+          # Step 4: Deploy the near-Real Time RIC
+          cd RIC-Deployment/bin
+          sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
 
     #- run: sudo bash setup5GNetwork.sh
     #- run: sudo bash deployKPIMON.sh
