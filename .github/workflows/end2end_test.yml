@@ -19,13 +19,13 @@ jobs:
     - run: python3 generate_installation_script.py
     - run: ls RIC-Deployment
     - run: sudo swapoff -a
-    - name: build ORAN test
+    - name: Install O-RAN Near-Real Time RIC
       run: | 
           cd RIC-Deployment/tools/k8s/bin
           ./gen-cloud-init.sh 
           sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
           sudo kubectl get pods -A
-
+          sudo kubectl create ns ricinfra
           
 
     #- run: sudo bash setup5GNetwork.sh
