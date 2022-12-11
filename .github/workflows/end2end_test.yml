@@ -58,7 +58,7 @@ jobs:
           sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
     - name: Install srsRAN with E2 Agent
       run: |
-          # compile srsRAN-e2 (15 minutes)
+          # compile srsRAN-e2 (19 minutes without running tests)
           cd srsRAN-e2
           mkdir build
           export SRS=`realpath .`
@@ -72,6 +72,9 @@ jobs:
           sudo make install
           sudo ldconfig
           srsran_install_configs.sh user # --force
+    - name: Set up 5G Network
+      run: |
+          sudo bash setup5GNetwork.sh
 
     #- run: sudo bash setup5GNetwork.sh
     #- run: sudo bash deployKPIMON.sh
