@@ -71,7 +71,7 @@ jobs:
           #make test
           sudo make install
           sudo ldconfig
-          srsran_install_configs.sh user --force
+          srsran_install_configs.sh user # --force
 
     #- run: sudo bash setup5GNetwork.sh
     #- run: sudo bash deployKPIMON.sh
