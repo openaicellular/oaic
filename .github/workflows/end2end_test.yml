@@ -25,6 +25,9 @@ jobs:
           sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
           sudo apt-get install libzmq3-dev
           sudo apt install libtool autoconf
+          sudo add-apt-repository ppa:ettusresearch/uhd
+          sudo apt-get update
+          sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
     - name: Install asn1c Compiler
       run: |
           git clone https://gitlab.eurecom.fr/oai/asn1c.git
