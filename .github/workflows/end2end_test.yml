@@ -74,7 +74,7 @@ jobs:
           #make test
           sudo make install
           sudo ldconfig
-          srsran_install_configs.sh service # --force
+          sudo srsran_install_configs.sh service # --force
     - name: Set up 5G Network
       run: |
           sudo bash setup5GNetwork.sh
