@@ -69,6 +69,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">OAIC-T</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#about-oaic-t">About OAIC-T</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#get-started">Get Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pre-requisites">Pre-requisites</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#zeromq-mode">ZeroMQ Mode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sdr-mode">SDR Mode</a></li>
 </ul>
@@ -109,7 +110,7 @@
 The OAIC-T framework consists of three major components: i). Test Input, which includes both test configuration and test script files,
 ii). the Server, which sets up the testing environment as described in test configuration files and orchestrates the test execution as
 defined in test scripts, and iii) the Actor(s), which executes test actions as instructed by the server.</p>
-<a class="reference internal image-reference" href="_images/oaci_t_framework.jpg"><img alt="OAIC-T Framework" src="_images/oaci_t_framework.jpg" style="width: 90%;" /></a>
+<a class="reference internal image-reference" href="_images/oaci_t_framework.png"><img alt="OAIC-T Framework" src="_images/oaci_t_framework.png" style="width: 90%;" /></a>
 <p>The server manages a number of remote testing actors, including maintaining the socket connection to each actor and monitoring its resource
 usage (e.g., CPU, memory, disk, and SDR hardware) and test status.</p>
 <p>One actor consists of the actor manager, AI core, and test executor, as well as two adapters to interface with the unit under test
@@ -120,21 +121,31 @@ software suite (e.g., srsRAN) to send radio testing signals to the RAN through a
 </section>
 <section id="get-started">
 <h2>Get Started<a class="headerlink" href="#get-started" title="Permalink to this heading"></a></h2>
-<p>To use OAIC-T, first clone the <a class="reference external" href="https://github.com/openaicellular/oaic-t.git">oaic-t</a> repository:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/openaicellular/oaic-t.git
+<p>To use OAIC-T, go to the oaic-t folder:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd oaic-t
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The OAIC-T now only supports the testing of O-RAN under ZeroMQ mode, i.e., both eNodeB and UE are running in the same machine without
-the use of SDRs, also known as virtual radio. Also the srsRAN has to be installed and configured in a way that a UE can be started by
-running the command like “sudo srsue …”. This involves to i). set srsRAN/UE path to the environment, and ii). configure the system
-to run sudo commands without typeing password.</p>
+the use of SDRs, also known as virtual radio. The srsRAN with E2 Agent must be installed prior to the use of oaci-t. Follow the <a class="reference external" href="https://openaicellular.github.io/oaic/srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a> to ensure that the 5G Network is successfully set up.</p>
 </div>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this heading"></a></h3>
+<p>Install the following python package for the server:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo pip install backports configparser
+</pre></div>
+</div>
+<p>Install the following python package for the actor:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo pip install psutil
+</pre></div>
+</div>
+<p>Both server and actors can be further configured by their configuration files in their source folders. For server: server/src/config.txt. For actor: actor/src/config.txt</p>
+</section>
 <section id="zeromq-mode">
 <h3>ZeroMQ Mode<a class="headerlink" href="#zeromq-mode" title="Permalink to this heading"></a></h3>
-<p>How To Run OAIC-T, assuming both server and actor run in the same machine:
-Step 1. Run the OAIC-T Server:</p>
+<p>How To Run OAIC-T, assuming both server and actor run in the same machine:</p>
+<p>Step 1. Run the OAIC-T Server:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd server/src
 
 python3 server_main.py
@@ -146,7 +157,8 @@ python3 server_main.py
 sudo python3 actor_main.py
 </pre></div>
 </div>
-<p>More actors can be started, but each actor should have a unique name. Edit the actor/src/config.txt to change the actor name before running it.</p>
+<p>More actors can be started, but each actor should have a unique name. Edit the configuration file to change the actor name before running it.</p>
+<p>The server is started with a GUI by default. Users can then create and run test tasks. A test task consists of an actor and at least one test script (json file). Examples of test scripts are included in the server source folder. The server also supports a command-line mode by setting the GUI flag as “false” or “False” in the configuration file.</p>
 <p>Once the actor starts, you will see a message in the server console showing one Actor is registered with its name.
 Then, you can type commands in the console to interact with the Server. The following commands are currently supported:</p>
 <ol class="arabic simple">
