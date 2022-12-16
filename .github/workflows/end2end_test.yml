@@ -81,9 +81,13 @@ jobs:
           sudo ip netns add ue1
           echo "Starting EPC..."
           sudo srsepc & pid_epc=$!
-          #export E2NODE_IP=`hostname  -I | cut -f1 -d' '`
-          #export E2NODE_PORT=5006
-          #export E2TERM_IP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
+          echo "Getting E2NODE IP..."
+          export E2NODE_IP=`hostname  -I | cut -f1 -d' '`
+          echo "E2NODE IP is ${E2NODE_IP}"
+          export E2NODE_PORT=5006
+          echo "Getting E2TERM IP..."
+          export E2TERM_IP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
+          echo "E2TERM IP is ${E2TERM_IP}"
           #echo "Waiting for RIC state to establish"
           #sleep 45
           #grep -Fq 'RIC state -> ESTABLISHED' enbLog.txt && exit
