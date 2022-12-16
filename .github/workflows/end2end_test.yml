@@ -77,7 +77,20 @@ jobs:
           sudo srsran_install_configs.sh service # --force
     - name: Set up 5G Network
       run: |
-          sudo bash setup5GNetwork.sh
+          sudo ip netns add ue1
+          sudo srsepc & pid_epc=$! 
+          export E2NODE_IP=`hostname  -I | cut -f1 -d' '`
+          export E2NODE_PORT=5006
+          export E2TERM_IP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
+          echo "Waiting for RIC state to establish"
+          sleep 45
+          grep -Fq 'RIC state -> ESTABLISHED' enbLog.txt && exit
+          sudo srsue --gw.netns=ue1 & pid_ue=$!
+          sleep 15
+          timeout 5 sudo ip netns exec ue1 ping 172.16.0.1 -O 
+          rc=$? #124 for succesful ping
+          if [ $rc -ne 124 ] ; then exit -1 ; fi
+          echo "5G Network setup completed"
 
     #- run: sudo bash setup5GNetwork.sh
     #- run: sudo bash deployKPIMON.sh
