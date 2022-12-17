@@ -95,9 +95,9 @@ jobs:
           echo ">>> eNB started with pid ${pid_enb}"
           echo ">>> Waiting for RIC state to establish"
           sleep 45
-          ls -lahG
+          #ls -lahG
           #grep -Fq 'RIC state -> ESTABLISHED' enbLog.txt
-          cat enbLog.txt | grep "RIC state"
+          #cat enbLog.txt | grep "RIC state"
           echo ">>> Starting UE..."
           sudo srsue --gw.netns=ue1 & pid_ue=$!
           sleep 15
