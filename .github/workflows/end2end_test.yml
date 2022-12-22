@@ -102,8 +102,7 @@ jobs:
           sudo srsue --gw.netns=ue1 & pid_ue=$!
           sleep 120
           echo ">>> Pinging IP address..."
-          timeout 5 sudo ip netns exec ue1 ping 172.16.0.1 -O -c 10
-          rc=$? #124 for succesful ping
+          timeout 5 sudo ip netns exec ue1 ping 172.16.0.1 -O -c 10 ; rc=$? # 124 for succesful ping
           if [ $rc -ne 124 ] ; then exit -1 ; fi
           echo ">>> 5G Network setup completed"
 
