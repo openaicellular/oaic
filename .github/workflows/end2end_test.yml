@@ -113,7 +113,9 @@ jobs:
     - name: Deploy and test KPIMON 
       run: |
           sudo apt-get install nginx
-          sudo systemctl status nginx
+          
+          sudo systemctl stop apache2
+          sudo systemctl start nginx
 
           cd /etc/nginx/sites-enabled
           sudo unlink default
