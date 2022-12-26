@@ -48,7 +48,7 @@ Install the following python package for the server:
 
 .. code-block:: bash
     
-    sudo pip install backports configparser
+    sudo pip install configparser
 
 Install the following python package for the actor:
 
@@ -86,27 +86,12 @@ More actors can be started, but each actor should have a unique name. Edit the c
 The server is started with a GUI by default. Users can then create and run test tasks. A test task consists of an actor and at least one test script (json file). Examples of test scripts are included in the server source folder. The server also supports a command-line mode by setting the GUI flag as "false" or "False" in the configuration file. 
 
 Once the actor starts, you will see a message in the server console showing one Actor is registered with its name.
-Then, you can type commands in the console to interact with the Server. The following commands are currently supported:
+Then, you can type commands in the console to interact with the Server. The following commands are currently supported in the command-line mode:
 
 1. "list actors": It will list all registered Actors.
-2. "run --test test_script_file --actor actor_name": It will run the test script in the specified actor. Currently six test script exampls are included (more will become available soon):
+2. "run --test test_script_file --actor actor_name": It will run the test script in the specified actor. 
 
-"start_epc.json": This script will run the srsepc (Note: only one running epc is allowed in one actor).
-
-"stop_epc.json": This script will stop the running srsepc.
-
-"start_enodeb.json": This script will run the srsenb (Note: only one running enodeb is allowed in one actor).
-
-"stop_enodeb.json": This script will stop the running srsenb.
-
-"test_virtual_traffics.json": This script will run a UE and generate traffics using ping methods (Note: epc and enodeb have to be started before starting the UE, either mannually starting them or using the above two scripts).
-
-"test_virtual_traffics_iperf.json": Similar to the "test_virtual_traffics.json" script, but using the iperf method which allows to generate traffics with specific bandwidth, e.g., 10Mbps for 20 seconds.
-
-"test_virtual_traffics_all.json": This script will include a whole workflow to generate traffics, combining "start epc", "start enodeb", "generate traffics using ping", "stop ue", "stop enodeb" and "stop epc" actions. 
-
-
-More test script examples and test actions will be provided later.
+Some examples of test scripts have been provided in the folder: server/src/test_examples/. Please refer to the readme.txt file for detailed descriptions of test scripts. More test script examples and test actions will be provided later.
 
 SDR Mode
 ========
