@@ -36,7 +36,7 @@ To use OAIC-T, go to the oaic-t folder:
 .. note::
 
 	The OAIC-T now only supports the testing of O-RAN under ZeroMQ mode, i.e., both eNodeB and UE are running in the same machine without 
-	the use of SDRs, also known as virtual radio. The srsRAN with E2 Agent must be installed prior to the use of oaci-t. Follow the `srsRAN with E2 Agent Installation Guide <https://openaicellular.github.io/oaic/srsRAN_installation.html>`_ to ensure that the 5G Network is successfully set up.	
+	the use of SDRs, also known as virtual radio. The srsRAN with E2 Agent must be installed prior to the use of oaci-t. Follow the `srsRAN with E2 Agent Installation Guide <https://openaicellular.github.io/oaic/srsRAN_installation.html>`_ to ensure that the 5G Network is successfully set up. In addition, KPIMON xApp and Test xApp should be also deployed in order to display KPI metrics in the oaic-t server GUI.
 
 
 
