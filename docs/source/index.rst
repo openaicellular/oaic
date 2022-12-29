@@ -38,6 +38,7 @@ Welcome to OAIC's documentation!
 
    example_xapp_deployment.rst
    xapp_deployment.rst
+   oaict_test_xapp_deployment.rst
    
 
 .. toctree::
