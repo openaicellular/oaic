@@ -1,0 +1,42 @@
+{
+        "xapp_name": "sc3",
+        "version": "0.0.1",
+        "containers": [
+            {
+                "name": "sc3",
+                "image": {
+                    "registry": "xApp-registry.local:5008",
+                    "name": "sc3",
+                    "tag": "0.0.1"
+                }
+            }
+        ],
+        "messaging": {
+            "ports": [
+                {
+                    "name": "rmr-data",
+                    "container": "sc3",
+                    "port": 4560,
+                    "txMessages": ["mr_SENT_DATA"],
+                    "rxMessages": ["mr_ACK"],
+                    "policies": [],
+                    "description": "rmr receive data port for sc3"
+                },
+                {
+                    "name": "rmr-route",
+                    "container": "sc3",
+                    "port": 4561,
+                    "description": "rmr route port for sc2"
+                }
+            ]
+        },
+        "rmr": {
+            "protPort": "tcp:4560",
+            "maxSize": 2072,
+            "numWorkers": 1,
+            "rxMessages": ["mr_ACK"],
+            "txMessages": ["mr_SENT_DATA"],
+            "policies": []
+        }
+
+}

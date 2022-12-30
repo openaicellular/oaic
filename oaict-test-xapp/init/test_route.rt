@@ -1,0 +1,5 @@
+newrt|start
+rte|13111|127.0.0.1:4560
+rte|20011|service-ricplt-a1mediator-rmr.ricplt:4562
+rte|20012|service-ricplt-a1mediator-rmr.ricplt:4562
+newrt|end

@@ -1,0 +1,4 @@
+# The Jenkins job uses this string for the tag in the image name
+# for example nexus3.o-ran-sc.org:10004/my-image-name:my-tag
+---
+tag: 0.3.0

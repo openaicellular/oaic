@@ -1,0 +1,10 @@
+---
+distribution_type: container
+container_release_tag: 0.0.1
+container_pull_registry: xApp-registry.local:5008
+container_push_registry: xApp-registry.local:5008
+project: mr
+#ref: b4731d9da215a49e12fddaab7331be03fdb66972
+containers:
+    - name: mr
+      version: 0.0.1

@@ -1,0 +1,48 @@
+---
+project: 'ric-app/lp'
+project_creation_date: '2020-10-13'
+project_category: ''
+lifecycle_state: 'Incubation'
+project_lead: &oran_ric_app_lp_ptl
+    name: 'Matti Hiltunen'
+    email: 'hiltunen@att.com'
+    id: 'hiltunen'
+    company: 'AT&T Labs-Research'
+    timezone: 'America/New_York'
+primary_contact: *oran_ric_app_lp_ptl
+issue_tracking:
+    type: 'jira'
+    url: 'https://jira.o-ran-sc.org/projects/RICPLT'
+    key: 'lp'
+mailing_list:
+    type: 'groups.io'
+    url: 'https://lists.o-ran-sc.org/g/main'
+    tag: '<[ric-app/lp]>'
+realtime_discussion:
+    type: 'irc'
+    server: 'freenode.net'
+    channel: '#o-ran-sc'
+meetings:
+    - type: 'zoom'
+      agenda: ''
+      url: ''
+      server: 'n/a'
+      channel: 'n/a'
+      repeats: 'weekly'
+      time: ''
+repositories:
+    - 'ric-app/lp'
+committers:
+    - <<: *oran_ric_app_lp_ptl
+    - name: 'James Li'
+      email: 'lijianyj@chinamobile.com'
+      company: 'China Mobile'
+      id: 'pceicicd'
+      timezone: 'America/Los_Angeles'
+    - name: 'Weisen Pan'
+      email: 'weisenpan@chinamobile.com'
+      company: 'China Mobile'
+      id: 'wilson09132'
+      timezone: 'America/Los_Angeles'
+tsc:
+    approval: 'https://lists.o-ran-sc.org/g/toc/topic/77184128#328'
