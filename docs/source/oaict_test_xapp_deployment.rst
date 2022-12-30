@@ -11,7 +11,7 @@ We are going to deploy oaict test xApp step-by-step. Please follow the steps to 
 
 	The near-RT RIC installation, KPI1 xApp deployment (upgraded version of KPIMON xApp) have to be completed, and your RAN network should be up! before proceeding with the following sections.
 
-Hosting the config Files
+Clone the xApp
 ========================
 
 First, please clone the xApp to the oaic repository:
