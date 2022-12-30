@@ -30,7 +30,7 @@ Copy xapp's config file to config-files directory. Reload Nginx once this has be
 .. code-block:: rst
 	
 	cp -R ./sc3-config-file.json /var/www/xApp_config.local/config_files/
-  nginx -t
+        nginx -t
 	sudo systemctl reload nginx
 
 Now, you can check if the config file can be accessed from the newly created server. Place all files you want to host in the ``config_files`` directory
