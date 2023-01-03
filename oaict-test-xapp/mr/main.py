@@ -143,7 +143,7 @@ def connectdb():
     db2.read_data("ricIndication_UeMetrics")
     print('////came back from db2.DATABASE2-read-data to connectdb.else///////')
     #print('db2.read_data("ueMetrics")=', db2.read_data("ueMetrics"))
-    ue_data_kpimon = db2.data.values.tolist()  # needs to be updated in future when live feed will be coming through KPIMON to influxDB
+    ue_data_kpimon = db2.data.values.tolist()
     print('ue_data_kpimon = db2.data.values.tolist()=', ue_data_kpimon)
     
     db3 = DATABASE('kpimon')
@@ -151,7 +151,7 @@ def connectdb():
     db3.read_data("ricIndication_cellMetrics")
     print('////came back from db3.DATABASE2-read-data to connectdb.else///////')
     #print('db3.read_data("cellMetrics")=', db3.read_data("cellMetrics"))
-    cell_data_kpimon = db3.data.values.tolist()  # needs to be updated in future when live feed will be coming through KPIMON to influxDB
+    cell_data_kpimon = db3.data.values.tolist()
     print('cell_data_kpimon = db3.data.values.tolist()=', cell_data_kpimon)
     
     message_sent = {"type": "KPI xApp", "UE Metrics": ue_data_kpimon, "Cell Metrics": cell_data_kpimon}
