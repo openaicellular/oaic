@@ -56,7 +56,7 @@ HEADER = 64
 SC_PORT = 8585
 SERVER = socket.gethostbyname(socket.gethostname())
 print('SERVER=',SERVER)
-print('socket.gethostname()=',socket.gethostname())
+#print('socket.gethostname()=',socket.gethostname())
 ADDR = (SERVER, SC_PORT)
 print('ADDR=', ADDR)
 FORMAT = 'UTF-8'
@@ -132,6 +132,10 @@ def connectdb():
     # Create a connection to InfluxDB if thread=True, otherwise it will create a dummy data instance
     #global db
     global RAN_data
+    
+    print('SC_PORT =', SC_PORT)
+    print('SERVER=',SERVER)
+    print('ADDR=', ADDR)
     
     db2 = DATABASE('kpimon')
     print('db2 =  DATABASE(kpimon)=', db2) 
