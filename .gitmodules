@@ -17,3 +17,7 @@
 [submodule "oaic-t"]
 	path = oaic-t
 	url = https://github.com/openaicellular/oaic-t.git
+[submodule "asn1c"]
+	path = asn1c
+	url = https://gitlab.eurecom.fr/oai/asn1c.git
+	branch = velichkov_s1ap_plus_option_group
