@@ -120,7 +120,9 @@ Installation from Source
         -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
         -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
     make -j`nproc`
+..
     make test
+    
     sudo make install
     sudo ldconfig
     srsran_install_configs.sh user --force

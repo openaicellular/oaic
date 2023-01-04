@@ -20,8 +20,11 @@ Create a symlink from the xapp's config file (in this case kpimon).This can be r
 
 .. code-block:: rst
 	
-	sudo ln -s ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/scp-kpimon-config-file.json
-	sudo systemctl reload nginx
+..	
+        sudo ln -s ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/scp-kpimon-config-file.json
+	
+        sudo cp ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
+        sudo systemctl reload nginx
 
 Now, you can check if the config file can be accessed from the newly created server. Place all files you want to host in the ``config_files`` directory
 
@@ -111,14 +114,35 @@ We can check the xApp logs using
 
 .. code-block:: rst
 
-	kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
+        sudo kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
 
 Since the E2 Node is already up and running and the Key Performance Metrics (KPM) RAN function is enabled by default, the xApp will be able to subscribe to the E2 Node and start getting **INDICATION** messages. The decoded message containing information about the metrics is stored in the ``kpimon.log`` within the pod. This can be viewed by,
 
 .. code-block:: rst
 
-	kubectl exec -it -n ricxapp `kubectl get pod -n ricxapp -l app=ricxapp-scp-kpimon -o jsonpath='{.items[0].metadata.name}'` -- tail -F /opt/kpimon.log
+	sudo kubectl exec -it -n ricxapp `sudo kubectl get pod -n ricxapp -l app=ricxapp-scp-kpimon -o jsonpath='{.items[0].metadata.name}'` -- tail -F /opt/kpimon.log
 
+xApp Re-Deployment & Undeployment
+=================================
+
+To redeploy the xApp, on the near-RT RIC side, run the command
+
+.. code-block:: rst
+
+	sudo kubectl -n ricxapp rollout restart deployment ricxapp-scp-kpimon
+
+To Undeploy the xApp, first let's get the IP address of the ``App Manager``
+
+.. code-block:: rst
+
+	export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
+	curl -L -X DELETE http://${APPMGR_HTTP}:8080/ric/v1/xapps/scp-kpimon
+	
+To remove the xApp descriptors from the Chart Museum, use the command
+
+..code-block:: rst
+
+	curl -L -X DELETE "http://${ONBOARDER_HTTP}:8080/api/charts/scp-kpimon/1.0.1"
  
 
 

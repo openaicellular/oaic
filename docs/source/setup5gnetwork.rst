@@ -32,6 +32,7 @@ Here we outline two options to bring up the en-gNB and the UE - one with  zeroMQ
 en-gNB and UE in ZeroMQ Mode
 ============================
 
+Before we proceed further it would be worthwhile to open the logs of ``E2 Manager, E2 Termination, Subscription Manager and Application Manager`` to trace the flow of messages. The instructions to do this can be found in :ref:`Kubectl Commands <kubectl_commands>` section.
 
 Running the en-gNB & connecting to near-RT RIC
 ----------------------------------------------
