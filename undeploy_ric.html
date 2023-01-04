@@ -1,36 +1,76 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <title>UnDeploying RIC Platform &mdash; OAIC 0.1 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/js/theme.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="srsRAN Additional Features" href="srsRAN_additional_features.html" />
     <link rel="prev" title="xApp Deployment - General Guidelines" href="xapp_deployment.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+          
+
+          
             <a href="index.html" class="icon icon-home"> OAIC
+          
+
+          
           </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -38,7 +78,18 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
@@ -73,70 +124,147 @@
 <li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
 </ul>
 
+            
+          
         </div>
+        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">OAIC</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">UnDeploying RIC Platform</li>
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>UnDeploying RIC Platform</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
+          
             <a href="_sources/undeploy_ric.rst.txt" rel="nofollow"> View page source</a>
+          
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+            
   <section id="undeploying-ric-platform">
-<h1>UnDeploying RIC Platform<a class="headerlink" href="#undeploying-ric-platform" title="Permalink to this heading"></a></h1>
-<section id="un-deploying-and-re-deploying-xapps">
-<h2>Un-deploying and Re-deploying xApps<a class="headerlink" href="#un-deploying-and-re-deploying-xapps" title="Permalink to this heading"></a></h2>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>kubectl -n ricxapp rollout restart deployment ricxapp-scp-kpimon
+<h1>UnDeploying RIC Platform<a class="headerlink" href="#undeploying-ric-platform" title="Permalink to this heading">¶</a></h1>
+<p>To undeploy the near-RT RIC platform, we can use the scripts provided</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd /oaic/RIC-Deployment/bin
+sudo ./undeploy-ric-platform
 </pre></div>
 </div>
-<p>We outline two methods to un-deploy the near-RT RIC components. The first method will undeploy</p>
+<section id="un-deploying-and-re-deploying-xapps">
+<h2>Un-deploying and Re-deploying xApps<a class="headerlink" href="#un-deploying-and-re-deploying-xapps" title="Permalink to this heading">¶</a></h2>
+<p>To redeploy the xApp, on the near-RT RIC side, run the command</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl -n ricxapp rollout restart deployment &lt;pod_name&gt;
+</pre></div>
+</div>
+<p>To Undeploy the xApp, first let’s get the IP address of the <code class="docutils literal notranslate"><span class="pre">App</span> <span class="pre">Manager</span></code></p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export APPMGR_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+curl -L -X DELETE http://${APPMGR_HTTP}:8080/ric/v1/xapps/&lt;xApp_name&gt;
+</pre></div>
+</div>
+<p>To remove the xApp descriptors from the Chart Museum, we first need to get the <code class="docutils literal notranslate"><span class="pre">Onboarder's</span> <span class="pre">IP</span> <span class="pre">address</span></code> use the command</p>
+<p>..code-block:: rst</p>
+<blockquote>
+<div><p>export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt –field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath=’{.items[0].spec.clusterIP}’`
+curl -L -X DELETE “<a class="reference external" href="http:/">http:/</a>/${ONBOARDER_HTTP}:8080/api/charts/&lt;xApp_name&gt;/&lt;xApp_tag&gt;”</p>
+</div></blockquote>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>kubectl -n ricxapp rollout restart deployment &lt;pod_name&gt;
+</pre></div>
+</div>
 </section>
 </section>
 
 
            </div>
+           
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="xapp_deployment.html" class="btn btn-neutral float-left" title="xApp Deployment - General Guidelines" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="srsRAN_additional_features.html" class="btn btn-neutral float-right" title="srsRAN Additional Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="xapp_deployment.html" class="btn btn-neutral float-left" title="xApp Deployment - General Guidelines" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, OAIC.</p>
-  </div>
+    <p>
+        &#169; Copyright 2022, OAIC.
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -1,36 +1,76 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <title>Setup your own 5G Network &mdash; OAIC 0.1 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/js/theme.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Multiple UEs with ZMQ Example" href="multi_ue_example.html" />
     <link rel="prev" title="srsRAN with E2 Agent Installation Guide" href="srsRAN_installation.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+          
+
+          
             <a href="index.html" class="icon icon-home"> OAIC
+          
+
+          
           </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -38,7 +78,18 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
@@ -96,35 +147,76 @@
 <li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
 </ul>
 
+            
+          
         </div>
+        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">OAIC</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Setup your own 5G Network</li>
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Setup your own 5G Network</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
+          
             <a href="_sources/setup5gnetwork.rst.txt" rel="nofollow"> View page source</a>
+          
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+            
   <section id="setup-your-own-5g-network">
-<span id="setup5gnet"></span><h1>Setup your own 5G Network<a class="headerlink" href="#setup-your-own-5g-network" title="Permalink to this heading"></a></h1>
+<span id="setup5gnet"></span><h1>Setup your own 5G Network<a class="headerlink" href="#setup-your-own-5g-network" title="Permalink to this heading">¶</a></h1>
 <p>In this example, the EPC and en-gNB (NSA mode) and near-RT RIC are assumed to run on the same machine/VM (Machine 1). The UE, if using USRPs should be run on a different machine/VM (Machine 2). But if zeroMQ mode is used, a single machine suffices for all components. Refer to GNU radio integration for instructions to include multiple simulated UEs.</p>
 <section id="running-the-epc">
-<h2>Running the EPC<a class="headerlink" href="#running-the-epc" title="Permalink to this heading"></a></h2>
+<h2>Running the EPC<a class="headerlink" href="#running-the-epc" title="Permalink to this heading">¶</a></h2>
 <p>Before we start the EPC, we need to create a separate network namespace for the UE since all components are running on the same machine.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns add ue1
 sudo ip netns list
@@ -141,9 +233,10 @@ sudo ip netns list
 <p>Here we outline two options to bring up the en-gNB and the UE - one with  zeroMQ simulation and the other with USRP X310.</p>
 </section>
 <section id="en-gnb-and-ue-in-zeromq-mode">
-<h2>en-gNB and UE in ZeroMQ Mode<a class="headerlink" href="#en-gnb-and-ue-in-zeromq-mode" title="Permalink to this heading"></a></h2>
+<h2>en-gNB and UE in ZeroMQ Mode<a class="headerlink" href="#en-gnb-and-ue-in-zeromq-mode" title="Permalink to this heading">¶</a></h2>
+<p>Before we proceed further it would be worthwhile to open the logs of <code class="docutils literal notranslate"><span class="pre">E2</span> <span class="pre">Manager,</span> <span class="pre">E2</span> <span class="pre">Termination,</span> <span class="pre">Subscription</span> <span class="pre">Manager</span> <span class="pre">and</span> <span class="pre">Application</span> <span class="pre">Manager</span></code> to trace the flow of messages. The instructions to do this can be found in <a class="reference internal" href="kubectl_commands.html#kubectl-commands"><span class="std std-ref">Kubectl Commands</span></a> section.</p>
 <section id="running-the-en-gnb-connecting-to-near-rt-ric">
-<h3>Running the en-gNB &amp; connecting to near-RT RIC<a class="headerlink" href="#running-the-en-gnb-connecting-to-near-rt-ric" title="Permalink to this heading"></a></h3>
+<h3>Running the en-gNB &amp; connecting to near-RT RIC<a class="headerlink" href="#running-the-en-gnb-connecting-to-near-rt-ric" title="Permalink to this heading">¶</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you want an xApp to communicate with the RAN, make sure that the xApp is not already deployed on the near-RT RIC platform.</p>
@@ -156,7 +249,7 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </pre></div>
 </div>
 <section id="srsenb-in-zeromq-mode">
-<h4>srsENB in ZeroMQ mode<a class="headerlink" href="#srsenb-in-zeromq-mode" title="Permalink to this heading"></a></h4>
+<h4>srsENB in ZeroMQ mode<a class="headerlink" href="#srsenb-in-zeromq-mode" title="Permalink to this heading">¶</a></h4>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb --enb.n_prb=50 --enb.name=enb1 --enb.enb_id=0x19B \
 --rf.device_name=zmq --rf.device_args=&quot;fail_on_disconnect=true,tx_port0=tcp://<span class="ge">*:2000,rx_port0=tcp://localhost:2001,tx_port1=tcp://*</span>:2100,rx_port1=tcp://localhost:2101,id=enb,base_srate=23.04e6&quot; \
 --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT}
@@ -166,7 +259,7 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </section>
 </section>
 <section id="srsue-in-zeromq-mode">
-<h3>srsUE in ZeroMQ mode<a class="headerlink" href="#srsue-in-zeromq-mode" title="Permalink to this heading"></a></h3>
+<h3>srsUE in ZeroMQ mode<a class="headerlink" href="#srsue-in-zeromq-mode" title="Permalink to this heading">¶</a></h3>
 <p>This command uses the default config file. The following message <code class="docutils literal notranslate"><span class="pre">RRC</span> <span class="pre">NR</span> <span class="pre">reconfiguration</span> <span class="pre">successful</span></code> confirms that the UE has connected to the NR cell. This will be used for the data link, while the LTE cell will be used for control messaging. On a new command terminal on the same machine run,</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsue --gw.netns=ue1
 </pre></div>
@@ -178,20 +271,20 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </div>
 </section>
 <section id="exchanging-traffic">
-<h3>Exchanging Traffic<a class="headerlink" href="#exchanging-traffic" title="Permalink to this heading"></a></h3>
+<h3>Exchanging Traffic<a class="headerlink" href="#exchanging-traffic" title="Permalink to this heading">¶</a></h3>
 <p>We outline testing the network through <code class="docutils literal notranslate"><span class="pre">ping</span></code> and <code class="docutils literal notranslate"><span class="pre">iperf</span></code>.</p>
 <section id="ping">
-<h4>PING<a class="headerlink" href="#ping" title="Permalink to this heading"></a></h4>
+<h4>PING<a class="headerlink" href="#ping" title="Permalink to this heading">¶</a></h4>
 <p>This is the simplest way to test the network. This will test whether or not the UE and core can successfully communicate.</p>
 <section id="uplink">
-<h5>Uplink<a class="headerlink" href="#uplink" title="Permalink to this heading"></a></h5>
+<h5>Uplink<a class="headerlink" href="#uplink" title="Permalink to this heading">¶</a></h5>
 <p>When using zeroMQ, the ping command should be executed on a new terminal from the UE’s network space</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns exec ue1 ping 172.16.0.1
 </pre></div>
 </div>
 </section>
 <section id="downlink">
-<h5>Downlink<a class="headerlink" href="#downlink" title="Permalink to this heading"></a></h5>
+<h5>Downlink<a class="headerlink" href="#downlink" title="Permalink to this heading">¶</a></h5>
 <p>For Downlink, on a new terminal run</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ping &lt;ue_ip&gt;
 </pre></div>
@@ -203,20 +296,20 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </section>
 </section>
 <section id="iperf3">
-<h4>iPerf3<a class="headerlink" href="#iperf3" title="Permalink to this heading"></a></h4>
+<h4>iPerf3<a class="headerlink" href="#iperf3" title="Permalink to this heading">¶</a></h4>
 <p>In this scenario, client will run on the UE side with the server on the network side (core). UDP traffic will be generated at 10Mbps for 60 seconds. It is important to start the server first, and then the client.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Both the client and server should be run on the same machine but on different terminal windows.</p>
 </div>
 <section id="network-side">
-<h5>Network Side<a class="headerlink" href="#network-side" title="Permalink to this heading"></a></h5>
+<h5>Network Side<a class="headerlink" href="#network-side" title="Permalink to this heading">¶</a></h5>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>iperf3 -s -i 1
 </pre></div>
 </div>
 </section>
 <section id="ue-side">
-<h5>UE-Side<a class="headerlink" href="#ue-side" title="Permalink to this heading"></a></h5>
+<h5>UE-Side<a class="headerlink" href="#ue-side" title="Permalink to this heading">¶</a></h5>
 <p>Again, since we are using zeroMQ, the iperf client should be run from the UE’s network namespace.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns exec ue1 iperf3 -c 172.16.0.1 -b 10M -i 1 -t 60
 </pre></div>
@@ -226,9 +319,9 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </section>
 </section>
 <section id="en-gnb-and-ue-in-usrp-mode">
-<h2>en-gNB and UE in USRP Mode<a class="headerlink" href="#en-gnb-and-ue-in-usrp-mode" title="Permalink to this heading"></a></h2>
+<h2>en-gNB and UE in USRP Mode<a class="headerlink" href="#en-gnb-and-ue-in-usrp-mode" title="Permalink to this heading">¶</a></h2>
 <section id="en-gnb-in-uhd-usrp-x310-mode">
-<h3>en-gNB in UHD USRP (X310) Mode<a class="headerlink" href="#en-gnb-in-uhd-usrp-x310-mode" title="Permalink to this heading"></a></h3>
+<h3>en-gNB in UHD USRP (X310) Mode<a class="headerlink" href="#en-gnb-in-uhd-usrp-x310-mode" title="Permalink to this heading">¶</a></h3>
 <p>The srsENB should be run on the same machine as the EPC.</p>
 <p>In a new command window on Machine 1 run srsRAN en-gNB.</p>
 <p>Before we start the en-gNB, we need to get the current machine’s IP address and the IP address of the E2 Termination service at the near-RT RIC.</p>
@@ -248,7 +341,7 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </div>
 </section>
 <section id="running-the-srsue">
-<h3>Running the srsUE<a class="headerlink" href="#running-the-srsue" title="Permalink to this heading"></a></h3>
+<h3>Running the srsUE<a class="headerlink" href="#running-the-srsue" title="Permalink to this heading">¶</a></h3>
 <p>For this mode, the UE should run on Machine 2 (can be a VM).</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsue --rf.device_name=uhd --rf.device_args=&quot;type=x300,clock=internal,sampling_rate=11.52e6,lo_freq_offset_hz=23.04e6,send_frame_size=8000,recv_frame_size=8000,num_send_frames=64,num_recv_frames=64,None&quot; \
 --rf.srate=11.52e6 --rrc.release=15 --rat.nr.bands=3 --rat.nr.nof_carriers=1
@@ -260,20 +353,20 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </div>
 </section>
 <section id="testing-the-network">
-<h3>Testing the Network<a class="headerlink" href="#testing-the-network" title="Permalink to this heading"></a></h3>
+<h3>Testing the Network<a class="headerlink" href="#testing-the-network" title="Permalink to this heading">¶</a></h3>
 <p>We outline testing the network through <code class="docutils literal notranslate"><span class="pre">ping</span></code> and <code class="docutils literal notranslate"><span class="pre">iperf</span></code>.</p>
 <section id="id1">
-<h4>PING<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<h4>PING<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h4>
 <p>This is the simplest way to test the network. This will test whether or not the UE and core can successfully communicate.</p>
 <section id="id2">
-<h5>Uplink<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h5>
+<h5>Uplink<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h5>
 <p>When using SDRs, we can directly run ping from a new terminal on the UE machine.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ping 172.16.0.1
 </pre></div>
 </div>
 </section>
 <section id="id3">
-<h5>Downlink<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h5>
+<h5>Downlink<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h5>
 <p>For Downlink, on the machine running EPC, run the following command on a new terminal.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ping &lt;ue_ip_addr&gt;
 </pre></div>
@@ -285,16 +378,16 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 </section>
 </section>
 <section id="id4">
-<h4>iPerf3<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<h4>iPerf3<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h4>
 <p>In this scenario, client will run on the UE side with the server on the network side (core). UDP traffic will be generated at 10Mbps for 60 seconds. It is important to start the server first, and then the client.</p>
 <section id="id5">
-<h5>Network Side<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h5>
+<h5>Network Side<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h5>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo iperf3 -s -i 1
 </pre></div>
 </div>
 </section>
 <section id="id6">
-<h5>UE-Side<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h5>
+<h5>UE-Side<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h5>
 <p>If using SDRs, the iperf client can be run on the UE machine using on a new terminal,</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo iperf3 -c 172.16.0.1 -b 10M -i 1 -t 60
 </pre></div>
@@ -307,33 +400,50 @@ export E2TERM_IP=<span class="nv">`sudo kubectl get svc -n ricplt --field-select
 
 
            </div>
+           
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="srsRAN_installation.html" class="btn btn-neutral float-left" title="srsRAN with E2 Agent Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="multi_ue_example.html" class="btn btn-neutral float-right" title="Multiple UEs with ZMQ Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="srsRAN_installation.html" class="btn btn-neutral float-left" title="srsRAN with E2 Agent Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, OAIC.</p>
-  </div>
+    <p>
+        &#169; Copyright 2022, OAIC.
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

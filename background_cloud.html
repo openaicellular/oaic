@@ -1,36 +1,76 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <title>Background on Docker, Kubernetes &amp; Helm &mdash; OAIC 0.1 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/js/theme.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="O-RAN Architecture" href="background_oran_architecture.html" />
     <link rel="prev" title="OAIC Features" href="oaic_features.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+          
+
+          
             <a href="index.html" class="icon icon-home"> OAIC
+          
+
+          
           </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -38,7 +78,18 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
@@ -82,34 +133,75 @@
 <li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
 </ul>
 
+            
+          
         </div>
+        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">OAIC</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Background on Docker, Kubernetes &amp; Helm</li>
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Background on Docker, Kubernetes &amp; Helm</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
+          
             <a href="_sources/background_cloud.rst.txt" rel="nofollow"> View page source</a>
+          
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+            
   <section id="background-on-docker-kubernetes-helm">
-<h1>Background on Docker, Kubernetes &amp; Helm<a class="headerlink" href="#background-on-docker-kubernetes-helm" title="Permalink to this heading"></a></h1>
+<h1>Background on Docker, Kubernetes &amp; Helm<a class="headerlink" href="#background-on-docker-kubernetes-helm" title="Permalink to this heading">¶</a></h1>
 <section id="docker">
-<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this heading"></a></h2>
+<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this heading">¶</a></h2>
 <p>Docker is used to run and manage apps side-by-side in isolated environments
 called containers that contain everything needed to run the application to get
 better compute density.
@@ -125,17 +217,17 @@ faster, more securely and with repeatability for both Linux and Windows Server
 apps.</p>
 </section>
 <section id="core-components-of-docker">
-<h2>Core components of docker<a class="headerlink" href="#core-components-of-docker" title="Permalink to this heading"></a></h2>
+<h2>Core components of docker<a class="headerlink" href="#core-components-of-docker" title="Permalink to this heading">¶</a></h2>
 <a class="reference internal image-reference" href="_images/docker_overview.jpg"><img alt="Docker Core Components" src="_images/docker_overview.jpg" style="width: 90%;" /></a>
 <section id="images">
-<h3>Images<a class="headerlink" href="#images" title="Permalink to this heading"></a></h3>
+<h3>Images<a class="headerlink" href="#images" title="Permalink to this heading">¶</a></h3>
 <p>An image is a read-only template with instructions for creating a Docker container. Docker images may be based on
 other images and is customized to contain executable application source code as well as all the tools, libraries,
 and dependencies that the application code needs to run as a container. When you run the Docker image,
 it becomes one instance (or multiple instances) of the container.</p>
 </section>
 <section id="containers">
-<h3>Containers<a class="headerlink" href="#containers" title="Permalink to this heading"></a></h3>
+<h3>Containers<a class="headerlink" href="#containers" title="Permalink to this heading">¶</a></h3>
 <p>Containers are encapsulated environments in which you run applications and is a runnable instance of an image.
 A Docker container image is a lightweight, standalone, executable package of software that has everything you need
 to run an application – code, runtime, system tools, system libraries, and settings. Containers only have access to
@@ -145,13 +237,13 @@ Since containers are much smaller than VMs, they can be spun up in a matter of s
 server density. When a container is removed, any changes to its state that are not stored in persistent storage disappear.</p>
 </section>
 <section id="registry">
-<h3>Registry<a class="headerlink" href="#registry" title="Permalink to this heading"></a></h3>
+<h3>Registry<a class="headerlink" href="#registry" title="Permalink to this heading">¶</a></h3>
 <p>The Docker Registry is where the Docker Images are stored and can be downloaded. The Registry can be either a user’s
 local repository or a public repository like a Docker Hub (similar to GitHub) allowing multiple users to collaborate.
 Images can be ‘pushed’ to and ‘pulled’ from the registries as and when required.</p>
 </section>
 <section id="dockerfile">
-<h3>DockerFile<a class="headerlink" href="#dockerfile" title="Permalink to this heading"></a></h3>
+<h3>DockerFile<a class="headerlink" href="#dockerfile" title="Permalink to this heading">¶</a></h3>
 <p>A DockerFile is a text file that contains instructions on how to build a docker image.
 A Dockerfile specifies the operating system that will underlie the container, along with the languages,
 environmental variables, file locations, network ports, and other components it needs—and what the container
@@ -159,7 +251,7 @@ will do once we run it.</p>
 </section>
 </section>
 <section id="kubernetes">
-<h2>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this heading"></a></h2>
+<h2>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this heading">¶</a></h2>
 <p>Kubernetes is an open-source platform for automating deployment, scaling, and
 operations of application containers across clusters of hosts, providing
 container-centric infrastructure. It is an automated platform that enables
@@ -169,7 +261,7 @@ containers.</p>
 Pods, in each Pod there can be any number of containers. User’s application is running in one of those containers.</p>
 </section>
 <section id="helm">
-<h2>Helm<a class="headerlink" href="#helm" title="Permalink to this heading"></a></h2>
+<h2>Helm<a class="headerlink" href="#helm" title="Permalink to this heading">¶</a></h2>
 <p>Helm is a package manager for Kubernetes. It is the equivalent of ‘yum’ or ‘apt’ seen in Linux OS or ‘pip’ in the case of Python. Just as how ‘apt’ gets
 and installs/deploys packaged applications on the Linux OS, Helm similarly deploys packaged applications (called Helm Charts)
 on Kubernetes clusters. To understand how Helm charts are packaged and configured, basic understanding of YAML (Yet Another Markup Language) is helpful. YAML
@@ -181,33 +273,50 @@ The Helm tool processes these charts and sends commands to a server running on K
 
 
            </div>
+           
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="oaic_features.html" class="btn btn-neutral float-left" title="OAIC Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="background_oran_architecture.html" class="btn btn-neutral float-right" title="O-RAN Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="oaic_features.html" class="btn btn-neutral float-left" title="OAIC Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, OAIC.</p>
-  </div>
+    <p>
+        &#169; Copyright 2022, OAIC.
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

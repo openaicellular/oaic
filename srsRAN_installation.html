@@ -1,36 +1,76 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <title>srsRAN with E2 Agent Installation Guide &mdash; OAIC 0.1 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/js/theme.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Setup your own 5G Network" href="setup5gnetwork.html" />
     <link rel="prev" title="O-RAN Near-Real Time RIC Installation Guide" href="oran_installation.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+          
+
+          
             <a href="index.html" class="icon icon-home"> OAIC
+          
+
+          
           </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -38,7 +78,18 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
@@ -89,32 +140,73 @@
 <li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
 </ul>
 
+            
+          
         </div>
+        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">OAIC</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">srsRAN with E2 Agent Installation Guide</li>
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>srsRAN with E2 Agent Installation Guide</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
+          
             <a href="_sources/srsRAN_installation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+            
   <section id="srsran-with-e2-agent-installation-guide">
-<h1>srsRAN with E2 Agent Installation Guide<a class="headerlink" href="#srsran-with-e2-agent-installation-guide" title="Permalink to this heading"></a></h1>
+<h1>srsRAN with E2 Agent Installation Guide<a class="headerlink" href="#srsran-with-e2-agent-installation-guide" title="Permalink to this heading">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Before you begin, please clone the parent <a class="reference external" href="https://github.com/openaicellular/oaic">oaic</a> directory as outlined in <a class="reference internal" href="quickstart.html#gettingstarted"><span class="std std-ref">Getting Started</span></a>.</p>
@@ -132,7 +224,7 @@
 <p>For application features, build instructions and user guides see the <a class="reference external" href="https://docs.srsran.com">srsRAN documentation</a>.</p>
 <p>For license details, see LICENSE file - <em>Needs to be modified.</em></p>
 <section id="pre-requisites">
-<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this heading"></a></h2>
+<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this heading">¶</a></h2>
 <div class="admonition-todo admonition">
 <p class="admonition-title">TODO</p>
 <p>Create a system specification table for different cellular configurations</p>
@@ -146,75 +238,70 @@
 <li><p>Multiple simulated UE and eNB/gNB support : GNU Radio companion 3.9</p></li>
 </ul>
 <section id="dependencies-installation">
-<h3>Dependencies Installation<a class="headerlink" href="#dependencies-installation" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
+<h3>Dependencies Installation<a class="headerlink" href="#dependencies-installation" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>build-essential<span class="w"> </span>cmake<span class="w"> </span>libfftw3-dev<span class="w"> </span>libmbedtls-dev<span class="w"> </span>libboost-program-options-dev<span class="w"> </span>libconfig++-dev<span class="w"> </span>libsctp-dev<span class="w"> </span>libtool<span class="w"> </span>autoconf
 </pre></div>
 </div>
 </section>
 </section>
 <section id="zeromq-installation">
-<h2>ZeroMQ Installation<a class="headerlink" href="#zeromq-installation" title="Permalink to this heading"></a></h2>
+<h2>ZeroMQ Installation<a class="headerlink" href="#zeromq-installation" title="Permalink to this heading">¶</a></h2>
 <p>srsRAN software suite includes virtual radios which uses the ZeroMQ networking library to transfer radio samples between applications. This approach is very useful for development, testing, debugging, CI/CD or for teaching and demonstrating. Natively, ZeroMQ with srsRAN supports only one eNB/gNB and one UE configuration but it can be extended to support multiple UEs using GNU Radio. Have a look at the tutorial to do this <a class="reference internal" href="srsRAN_additional_features.html#multiple-ue"><span class="std std-ref">here</span></a>.</p>
 <section id="getting-zeromq-development-libraries">
-<h3>Getting ZeroMQ development Libraries<a class="headerlink" href="#getting-zeromq-development-libraries" title="Permalink to this heading"></a></h3>
+<h3>Getting ZeroMQ development Libraries<a class="headerlink" href="#getting-zeromq-development-libraries" title="Permalink to this heading">¶</a></h3>
 <p><a class="reference external" href="https://docs.srsran.com/en/latest/app_notes/source/zeromq/source/index.html">ZeroMQ Installation Instructions</a></p>
 <p><strong>Package Installation</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libzmq3-dev
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>libzmq3-dev
 </pre></div>
 </div>
 </section>
 </section>
 <section id="uhd-4-1-installation">
-<span id="uhd-installation"></span><h2>UHD 4.1 Installation<a class="headerlink" href="#uhd-4-1-installation" title="Permalink to this heading"></a></h2>
+<span id="uhd-installation"></span><h2>UHD 4.1 Installation<a class="headerlink" href="#uhd-4-1-installation" title="Permalink to this heading">¶</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Make sure you don’t have UHD already installed in your system.</p>
 </div>
 <p><a class="reference external" href="https://files.ettus.com/manual/page_install.html">Ettus UHD Binary Installation Manual</a></p>
 <section id="using-package-manager">
-<h3>Using package manager<a class="headerlink" href="#using-package-manager" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:ettusresearch/uhd
-sudo apt-get update
-sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
+<h3>Using package manager<a class="headerlink" href="#using-package-manager" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>add-apt-repository<span class="w"> </span>ppa:ettusresearch/uhd
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>libuhd-dev<span class="w"> </span>libuhd4.1.0<span class="w"> </span>uhd-host
 </pre></div>
 </div>
 </section>
 </section>
 <section id="asn1c-compiler-installation">
-<h2>asn1c Compiler Installation<a class="headerlink" href="#asn1c-compiler-installation" title="Permalink to this heading"></a></h2>
+<h2>asn1c Compiler Installation<a class="headerlink" href="#asn1c-compiler-installation" title="Permalink to this heading">¶</a></h2>
 <p>We will be using the modified asn1c compiler (for RAN and CN) that is hosted by Open Air Interface (OAI)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ../..
-sudo apt install libtool autoconf
-git clone https://gitlab.eurecom.fr/oai/asn1c.git
-<span class="nb">cd</span> asn1c
-git checkout velichkov_s1ap_plus_option_group
-autoreconf -iv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../..
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libtool<span class="w"> </span>autoconf
+git<span class="w"> </span>clone<span class="w"> </span>https://gitlab.eurecom.fr/oai/asn1c.git
+<span class="nb">cd</span><span class="w"> </span>asn1c
+git<span class="w"> </span>checkout<span class="w"> </span>velichkov_s1ap_plus_option_group
+autoreconf<span class="w"> </span>-iv
 ./configure
-make -j<span class="sb">`</span>nproc<span class="sb">`</span>
-sudo make install
-sudo ldconfig
-<span class="nb">cd</span> ..
+make<span class="w"> </span>-j<span class="sb">`</span>nproc<span class="sb">`</span>
+sudo<span class="w"> </span>make<span class="w"> </span>install
+sudo<span class="w"> </span>ldconfig
+<span class="nb">cd</span><span class="w"> </span>..
 </pre></div>
 </div>
 </section>
 <section id="srsran-with-e2-agent-installation">
-<h2>srsRAN with E2 agent Installation<a class="headerlink" href="#srsran-with-e2-agent-installation" title="Permalink to this heading"></a></h2>
+<h2>srsRAN with E2 agent Installation<a class="headerlink" href="#srsran-with-e2-agent-installation" title="Permalink to this heading">¶</a></h2>
 <section id="installation-from-source">
-<h3>Installation from Source<a class="headerlink" href="#installation-from-source" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> srsRAN-e2
-mkdir build
-<span class="nb">export</span> <span class="nv">SRS</span><span class="o">=</span><span class="sb">`</span>realpath .<span class="sb">`</span>
-<span class="nb">cd</span> build
-cmake ../ -DCMAKE_BUILD_TYPE<span class="o">=</span>RelWithDebInfo <span class="se">\</span>
-    -DRIC_GENERATED_E2AP_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2AP-v01.01 <span class="se">\</span>
-    -DRIC_GENERATED_E2SM_KPM_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-KPM <span class="se">\</span>
-    -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-GNB-NRT
-make -j<span class="sb">`</span>nproc<span class="sb">`</span>
-make <span class="nb">test</span>
-sudo make install
-sudo ldconfig
-srsran_install_configs.sh user --force
-<span class="nb">cd</span> ../../
+<h3>Installation from Source<a class="headerlink" href="#installation-from-source" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>srsRAN-e2
+mkdir<span class="w"> </span>build
+<span class="nb">export</span><span class="w"> </span><span class="nv">SRS</span><span class="o">=</span><span class="sb">`</span>realpath<span class="w"> </span>.<span class="sb">`</span>
+<span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>../<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>RelWithDebInfo<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DRIC_GENERATED_E2AP_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2AP-v01.01<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DRIC_GENERATED_E2SM_KPM_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-KPM<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-GNB-NRT
+make<span class="w"> </span>-j<span class="sb">`</span>nproc<span class="sb">`</span>
 </pre></div>
 </div>
 </section>
@@ -223,33 +310,50 @@ srsran_install_configs.sh user --force
 
 
            </div>
+           
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="oran_installation.html" class="btn btn-neutral float-left" title="O-RAN Near-Real Time RIC Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="setup5gnetwork.html" class="btn btn-neutral float-right" title="Setup your own 5G Network" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="oran_installation.html" class="btn btn-neutral float-left" title="O-RAN Near-Real Time RIC Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, OAIC.</p>
-  </div>
+    <p>
+        &#169; Copyright 2022, OAIC.
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
