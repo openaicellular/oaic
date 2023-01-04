@@ -67,7 +67,7 @@ Save the configuration file and check if there are any errors in the configurati
 
 .. code-block:: rst
 
-	nginx -t
+	sudo nginx -t
 
 .. _hostxAppdescriptor:
 
