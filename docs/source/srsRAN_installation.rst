@@ -67,7 +67,7 @@ UHD 4.1 Installation
 -------------------- 
 
 .. warning::
-   Make sure you don't have UHD already installed in your system.
+   Make sure you don't have UHD already installed in your system. The system might not work if there are multiple versions of UHD
 
 `Ettus UHD Binary Installation Manual`_
 
@@ -108,6 +108,9 @@ srsRAN with E2 agent Installation
  
 Installation from Source
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. warning::
+   This step will have to be performed again if any of the above librarires change. For example, if UHD is updated, you will have to re-build srsRAN to make use of the updated library.
 
 .. code-block:: bash
 
