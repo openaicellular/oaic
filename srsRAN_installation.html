@@ -260,7 +260,7 @@
 <span id="uhd-installation"></span><h2>UHD 4.1 Installation<a class="headerlink" href="#uhd-4-1-installation" title="Permalink to this heading">¶</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Make sure you don’t have UHD already installed in your system.</p>
+<p>Make sure you don’t have UHD already installed in your system. The system might not work if there are multiple versions of UHD</p>
 </div>
 <p><a class="reference external" href="https://files.ettus.com/manual/page_install.html">Ettus UHD Binary Installation Manual</a></p>
 <section id="using-package-manager">
@@ -293,6 +293,10 @@ sudo<span class="w"> </span>ldconfig
 <h2>srsRAN with E2 agent Installation<a class="headerlink" href="#srsran-with-e2-agent-installation" title="Permalink to this heading">¶</a></h2>
 <section id="installation-from-source">
 <h3>Installation from Source<a class="headerlink" href="#installation-from-source" title="Permalink to this heading">¶</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This step will have to be performed again if any of the above librarires change. For example, if UHD is updated, you will have to re-build srsRAN to make use of the updated library.</p>
+</div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>srsRAN-e2
 mkdir<span class="w"> </span>build
 <span class="nb">export</span><span class="w"> </span><span class="nv">SRS</span><span class="o">=</span><span class="sb">`</span>realpath<span class="w"> </span>.<span class="sb">`</span>
@@ -302,6 +306,10 @@ cmake<span class="w"> </span>../<span class="w"> </span>-DCMAKE_BUILD_TYPE<span 
 <span class="w">    </span>-DRIC_GENERATED_E2SM_KPM_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-KPM<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-GNB-NRT
 make<span class="w"> </span>-j<span class="sb">`</span>nproc<span class="sb">`</span>
+sudo<span class="w"> </span>make<span class="w"> </span>install
+sudo<span class="w"> </span>ldconfig
+srsran_install_configs.sh<span class="w"> </span>user<span class="w"> </span>--force
+<span class="nb">cd</span><span class="w"> </span>../../
 </pre></div>
 </div>
 </section>

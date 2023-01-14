@@ -47,6 +47,13 @@ In our setup the <namespace> can be ``ricplt``, ``ricxapp`` or ``ricinfra``. Som
 	sudo kubectl logs -f -n ricplt -l app=ricplt-submgr
 	sudo kubectl logs -f -n ricplt -l app=ricplt-appmgr
 	
+See in-depth information about a given pod
+==========================================
+
+.. code-block:: rst
+
+	sudo kubectl describe pod <pod_name> -n <namespace>
+
 
 Run commands in a Kubernetes pod
 ================================

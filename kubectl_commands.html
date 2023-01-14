@@ -120,6 +120,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Kubectl Commands - Cheat Sheet</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#check-the-kubernetes-pods-and-services">Check the Kubernetes pods and services</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#view-logs-of-kubernetes-pods">View logs of Kubernetes pods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#see-in-depth-information-about-a-given-pod">See in-depth information about a given pod</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#run-commands-in-a-kubernetes-pod">Run commands in a Kubernetes pod</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#get-the-full-pod-name">Get the full pod name</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#get-the-ip-of-a-service-offered-by-a-pod">Get the IP of a service offered by a pod</a></li>
@@ -228,6 +229,12 @@
 sudo kubectl logs -f -n ricplt -l app=ricplt-e2term-alpha
 sudo kubectl logs -f -n ricplt -l app=ricplt-submgr
 sudo kubectl logs -f -n ricplt -l app=ricplt-appmgr
+</pre></div>
+</div>
+</section>
+<section id="see-in-depth-information-about-a-given-pod">
+<h2>See in-depth information about a given pod<a class="headerlink" href="#see-in-depth-information-about-a-given-pod" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl describe pod &lt;pod_name&gt; -n &lt;namespace&gt;
 </pre></div>
 </div>
 </section>

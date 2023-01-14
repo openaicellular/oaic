@@ -208,11 +208,10 @@ curl -L -X DELETE http://${APPMGR_HTTP}:8080/ric/v1/xapps/&lt;xApp_name&gt;
 </pre></div>
 </div>
 <p>To remove the xApp descriptors from the Chart Museum, we first need to get the <code class="docutils literal notranslate"><span class="pre">Onboarder's</span> <span class="pre">IP</span> <span class="pre">address</span></code> use the command</p>
-<p>..code-block:: rst</p>
-<blockquote>
-<div><p>export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt –field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath=’{.items[0].spec.clusterIP}’`
-curl -L -X DELETE “<a class="reference external" href="http:/">http:/</a>/${ONBOARDER_HTTP}:8080/api/charts/&lt;xApp_name&gt;/&lt;xApp_tag&gt;”</p>
-</div></blockquote>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export ONBOARDER_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+curl -L -X DELETE &quot;http://${ONBOARDER_HTTP}:8080/api/charts/&lt;xApp_name&gt;/&lt;xApp_tag&gt;&quot;
+</pre></div>
+</div>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>kubectl -n ricxapp rollout restart deployment &lt;pod_name&gt;
 </pre></div>
 </div>
