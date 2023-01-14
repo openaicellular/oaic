@@ -140,7 +140,7 @@ To Undeploy the xApp, first let's get the IP address of the ``App Manager``
 	
 To remove the xApp descriptors from the Chart Museum, use the command
 
-..code-block:: rst
+.. code-block:: rst
 
 	curl -L -X DELETE "http://${ONBOARDER_HTTP}:8080/api/charts/scp-kpimon/1.0.1"
  

@@ -26,7 +26,7 @@ To Undeploy the xApp, first let's get the IP address of the ``App Manager``
 	
 To remove the xApp descriptors from the Chart Museum, we first need to get the ``Onboarder's IP address`` use the command
 
-..code-block:: rst
+.. code-block:: rst
 	
 	export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
 	curl -L -X DELETE "http://${ONBOARDER_HTTP}:8080/api/charts/<xApp_name>/<xApp_tag>"
