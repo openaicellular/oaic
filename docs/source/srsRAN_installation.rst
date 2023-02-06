@@ -67,7 +67,7 @@ UHD 4.1 Installation
 -------------------- 
 
 .. warning::
-   Make sure you don't have UHD already installed in your system.
+   Make sure you don't have UHD already installed in your system. The system might not work if there are multiple versions of UHD
 
 `Ettus UHD Binary Installation Manual`_
 
@@ -92,6 +92,7 @@ We will be using the modified asn1c compiler (for RAN and CN) that is hosted by 
 .. code-block:: bash
 
     cd ../..
+    sudo apt install libtool autoconf
     git clone https://gitlab.eurecom.fr/oai/asn1c.git
     cd asn1c
     git checkout velichkov_s1ap_plus_option_group
@@ -108,6 +109,9 @@ srsRAN with E2 agent Installation
 Installation from Source
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. warning::
+   This step will have to be performed again if any of the above librarires change. For example, if UHD is updated, you will have to re-build srsRAN to make use of the updated library.
+
 .. code-block:: bash
 
     cd srsRAN-e2
@@ -118,8 +122,7 @@ Installation from Source
         -DRIC_GENERATED_E2AP_BINDING_DIR=${SRS}/e2_bindings/E2AP-v01.01 \
         -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
         -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
-    make -j`nproc`
-    make test
+    make -j`nproc`   
     sudo make install
     sudo ldconfig
     srsran_install_configs.sh user --force

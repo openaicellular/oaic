@@ -14,3 +14,10 @@
 	path = ric-scp-kpimon
 	url = https://github.com/openaicellular/ric-scp-kpimon.git
 	branch = revert-to-e2sm-kpm-01.00
+[submodule "oaic-t"]
+	path = oaic-t
+	url = https://github.com/openaicellular/oaic-t.git
+[submodule "asn1c"]
+	path = asn1c
+	url = https://gitlab.eurecom.fr/oai/asn1c.git
+	branch = velichkov_s1ap_plus_option_group
