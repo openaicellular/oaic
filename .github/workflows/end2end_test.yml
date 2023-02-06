@@ -4,6 +4,7 @@ on:
     branches:
     - master
     - gitlab-cicd
+    - github-cicd
 
 jobs:
   build:
