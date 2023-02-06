@@ -1,3 +1,5 @@
+.. _kubectl_commands:
+
 ==============================
 Kubectl Commands - Cheat Sheet
 ==============================
@@ -36,11 +38,22 @@ View logs of Kubernetes pods
 
 	sudo kubectl logs -f -n <namespace> -l app=<pod_name>
 
-In our setup the <namespace> can be ``ricplt``, ``ricxapp`` or ``ricinfra``. An example would look like the following
+In our setup the <namespace> can be ``ricplt``, ``ricxapp`` or ``ricinfra``. Some examples from ``ricplt`` namespace would look like the following
 
 .. code-block:: rst 
 
 	sudo kubectl logs -f -n ricplt -l app=ricplt-e2mgr
+	sudo kubectl logs -f -n ricplt -l app=ricplt-e2term-alpha
+	sudo kubectl logs -f -n ricplt -l app=ricplt-submgr
+	sudo kubectl logs -f -n ricplt -l app=ricplt-appmgr
+	
+See in-depth information about a given pod
+==========================================
+
+.. code-block:: rst
+
+	sudo kubectl describe pod <pod_name> -n <namespace>
+
 
 Run commands in a Kubernetes pod
 ================================
@@ -64,3 +77,16 @@ Get the IP of a service offered by a pod
 	sudo kubectl get svc -n ricxapp --field-selector metadata.name=<service_name> -o jsonpath='{.items[0].spec.clusterIP}'
 
 
+Restart a Kubernetes pod
+========================
+
+.. code-block:: rst
+
+	sudo kubectl -n <namespace> rollout restart deployment <pod_name>
+
+Delete a Kubernetes pod
+=======================
+
+.. code-block:: rst
+
+	sudo kubectl delete pod -n <namespace> -l app=<pod_name>

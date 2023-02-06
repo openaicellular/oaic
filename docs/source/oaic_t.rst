@@ -10,7 +10,7 @@ The OAIC-T framework consists of three major components: i). Test Input, which i
 ii). the Server, which sets up the testing environment as described in test configuration files and orchestrates the test execution as 
 defined in test scripts, and iii) the Actor(s), which executes test actions as instructed by the server. 
 
-.. image:: oaci_t_framework.jpg
+.. image:: oaci_t_framework.png
    :width: 90%
    :alt: OAIC-T Framework
 
@@ -27,25 +27,44 @@ software suite (e.g., srsRAN) to send radio testing signals to the RAN through a
 Get Started
 -------------------------
 
-To use OAIC-T, first clone the `oaic-t <https://github.com/openaicellular/oaic-t.git>`_ repository:
+To use OAIC-T, go to the oaic-t folder:
 
 .. code-block:: rst
 
-   git clone https://github.com/openaicellular/oaic-t.git
-
+   cd oaic-t
 
 .. note::
 
 	The OAIC-T now only supports the testing of O-RAN under ZeroMQ mode, i.e., both eNodeB and UE are running in the same machine without 
-	the use of SDRs, also known as virtual radio. Also the srsRAN has to be installed and configured in a way that a UE can be started by 
-	running the command like "sudo srsue ...". This involves to i). set srsRAN/UE path to the environment, and ii). configure the system 
-	to run sudo commands without typeing password.	
+	the use of SDRs, also known as virtual radio. The srsRAN with E2 Agent must be installed prior to the use of oaci-t. Follow the `srsRAN with E2 Agent Installation Guide <https://openaicellular.github.io/oaic/srsRAN_installation.html>`_ to ensure that the 5G Network is successfully set up.	
+
+
+
+Pre-requisites
+===========
+
+
+Install the following python package for the server:
+
+.. code-block:: bash
+    
+    sudo pip install configparser
+
+Install the following python package for the actor:
+
+.. code-block:: bash
+    
+    sudo pip install psutil
+
+Both server and actors can be further configured by their configuration files in their source folders. For server: server/src/config.txt. For actor: actor/src/config.txt
+
 
 ZeroMQ Mode
 ===========
 
 
 How To Run OAIC-T, assuming both server and actor run in the same machine:
+
 Step 1. Run the OAIC-T Server: 
 
 .. code-block:: rst
@@ -62,30 +81,17 @@ Step 2. Run the OAIC-T Actor(s):
 	
 	sudo python3 actor_main.py
 
-More actors can be started, but each actor should have a unique name. Edit the actor/src/config.txt to change the actor name before running it.
+More actors can be started, but each actor should have a unique name. Edit the configuration file to change the actor name before running it.
+
+The server is started with a GUI by default. Users can then create and run test tasks. A test task consists of an actor and at least one test script (json file). Examples of test scripts are included in the server source folder. The server also supports a command-line mode by setting the GUI flag as "false" or "False" in the configuration file. 
 
 Once the actor starts, you will see a message in the server console showing one Actor is registered with its name.
-Then, you can type commands in the console to interact with the Server. The following commands are currently supported:
+Then, you can type commands in the console to interact with the Server. The following commands are currently supported in the command-line mode:
 
 1. "list actors": It will list all registered Actors.
-2. "run --test test_script_file --actor actor_name": It will run the test script in the specified actor. Currently six test script exampls are included (more will become available soon):
+2. "run --test test_script_file --actor actor_name": It will run the test script in the specified actor. 
 
-"start_epc.json": This script will run the srsepc (Note: only one running epc is allowed in one actor).
-
-"stop_epc.json": This script will stop the running srsepc.
-
-"start_enodeb.json": This script will run the srsenb (Note: only one running enodeb is allowed in one actor).
-
-"stop_enodeb.json": This script will stop the running srsenb.
-
-"test_virtual_traffics.json": This script will run a UE and generate traffics using ping methods (Note: epc and enodeb have to be started before starting the UE, either mannually starting them or using the above two scripts).
-
-"test_virtual_traffics_iperf.json": Similar to the "test_virtual_traffics.json" script, but using the iperf method which allows to generate traffics with specific bandwidth, e.g., 10Mbps for 20 seconds.
-
-"test_virtual_traffics_all.json": This script will include a whole workflow to generate traffics, combining "start epc", "start enodeb", "generate traffics using ping", "stop ue", "stop enodeb" and "stop epc" actions. 
-
-
-More test script examples and test actions will be provided later.
+Some examples of test scripts have been provided in the folder: server/src/test_examples/. Please refer to the readme.txt file for detailed descriptions of test scripts. More test script examples and test actions will be provided later.
 
 SDR Mode
 ========
