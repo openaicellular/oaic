@@ -31,9 +31,7 @@ jobs:
           #sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
     - name: Install asn1c Compiler
       run: |
-          git clone https://gitlab.eurecom.fr/oai/asn1c.git
           cd asn1c
-          git checkout velichkov_s1ap_plus_option_group
           autoreconf -iv
           ./configure
           make -j4
