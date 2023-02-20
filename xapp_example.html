@@ -1,93 +1,46 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Getting started: Developing xapps &mdash; OAIC 0.1 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> OAIC
           
-
-          
+          <a href="index.html" class="icon icon-home">
+            OAIC
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
@@ -119,83 +72,42 @@
 <li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">OAIC</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>Getting started: Developing xapps</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting started: Developing xapps</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/xapp_example.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <section id="getting-started-developing-xapps">
-<h1>Getting started: Developing xapps<a class="headerlink" href="#getting-started-developing-xapps" title="Permalink to this heading">¶</a></h1>
+<h1>Getting started: Developing xapps<a class="headerlink" href="#getting-started-developing-xapps" title="Permalink to this heading"></a></h1>
 <p>This document describes how to write an xApp and how to deploy it on the RIC platform.</p>
 <p>For a full reference, it is recommended to use the xApps Writers Guide:
 <a class="reference external" href="https://wiki.o-ran-sc.org/download/attachments/17269011/xApp_Writer_s_Guide_v2.pdf?version=4&amp;modificationDate=1625642899082&amp;api=v2">https://wiki.o-ran-sc.org/download/attachments/17269011/xApp_Writer_s_Guide_v2.pdf?version=4&amp;modificationDate=1625642899082&amp;api=v2</a></p>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p>The RIC platform currently provides frameworks that make it easier to construct xApps in several languages. We will use the go xapp framework, but other languages do not differ much.</p>
 <p>xApp framework is a simple skeleton designed for rapid development of RIC xapps based on Go. Following figure depicts the high level architecture of xApp-framework, which consists of several loosely linked components that provide the common functions needed by the xApp developers. For GO-based xApps, application developers do not need to write xApp code from the scratch, but can use xApp-framework, which is designed to facilitate and rapidly build a full-fledged RIC xApps. The xApp-framework can be found [xapp-frame] and a simple example-Xapp that illustrates how the framework can be used is located at [example] The dependencies and prerequisites of xApp development are also described in the above links.</p>
 </section>
 <section id="the-xapp-frame-common-functions-and-interfaces">
-<h2>The Xapp Frame common functions and interfaces<a class="headerlink" href="#the-xapp-frame-common-functions-and-interfaces" title="Permalink to this heading">¶</a></h2>
+<h2>The Xapp Frame common functions and interfaces<a class="headerlink" href="#the-xapp-frame-common-functions-and-interfaces" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>RESTful (new resources can be injected dynamically)</p></li>
 <li><p>RMR (with message filtering based on application rules)</p></li>
@@ -206,7 +118,7 @@
 </ul>
 </section>
 <section id="the-go-xapp-framework-supports-various-essential-components">
-<h2>The GO xApp Framework supports various essential components<a class="headerlink" href="#the-go-xapp-framework-supports-various-essential-components" title="Permalink to this heading">¶</a></h2>
+<h2>The GO xApp Framework supports various essential components<a class="headerlink" href="#the-go-xapp-framework-supports-various-essential-components" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>RESTful: HTTP services, health probes and injecting new resources can be dynamically</p></li>
 <li><p>RMR client: Sending and receiving of RMR messages with message filtering based on application rules).</p></li>
@@ -218,7 +130,7 @@
 </ul>
 <p>For more information on the go-xapp-frame: <a class="reference external" href="https://gerrit.o-ran-sc.org/r/admin/repos/ric-plt/xapp-frame">https://gerrit.o-ran-sc.org/r/admin/repos/ric-plt/xapp-frame</a></p>
 <section id="hello-world-xapp-code-and-deployment">
-<h3>Hello world xAPP code and deployment<a class="headerlink" href="#hello-world-xapp-code-and-deployment" title="Permalink to this heading">¶</a></h3>
+<h3>Hello world xAPP code and deployment<a class="headerlink" href="#hello-world-xapp-code-and-deployment" title="Permalink to this heading"></a></h3>
 <p>For demonstration purposes the hello world xapp written in go will be used.</p>
 <p>To get started clone the code:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/o-ran-sc/ric-app-hw-go.git
@@ -336,11 +248,11 @@ func main() {
 </ol>
 </section>
 <section id="software-installation-and-deployment">
-<h3>Software Installation and Deployment<a class="headerlink" href="#software-installation-and-deployment" title="Permalink to this heading">¶</a></h3>
+<h3>Software Installation and Deployment<a class="headerlink" href="#software-installation-and-deployment" title="Permalink to this heading"></a></h3>
 </section>
 </section>
 <section id="onboarding-of-hw-go-using-dms-cli-tool">
-<h2>Onboarding of hw-go using dms_cli tool<a class="headerlink" href="#onboarding-of-hw-go-using-dms-cli-tool" title="Permalink to this heading">¶</a></h2>
+<h2>Onboarding of hw-go using dms_cli tool<a class="headerlink" href="#onboarding-of-hw-go-using-dms-cli-tool" title="Permalink to this heading"></a></h2>
 <p>dms_cli offers rich set of command line utility to onboard hw-go xapp
 to chartmuseme.</p>
 <p>First checkout the [hw-go](<a class="reference external" href="https://gerrit.o-ran-sc.org/r/admin/repos/ric-app/hw-go">https://gerrit.o-ran-sc.org/r/admin/repos/ric-app/hw-go</a>) repository from gerrit.</p>
@@ -483,46 +395,30 @@ service-ricxapp-hw-go-rmr    ClusterIP   IP3             &lt;none&gt;        456
 
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2022, OAIC.
-
-    </p>
+    <p>&#169; Copyright 2022, OAIC.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
