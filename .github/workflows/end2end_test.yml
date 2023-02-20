@@ -125,7 +125,7 @@ jobs:
           sudo mkdir config_files
 
           cd ../../../etc/nginx/conf.d
-          sudo sh -c "echo "server {
+          sudo sh -c "echo 'server {
             listen 5010 default_server;
             server_name xApp_config.local;
             location /config_files/ {
@@ -133,7 +133,7 @@ jobs:
                 root /var/www/xApp_config.local/;
               }
 
-          }" >xApp_config.local.conf"
+          }' >xApp_config.local.conf"
             
           sudo nginx -t
           sudo ln -s ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/scp-kpimon-config-file.json
