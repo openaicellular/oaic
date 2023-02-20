@@ -134,14 +134,17 @@ jobs:
               }
 
           }' >xApp_config.local.conf"
-            
+          
+          echo ">>> reloading nginx..."
           sudo nginx -t
           sudo ln -s ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/scp-kpimon-config-file.json
           sudo systemctl reload 
           
+          echo ">>> getting machine IP..."
           export MACHINE_IP=`hostname  -I | cut -f1 -d' '`
           curl http://${MACHINE_IP}:5010/config_files/scp-kpimon-config-file.json
 
+          echo ">>> building docker image..."
           cd ~/oaic/ric-scp-kpimon
           sudo docker build . -t xApp-registry.local:5008/scp-kpimon:1.0.1
   
@@ -149,9 +152,9 @@ jobs:
           export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
           export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
           
+          echo ">>> getting charts..."
           curl --location --request GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"
           echo '{"config-file.json_url":"http://'$MACHINE_IP':5010/config_files/scp-kpimon-config-file.json"}' > scp-kpimon-onboard.url
-          
           
           curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@scp-kpimon-onboard.url"
           curl -L -X GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"
@@ -159,6 +162,7 @@ jobs:
           
           sleep 10
 
+          echo ">>> getting pods..."
           sudo kubectl get pods -A | grep 'kpimon' | grep 'Running'
           sudo timeout 5 sudo kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
           
