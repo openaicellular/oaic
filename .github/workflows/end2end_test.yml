@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: Ubuntu-18.04
+    runs-on: Ubuntu-20.04
     timeout-minutes: 90
     steps:
     - name: Checkout
@@ -101,6 +101,7 @@ jobs:
           sudo srsue --gw.netns=ue1 & pid_ue=$!
           sleep 120
           echo ">>> Pinging IP address..."
+          
           #timeout 5 sudo ip netns exec ue1 ping 172.16.0.1 -O -c 10 ; rc=$? # 124 for succesful ping
           #if [ $rc -ne 124 ] ; then exit -1 ; fi
           #echo ">>> 5G Network setup completed"
@@ -113,8 +114,8 @@ jobs:
       run: |
           sudo apt-get install nginx
           
-          sudo systemctl stop apache2
-          sudo systemctl start nginx
+          #sudo systemctl stop apache2
+          #sudo systemctl start nginx
 
           cd /etc/nginx/sites-enabled
           sudo unlink default
@@ -136,9 +137,9 @@ jobs:
           }' >xApp_config.local.conf"
           
           echo ">>> reloading nginx..."
-          sudo nginx -t && sudo service nginx reload
-          sudo ln -s ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/scp-kpimon-config-file.json
-          sudo systemctl reload 
+          sudo nginx -t 
+          sudo cp -s ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/scp-kpimon-config-file.json
+          sudo systemctl reload nginx
           
           echo ">>> getting machine IP..."
           export MACHINE_IP=`hostname  -I | cut -f1 -d' '`
