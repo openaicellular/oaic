@@ -116,6 +116,7 @@ jobs:
           
           #sudo systemctl stop apache2
           #sudo systemctl start nginx
+          sudo systemctl start nginx.service
 
           cd /etc/nginx/sites-enabled
           sudo unlink default
