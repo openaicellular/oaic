@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: Ubuntu-20.04
+    runs-on: Ubuntu-18.04
     timeout-minutes: 90
     steps:
     - name: Checkout
