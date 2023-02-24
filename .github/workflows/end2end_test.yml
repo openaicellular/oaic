@@ -112,6 +112,7 @@ jobs:
           
     - name: Deploy and test KPIMON 
       run: |
+          OAIC=`pwd`
           sudo apt-get install nginx
           
           #sudo systemctl stop apache2
@@ -147,7 +148,7 @@ jobs:
           curl http://${MACHINE_IP}:5010/config_files/scp-kpimon-config-file.json
 
           echo ">>> building docker image..."
-          cd ~/oaic/ric-scp-kpimon
+          cd ${OAIC}/ric-scp-kpimon
           sudo docker build . -t xApp-registry.local:5008/scp-kpimon:1.0.1
   
           export KONG_PROXY=`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath='{.items[0].spec.clusterIP}'`
