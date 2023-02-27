@@ -22,10 +22,8 @@ jobs:
     - run: sudo swapoff -a
     - name: Install Dependencies
       run: |
-          sudo apt install nfs-common
-          sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
-          sudo apt-get install libzmq3-dev
-          sudo apt install libtool autoconf
+          sudo apt-get install --no-install-recommends nfs-common build-essential cmake libtool autoconf
+          sudo apt-get install --no-install-recommends libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libzmq3-dev
           #sudo add-apt-repository ppa:ettusresearch/uhd
           #sudo apt-get update
           #sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
@@ -46,6 +44,7 @@ jobs:
           sudo kubectl get pods -A
           sudo kubectl create ns ricinfra
           sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
+          # Error: Get "https://10.96.0.1:443/version?timeout=32s": dial tcp 10.96.0.1:443: connect: no route to host
           sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
           # Step 3: Build Modified E2 docker Image (7 minutes)
           sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
