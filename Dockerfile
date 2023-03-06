@@ -12,22 +12,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends sudo vim eog tz
     usermod -aG sudo ${MAINUSER} && \
     echo ${MAINUSER}'	ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
+# Install base dependencies
+RUN apt-get install -y --no-install-recommends nfs-common build-essential cmake libtool autotools-dev autoconf automake \
+    libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libzmq3-dev
+
 # add base directories
 USER ${MAINUSER}
 WORKDIR /home/${MAINUSER}
-COPY . /home/${MAINUSER}/
-
-# run installation here
-RUN sudo apt-get install -y --no-install-recommends nfs-common build-essential cmake libtool autoconf \
-    libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libzmq3-dev
+COPY --chown=${MAINUSER} . /home/${MAINUSER}/
 
 # Install asn1c Compiler
-RUN \
-    cd /home/${MAINUSER}/asn1c && \
-    autoreconf -iv && \
-    ./configure && \
-    make -j4 && \
-    sudo make install && \
-    sudo ldconfig
+RUN cd /home/${MAINUSER}/asn1c && \
+    autoreconf -iv && ./configure && make -j4 && sudo make install && sudo ldconfig
 
 
