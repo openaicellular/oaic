@@ -140,7 +140,7 @@ jobs:
           
           echo ">>> reloading nginx..."
           sudo nginx -t 
-          sudo ln -s ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/scp-kpimon-config-file.json
+          sudo ln -s ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
           sudo systemctl reload nginx
           
           echo ">>> getting machine IP..."
