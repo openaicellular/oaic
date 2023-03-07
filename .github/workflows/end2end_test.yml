@@ -147,7 +147,7 @@ jobs:
           export MACHINE_IP=`hostname  -I | cut -f1 -d' '`
           curl http://${MACHINE_IP}:5010/config_files/config-file.json
 
-          echo ">>> building docker image..."
+          echo ">>> building docker image...."
           cd ${OAIC}/ric-scp-kpimon
           echo ">>> checking directory"
           ls
