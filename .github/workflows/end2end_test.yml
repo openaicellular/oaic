@@ -140,6 +140,7 @@ jobs:
           
           echo ">>> reloading nginx..."
           sudo nginx -t 
+          cd ${OAIC}
           sudo cp ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
           sudo systemctl reload nginx
           
@@ -193,17 +194,6 @@ jobs:
           sudo kubectl exec -it -n ricxapp `sudo kubectl get pod -n ricxapp -l app=ricxapp-scp-kpimon -o jsonpath='{.items[0].metadata.name}'` -- tail -F /opt/kpimon.log
           
           #echo 'Successful: KPIMON xApp up and running'
-
-
-
-
-
-
-
-
-
-
-
 
     #- run: sudo bash setup5GNetwork.sh
     #- run: sudo bash deployKPIMON.sh
