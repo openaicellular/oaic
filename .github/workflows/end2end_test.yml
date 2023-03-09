@@ -140,12 +140,15 @@ jobs:
           
           echo ">>> reloading nginx..."
           sudo nginx -t 
-          sudo ln -s ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/config-file.json
+          sudo cp ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
           sudo systemctl reload nginx
+          
           
           echo ">>> getting machine IP..."
           export MACHINE_IP=`hostname  -I | cut -f1 -d' '`
-          curl http://${MACHINE_IP}:5010/config_files/config-file.json
+          
+          echo ">>> checking for config-file"
+          curl http://${MACHINE_IP}:5010/config_files/scp-kpimon-config-file.json
 
           echo ">>> building docker image...."
           cd ${OAIC}/ric-scp-kpimon
@@ -164,7 +167,7 @@ jobs:
           echo ">>> getting charts..."
           curl --location --request GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"
           ls
-          echo '{"config-file.json_url":"http://'$MACHINE_IP':5010/config_files/config-file.json"}' > scp-kpimon-onboard.url
+          echo '{"config-file.json_url":"http://'$MACHINE_IP':5010/config_files/scp-kpimon-config-file.json"}' > scp-kpimon-onboard.url
           
           echo ">>> scp-kpimon-onboard.url"
           cat scp-kpimon-onboard.url
