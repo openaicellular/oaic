@@ -187,13 +187,13 @@ jobs:
           echo ">>> getting pods..."
           sudo kubectl get pods -A
           echo ">>> showing kubernetes logs..."
-          #sudo timeout 5 sudo kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
-          sudo kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
+          sudo timeout 5 sudo kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
+          #sudo kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
           
           echo ">>> printing decoded metrics..."
           sudo kubectl exec -it -n ricxapp `sudo kubectl get pod -n ricxapp -l app=ricxapp-scp-kpimon -o jsonpath='{.items[0].metadata.name}'` -- tail -F /opt/kpimon.log
           
-          #echo 'Successful: KPIMON xApp up and running'
+          echo 'Successful: KPIMON xApp up and running'
 
     #- run: sudo bash setup5GNetwork.sh
     #- run: sudo bash deployKPIMON.sh
