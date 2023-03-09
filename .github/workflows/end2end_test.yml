@@ -188,8 +188,9 @@ jobs:
           sudo kubectl get pods -A | grep 'kpimon' | grep 'Running'
 
           echo ">>> showing kubernetes logs..."
-          sudo timeout 5 sudo kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
-          rc=$? #124 for succesful ping
+  
+          sudo timeout 5 sudo kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon || rc=$?
+          #rc=$? #124 for succesful ping
           if [ $rc -ne 124 ] ; then exit -1 ; fi
           #sudo kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
           
