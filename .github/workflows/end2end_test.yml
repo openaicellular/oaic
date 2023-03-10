@@ -195,7 +195,8 @@ jobs:
           #sudo kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
           
           echo ">>> printing decoded metrics..."
-          sudo kubectl exec -it -n ricxapp `sudo kubectl get pod -n ricxapp -l app=ricxapp-scp-kpimon -o jsonpath='{.items[0].metadata.name}'` -- tail -F /opt/kpimon.log
+          sudo timeout 5 sudo kubectl exec -it -n ricxapp `sudo kubectl get pod -n ricxapp -l app=ricxapp-scp-kpimon -o jsonpath='{.items[0].metadata.name}'` -- tail -F /opt/kpimon.log || rc=$?
+          if [ $rc -ne 124 ] ; then exit -1 ; fi
           
           echo 'Successful: KPIMON xApp up and running'
 
