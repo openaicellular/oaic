@@ -3,7 +3,6 @@ on:
   push:
     branches:
     - master
-    - gitlab-cicd
     - github-cicd
 
 jobs:
@@ -18,7 +17,6 @@ jobs:
     - run: pip3 install docutils
     - run: git submodule update --init --recursive --remote
     - run: python3 generate_installation_script.py
-    - run: ls RIC-Deployment
     - run: sudo swapoff -a
     - name: Install Dependencies
       run: |
@@ -26,9 +24,6 @@ jobs:
           sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
           sudo apt-get install libzmq3-dev
           sudo apt install libtool autoconf
-          #sudo add-apt-repository ppa:ettusresearch/uhd
-          #sudo apt-get update
-          #sudo apt-get install libuhd-dev libuhd4.1.0 uhd-host
     - name: Install asn1c Compiler
       run: |
           cd asn1c
@@ -94,9 +89,6 @@ jobs:
           echo ">>> eNB started with pid ${pid_enb}"
           echo ">>> Waiting for RIC state to establish"
           sleep 120
-          #ls -lahG
-          #grep -Fq 'RIC state -> ESTABLISHED' enbLog.txt
-          #cat enbLog.txt | grep "RIC state"
           echo ">>> Starting UE..."
           sudo srsue --gw.netns=ue1 & pid_ue=$!
           sleep 120
@@ -115,8 +107,6 @@ jobs:
           OAIC=`pwd`
           sudo apt-get install nginx
           
-          #sudo systemctl stop apache2
-          #sudo systemctl start nginx
           sudo systemctl start nginx.service
 
           cd /etc/nginx/sites-enabled
