@@ -13,7 +13,7 @@ jobs:
           - name: Run the build process with Docker
             uses: addnab/docker-run-action@v3
             with:
-                image: ubuntu-20.04
+                image: ubuntu
                 options: -v ${{ github.workspace }}:/var/www
                 run: |
                     ls
