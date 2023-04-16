@@ -16,5 +16,5 @@ jobs:
                 image: ubuntu:20.04
                 options: -v ${{ github.workspace }}:/var/www
                 run: |
-                    cd /home
+                    cd /var/www
                     ls
