@@ -1,0 +1,19 @@
+name: test_docker
+on:
+  push:
+    branches:
+    - github-cicd
+jobs:
+    compile:
+        name: Compile site assets
+        runs-on: ubuntu-20.04
+        steps:
+          - name: Check out the repo
+            uses: actions/checkout@v2
+          - name: Run the build process with Docker
+            uses: addnab/docker-run-action@v3
+            with:
+                image: ubuntu/20.04
+                options: -v ${{ github.workspace }}:/var/www
+                run: |
+                    ls
