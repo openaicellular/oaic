@@ -97,7 +97,7 @@ jobs:
           #timeout 5 sudo ip netns exec ue1 ping 172.16.0.1 -O -c 10 ; rc=$? # 124 for succesful ping
           #if [ $rc -ne 124 ] ; then exit -1 ; fi
           #echo ">>> 5G Network setup completed"
-          sudo ip netns exec ue1 ping 172.16.0.1
+          #sudo ip netns exec ue1 ping 172.16.0.1
           while ! sudo ip netns exec ue1 ping 172.16.0.1 -c3 &>/dev/null; do echo "Ping Fail"; done ; echo "5G Network setup completed" ;
 
           
