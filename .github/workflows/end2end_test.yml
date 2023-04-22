@@ -98,7 +98,7 @@ jobs:
           #if [ $rc -ne 124 ] ; then exit -1 ; fi
           #echo ">>> 5G Network setup completed"
           
-          while ! sudo ip netns exec ue1 ping 172.16.0.1 -c3 &>/dev/null; do echo "Ping Fail"; done ; echo "5G Network setup completed" ;
+          while ! sudo ip netns exec ue1 ping 172.16.0.1 -c3; do echo "Ping Fail"; done ; echo "5G Network setup completed" ;
 
           
           
