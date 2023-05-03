@@ -24,7 +24,7 @@ echo "server {
 
 sudo nginx -t
 
-sudo ln -s ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/scp-kpimon-config-file.json
+sudo cp ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
 sudo systemctl reload nginx
 
 export MACHINE_IP=`hostname  -I | cut -f1 -d' '`
@@ -46,7 +46,7 @@ curl -L -X GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"
 curl -L -X POST "http://$KONG_PROXY:32080/appmgr/ric/v1/xapps" --header 'Content-Type: application/json' --data-raw '{"xappName": "scp-kpimon"}'
 
 
-sleep 10
+sleep 15
 
 sudo kubectl get pods -A | grep 'kpimon' | grep 'Running'
 
