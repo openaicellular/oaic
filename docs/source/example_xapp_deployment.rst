@@ -19,10 +19,7 @@ As indicated in the :ref:`Genral guidelines to Deploy an xApp <xappdeployment>` 
 Create a symlink from the xapp's config file (in this case kpimon).This can be replaced by another symlink in the future. Reload Nginx once this has been done. 
 
 .. code-block:: rst
-	
-..	
-        sudo ln -s ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/scp-kpimon-config-file.json
-	
+
         sudo cp ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
         sudo systemctl reload nginx
 
