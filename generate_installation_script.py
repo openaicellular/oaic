@@ -6,6 +6,7 @@ import docutils.frontend
 from docutils.core import publish_doctree
 import sys
 import os
+import subprocess
 from io import StringIO
 
 fileNames= ['docs/source/installation.rst']
@@ -32,3 +33,7 @@ except:
 
 with open ('run.sh', 'w') as rsh:
     rsh.write('\n'.join(source_code))
+   
+
+subprocess.run("sudo bash run.sh", shell=True, check=True)
+
