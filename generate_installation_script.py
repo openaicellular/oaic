@@ -8,7 +8,7 @@ import sys
 import os
 from io import StringIO
 
-fileNames= ('docs/source/oran_installation.rst','docs/source/srsRAN_installation.rst')
+fileNames= ['docs/source/installation.rst']
 rstTexts= [] 
 
 for file in fileNames:
