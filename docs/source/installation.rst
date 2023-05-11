@@ -1,6 +1,7 @@
 OAIC Installation (ZeroMQ version)
 
 Install Dependencies:
+
 .. code-block:: bash
 
     sudo apt install -y python3-pip
@@ -12,6 +13,7 @@ Install Dependencies:
 
 
 1. Download the repository:
+
 .. code-block:: bash
 
     git clone https://github.com/openaicellular/oaic.git
