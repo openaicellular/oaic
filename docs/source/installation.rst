@@ -4,17 +4,12 @@ Install Dependencies:
 
 .. code-block:: bash
 
-    sudo apt install -y python3-pip
-    pip3 install docutils
-    pip3 install Pygments
     sudo apt-get install -y build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
     sudo apt-get install -y libzmq3-dev
     sudo apt-get -y install nginx
 
 
 1. Download the repository:
-
-.. code-block:: bash
 
     git clone https://github.com/openaicellular/oaic.git
 
