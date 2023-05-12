@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+import subprocess
+subprocess.run("apt install -y  python3-pip", shell=True, check=True)
+subprocess.check_call([ 'pip3', 'install','docutils'])
+subprocess.check_call([ 'pip3', 'install','Pygments'])
+
 import docutils.nodes
 import docutils.parsers.rst
 import docutils.utils
@@ -6,8 +11,13 @@ import docutils.frontend
 from docutils.core import publish_doctree
 import sys
 import os
-import subprocess
 from io import StringIO
+
+
+subprocess.run("git clone https://github.com/openaicellular/oaic.git",shell=True)
+os.chdir("oaic")
+subprocess.run("git submodule update --init --recursive --remote",shell=True)
+
 
 fileNames= ['docs/source/installation.rst']
 rstTexts= [] 
