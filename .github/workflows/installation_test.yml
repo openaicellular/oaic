@@ -11,8 +11,9 @@ jobs:
     timeout-minutes: 90
     steps:
     - name: Checkout
-      uses: actions/checkout@documentation-dev
+      uses: actions/checkout@master
       with:
+        ref: documentation-dev
         fetch-depth: 0 # otherwise will fail to push refs to dest repo
     - run: sudo swapoff -a
     - run: python3 install_oaic.py
