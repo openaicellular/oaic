@@ -18,9 +18,9 @@ subprocess.run("git clone https://github.com/openaicellular/oaic.git",shell=True
 os.chdir("oaic")
 subprocess.run("git submodule update --init --recursive --remote",shell=True)
 OAIC = os.getcwd()
+subprocess.run("ls",shell=True)
 
-
-fileNames= [f'./docs/source/installation.rst']
+fileNames= ['docs/source/installation.rst']
 rstTexts= [] 
 
 for file in fileNames:
