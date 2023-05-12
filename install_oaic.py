@@ -20,7 +20,7 @@ subprocess.run("git submodule update --init --recursive --remote",shell=True)
 OAIC = os.getcwd()
 
 
-fileNames= [f'${OAIC}/docs/source/installation.rst']
+fileNames= [f'./docs/source/installation.rst']
 rstTexts= [] 
 
 for file in fileNames:
