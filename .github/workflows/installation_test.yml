@@ -16,4 +16,4 @@ jobs:
         ref: documentation-dev
         fetch-depth: 0 # otherwise will fail to push refs to dest repo
     - run: sudo swapoff -a
-    - run: python3 install_oaic.py
+    - run: sudo python3 install_oaic.py
