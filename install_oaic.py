@@ -17,9 +17,10 @@ from io import StringIO
 subprocess.run("git clone https://github.com/openaicellular/oaic.git",shell=True)
 os.chdir("oaic")
 subprocess.run("git submodule update --init --recursive --remote",shell=True)
+OAIC = os.getcwd()
 
 
-fileNames= ['docs/source/installation.rst']
+fileNames= [f'${OAIC}/docs/source/installation.rst']
 rstTexts= [] 
 
 for file in fileNames:
