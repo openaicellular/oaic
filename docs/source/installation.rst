@@ -129,16 +129,15 @@ run srsRAN en-gNB:
     --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=enbLog.txt --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT} & pid_enb=$!
 
     echo "Waiting for RIC state to establish"
-    sleep 100
-
-    grep -Fq 'RIC state -> ESTABLISHED' enbLog.txt && exit
-
+    sleep 45
+    
 Start srsUE
 
 .. code-block:: bash
 
     sudo srsue --gw.netns=ue1 & pid_ue=$!
-    sleep 30
+    sleep 60
+    grep -Fq 'RIC state -> ESTABLISHED' enbLog.txt && exit
 
 Check for connectivity
 
