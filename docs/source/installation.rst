@@ -195,7 +195,7 @@ Create a symlink from the xapp’s config file (in this case kpimon).This can be
 
 .. code-block:: bash
     
-    sudo cp ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
+    sudo cp ~/oaic/ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
     sudo systemctl reload nginx
 
 Now, you can check if the config file can be accessed from the newly created server. Place all files you want to host in the config_files directory
