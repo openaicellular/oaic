@@ -222,7 +222,7 @@ First, we need to get some variables of RIC Platform ready. The following variab
     export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
     export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
 
-Check for Helm charts
+Check for Helm charts, there should be none.
 
 .. code-block:: bash
 
