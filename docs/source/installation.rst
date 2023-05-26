@@ -233,7 +233,7 @@ Next, we need to create a .url file to point the xApp-onboarder to the Ngnix ser
 .. code-block:: bash
 
     export MACHINE_IP=`hostname  -I | cut -f1 -d' '`
-    echo {\"config-file.json_url\":\"http://"${MACHINE_IP}":5010/config_files/scp-kpimon-config-file.json\"}
+    echo {\"config-file.json_url\":\"http://"${MACHINE_IP}":5010/config_files/scp-kpimon-config-file.json\"} > scp-kpimon-onboard.url
 
 Deploy the xApp
 
