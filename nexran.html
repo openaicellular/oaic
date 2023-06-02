@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running the Nexran Xapp &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_ue_example.html">Multiple UEs with ZMQ Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Running the Nexran Xapp</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/nexran.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="running-the-nexran-xapp">
+<h1>Running the Nexran Xapp<a class="headerlink" href="#running-the-nexran-xapp" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>Powder’s Nexran xapp implements ran slicing by sending instructions to RAN nodes, that performs custom resource allocation and we bind UE’s to those slices of allocated resources.</p>
+<p>The xapp has a southbound interface to the RIC where it can send commands down to the nodes and a northbound interface where high level commands can be issued by the user.</p>
+<a class="reference internal image-reference" href="_images/nexran_xapp_diagram.png"><img alt="Nexran Xapp diagram" src="_images/nexran_xapp_diagram.png" style="width: 80%;" /></a>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<p>First we have to turn on some extra functionality in srsRan and recompile. To do this, follow the steps below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>srsRAN-e2
+vim<span class="w"> </span>CMakeLists.txt
+</pre></div>
+</div>
+<p>Make sure the following is set to on:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>option<span class="o">(</span>ENABLE_RIC_AGENT_KPM<span class="w">    </span><span class="s2">&quot;Enable RIC E2 Agent KPM metrics&quot;</span><span class="w">  </span>ON<span class="o">)</span>
+option<span class="o">(</span>ENABLE_RIC_AGENT_NEXRAN<span class="w"> </span><span class="s2">&quot;Enable RIC E2 Agent NexRAN model&quot;</span><span class="w"> </span>ON<span class="o">)</span>
+option<span class="o">(</span>ENABLE_SLICER<span class="w">           </span><span class="s2">&quot;Enable NexRAN Slicer&quot;</span><span class="w">             </span>ON<span class="o">)</span>
+</pre></div>
+</div>
+<p>Save and close the txt file then follow the steps below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">SRS</span><span class="o">=</span><span class="sb">`</span>realpath<span class="w"> </span>.<span class="sb">`</span>
+<span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>../<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>RelWithDebInfo<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DRIC_GENERATED_E2AP_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2AP-v01.01<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DRIC_GENERATED_E2SM_KPM_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-KPM<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-GNB-NRT
+make<span class="w"> </span>-j<span class="sb">`</span>nproc<span class="sb">`</span>
+make<span class="w"> </span><span class="nb">test</span>
+sudo<span class="w"> </span>make<span class="w"> </span>install
+sudo<span class="w"> </span>ldconfig
+sudo<span class="w"> </span>srsran_install_configs.sh<span class="w"> </span>user<span class="w"> </span>--force
+<span class="nb">cd</span><span class="w"> </span>../../
+</pre></div>
+</div>
+<section id="editing-configurations">
+<h3>Editing Configurations<a class="headerlink" href="#editing-configurations" title="Permalink to this heading"></a></h3>
+<p>We need to change some settings in the srsRan config files to use ZMQ in 4G</p>
+<p>Access the command line as superuser:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>-i
+</pre></div>
+</div>
+<p>Open rr.conf configuration file with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vim<span class="w"> </span>.config/srsran/rr.conf
+</pre></div>
+</div>
+<p>Make sure the following lines of text is commented with “// ”</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nv">nr_cell_list</span><span class="w"> </span><span class="o">=</span>
+<span class="o">(</span>
+//<span class="w">   </span><span class="o">{</span>
+//<span class="w">    </span><span class="nv">rf_port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">;</span>
+//<span class="w">    </span><span class="nv">cell_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>0x02<span class="p">;</span>
+//<span class="w">    </span><span class="nv">tac</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>0x0007<span class="p">;</span>
+//<span class="w">    </span><span class="nv">pci</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">500</span><span class="p">;</span>
+//<span class="w">    </span><span class="nv">root_seq_idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">204</span><span class="p">;</span>
+
+<span class="w">    </span>//<span class="w"> </span>TDD:
+<span class="w">    </span>//dl_arfcn<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">634240</span><span class="p">;</span>
+<span class="w">    </span>//band<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">78</span><span class="p">;</span>
+
+<span class="w">    </span>//<span class="w"> </span>FDD:
+//<span class="w">    </span><span class="nv">dl_arfcn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">368500</span><span class="p">;</span>
+//<span class="w">    </span><span class="nv">band</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">;</span>
+//<span class="w">  </span><span class="o">}</span>
+<span class="o">)</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Save and close the file. Then open ue.conf configuration file with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vim<span class="w"> </span>.config/srsran/ue.conf
+</pre></div>
+</div>
+<p>Comment out the [rat.eutra] section</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#[rat.eutra]</span>
+<span class="c1">#dl_earfcn = 3350</span>
+</pre></div>
+</div>
+<p>Comment out Lte release under the [rrc] section:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#release           = 15</span>
+</pre></div>
+</div>
+<p>Make sure [rat.nr] section is commented out as well:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#[rat.nr]</span>
+<span class="c1">#bands = 3,78</span>
+<span class="c1">#nof_carriers = 1</span>
+</pre></div>
+</div>
+<p>Save and close the file. Then open enb.conf configuration file with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vim<span class="w"> </span>.config/srsran/enb.conf
+</pre></div>
+</div>
+<p>Make sure device_name and device_args is commented out:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#device_name = zmq</span>
+<span class="c1">#device_args = fail_on_disconnect=true,tx_port0=tcp://*:2000,rx_port0=tcp://localhost:2001,tx_port1=tcp://*:2100,rx_port1=tcp://localhost:2101,id=enb,base_srate=23.04e6</span>
+</pre></div>
+</div>
+<p>We can now clone the repositories we will need to run build the xapp and onboard it as well as run multiple ues</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure you open a new terminal before you run these following commands. This prevents you from downloading anything under the root directory</p>
+</div>
+<p>Under the oaic directory, run the following commands</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/main-file-repo.git
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/nexran.git
+</pre></div>
+</div>
+<p>We need to change the ip address in the config file to match the local machine</p>
+<p>First get the ip address of your machine</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="sb">`</span>hostname<span class="w">  </span>-I<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1<span class="w"> </span>-d<span class="s1">&#39; &#39;</span><span class="sb">`</span>
+</pre></div>
+</div>
+<p>Now update the config file</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>nexran/
+git<span class="w"> </span>checkout<span class="w"> </span>e2ap-v1
+<span class="nb">cd</span><span class="w"> </span>etc/
+vim<span class="w"> </span>nexran-onboard.url
+</pre></div>
+</div>
+<p>Replace the highlighted with that address</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">{</span><span class="s2">&quot;config-file.json_url&quot;</span>:<span class="s2">&quot;http://&lt;machine_ip_address&gt;:5010/config_files/config-file.json&quot;</span><span class="o">}</span>
+</pre></div>
+</div>
+</section>
+<section id="configuring-the-nginx-web-server">
+<h3>Configuring the Nginx Web server<a class="headerlink" href="#configuring-the-nginx-web-server" title="Permalink to this heading"></a></h3>
+<p>First, we need to install Nginx and check if it is in active (running) state.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>nginx
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>nginx
+</pre></div>
+</div>
+<p>Unlink the default Configuration file and check if it is unlinked</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/etc/nginx/sites-enabled
+sudo<span class="w"> </span>unlink<span class="w"> </span>default
+<span class="nb">cd</span><span class="w"> </span>../
+</pre></div>
+</div>
+<p>Now we create some directories which can be accessed by the server and where the config files can be hosted</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../../var/www
+sudo<span class="w"> </span>mkdir<span class="w"> </span>xApp_config.local
+<span class="nb">cd</span><span class="w"> </span>xApp_config.local/
+sudo<span class="w"> </span>mkdir<span class="w"> </span>config_files
+</pre></div>
+</div>
+<p>Create a Custom Configuration File and define file locations</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../../../etc/nginx/conf.d
+sudo<span class="w"> </span>vim<span class="w"> </span>xApp_config.local.conf
+</pre></div>
+</div>
+<p>Paste the following content in the conf file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>server<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>listen<span class="w"> </span><span class="m">5010</span><span class="w"> </span>default_server<span class="p">;</span>
+<span class="w">    </span>server_name<span class="w"> </span>xApp_config.local<span class="p">;</span>
+<span class="w">    </span>location<span class="w"> </span>/config_files/<span class="w"> </span><span class="o">{</span>
+
+<span class="w">        </span>root<span class="w"> </span>/var/www/xApp_config.local/<span class="p">;</span>
+<span class="w">    </span><span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Save the configuration file and check if there are any errors in the configuration file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nginx<span class="w"> </span>-t
+</pre></div>
+</div>
+</section>
+<section id="hosting-the-config-files">
+<h3>Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Permalink to this heading"></a></h3>
+<p>Copy the xApp config file to this directory. Reload Nginx once this has been done</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>cp<span class="w"> </span>&lt;path_to_config_file&gt;/config-file.json<span class="w"> </span>/var/www/xApp_config.local/config_files/
+sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
+</pre></div>
+</div>
+<p>Now, you can check if the config file can be accessed from the newly created server. Place all files you want to host in the config_files directory</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>http://&lt;machine_ip_addr&gt;:5010/config_files/config-file.json
+</pre></div>
+</div>
+<p>Now we are going to build the xapp from the dockerfile and onboard it</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/nexran
+sudo<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-t<span class="w"> </span>xApp-registry.local:5008/nexran:0.1.0
+</pre></div>
+</div>
+</section>
+</section>
+<section id="xapp-onboarder-deployment">
+<h2>xApp Onboarder Deployment<a class="headerlink" href="#xapp-onboarder-deployment" title="Permalink to this heading"></a></h2>
+<section id="get-variables">
+<h3>Get Variables<a class="headerlink" href="#get-variables" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">KONG_PROXY</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>kong<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2MGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2mgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">APPMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-appmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_SCTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ONBOARDER_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-xapp-onboarder-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">RTMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-rtmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+</pre></div>
+</div>
+<p>In a terminal run the following commands for each UE</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue1
+sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue2
+</pre></div>
+</div>
+</section>
+</section>
+<section id="running-the-xapp">
+<h2>Running the xApp<a class="headerlink" href="#running-the-xapp" title="Permalink to this heading"></a></h2>
+<p>Terminal 1: Start the Core Network</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsepc<span class="w"> </span>--spgw.sgi_if_addr<span class="o">=</span><span class="m">192</span>.168.0.1
+</pre></div>
+</div>
+<p>Terminal 2: Set up Environment Variables and Base Station</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_IP</span><span class="o">=</span><span class="sb">`</span>hostname<span class="w">  </span>-I<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1<span class="w"> </span>-d<span class="s1">&#39; &#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_PORT</span><span class="o">=</span><span class="m">5006</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_IP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsenb<span class="w"> </span>--enb.n_prb<span class="o">=</span><span class="m">50</span><span class="w"> </span>--enb.name<span class="o">=</span>enb1<span class="w"> </span>--enb.enb_id<span class="o">=</span>0x19B<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port0=tcp://*:2000,rx_port0=tcp://localhost:2009,tx_port1=tcp://*:2200,rx_port1=tcp://localhost:2201,id=enb,base_srate=23.04e6&quot;</span><span class="w"> </span>--ric.agent.remote_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2TERM_IP</span><span class="si">}</span><span class="w"> </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--ric.agent.log_level<span class="o">=</span>debug<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--ric.agent.local_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_IP</span><span class="si">}</span><span class="w"> </span>--ric.agent.local_port<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_PORT</span><span class="si">}</span><span class="w"> </span>--slicer.enable<span class="o">=</span><span class="m">1</span><span class="w"> </span>--slicer.workshare<span class="o">=</span><span class="m">0</span>
+</pre></div>
+</div>
+<p>Terminal 3: Set up the first UE</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port=tcp://*:2010,rx_port=tcp://localhost:2008,id=ue1,base_srate=23.04e6&quot;</span><span class="w"> </span>--gw.netns<span class="o">=</span>ue1<span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456789</span>
+</pre></div>
+</div>
+<p>Terminal 4: Set up the second UE</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port=tcp://*:2007,rx_port=tcp://localhost:2006,id=ue2,base_srate=23.04e6&quot;</span><span class="w"> </span>--gw.netns<span class="o">=</span>ue2<span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456780</span>
+</pre></div>
+</div>
+<p>Terminal 5: Start the gnuradio flowgraph</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>main-file-repo
+python3<span class="w"> </span>2ue4g.py
+</pre></div>
+</div>
+<section id="deploying-the-xapp">
+<h3>Deploying the xApp<a class="headerlink" href="#deploying-the-xapp" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/onboard/download&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;@nexran-onboard.url&quot;</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/charts&quot;</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/appmgr/ric/v1/xapps&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-raw<span class="w"> </span><span class="s1">&#39;{&quot;xappName&quot;: &quot;nexran&quot;}&#39;</span>
+</pre></div>
+</div>
+<p>Terminal 6: Checking the xApp logs</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>ricxapp-nexran
+</pre></div>
+</div>
+<p>Terminal 7</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>-i
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">NEXRAN_XAPP</span><span class="o">=</span><span class="sb">`</span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricxapp-nexran-rmr<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$NEXRAN_XAPP</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/version<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf<span class="w"> </span>-s<span class="w"> </span>-p<span class="w"> </span><span class="m">5010</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+<p>Terminal 8</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>iperf<span class="w"> </span>-s<span class="w"> </span>-p<span class="w"> </span><span class="m">5011</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+<p>Terminal 9</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf<span class="w"> </span>-c<span class="w"> </span><span class="m">192</span>.168.0.2<span class="w"> </span>-p<span class="w"> </span><span class="m">5010</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span>
+iperf<span class="w"> </span>-c<span class="w"> </span><span class="m">192</span>.168.0.3<span class="w"> </span>-p<span class="w"> </span><span class="m">5010</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="nv">NEXRAN_XAPP</span><span class="o">=</span><span class="nv">$NEXRAN_XAPP</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<p>List nodeb and slices our xapp knows of. Should not be any yet</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span>Listing<span class="w"> </span>NodeBs:<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/nodebs<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">echo</span><span class="w"> </span>Listing<span class="w"> </span>Slices:<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">echo</span><span class="w"> </span>Listing<span class="w"> </span>Ues:<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/ues<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<p>Tell the nexran app about our nodeB</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Creating NodeB (id=1):&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;type&quot;:&quot;eNB&quot;,&quot;id&quot;:411,&quot;mcc&quot;:&quot;001&quot;,&quot;mnc&quot;:&quot;01&quot;}&#39;</span><span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/nodebs<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">echo</span><span class="w"> </span>Listing<span class="w"> </span>NodeBs:<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/nodebs<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<p>Create the slices “Fast and Slow” that can be bound per UE</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Creating Slice (name=fast)&quot;</span>:<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;:&quot;fast&quot;,&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:1024}}&#39;</span><span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">echo</span><span class="w"> </span>Listing<span class="w"> </span>Slices:<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Creating Slice (name=slow)&quot;</span>:<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;:&quot;slow&quot;,&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:256}}&#39;</span><span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">echo</span><span class="w"> </span>Listing<span class="w"> </span>Slices:<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<p>Bind those slices to the created nodeB</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Binding Slice to NodeB (name=fast):&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/nodebs/enB_macro_001_001_0019b0/slices/fast<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Getting NodeB (name=enB_macro_001_001_0019b0):&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/nodebs/enB_macro_001_001_0019b0<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Binding Slice to NodeB (name=slow):&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/nodebs/enB_macro_001_001_0019b0/slices/slow<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Getting NodeB (name=enB_macro_001_001_0019b0):&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/nodebs/enB_macro_001_001_0019b0<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<p>Create the UEs</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Creating Ue (ue=001010123456789)&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;imsi&quot;:&quot;001010123456789&quot;}&#39;</span><span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/ues<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">echo</span><span class="w"> </span>Listing<span class="w"> </span>Ues:<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/ues<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Creating Ue (ue=001010123456788)&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;imsi&quot;:&quot;001010123456780&quot;}&#39;</span><span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/ues<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">echo</span><span class="w"> </span>Listing<span class="w"> </span>Ues:<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/ues<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<p>Bind the fast slice to the UE 1</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Binding Ue to Slice fast (imsi=001010123456789):&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices/fast/ues/001010123456789<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Getting Slice (name=fast):&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices/fast<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<p>Bind the slow slice to the UE 2</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Binding Ue (imsi=001010123456780):&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices/slow/ues/001010123456788<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Getting Slice (name=slow):&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices/slow<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<p>Invert priority of fast and slow slices</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Inverting priority of fast and slow slices:&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:1024}}&#39;</span><span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices/slow<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:256}}&#39;</span><span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices/fast<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<p>Give more or less share to each slice</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:1024}}&#39;</span><span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices/slow<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:256}}&#39;</span><span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices/fast<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:1024}}&#39;</span><span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices/fast<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
