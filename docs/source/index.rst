@@ -30,8 +30,12 @@ Welcome to OAIC's documentation!
    setup5gnetwork.rst
    multi_ue_example.rst
    
-   
+.. toctree::
+   :maxdepth: 2
+   :caption: Installation script:
 
+   installation.rst
+   
 .. toctree::
    :maxdepth: 2
    :caption: xApp Deployment:
