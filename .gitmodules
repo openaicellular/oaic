@@ -10,10 +10,10 @@
 	path = srsRAN-e2
 	url = https://github.com/openaicellular/srsRAN-e2.git
 	branch = srs_KPIMON_5G
-[submodule "ric-scp-kpimon"]
+[submodule "upgraded-kpimon-xApp"]
 	path = ric-scp-kpimon
-	url = https://github.com/openaicellular/ric-scp-kpimon.git
-	branch = revert-to-e2sm-kpm-01.00
+	url = https://github.com/openaicellular/upgraded-kpimon-xApp
+	branch = master
 [submodule "oaic-t"]
 	path = oaic-t
 	url = https://github.com/openaicellular/oaic-t.git
