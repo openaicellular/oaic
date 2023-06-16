@@ -42,6 +42,7 @@ Welcome to OAIC's documentation!
 
    example_xapp_deployment.rst
    xapp_deployment.rst
+   nexran1.rst
    
 
 .. toctree::
