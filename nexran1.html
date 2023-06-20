@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running the Nexran Xapp &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="UnDeploying RIC Platform" href="undeploy_ric.html" />
+    <link rel="prev" title="xApp Deployment - General Guidelines" href="xapp_deployment.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_ue_example.html">Multiple UEs with ZMQ Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Running the Nexran Xapp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-xapp">Running the xapp</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#deploying-the-xapp">Deploying the xApp</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Running the Nexran Xapp</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/nexran1.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="running-the-nexran-xapp">
+<h1>Running the Nexran Xapp<a class="headerlink" href="#running-the-nexran-xapp" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>The xapp is deployed in the near real time ric (3rd party APP). This deployed xapp then performs its functionality which in this case is RAN slicing.</p>
+<a class="reference internal image-reference" href="_images/nexran_xapp_diagram.png"><img alt="Nexran Xapp diagram" src="_images/nexran_xapp_diagram.png" style="width: 80%;" /></a>
+<p>Powder’s Nexran xapp implements ran slicing by sending instructions to RAN nodes, that performs custom resource allocation and we bind UE’s to those slices of allocated resources.</p>
+<p>The xapp has a southbound interface to the RIC where it can send commands down to the nodes and a northbound interface where high level commands can be issued by the user.</p>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<p>First we need to clone down the srslte modified with e2 specifically for NEXRAN</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>oaic
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/srslte-e2
+<span class="nb">cd</span><span class="w"> </span>srslte-e2
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>-rf<span class="w"> </span>build
+mkdir<span class="w"> </span>build
+<span class="nb">export</span><span class="w"> </span><span class="nv">SRS</span><span class="o">=</span><span class="sb">`</span>realpath<span class="w"> </span>.<span class="sb">`</span>
+<span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>../<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>RelWithDebInfo<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DRIC_GENERATED_E2AP_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2AP-v01.01<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DRIC_GENERATED_E2SM_KPM_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-KPM<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-GNB-NRT
+make<span class="w"> </span>-j<span class="sb">`</span>nproc<span class="sb">`</span>
+make<span class="w"> </span><span class="nb">test</span>
+sudo<span class="w"> </span>make<span class="w"> </span>install
+sudo<span class="w"> </span>ldconfig
+sudo<span class="w"> </span>srslte_install_configs.sh<span class="w"> </span>user<span class="w"> </span>--force
+<span class="nb">cd</span><span class="w"> </span>../../
+</pre></div>
+</div>
+<p>We can now clone the repositories we will need to run build the xapp and onboard it as well as run multiple ues</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure you open a new terminal before you run these following commands. This prevents you from downloading anything under the root directory</p>
+</div>
+<p>Under the oaic directory, run the following commands</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/nexran.git
+</pre></div>
+</div>
+<p>Now we are going to build the xapp from the dockerfile</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/nexran
+
+sudo<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-t<span class="w"> </span>xApp-registry.local:5008/nexran:0.1.0
+</pre></div>
+</div>
+<p>Paste the following in the <code class="docutils literal notranslate"><span class="pre">nexran-onboard.url</span></code> file. Substitue the <code class="docutils literal notranslate"><span class="pre">&lt;machine_ip_addr&gt;</span></code> with the IP address of your machine. You can find this out through <code class="docutils literal notranslate"><span class="pre">ifconfig</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">{</span><span class="s2">&quot;config-file.json_url&quot;</span>:<span class="s2">&quot;http://&lt;machine_ip_addr&gt;:5010/config-file.json&quot;</span><span class="o">}</span>
+</pre></div>
+</div>
+</section>
+<section id="running-the-xapp">
+<h2>Running the xapp<a class="headerlink" href="#running-the-xapp" title="Permalink to this heading"></a></h2>
+<p>Terminal 1: Start the Core Network/Ues</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue1
+sudo<span class="w"> </span>srsepc
+</pre></div>
+</div>
+<p>Terminal 2: Set up Environment Variables and Base Station</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_IP</span><span class="o">=</span><span class="sb">`</span>hostname<span class="w">  </span>-I<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1<span class="w"> </span>-d<span class="s1">&#39; &#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_PORT</span><span class="o">=</span><span class="m">5006</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_IP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsenb<span class="w"> </span><span class="se">\</span>
+--enb.n_prb<span class="o">=</span><span class="m">50</span><span class="w"> </span>--enb.name<span class="o">=</span>enb1<span class="w"> </span>--enb.enb_id<span class="o">=</span>0x19B<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span><span class="se">\</span>
+--rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2001,id=enb,base_srate=23.04e6&quot;</span><span class="w"> </span><span class="se">\</span>
+--ric.agent.remote_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2TERM_IP</span><span class="si">}</span><span class="w"> </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--ric.agent.log_level<span class="o">=</span>debug<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span><span class="se">\</span>
+--ric.agent.local_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_IP</span><span class="si">}</span><span class="w"> </span>--ric.agent.local_port<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_PORT</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+--slicer.enable<span class="o">=</span><span class="m">1</span><span class="w"> </span>--slicer.workshare<span class="o">=</span><span class="m">0</span>
+</pre></div>
+</div>
+<p>Terminal 3: Set up the first UE</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;tx_port=tcp://*:2001,rx_port=tcp://localhost:2000,id=ue,base_srate=23.04e6&quot;</span><span class="w"> </span><span class="se">\</span>
+--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456789</span><span class="w"> </span>--usim.k<span class="o">=</span>00112233445566778899aabbccddeeff<span class="w"> </span>--usim.imei<span class="o">=</span><span class="m">353490069873310</span><span class="w"> </span><span class="se">\</span>
+--log.all_level<span class="o">=</span>warn<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--gw.netns<span class="o">=</span>ue1
+</pre></div>
+</div>
+<p>Terminal 4: Iperf test on server side</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue1<span class="w"> </span>iperf<span class="w"> </span>-s<span class="w"> </span>-p<span class="w"> </span><span class="m">5010</span><span class="w"> </span>-i<span class="w"> </span><span class="m">4</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span>
+</pre></div>
+</div>
+<p>Terminal 5: Iperf test on client side</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.2<span class="w"> </span>-p<span class="w"> </span><span class="m">5010</span><span class="w"> </span>-i<span class="w"> </span><span class="m">4</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span>
+</pre></div>
+</div>
+<p>Terminal 6</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>nexran
+<span class="nb">export</span><span class="w"> </span><span class="nv">KONG_PROXY</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>kong<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2MGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2mgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">APPMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-appmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_SCTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ONBOARDER_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-xapp-onboarder-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">RTMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-rtmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+</pre></div>
+</div>
+<section id="deploying-the-xapp">
+<h3>Deploying the xApp<a class="headerlink" href="#deploying-the-xapp" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/onboard/download&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;@nexran-onboard.url&quot;</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/charts&quot;</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/appmgr/ric/v1/xapps&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-raw<span class="w"> </span><span class="s1">&#39;{&quot;xappName&quot;: &quot;nexran&quot;}&#39;</span>
+</pre></div>
+</div>
+<p>If you already have NEXRAN xApp deployed on your system, you need to restart the pod using the command below before running the rest of the commands</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deployment<span class="w"> </span>ricxapp-nexran
+</pre></div>
+</div>
+<p>Add another terminal to print the NEXRAN logs</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>ricxapp-nexran
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Before running the rest of the commands, detach one of the terminal with the iperf test running to observe the downlink traffic
+Also, detach the terminal with the NEXRAN logs</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">NEXRAN_XAPP</span><span class="o">=</span><span class="sb">`</span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricxapp-nexran-rmr<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="nv">NEXRAN_XAPP</span><span class="o">=</span><span class="nv">$NEXRAN_XAPP</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<p>Now run the test script with the following commands</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>zmqoneue.sh
+./zmqoneue.sh
+</pre></div>
+</div>
+<p>Observe a slight change in the throughput in the detached terminal</p>
+<p>Now run these commands to invert the fast and slow slices</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:1024}}&#39;</span><span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices/slow<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span>
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;allocation_policy&quot;:{&quot;type&quot;:&quot;proportional&quot;,&quot;share&quot;:256}}&#39;</span><span class="w"> </span>http://<span class="si">${</span><span class="nv">NEXRAN_XAPP</span><span class="si">}</span>:8000/v1/slices/fast<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</pre></div>
+</div>
+<p>Observe large change in the throughput in the detached terminal</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="xapp_deployment.html" class="btn btn-neutral float-left" title="xApp Deployment - General Guidelines" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="undeploy_ric.html" class="btn btn-neutral float-right" title="UnDeploying RIC Platform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
