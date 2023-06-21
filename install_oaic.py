@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import subprocess
 subprocess.run("apt install -y  python3-pip", shell=True, check=True)
+subprocess.run("apt install -y  git", shell=True, check=True)
+
 subprocess.check_call([ 'pip3', 'install','docutils'])
 subprocess.check_call([ 'pip3', 'install','Pygments'])
 
