@@ -132,6 +132,12 @@ git submodule update –init –recursive –remote</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A
 </pre></div>
 </div>
+<p>The next three commands installs the nfs-common package for kubernetes through helm in the “ricinfra” namespace and for the system.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>stable/nfs-server-provisioner<span class="w"> </span>--namespace<span class="w"> </span>ricinfra<span class="w"> </span>--name<span class="w"> </span>nfs-release-1
+sudo<span class="w"> </span>kubectl<span class="w"> </span>patch<span class="w"> </span>storageclass<span class="w"> </span>nfs<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;metadata&quot;: {&quot;annotations&quot;:{&quot;storageclass.kubernetes.io/is-default-class&quot;:&quot;true&quot;}}}&#39;</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nfs-common
+</pre></div>
+</div>
 <p>Local docker registry to host docker images. You can create one using, (You will need “super user” permissions)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">5001</span>:5000<span class="w"> </span>--restart<span class="o">=</span>always<span class="w"> </span>--name<span class="w"> </span>ric<span class="w"> </span>registry:2
 </pre></div>

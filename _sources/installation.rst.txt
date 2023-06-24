@@ -42,6 +42,14 @@ Once the machine is back up, check if all the pods in the newly installed Kubern
 
     sudo kubectl get pods -A 
 
+The next three commands installs the nfs-common package for kubernetes through helm in the “ricinfra” namespace and for the system.
+
+.. code-block:: bash
+
+    sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
+    sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+    sudo apt install nfs-common 
+
 Local docker registry to host docker images. You can create one using, (You will need "super user" permissions)
 
 .. code-block:: bash
