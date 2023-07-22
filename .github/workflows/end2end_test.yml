@@ -4,6 +4,7 @@ on:
     branches:
     - master
     - github-cicd
+    - kpimon-v2
 
 jobs:
   build:
