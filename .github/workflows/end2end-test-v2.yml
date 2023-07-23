@@ -193,3 +193,4 @@ jobs:
 
     #- run: sudo bash setup5GNetwork.sh
     #- run: sudo bash deployKPIMON.sh
+    # test
