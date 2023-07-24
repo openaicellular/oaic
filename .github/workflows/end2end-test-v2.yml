@@ -51,9 +51,9 @@ jobs:
           sudo docker push localhost:5001/ric-plt-e2:5.5.0
           cd ../../
           # Step 4: Deploy the near-Real Time RIC (3 minutes)
-          cd RIC-Deployment/
+          cd RIC-Deployment
           git submodule update --remote --init --recursive
-          cd RIC-Deployment/bin/
+          cd RIC-Deployment/bin
           sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
     - name: Install srsRAN with E2 Agent
       run: |
