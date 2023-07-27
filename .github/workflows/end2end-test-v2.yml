@@ -164,6 +164,10 @@ jobs:
           
           echo ">>> scp-kpimon-onboard.url"
           cat scp-kpimon-onboard.url
+          
+          
+          sudo kubectl get pods -A
+
 
           echo ">>> curl POST..."
           curl -v -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@scp-kpimon-onboard.url"
