@@ -56,8 +56,6 @@ jobs:
           cd bin
           sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
           sudo kubectl get pods -A
-    - name: Install srsRAN with E2 Agent
-      run: |
           # compile srsRAN-e2 (19 minutes without running tests)
           cd srsRAN-e2
           mkdir build
@@ -72,8 +70,6 @@ jobs:
           sudo make install
           sudo ldconfig
           sudo srsran_install_configs.sh service # --force
-    - name: Set up 5G Network
-      run: |
           echo ">>> Adding UE1..."
           sudo ip netns add ue1
           echo ">>> Starting EPC..."
@@ -102,11 +98,6 @@ jobs:
           #echo ">>> 5G Network setup completed"
           
           while ! sudo ip netns exec ue1 ping 172.16.0.1 -c3; do echo "Ping Fail"; done ; echo "5G Network setup completed" ;
-
-          
-          
-    - name: Deploy and test KPIMON 
-      run: |
           OAIC=`pwd`
           sudo apt-get install nginx
           
