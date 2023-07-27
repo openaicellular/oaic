@@ -133,8 +133,6 @@ jobs:
           echo ">>> reloading nginx..."
           sudo nginx -t 
           cd ${OAIC}
-          # git clone https://github.com/openaicellular/upgraded-kpimon-xApp
-          # sudo cp upgraded-kpimon-xApp/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
           sudo cp ric-scp-kpimon/scp-kpimon-config-file.json /var/www/xApp_config.local/config_files/
           sudo systemctl reload nginx
           
@@ -146,7 +144,6 @@ jobs:
           curl http://${MACHINE_IP}:5010/config_files/scp-kpimon-config-file.json
 
           echo ">>> building docker image...."
-          # cd ${OAIC}/upgraded-kpimon-xApp
           cd ${OAIC}/ric-scp-kpimon
           echo ">>> checking directory"
           ls
