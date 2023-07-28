@@ -35,6 +35,7 @@ jobs:
     - name: Install O-RAN Near Real-Time RIC
       run: |
           # Step 2: Install Kubernetes, Docker, and Helm (4 minutes)
+          OAIC=`pwd`
           cd RIC-Deployment/tools/k8s/bin
           ./gen-cloud-init.sh 
           sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
@@ -57,7 +58,7 @@ jobs:
           sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
           sudo kubectl get pods -A
           # compile srsRAN-e2 (19 minutes without running tests)
-          cd cd ../../srsRAN-e2
+          cd ${OAIC}/srsRAN-e2
           mkdir build
           export SRS=`realpath .`
           cd build
@@ -98,7 +99,6 @@ jobs:
           #echo ">>> 5G Network setup completed"
           
           while ! sudo ip netns exec ue1 ping 172.16.0.1 -c3; do echo "Ping Fail"; done ; echo "5G Network setup completed" ;
-          OAIC=`pwd`
           sudo apt-get install nginx
           
           sudo systemctl start nginx.service
