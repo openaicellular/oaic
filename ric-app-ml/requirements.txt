@@ -1,5 +1,4 @@
-sctp
-socket
 matplotlib
 numpy
 Pillow
+pysctp

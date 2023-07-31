@@ -291,17 +291,18 @@ Save and update the configuration file with the following command, and check if 
 Hosting the config Files
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Make sure you are in the xApp directory, then copy the xApp config file to this directory.
+Make sure you are in the xApp directory, then copy the xApp config file to this directory. When we copy this file with sudo, it also protects the file from being modified, so we use the chmod command to re-enable read/write permissions.
 
 .. code-block:: rst
 	
-	sudo cp init/config-file.json /var/www/xApp_config.local/config_files/ml-config-file.json
+    sudo cp init/config-file.json /var/www/xApp_config.local/config_files/ml-config-file.json
+    sudo chmod 755 /var/www/xApp_config.local/config_files/ml-config-file.json
 
 Now, you can check if the config file can be accessed from the newly created server.
 
 .. code-block:: rst
 
-	curl http://$HOST_IP:5010/config_files/config-file.json
+	curl http://$HOST_IP:5010/config_files/ml-config-file.json
 
 
 Create onboard URL file
@@ -317,7 +318,7 @@ Paste the following in the ``ml-onboard.url`` file. Substitute the ``<machine_ip
 
 .. code-block:: rst
 
-	{"config-file.json_url":"http://<machine_ip_addr>:5010/ ml-config-file.json"}
+	{"config-file.json_url":"http://<machine_ip_addr>:5010/config_files/ml-config-file.json"}
 
 Save the file. Now we are ready to deploy the xApp. 
 
@@ -378,11 +379,31 @@ Connecting to srsRAN
 
 We will use a modified version of srsRAN with the E2-like interface enabled.
 
-To connect our xApp to the E2-like interface, we also need to expose port 5000 of the xApp to our system. This command will enable SCTP connections through port 5000 on our local IP address.
+To connect our xApp to the E2-like interface, we also need to expose port 5000 of the xApp to our system. This command will enable SCTP connections on our local IP address by creating a NodePort service in Kubernetes called ricxapp-ric-app-ml.
 
 .. code-block:: rst
 
     sudo kubectl expose deployment ricxapp-ric-app-ml --port 5000 --target-port 5000 --protocol SCTP -n ricxapp --type=NodePort
+
+However, Kubernetes will reroute the xApp's port to another port that is not 5000, and we need to search for this port by finding the new Kubernetes service that we just created. Run the following command to get a list of all the services:
+
+.. code-block:: rst
+
+    sudo kubectl get svc -A
+
+Look for ricxapp-ric-app-ml. On the same row in the terminal you should see a set of ports that look like 5000:3XXXX/SCTP. An example is shown below:
+
+.. code-block:: rst
+
+    ricxapp       ricxapp-ric-app-ml            NodePort    10.109.106.34    <none>        5000:30255/SCTP   34m
+
+In the above case, we want to use port 30255, as that is the port to access the xApp's SCTP interface from our local IP address.
+
+Let's store this xApp port in a variable to use later. Replace <xapp port> with the port you found in the previous command.
+
+.. code-block:: rst
+
+    export XAPP_PORT=<xapp port>
 
 First, start the EPC if you haven't already:
 
@@ -401,7 +422,7 @@ Then, we can start the base station, which will connect to the xApp immediately 
 
 .. code-block:: rst
 
-    sudo srsenb/src/srsenb --ric.agent.log_level=debug --log.filename=stdout --ric.agent.remote_ipv4_addr=$HOST_IP --ric.agent.remote_port=5000 --ric.agent.local_ipv4_addr=$HOST_IP --ric.agent.local_port=38071
+    sudo srsenb/src/srsenb --ric.agent.log_level=debug --log.filename=stdout --ric.agent.remote_ipv4_addr=$HOST_IP --ric.agent.remote_port=$XAPP_PORT --ric.agent.local_ipv4_addr=$HOST_IP --ric.agent.local_port=38071
 
 You should see srsENB connect to the xApp and start sending I/Q data. You will also see E2-like commands being sent.
 
@@ -442,3 +463,33 @@ Undeploy/redeploy the entire RIC:
 
 Delete additional port for E2-like interface:
 ``sudo kubectl delete service ricxapp-ric-app-ml -n ricxapp``
+
+
+Troubleshooting
+---------------
+
+**Kong is stuck in CrashLoopBackOff!**
+
+If Kong is not working in your near-RT RIC, you will not be able to deploy the xApp with the above commands. However, we can directly access the xApp Onboarder and App Manager's IP addresses and bypass the Kong proxy.
+
+For the `Onboard and deploy the xApp` section, use the following commands instead:
+
+Get the IP addresses for the necessary pods:
+
+.. code-block:: rst
+
+    export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
+    export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
+
+Submit our onboard URL file to the xApp onboarder:
+
+.. code-block:: rst
+
+	curl -L -X POST "http://$ONBOARDER_HTTP:8888/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@ml-onboard.url"
+
+Deploy the xApp:
+
+.. code-block:: rst
+
+	curl -L -X POST "http://$APPMGR_HTTP:8080/ric/v1/xapps" --header 'Content-Type: application/json' --data-raw '{"xappName": "ric-app-ml"}'
+
