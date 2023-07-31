@@ -11,8 +11,8 @@ COPY . /tmp/ml
 WORKDIR /tmp/ml
 
 # Install requirements.txt
-RUN pip install --upgrade pip && pip install requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Set our xApp to run immediately when deployed
 ENV PYTHONUNBUFFERED 1
-CMD app.py
+CMD python3 app.py

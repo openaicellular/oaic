@@ -1,5 +1,5 @@
 import sctp, socket
-import time
+import time, random
 from datetime import datetime
 
 # Spectrogram generation
@@ -155,7 +155,8 @@ def predict(self, data) -> str:
 def model_predict(model, unseen_data):
     # Instead of implementing a real model, we will simply use random values
 
-    prediction = random.randint(0,2)
+    # Every 8 seconds, alternate between detecting LTE/5G and detecting interference.
+    prediction = random.randint(0,1) if (time.time() - start_time) % 16.0 < 8.0 else 2
     confidence = random.random()
 
     return prediction, confidence

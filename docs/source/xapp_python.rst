@@ -126,10 +126,13 @@ Here are some excerpts of the code:
     def model_predict(model, unseen_data):
         # Instead of implementing a real model, we will simply use random values
 
-        prediction = random.randint(0,2)
+        # Every 8 seconds, alternate between detecting LTE/5G and detecting interference.
+        prediction = random.randint(0,1) if (time.time() - start_time) % 16.0 < 8.0 else 2
         confidence = random.random()
 
         return prediction, confidence
+
+This xApp assumes a hypothetical scenario where interference is detected over the network using a machine learning model. In our case, we do not use a real model, but one could easily be substituted into this sample code. When interference is detected, we send a command from the xApp to the nodeB to control the base station. In this case, we either turn the base station on (set the TX gain to 80dB) or turn the base station off (set the TX gain to -100dB). We can adjust different parameters if we implement the capabilitiy to do so on our RAN. For our purposes, we use a modified version of srsRAN which accepts our E2-like commands, which we will use later.
 
 
 Deployment
@@ -168,6 +171,8 @@ Once we have this Dockerfile, we can then build our Docker image and submit it t
     sudo docker build . -t xApp-registry.local:5008/ric-app-ml:1.0.0
 
 This builds a Docker image labeled ric-app-ml with version 1.0.0, and submits it to the xApp registry.
+
+.. image:: xapp_python_static/ss_dockerbuild.png
 
 Creating the xApp config
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -281,12 +286,13 @@ Paste the following content in the *conf* file.
 
 	}
 
-
 Save and update the configuration file with the following command, and check if there are any errors in the configuration file. If there is no output, then it updated successfully.
 
 .. code-block:: rst
 
 	sudo nginx -t
+
+.. image:: xapp_python_static/ss_nginxt.png
 
 Hosting the config Files
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -295,23 +301,26 @@ Make sure you are in the xApp directory, then copy the xApp config file to this 
 
 .. code-block:: rst
 	
-    sudo cp init/config-file.json /var/www/xApp_config.local/config_files/ml-config-file.json
+    sudo cp init/config.json /var/www/xApp_config.local/config_files/ml-config-file.json
     sudo chmod 755 /var/www/xApp_config.local/config_files/ml-config-file.json
+    sudo systemctl restart nginx
 
-Now, you can check if the config file can be accessed from the newly created server.
+At the end of these commands we restart nginx to ensure that it is properly running. Now, you can check if the config file can be accessed from the newly created server.
 
 .. code-block:: rst
 
 	curl http://$HOST_IP:5010/config_files/ml-config-file.json
 
+.. image:: xapp_python_static/ss_curlconfig.png
 
 Create onboard URL file
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Next, we need to create a ``.url`` file to point the ``xApp-onboarder`` to the Nginx server to get the xApp descriptor file and use it to create a helm chart and deploy the xApp.
+Next, we need to create a ``.url`` file to point the ``xApp-onboarder`` to the Nginx server to get the xApp descriptor file and use it to create a helm chart and deploy the xApp. We echo the IP address to remember what it is, as we have to type it in ourselves in the text file.
 
 .. code-block:: rst
 
+    echo $HOST_IP
 	nano ml-onboard.url	
 
 Paste the following in the ``ml-onboard.url`` file. Substitute the ``<machine_ip_addr>`` with the IP address of your machine. You can find this out through ``hostname -I`` or ``echo $HOST_IP``.
@@ -320,22 +329,28 @@ Paste the following in the ``ml-onboard.url`` file. Substitute the ``<machine_ip
 
 	{"config-file.json_url":"http://<machine_ip_addr>:5010/config_files/ml-config-file.json"}
 
+.. image:: xapp_python_static/ss_mlonboard.png
+
 Save the file. Now we are ready to deploy the xApp. 
 
 Onboard and deploy the xApp
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-First, we collect and store the IP address of the Kong proxy to a variable, which allows you to connect to the different components of the RIC through a single address.
+First, we collect and store the IP address of the Kong proxy to a variable, which allows us to connect to the different components of the RIC through a single address.
 
 .. code-block:: rst
 
     export KONG_PROXY=`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath='{.items[0].spec.clusterIP}'`
+
+.. image:: xapp_python_static/ss_kongproxy.png
 
 Then, we submit our onboard URL file to the xApp onboarder, which indicates to the onboarder where our xApp config file is.
 
 .. code-block:: rst
 
 	curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@ml-onboard.url"
+    
+.. image:: xapp_python_static/ss_postonboard.png
 
 The config file is then processed by the xApp onboarder and a chart is created, which contains the instructions to deploy the xApp.
 
@@ -345,7 +360,13 @@ Finally, we request that the App Manager deploys our specific xApp, ``ric-app-ml
 
 	curl -L -X POST "http://$KONG_PROXY:32080/appmgr/ric/v1/xapps" --header 'Content-Type: application/json' --data-raw '{"xappName": "ric-app-ml"}'
 
-Verify if the xApp is deployed using ``sudo kubectl get pods -A``. There should be a ``ric-app-ml`` pod visible in the "ricxapp" namespace. 
+.. image:: xapp_python_static/ss_postappmgr.png
+
+Verify if the xApp is deployed using ``sudo kubectl get pods -A``. There should be a ``ric-app-ml`` pod visible in the "ricxapp" namespace.
+
+.. image:: xapp_python_static/ss_pods.png
+
+Once the xApp is deployed, it will automatically restart itself on failure and will continue to run even on a restart of the computer, as long as the Kubernetes cluster is running. You will have to manually restart an xApp when making changes, and you will have to manually undeploy an xApp to stop it from running on the RIC.
 
 
 Demonstration
@@ -405,7 +426,14 @@ Let's store this xApp port in a variable to use later. Replace <xapp port> with 
 
     export XAPP_PORT=<xapp port>
 
-First, start the EPC if you haven't already:
+Assuming you have already built the E2-like version of srsRAN, go to the directory where srsRAN is built:
+
+.. code-block:: rst
+
+    cd ~/oaic
+    cd srsRAN-e2-dev/build
+
+Now we can start srsRAN. First, start the EPC if you haven't already:
 
 .. code-block:: rst
 
