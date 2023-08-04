@@ -4,7 +4,7 @@
 Developing a custom xApp in Python
 ==================================
 
-This document describes how to write an xApp in Python and how to deploy it on the RIC platform.
+This document describes how to write an xApp in Python, how to deploy it on the RIC platform, and how to use the xApp to communicate with the RAN.
 
 Background
 ----------
@@ -13,7 +13,7 @@ An xApp is simply an application that is deployed to the RIC and is capable of c
 An xApp can be developed in any programming language, but to be O-RAN compliant, it needs to be able to communicate over the E2 interface to E2 nodes.
 An E2 Node refers to a component of the RAN that can interface with the RIC via E2, usually referring to the base station (DU/CU).
 
-For this demonstration, we will simplify the xApp development process such that we utilize an E2-like interface, enabling us to focus on the functionality of our application rather than the specifications of the protocol (encoding and decoding of ASN.1 messages, subscription processes, etc.).
+For this demonstration, we will simplify the xApp development process such that we utilize an E2-like interface, enabling us to focus on the functionality of our application rather than the specifications of the protocol (encoding and decoding of ASN.1 messages, subscription processes, etc.)
 
 To understand how an xApp works, first we must look at how an O-RAN network is implemented.
 The RAN Intelligent Controller (RIC) is capable of dynamically controlling the RAN.
@@ -28,7 +28,15 @@ For more information on Kubernetes and Docker, see the `Background on Docker, Ku
 Development
 -----------
 
-First, we use a Python file called ``app.py`` to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN's behavior.
+To begin, checkout the E2-like branch of the OAIC codebase to access the xApp code and modified srsRAN.
+
+.. code-block:: rst
+
+    git checkout e2like-doc
+
+Once the command is complete, you should be able to access the ``ric-app-ml`` and ``srsRAN-e2-dev-binaries`` folders.
+
+First, let's take a look at the ``ric-app-ml`` directory, where the xApp is located. We use a Python file called ``app.py`` to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN's behavior.
 
 When using the E2-like interface, the xApp acts as an SCTP server and the nodeB is a client.
 
@@ -431,13 +439,13 @@ Assuming you have already built the E2-like version of srsRAN, go to the directo
 .. code-block:: rst
 
     cd ~/oaic
-    cd srsRAN-e2-dev/build
+    cd srsRAN-e2-dev-binaries
 
 Now we can start srsRAN. First, start the EPC if you haven't already:
 
 .. code-block:: rst
 
-	sudo srsepc/src/srsepc
+	sudo ./srsepc
 
 Before starting the base station, make sure you have the local IP address that you found from the previous steps.
 
@@ -450,7 +458,7 @@ Then, we can start the base station, which will connect to the xApp immediately 
 
 .. code-block:: rst
 
-    sudo srsenb/src/srsenb --ric.agent.log_level=debug --log.filename=stdout --ric.agent.remote_ipv4_addr=$HOST_IP --ric.agent.remote_port=$XAPP_PORT --ric.agent.local_ipv4_addr=$HOST_IP --ric.agent.local_port=38071
+    sudo ./srsenb --ric.agent.log_level=debug --log.filename=stdout --ric.agent.remote_ipv4_addr=$HOST_IP --ric.agent.remote_port=$XAPP_PORT --ric.agent.local_ipv4_addr=$HOST_IP --ric.agent.local_port=38071
 
 You should see srsENB connect to the xApp and start sending I/Q data. You will also see E2-like commands being sent.
 
@@ -458,7 +466,7 @@ The I/Q data will be empty until we connect a UE. Start the UE and it should con
 
 .. code-block:: rst
 
-    sudo srsue/src/srsue
+    sudo ./srsue
 
 If you view the logs of the xApp, you should see the I/Q data being received and the predictions being made by the xApp. These predictions are random and are not based on the I/Q data, but the xApp receives the I/Q data and creates valid spectrograms, so you can modify the code to handle the spectrograms however you would like.
 
@@ -480,7 +488,7 @@ Remove xApp's chart from xApp onboarder:
     export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
     curl -L -X DELETE "http://${ONBOARDER_HTTP}:8080/api/charts/<xApp_name>/<xApp_tag>"
 
-Undeploy/redeploy the entire RIC:
+Undeploy/redeploy the RIC components in the Kubernetes cluster:
 
 .. code-block:: rst
 
