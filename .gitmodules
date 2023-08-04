@@ -13,7 +13,7 @@
 [submodule "ric-scp-kpimon"]
 	path = ric-scp-kpimon
 	url = https://github.com/openaicellular/ric-scp-kpimon.git
-	branch = revert-to-e2sm-kpm-01.00
+	branch = upgraded-kpimon
 [submodule "oaic-t"]
 	path = oaic-t
 	url = https://github.com/openaicellular/oaic-t.git
