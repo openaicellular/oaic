@@ -20,7 +20,9 @@ spectrogram_size = num_of_samples * 8  # size in bytes, where 8 bytes is the siz
 
 cmds = {
     'BASE_STATION_ON': b'y',
-    'BASE_STATION_OFF': b'n'
+    'BASE_STATION_OFF': b'n',
+    'ENABLE_ADAPTIVE_MCS': b'm',
+    'DISABLE_ADAPTIVE_MCS': b'z',
 }
 
 current_iq_data = None
@@ -91,17 +93,16 @@ def entry(self):
                     current_iq_data = data
                     result = run_prediction(self)
 
-                    # If there is interference, send a command to turn the base station off.
-                    # We can do this by setting the transmit (TX) gain of the radio to a very weak amount (-10000dB)
-                    # If the interference goes away, send a command to turn it back on.
+                    # If there is interference, send a command to turn on adaptive MCS.
+                    # This is a feature in srsRAN that we can leverage. When we turn it off, we set the MCS to a fixed value.
                     if result == 'Interference':
-                        log_info(self, "Interference signal detected, sending control message to turn nodeB off")
-                        conn.send(cmds['BASE_STATION_OFF'])
-                        #last_cmd = cmds['BASE_STATION_OFF']
+                        log_info(self, "Interference signal detected, sending control message to enable adaptive MCS")
+                        #conn.send(cmds['BASE_STATION_OFF'])
+                        conn.send(cmds['ENABLE_ADAPTIVE_MCS'])
                     elif result in ('5G', 'LTE'): #and last_cmd == cmds['BASE_STATION_OFF']:
-                        log_info(self, "Interference signal no longer detected, sending control message to turn nodeB on")
-                        conn.send(cmds['BASE_STATION_ON'])
-                        #last_cmd = cmds['BASE_STATION_ON']
+                        log_info(self, "Interference signal no longer detected, sending control message to disable adaptive MCS")
+                        #conn.send(cmds['BASE_STATION_ON'])
+                        conn.send(cmds['DISABLE_ADAPTIVE_MCS'])
 
         # Log any errors with the SCTP connection, but continue to run
         except OSError as e:

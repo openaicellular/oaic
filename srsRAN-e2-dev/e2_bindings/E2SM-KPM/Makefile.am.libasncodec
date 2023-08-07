@@ -1,0 +1,199 @@
+ASN_MODULE_SRCS=	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalKPMnode-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalKPMnode-gNB-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalgNB-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GNB-CU-UP-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GNB-DU-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GNB-ID-Choice.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalKPMnode-en-gNB-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalenGNB-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_ENGNB-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalKPMnode-ng-eNB-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalngeNB-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_ENB-ID-Choice.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalKPMnode-eNB-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalENB-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_ENB-ID.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_NRCGI.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PLMN-Identity.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_NRCellIdentity.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_SNSSAI.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RIC-Style-Type.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RIC-Style-Name.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RIC-Format-Type.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-EventTriggerDefinition.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-EventTriggerDefinition-Format1.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-ActionDefinition.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-IndicationHeader.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-IndicationHeader-Format1.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-IndicationMessage.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-IndicationMessage-Format1.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PM-Containers-List.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-RANfunction-Description.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_NI-Type.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RAN-Container.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_Trigger-ConditionIE-Item.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RT-Period-IE.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RANcallProcess-ID-string.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RANfunction-Name.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RIC-EventTriggerStyle-List.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RIC-ReportStyle-List.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PF-Container.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GNB-CU-CP-Name.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GNB-DU-Name.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GNB-CU-UP-Name.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_ODU-PF-Container.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_CellResourceReportListItem.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_ServedPlmnPerCellListItem.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_FGC-DU-PM-Container.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_SlicePerPlmnPerCellListItem.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_FQIPERSlicesPerPlmnPerCellListItem.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_EPC-DU-PM-Container.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PerQCIReportListItem.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_OCUCP-PF-Container.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_OCUUP-PF-Container.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PF-ContainerListItem.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_CUUPMeasurement-Container.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PlmnID-List.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_FGC-CUUP-PM-Format.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_SliceToReportListItem.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_FQIPERSlicesPerPlmnListItem.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_EPC-CUUP-PM-Format.c	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PerQCIReportListItemFormat.c
+
+ASN_MODULE_HDRS=	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalKPMnode-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalKPMnode-gNB-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalgNB-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GNB-CU-UP-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GNB-DU-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GNB-ID-Choice.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalKPMnode-en-gNB-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalenGNB-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_ENGNB-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalKPMnode-ng-eNB-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalngeNB-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_ENB-ID-Choice.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalKPMnode-eNB-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GlobalENB-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_ENB-ID.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_NRCGI.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PLMN-Identity.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_NRCellIdentity.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_SNSSAI.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RIC-Style-Type.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RIC-Style-Name.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RIC-Format-Type.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-EventTriggerDefinition.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-EventTriggerDefinition-Format1.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-ActionDefinition.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-IndicationHeader.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-IndicationHeader-Format1.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-IndicationMessage.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-IndicationMessage-Format1.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PM-Containers-List.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_E2SM-KPM-RANfunction-Description.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_NI-Type.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RAN-Container.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_Trigger-ConditionIE-Item.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RT-Period-IE.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RANcallProcess-ID-string.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RANfunction-Name.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RIC-EventTriggerStyle-List.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_RIC-ReportStyle-List.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PF-Container.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GNB-CU-CP-Name.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GNB-DU-Name.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_GNB-CU-UP-Name.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_ODU-PF-Container.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_CellResourceReportListItem.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_ServedPlmnPerCellListItem.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_FGC-DU-PM-Container.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_SlicePerPlmnPerCellListItem.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_FQIPERSlicesPerPlmnPerCellListItem.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_EPC-DU-PM-Container.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PerQCIReportListItem.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_OCUCP-PF-Container.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_OCUUP-PF-Container.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PF-ContainerListItem.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_CUUPMeasurement-Container.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PlmnID-List.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_FGC-CUUP-PM-Format.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_SliceToReportListItem.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_FQIPERSlicesPerPlmnListItem.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_EPC-CUUP-PM-Format.h	\
+	/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/E2SM_KPM_PerQCIReportListItemFormat.h
+
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/OPEN_TYPE.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/OPEN_TYPE.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/constr_CHOICE.h
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/INTEGER.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/INTEGER.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/NativeEnumerated.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/NativeEnumerated.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/NativeInteger.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/NativeInteger.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/PrintableString.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/PrintableString.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/OCTET_STRING.h
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_SEQUENCE_OF.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_SEQUENCE_OF.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_SET_OF.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_SET_OF.c
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/constr_CHOICE.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/constr_SEQUENCE.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/constr_SEQUENCE.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/constr_SEQUENCE_OF.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/constr_SEQUENCE_OF.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/constr_SET_OF.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/constr_SET_OF.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_application.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_application.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_ioc.h
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_system.h
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_codecs.h
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_internal.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_internal.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_random_fill.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_random_fill.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_bit_data.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_bit_data.c
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/OCTET_STRING.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/BIT_STRING.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/BIT_STRING.c
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_codecs_prim.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/asn_codecs_prim.h
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/ber_tlv_length.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/ber_tlv_length.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/ber_tlv_tag.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/ber_tlv_tag.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/ber_decoder.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/ber_decoder.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/der_encoder.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/der_encoder.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/constr_TYPE.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/constr_TYPE.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/constraints.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/constraints.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/xer_support.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/xer_support.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/xer_decoder.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/xer_decoder.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/xer_encoder.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/xer_encoder.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/per_support.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/per_support.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/per_decoder.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/per_decoder.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/per_encoder.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/per_encoder.c
+ASN_MODULE_HDRS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/per_opentype.h
+ASN_MODULE_SRCS+=/local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/per_opentype.c
+
+ASN_MODULE_CFLAGS=-DASN_DISABLE_OER_SUPPORT 
+
+lib_LTLIBRARIES+=libasncodec.la
+libasncodec_la_SOURCES=$(ASN_MODULE_SRCS) $(ASN_MODULE_HDRS)
+libasncodec_la_CPPFLAGS=-I$(top_srcdir)//local/setup/srslte-ric/build/srsenb/src/ric/messages/E2SM-KPM/
+libasncodec_la_CFLAGS=$(ASN_MODULE_CFLAGS)
+libasncodec_la_LDFLAGS=-lm

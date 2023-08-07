@@ -1,0 +1,231 @@
+-- **************************************************************
+-- E2SM-NexRAN
+-- Information Element Definitions
+--
+-- **************************************************************
+
+-- Control messages:
+-- add slice
+-- add IMSI
+-- add IMSI<->slice binding
+
+-- Report messages
+-- new IMSI
+--
+
+E2SM-NEXRAN-IEs {
+iso(1) identified-organization(3) dod(6) internet(1) private(4) enterprise(1) 53148 e2(1) version1 (1) e2sm(2) e2sm-NEXRAN-IEs (100)}
+
+DEFINITIONS AUTOMATIC TAGS ::=
+
+BEGIN
+
+-- **************************************************************
+-- Core IEs
+-- **************************************************************
+
+C-RNTI ::= BIT STRING (SIZE (16))
+
+M-TMSI ::= BIT STRING (SIZE (32))
+
+GUMMEI ::= BIT STRING (SIZE (10))
+
+GUTI ::= SEQUENCE {
+    gummei GUMMEI,
+    mtmsi M-TMSI
+}
+
+PLMN-Identity ::= OCTET STRING (SIZE(3))
+
+IMSI ::= OCTET STRING (SIZE (0..32))
+
+RT-Period ::= ENUMERATED {
+    ms10, ms20, ms32, ms40, ms60, ms64, ms70, ms80, ms128, ms160, ms256, ms320, ms512, ms640, ms1024, ms1280, ms2048, ms2560, ms5120, ms10240,
+    ...
+}
+
+SliceName ::= PrintableString (SIZE(1..128))
+
+maxOfSlices INTEGER ::= 16
+maxOfUes INTEGER ::= 256
+
+ProportionalAllocationPolicy ::= SEQUENCE {
+    share INTEGER (0..1024)
+}
+
+SchedPolicy ::= CHOICE {
+    proportionalAllocationPolicy ProportionalAllocationPolicy,
+    ...
+}
+
+SliceConfig ::= SEQUENCE {
+    sliceName SliceName,
+    schedPolicy SchedPolicy,
+    ...
+}
+
+UeStatus ::= SEQUENCE {
+    imsi IMSI,
+    connected BOOLEAN,
+    crnti C-RNTI OPTIONAL,
+    ...
+}
+
+SliceStatus ::= SEQUENCE {
+    sliceName SliceName,
+    schedPolicy SchedPolicy,
+    ueList SEQUENCE (SIZE(0..maxOfUes)) OF UeStatus,
+    ...
+}
+
+-- **************************************************************
+-- Message IEs
+-- **************************************************************
+
+SliceConfigRequest ::= SEQUENCE {
+    sliceConfigList SEQUENCE (SIZE(1..maxOfSlices)) OF SliceConfig,
+    ...
+}
+
+SliceDeleteRequest ::= SEQUENCE {
+    sliceNameList SEQUENCE (SIZE(1..maxOfSlices)) OF SliceName,
+    ...
+}
+
+SliceStatusRequest ::= SEQUENCE {
+    sliceNameList SEQUENCE (SIZE(0..maxOfSlices)) OF SliceName,
+    ...
+}
+
+SliceStatusReport ::= SEQUENCE {
+    sliceStatusList SEQUENCE (SIZE(0..maxOfSlices)) OF SliceStatus,
+    ...
+}
+
+SliceUeBindRequest ::= SEQUENCE {
+    sliceName SliceName,
+    imsiList SEQUENCE (SIZE(1..maxOfUes)) OF IMSI,
+    ...
+}
+
+SliceUeUnbindRequest ::= SEQUENCE {
+    sliceName SliceName,
+    imsiList SEQUENCE (SIZE(1..maxOfUes)) OF IMSI,
+    ...
+}
+
+-- **************************************************************
+-- RAN Function Description
+-- **************************************************************
+
+RANfunction-Name ::= SEQUENCE {
+    ranFunction-ShortName   PrintableString(SIZE(1..150,...)),
+    ranFunction-E2SM-OID    PrintableString(SIZE(1..1000,...)),
+    ranFunction-Description PrintableString(SIZE(1..150,...)),
+    ranFunction-Instance    INTEGER OPTIONAL,
+    ...
+}
+
+RANfunction-Description ::= SEQUENCE {
+    ranFunction-Name RANfunction-Name,
+    ...
+}
+
+-- **************************************************************
+-- Control Header contents
+-- **************************************************************
+
+E2SM-NexRAN-ControlMessage-Id ::= ENUMERATED {
+    sliceConfigRequest,
+    sliceDeleteRequest,
+    sliceStatusRequest,
+    sliceUeBindRequest,
+    sliceUeUnbindRequest,
+    ...
+}
+
+E2SM-NexRAN-ControlHeader ::= CHOICE {
+    controlHeaderFormat1 E2SM-NexRAN-ControlHeader-Format1,
+    ...
+}
+
+E2SM-NexRAN-ControlHeader-Format1 ::= SEQUENCE {
+    controlMessageId E2SM-NexRAN-ControlMessage-Id,
+    ...
+}
+
+-- **************************************************************
+-- Control Message contents
+-- **************************************************************
+
+E2SM-NexRAN-ControlMessage ::= CHOICE {
+    controlMessageFormat1 E2SM-NexRAN-ControlMessage-Format1,
+    ...
+}
+
+E2SM-NexRAN-ControlMessage-Format1 ::= CHOICE {
+    sliceConfigRequest SliceConfigRequest,
+    sliceDeleteRequest SliceDeleteRequest,
+    sliceStatusRequest SliceStatusRequest,
+    sliceUeBindRequest SliceUeBindRequest,
+    sliceUeUnbindRequest SliceUeUnbindRequest,
+    ...
+}
+
+-- ***************************************************
+-- Control Outcome contents
+-- ***************************************************
+
+E2SM-NexRAN-ControlOutcome ::= CHOICE {
+    controlOutcomeFormat1 E2SM-NexRAN-ControlOutcome-Format1,
+    ...
+}
+
+E2SM-NexRAN-ControlOutcome-Format1 ::= CHOICE {
+    sliceStatusReport SliceStatusReport,
+    ...
+}
+
+
+E2SM-NexRAN-EventTriggerDefinition ::= CHOICE {
+    periodDefinition E2SM-NexRAN-EventTriggerDefinition-Period,
+    ranEventDefinition E2SM-NexRAN-EventTriggerDefinition-RanEvent,
+    ...
+}
+
+E2SM-NexRAN-EventTriggerDefinition-Period ::= SEQUENCE {
+    period INTEGER (10..10240),
+    ...
+}
+
+E2SM-NexRAN-EventTriggerDefinition-RanEvent ::= SEQUENCE {
+    ...
+}
+
+E2SM-NexRAN-ActionType ::= ENUMERATED {
+    sliceStatusReport,
+    ...
+}
+
+E2SM-NexRAN-ActionDefinition ::= SEQUENCE {
+    actionType E2SM-NexRAN-ActionType,
+    ...
+}
+
+E2SM-NexRAN-IndicationType ::= ENUMERATED {
+    sliceStatusReport,
+    ...
+}
+
+E2SM-NexRAN-IndicationHeader ::= CHOICE {
+    indicationType E2SM-NexRAN-IndicationType,
+    ...
+}
+
+E2SM-NexRAN-IndicationMessage ::= CHOICE {
+    sliceStatusReport SliceStatusReport,
+    ...
+}
+
+END
+

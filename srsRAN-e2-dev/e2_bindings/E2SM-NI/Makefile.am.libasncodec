@@ -1,0 +1,247 @@
+ASN_MODULE_SRCS=	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GlobalENB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_ENB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GlobalenGNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_ENGNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_PLMN-Identity.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GNB-CU-UP-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GNB-DU-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GlobalgNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GNB-ID-Choice.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GlobalngeNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_ENB-ID-Choice.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GlobalNG-RANNode-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Criticality.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Presence.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_ProcedureCode.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_ProtocolIE-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-EventTriggerDefinition.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-EventTriggerDefinition-Format1.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ActionDefinition.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ActionDefinitionFormat.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ActionDefinition-Format1.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ActionDefinition-Format2.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-IndicationHeader.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-IndicationHeader-Format1.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-IndicationMessage.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-IndicationMessage-Format1.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-CallProcessID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-CallProcessID-Format1.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-CallProcessID-Format2.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ControlHeader.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ControlHeader-Format1.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ControlMessage.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ControlMessage-Format1.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ControlOutcome.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ControlOutcome-Format1.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-RANfunction-Description.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-RANfunction-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Global-eNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Global-en-gNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Global-gNB-DU-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Global-gNB-CU-UP-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Global-ng-RAN-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-Direction.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-Identifier.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-Message.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageType.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeS1.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeX2.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeNG.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeXn.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeF1.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeE1.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeApproach1.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_TypeOfMessage.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-ProtocolIE-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-ProtocolIE-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-ProtocolIE-Test.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-ProtocolIE-Value.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-TimeStamp.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-Type.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANcallProcess-ID-number.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANcallProcess-ID-string.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANfunction-Name.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANimperativePolicy.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameter-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameterDef-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameter-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameter-Name.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameter-Test-Condition.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameter-Type.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameter-Value.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANueGroupID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANueGroup-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANueGroupDefinition.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANueGroupDef-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-Control-Message-Priority.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-ControlStyle-List.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-EventTriggerStyle-List.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-InsertStyle-List.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-PolicyStyle-List.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-ReportStyle-List.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-Format-Type.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-Style-Type.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-Style-Name.c
+
+ASN_MODULE_HDRS=	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GlobalENB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_ENB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GlobalenGNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_ENGNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_PLMN-Identity.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GNB-CU-UP-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GNB-DU-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GlobalgNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GNB-ID-Choice.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GlobalngeNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_ENB-ID-Choice.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_GlobalNG-RANNode-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Criticality.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Presence.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_ProcedureCode.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_ProtocolIE-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-EventTriggerDefinition.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-EventTriggerDefinition-Format1.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ActionDefinition.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ActionDefinitionFormat.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ActionDefinition-Format1.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ActionDefinition-Format2.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-IndicationHeader.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-IndicationHeader-Format1.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-IndicationMessage.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-IndicationMessage-Format1.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-CallProcessID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-CallProcessID-Format1.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-CallProcessID-Format2.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ControlHeader.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ControlHeader-Format1.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ControlMessage.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ControlMessage-Format1.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ControlOutcome.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-ControlOutcome-Format1.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-RANfunction-Description.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_E2SM-NI-RANfunction-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Global-eNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Global-en-gNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Global-gNB-DU-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Global-gNB-CU-UP-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_Global-ng-RAN-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-Direction.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-Identifier.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-Message.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageType.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeS1.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeX2.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeNG.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeXn.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeF1.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeE1.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-MessageTypeApproach1.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_TypeOfMessage.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-ProtocolIE-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-ProtocolIE-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-ProtocolIE-Test.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-ProtocolIE-Value.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-TimeStamp.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_NI-Type.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANcallProcess-ID-number.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANcallProcess-ID-string.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANfunction-Name.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANimperativePolicy.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameter-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameterDef-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameter-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameter-Name.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameter-Test-Condition.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameter-Type.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANparameter-Value.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANueGroupID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANueGroup-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANueGroupDefinition.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RANueGroupDef-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-Control-Message-Priority.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-ControlStyle-List.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-EventTriggerStyle-List.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-InsertStyle-List.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-PolicyStyle-List.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-ReportStyle-List.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-Format-Type.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-Style-Type.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/E2SM_NI_RIC-Style-Name.h
+
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/OPEN_TYPE.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/OPEN_TYPE.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/constr_CHOICE.h
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/BOOLEAN.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/BOOLEAN.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/INTEGER.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/INTEGER.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/NativeEnumerated.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/NativeEnumerated.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/NativeInteger.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/NativeInteger.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/PrintableString.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/PrintableString.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/OCTET_STRING.h
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_SEQUENCE_OF.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_SEQUENCE_OF.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_SET_OF.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_SET_OF.c
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/constr_CHOICE.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/constr_SEQUENCE.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/constr_SEQUENCE.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/constr_SEQUENCE_OF.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/constr_SEQUENCE_OF.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/constr_SET_OF.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/constr_SET_OF.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_application.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_application.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_ioc.h
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_system.h
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_codecs.h
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_internal.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_internal.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_random_fill.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_random_fill.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_bit_data.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_bit_data.c
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/OCTET_STRING.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/BIT_STRING.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/BIT_STRING.c
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_codecs_prim.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/asn_codecs_prim.h
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/ber_tlv_length.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/ber_tlv_length.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/ber_tlv_tag.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/ber_tlv_tag.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/ber_decoder.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/ber_decoder.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/der_encoder.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/der_encoder.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/constr_TYPE.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/constr_TYPE.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/constraints.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/constraints.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/xer_support.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/xer_support.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/xer_decoder.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/xer_decoder.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/xer_encoder.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/xer_encoder.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/per_support.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/per_support.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/per_decoder.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/per_decoder.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/per_encoder.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/per_encoder.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/per_opentype.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/per_opentype.c
+
+ASN_MODULE_CFLAGS=-DASN_DISABLE_OER_SUPPORT 
+
+lib_LTLIBRARIES+=libasncodec.la
+libasncodec_la_SOURCES=$(ASN_MODULE_SRCS) $(ASN_MODULE_HDRS)
+libasncodec_la_CPPFLAGS=-I$(top_srcdir)//local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2SM-NI/
+libasncodec_la_CFLAGS=$(ASN_MODULE_CFLAGS)
+libasncodec_la_LDFLAGS=-lm

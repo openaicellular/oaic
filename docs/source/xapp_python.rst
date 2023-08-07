@@ -9,9 +9,11 @@ This document describes how to write an xApp in Python, how to deploy it on the 
 Background
 ----------
 
-An xApp is simply an application that is deployed to the RIC and is capable of communicating to the RAN.
+An xApp is simply an application that is deployed to the RAN Intelligent Controller (RIC) and is capable of communicating to the RAN.
 An xApp can be developed in any programming language, but to be O-RAN compliant, it needs to be able to communicate over the E2 interface to E2 nodes.
 An E2 Node refers to a component of the RAN that can interface with the RIC via E2, usually referring to the base station (DU/CU).
+
+insert xApp image here
 
 For this demonstration, we will simplify the xApp development process such that we utilize an E2-like interface, enabling us to focus on the functionality of our application rather than the specifications of the protocol (encoding and decoding of ASN.1 messages, subscription processes, etc.)
 
@@ -20,13 +22,15 @@ The RAN Intelligent Controller (RIC) is capable of dynamically controlling the R
 The RIC consists of a Kubernetes cluster which hosts several deployments which contain services and pods.
 An application such as an xApp is executed in the RIC using a deployment, which consists of the instructions and components needed to run the application.
 
-Inside the deployment, there are pods which contain different microservices, which are small containers running different software and make up the application. These containers are created and deployed using Docker, using an image that we prepare beforehand that consists of everything needed for the application to start instantly. For this xApp, we will use a single Kubernetes deployment with a single pod, running a single Docker container.
+insert Kubernetes image here
+
+Inside the deployment, there are pods which contain different microservices, which are small containers running different software and make up the application. These containers are created and deployed using Docker, using an image that we prepare beforehand that consists of everything needed for the application to start instantly. For this xApp, we will use a `single` Kubernetes deployment with a `single` pod, running a `single` Docker container.
 
 For more information on Kubernetes and Docker, see the `Background on Docker, Kubernetes & Helm` section.
 
 
-Development
------------
+Setup
+-----
 
 To begin, checkout the E2-like branch of the OAIC codebase to access the xApp code and modified srsRAN.
 
@@ -34,7 +38,31 @@ To begin, checkout the E2-like branch of the OAIC codebase to access the xApp co
 
     git checkout e2like-doc
 
-Once the command is complete, you should be able to access the ``ric-app-ml`` and ``srsRAN-e2-dev-binaries`` folders.
+Once the command is complete, you should be able to access the ``ric-app-ml`` and ``srsRAN-e2-like`` folders.
+
+
+Compiling E2-like srsRAN
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Follow the steps to compile srsRAN E2-like:
+
+.. code-block:: rst
+
+    cd srsRAN-e2-like
+    mkdir build
+    export SRS=`realpath .`
+    cd build
+    cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+        -DRIC_GENERATED_E2AP_BINDING_DIR=${SRS}/e2_bindings/E2AP-v01.01 \
+        -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
+        -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
+    make -j`nproc`
+    cd ../../
+
+OAIC Workshop note: do not run ``sudo make install``
+
+Development
+-----------
 
 First, let's take a look at the ``ric-app-ml`` directory, where the xApp is located. We use a Python file called ``app.py`` to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN's behavior.
 
@@ -96,17 +124,16 @@ Here are some excerpts of the code:
                         current_iq_data = data
                         result = run_prediction(self)
 
-                        # If there is interference, send a command to turn the base station off.
-                        # We can do this by setting the transmit (TX) gain of the radio to a very weak amount (-10000dB)
-                        # If the interference goes away, send a command to turn it back on.
+                        # If there is interference, send a command to turn on adaptive MCS.
+                        # This is a feature in srsRAN that we can leverage. When we turn it off, we set the MCS to a fixed value.
                         if result == 'Interference':
-                            log_info(self, "Interference signal detected, sending control message to turn nodeB off")
-                            conn.send(cmds['BASE_STATION_OFF'])
-                            #last_cmd = cmds['BASE_STATION_OFF']
+                            log_info(self, "Interference signal detected, sending control message to enable adaptive MCS")
+                            #conn.send(cmds['BASE_STATION_OFF'])
+                            conn.send(cmds['ENABLE_ADAPTIVE_MCS'])
                         elif result in ('5G', 'LTE'): #and last_cmd == cmds['BASE_STATION_OFF']:
-                            log_info(self, "Interference signal no longer detected, sending control message to turn nodeB on")
-                            conn.send(cmds['BASE_STATION_ON'])
-                            #last_cmd = cmds['BASE_STATION_ON']
+                            log_info(self, "Interference signal no longer detected, sending control message to disable adaptive MCS")
+                            #conn.send(cmds['BASE_STATION_ON'])
+                            conn.send(cmds['DISABLE_ADAPTIVE_MCS'])
 
             # Log any errors with the SCTP connection, but continue to run
             except OSError as e:
@@ -140,7 +167,7 @@ Here are some excerpts of the code:
 
         return prediction, confidence
 
-This xApp assumes a hypothetical scenario where interference is detected over the network using a machine learning model. In our case, we do not use a real model, but one could easily be substituted into this sample code. When interference is detected, we send a command from the xApp to the nodeB to control the base station. In this case, we either turn the base station on (set the TX gain to 80dB) or turn the base station off (set the TX gain to -100dB). We can adjust different parameters if we implement the capabilitiy to do so on our RAN. For our purposes, we use a modified version of srsRAN which accepts our E2-like commands, which we will use later.
+This xApp assumes a hypothetical scenario where interference is detected over the network using a machine learning model. In our case, we do not use a real model, but one could easily be substituted into this sample code. When interference is detected, we send a command from the xApp to the nodeB to control the base station. In this case, we manipulate the Modulation and Coding Scheme (MCS) to mitigate interference. When interference is detected, we turn on adaptive MCS, and when it is no longer detected we disable it by setting the MCS to a fixed value. We can adjust different parameters if we implement the capabilitiy to do so on our RAN. For our purposes, we use a modified version of srsRAN which accepts our E2-like commands, which we will use later.
 
 
 Deployment
@@ -439,13 +466,13 @@ Assuming you have already built the E2-like version of srsRAN, go to the directo
 .. code-block:: rst
 
     cd ~/oaic
-    cd srsRAN-e2-dev-binaries
+    cd srsRAN-e2-like/build
 
 Now we can start srsRAN. First, start the EPC if you haven't already:
 
 .. code-block:: rst
 
-	sudo ./srsepc
+	sudo srsepc/src/srsepc
 
 Before starting the base station, make sure you have the local IP address that you found from the previous steps.
 
@@ -458,7 +485,7 @@ Then, we can start the base station, which will connect to the xApp immediately 
 
 .. code-block:: rst
 
-    sudo ./srsenb --ric.agent.log_level=debug --log.filename=stdout --ric.agent.remote_ipv4_addr=$HOST_IP --ric.agent.remote_port=$XAPP_PORT --ric.agent.local_ipv4_addr=$HOST_IP --ric.agent.local_port=38071
+    sudo srsenb/src/srsenb --ric.agent.log_level=debug --log.filename=stdout --ric.agent.remote_ipv4_addr=$HOST_IP --ric.agent.remote_port=$XAPP_PORT --ric.agent.local_ipv4_addr=$HOST_IP --ric.agent.local_port=38071
 
 You should see srsENB connect to the xApp and start sending I/Q data. You will also see E2-like commands being sent.
 
@@ -466,7 +493,7 @@ The I/Q data will be empty until we connect a UE. Start the UE and it should con
 
 .. code-block:: rst
 
-    sudo ./srsue
+    sudo srsue/src/srsue
 
 If you view the logs of the xApp, you should see the I/Q data being received and the predictions being made by the xApp. These predictions are random and are not based on the I/Q data, but the xApp receives the I/Q data and creates valid spectrograms, so you can modify the code to handle the spectrograms however you would like.
 
