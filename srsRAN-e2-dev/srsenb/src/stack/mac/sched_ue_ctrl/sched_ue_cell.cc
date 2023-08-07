@@ -432,14 +432,13 @@ tbs_info cqi_to_tbs_dl(const sched_ue_cell& cell,
 tbs_info cqi_to_tbs_ul(sched_ue_cell& cell, uint32_t nof_prb, uint32_t nof_re, int req_bytes, int explicit_mcs)
 {
   using ul64qam_cap    = sched_interface::ue_cfg_t::ul64qam_cap;
-  // srsran::console("Azukaaaaaa");
   if (cell.mcs_counter % 250 == 0) {
     cell.mcs_f = fopen("/mnt/tmp/agent_cmd.bin", "r");
     if (cell.mcs_f) {
       size_t s = fread(cell.mcs_cmd_buffer, 1, 1, cell.mcs_f);
       
       switch (cell.mcs_cmd_buffer[0]) {
-        case '1':
+        case 'm':
           if(cell.fixed_mcs_ul == -1){
             // break;
           }
@@ -449,7 +448,7 @@ tbs_info cqi_to_tbs_ul(sched_ue_cell& cell, uint32_t nof_prb, uint32_t nof_re, i
           }  
           // srsran::console("E2-like cmd received, using adaptive MCS\n"); 
           break;
-        case '0':
+        case 'z':
           if(cell.fixed_mcs_ul > 0){
             // break;
           }

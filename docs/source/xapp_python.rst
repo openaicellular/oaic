@@ -13,16 +13,18 @@ An xApp is simply an application that is deployed to the RAN Intelligent Control
 An xApp can be developed in any programming language, but to be O-RAN compliant, it needs to be able to communicate over the E2 interface to E2 nodes.
 An E2 Node refers to a component of the RAN that can interface with the RIC via E2, usually referring to the base station (DU/CU).
 
-insert xApp image here
-
 For this demonstration, we will simplify the xApp development process such that we utilize an E2-like interface, enabling us to focus on the functionality of our application rather than the specifications of the protocol (encoding and decoding of ASN.1 messages, subscription processes, etc.)
+
+.. image:: xapp_python_static/e2like.png
+   :scale: 50%
 
 To understand how an xApp works, first we must look at how an O-RAN network is implemented.
 The RAN Intelligent Controller (RIC) is capable of dynamically controlling the RAN.
 The RIC consists of a Kubernetes cluster which hosts several deployments which contain services and pods.
 An application such as an xApp is executed in the RIC using a deployment, which consists of the instructions and components needed to run the application.
 
-insert Kubernetes image here
+.. image:: xapp_python_static/kubernetes.png
+   :scale: 40%
 
 Inside the deployment, there are pods which contain different microservices, which are small containers running different software and make up the application. These containers are created and deployed using Docker, using an image that we prepare beforehand that consists of everything needed for the application to start instantly. For this xApp, we will use a `single` Kubernetes deployment with a `single` pod, running a `single` Docker container.
 
@@ -38,17 +40,18 @@ To begin, checkout the E2-like branch of the OAIC codebase to access the xApp co
 
     git checkout e2like-doc
 
-Once the command is complete, you should be able to access the ``ric-app-ml`` and ``srsRAN-e2-like`` folders.
+Once the command is complete, you should be able to access the ``ric-app-ml`` and ``srsRAN-e2-dev`` folders.
 
 
 Compiling E2-like srsRAN
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow the steps to compile srsRAN E2-like:
+For our purposes, we use a modified version of srsRAN which accepts our E2-like commands.
+Follow the steps to compile the E2-like srsRAN:
 
 .. code-block:: rst
 
-    cd srsRAN-e2-like
+    cd srsRAN-e2-dev
     mkdir build
     export SRS=`realpath .`
     cd build
@@ -57,9 +60,30 @@ Follow the steps to compile srsRAN E2-like:
         -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
         -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
     make -j`nproc`
+    touch agent_cmd.bin iq_data_last_full.bin
     cd ../../
 
 OAIC Workshop note: do not run ``sudo make install``
+
+Once it is done, make sure the eNB and UE configs have ZeroMQ enabled:
+
+.. code-block:: rst
+
+    sudo nano /root/.config/srsran/enb.conf
+    sudo nano /root/.config/srsran/ue.conf
+
+.. code-block:: console
+
+    [rf]
+
+    ...
+
+    #device_args = auto
+    #time_adv_nsamples = auto
+
+    # Example for ZMQ-based operation with TCP transport for I/Q samples
+    device_name = zmq
+    device_args = fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2001,id=enb,base_srate=23.04e6
 
 Development
 -----------
@@ -103,7 +127,7 @@ Here are some excerpts of the code:
                 # Loop which runs if an SCTP connection is established
                 while True:
                     # Send an E2-like request within the first second to ask nodeB to send I/Q data
-                    if initial - time.time() < 1.0:
+                    if time.time() - initial < 1.0:
                         conn.send(f"E2-like request at {datetime.now().strftime('%H:%M:%S')}".encode('utf-8'))
                         log_info(self, "Sent E2-like request")
 
@@ -157,7 +181,6 @@ Here are some excerpts of the code:
 
         return classifiers[prediction] if confidence > CONFIDENCE_THRESHOLD else None
 
-
     def model_predict(model, unseen_data):
         # Instead of implementing a real model, we will simply use random values
 
@@ -167,7 +190,7 @@ Here are some excerpts of the code:
 
         return prediction, confidence
 
-This xApp assumes a hypothetical scenario where interference is detected over the network using a machine learning model. In our case, we do not use a real model, but one could easily be substituted into this sample code. When interference is detected, we send a command from the xApp to the nodeB to control the base station. In this case, we manipulate the Modulation and Coding Scheme (MCS) to mitigate interference. When interference is detected, we turn on adaptive MCS, and when it is no longer detected we disable it by setting the MCS to a fixed value. We can adjust different parameters if we implement the capabilitiy to do so on our RAN. For our purposes, we use a modified version of srsRAN which accepts our E2-like commands, which we will use later.
+This xApp assumes a hypothetical scenario where interference is detected over the network using a machine learning model. In our case, we do not use a real model, but one could easily be substituted into this sample code. When interference is detected, we send a command from the xApp to the RAN to control the base station. In this case, we manipulate the Modulation and Coding Scheme (MCS) to mitigate interference. When interference is detected, we turn on adaptive MCS, and when it is no longer detected we disable it by setting the MCS to a fixed value. We only affect the uplink MCS for the purposes of this demo. We can adjust different parameters besides MCS if we implement the capabilitiy to do so on our RAN.
 
 
 Deployment
@@ -356,7 +379,7 @@ Next, we need to create a ``.url`` file to point the ``xApp-onboarder`` to the N
 .. code-block:: rst
 
     echo $HOST_IP
-	nano ml-onboard.url	
+    nano ml-onboard.url	
 
 Paste the following in the ``ml-onboard.url`` file. Substitute the ``<machine_ip_addr>`` with the IP address of your machine. You can find this out through ``hostname -I`` or ``echo $HOST_IP``.
 
@@ -461,20 +484,26 @@ Let's store this xApp port in a variable to use later. Replace <xapp port> with 
 
     export XAPP_PORT=<xapp port>
 
+Also, let's make sure the ue1 network namespace exists:
+
+.. code-block:: rst
+
+    sudo ip netns add ue1
+
 Assuming you have already built the E2-like version of srsRAN, go to the directory where srsRAN is built:
 
 .. code-block:: rst
 
     cd ~/oaic
-    cd srsRAN-e2-like/build
+    cd srsRAN-e2-dev/build
 
-Now we can start srsRAN. First, start the EPC if you haven't already:
+Now we can start srsRAN. First, start the EPC in a new terminal if you haven't already:
 
 .. code-block:: rst
 
 	sudo srsepc/src/srsepc
 
-Before starting the base station, make sure you have the local IP address that you found from the previous steps.
+Before starting the base station, make sure you have the local IP address that you found from the previous steps. Open another terminal for these commands.
 
 .. code-block:: rst
 
@@ -485,17 +514,127 @@ Then, we can start the base station, which will connect to the xApp immediately 
 
 .. code-block:: rst
 
-    sudo srsenb/src/srsenb --ric.agent.log_level=debug --log.filename=stdout --ric.agent.remote_ipv4_addr=$HOST_IP --ric.agent.remote_port=$XAPP_PORT --ric.agent.local_ipv4_addr=$HOST_IP --ric.agent.local_port=38071
+    sudo srsenb/src/srsenb --ric.agent.log_level=debug --log.filename=stdout --ric.agent.remote_ipv4_addr=$HOST_IP --ric.agent.remote_port=$XAPP_PORT --ric.agent.local_ipv4_addr=$HOST_IP --ric.agent.local_port=38071  --scheduler.pusch_mcs=28
 
 You should see srsENB connect to the xApp and start sending I/Q data. You will also see E2-like commands being sent.
 
-The I/Q data will be empty until we connect a UE. Start the UE and it should connect, initiating I/Q data transfer.
+.. code-block:: rst
+
+    ==== eNodeB started ===
+    Type <t> to view trace
+    2023-08-07T16:08:56.272384 [COMN   ] [D] [    0] Setting RTO_INFO options on SCTP socket. Association 0, Initial RTO 3000, Minimum RTO 1000, Maximum RTO 6000
+    2023-08-07T16:08:56.272387 [COMN   ] [D] [    0] Setting SCTP_INITMSG options on SCTP socket. Max attempts 3, Max init attempts timeout 5000
+    2023-08-07T16:08:56.272405 [COMN   ] [D] [    0] Successfully bound to address 192.168.122.20:38071
+    2023-08-07T16:08:56.275261 [COMN   ] [D] [    0] RxSockets: socket fd=17 has been registered.
+    2023-08-07T16:08:56.275264 [RIC    ] [D] [    0] RIC state -> CONNECTED
+
+    2023-08-07T16:08:56.275265 [RIC    ] [I] [    0] connected to RIC on 192.168.122.20
+    2023-08-07T16:08:56.275265 [RIC    ] [I] [    0] E2-like interface enabled, skipping setup request
+
+    2023-08-07T16:08:56.275266 [RIC    ] [D] [    0] RIC state -> ESTABLISHED
+
+    2023-08-07T16:08:56.278574 [RIC    ] [I] [    0] received e2-like message: E2-like request at 16:08:56
+
+    2023-08-07T16:08:56.278663 [RIC    ] [I] [    0] wrote e2-like message to agent_cmd.bin
+    2023-08-07T16:08:56.278834 [RIC    ] [I] [    0] Timestamp: 1691424536.2780001
+
+    2023-08-07T16:08:56.287438 [RIC    ] [I] [    0] sent I/Q buffer
+
+    2023-08-07T16:08:56.359478 [RIC    ] [I] [    0] received e2-like message: m
+
+    2023-08-07T16:08:56.359561 [RIC    ] [I] [    0] wrote e2-like message to agent_cmd.bin
+    2023-08-07T16:08:56.359735 [RIC    ] [I] [    0] Timestamp: 1691424536.3590000
+
+    E2-like cmd received, using adaptive MCS
+
+The I/Q data will be empty and E2-like commands won't be performed until we connect a UE. Start the UE in a new terminal window and it should connect, initiating I/Q data transfer.
 
 .. code-block:: rst
 
-    sudo srsue/src/srsue
+    sudo srsue/src/srsue --gw.netns=ue1
 
-If you view the logs of the xApp, you should see the I/Q data being received and the predictions being made by the xApp. These predictions are random and are not based on the I/Q data, but the xApp receives the I/Q data and creates valid spectrograms, so you can modify the code to handle the spectrograms however you would like.
+.. code-block:: rst
+
+    Waiting PHY to initialize ... done!
+    Attaching UE...
+    Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
+    Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
+    .
+    Found Cell:  Mode=FDD, PCI=1, PRB=50, Ports=1, CP=Normal, CFO=-0.2 KHz
+    Current sample rate is 11.52 MHz with a base rate of 23.04 MHz (x2 decimation)
+    Current sample rate is 11.52 MHz with a base rate of 23.04 MHz (x2 decimation)
+    Found PLMN:  Id=00101, TAC=7
+    Random Access Transmission: seq=18, tti=341, ra-rnti=0x2
+    RRC Connected
+    Random Access Complete.     c-rnti=0x46, ta=0
+    Network attach successful. IP: 172.16.0.3
+    Software Radio Systems RAN (srsRAN) 7/8/2023 16:8:59 TZ:0
+
+Now, we can initiate uplink data transfer. Start an iperf3 server from the UE side in a new terminal:
+
+.. code-block:: rst
+
+    sudo ip netns exec ue1 iperf3 -s -i 1
+
+Then, we can connect to this server from the host side. Replace <UE IP> with the IP address seen in the srsue window when connected. (In the above case, it is ``172.16.0.3``)
+
+.. code-block:: rst
+
+    iperf3 -c <UE IP> -b 10M -i 1 -t 60
+
+Traffic should be visible on both sides:
+
+.. code-block:: rst
+
+    -----------------------------------------------------------
+    Server listening on 5201
+    -----------------------------------------------------------
+    Accepted connection from 172.16.0.1, port 55794
+    [  5] local 172.16.0.3 port 5201 connected to 172.16.0.1 port 55804
+    [ ID] Interval           Transfer     Bitrate
+    [  5]   0.00-1.00   sec  1.20 MBytes  10.1 Mbits/sec
+    [  5]   1.00-2.00   sec  1.15 MBytes  9.61 Mbits/sec
+    [  5]   2.00-3.00   sec  1.23 MBytes  10.3 Mbits/sec
+    [  5]   3.00-4.00   sec  1.17 MBytes  9.85 Mbits/sec
+    [  5]   4.00-5.00   sec  1.20 MBytes  10.1 Mbits/sec
+    [  5]   5.00-6.00   sec  1.20 MBytes  10.1 Mbits/sec
+
+Now, we should go back to srsUE to see the MCS change. input "t" into the terminal to open up a trace on the UE side. It should look like this:
+
+.. code-block:: rst
+
+    Software Radio Systems RAN (srsRAN) 7/8/2023 16:8:59 TZ:0
+    t
+    Enter t to stop trace.
+    ---------Signal-----------|-----------------DL-----------------|-----------UL-----------
+    cc  pci  rsrp   pl   cfo | mcs  snr  iter  brate  bler  ta_us | mcs   buff  brate  bler
+    0    1   -11   11 -800n |  27  137   1.0    12M    0%    0.0 |  28    290   295k    0%
+    0    1   -11   11 -728n |  27  137   1.0    11M    0%    0.0 |  28    0.0   300k    0%
+    0    1   -11   11 -971n |  27  137   1.0    12M    0%    0.0 |  20    0.0   298k    0%
+    0    1   -11   11 -579n |  27  137   1.0    11M    0%    0.0 |  21    279   288k    0%
+
+Notice that in the previous ``srsenb`` command, we manually specify a fixed MCS of 28. When the E2-like interface is connected and the xApp sends a command to start using adaptive MCS, the trace will show the MCS changing to around 20-21, according to the signal quality.
+
+If you view the logs of the xApp, you should see the I/Q data being received and the predictions being made by the xApp. These predictions are not based on the I/Q data, but the xApp receives the I/Q data and creates valid spectrograms, so you can modify the code to handle the spectrograms however you would like.
+
+.. code-block:: rst
+
+    oaic-03-op@oaic-03:~/oaic/ric-app-ml$ sudo kubectl logs -n ricxapp ricxapp-ric-app-ml-7b87c4d788-9m9cx | head -c 1000
+    [INFO] E2-like enabled, connecting using SCTP on 10.244.0.50
+    [INFO] Server started
+    [INFO] Connected by ('10.244.0.1', 38071)
+    [INFO] Sent E2-like request
+    [INFO] Receiving I/Q data...
+    [INFO] Received buffer size 622592
+    [INFO] Finished receiving message, processing
+    [INFO] Interference signal detected, sending control message to enable adaptive MCS
+    [INFO] Sent E2-like request
+    [INFO] Receiving I/Q data...
+
+
+.. If we want to look at a spectrogram, we can copy the spectrogram.png from the Kubernetes pod to our system:
+.. .. code-block:: rst
+..     sudo kubectl cp ricxapp/<pod name>:/tmp/ml/spectrogram.png spectrogram.png
 
 
 Undeployment
@@ -530,6 +669,26 @@ Delete additional port for E2-like interface:
 
 Troubleshooting
 ---------------
+
+srsRAN commands
+~~~~~~~~~~~~~~~~~~~~~~~~
+Force exit srsenb:
+``sudo pkill -5 srsenb``
+
+Issues
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+**xApp stuck on "Receiving I/Q data..." or srsenb won't connect to xApp**
+
+This usually happens when srsenb has been closed and you try to restart and reconnect to the xApp. Restart the xApp with ``sudo kubectl rollout restart deployment ricxapp-ric-app-ml -n ricxapp``, and wait for the previous xApp pod to be deleted from the list. Afterwards, start the eNB, then start the UE.
+
+If the xApp randomly gets stuck on "Receiving I/Q data..." while connected to the nodeB, it is likely that it is not receiving enough data from the RAN. With the E2-like version of srsRAN supplied in the ``e2like-doc`` branch, you may need to send more than one E2-like request to ensure that the nodeB has received the message and will respond.
+
+**xApp crashes after a while/pods eject themselves**
+
+Kubernetes will automatically shut off or restart pods when the system is low on resources. If you are on a system with low RAM, you may find that the xApp restarts with error code 137. If you are on a system with low hard drive space, you may find that the pods in the RIC will be repeatedly ejected. The RIC is also prone to CrashLoopBackOff and Error issues when the logs get too large, which also consumes hard drive space.
+
+To ensure xApp stability, first make sure that your computer has enough remaining resources to support the RIC. Beyond this, another solution is to reduce the amount of logs your xApp produces, as when the xApp produces logs for a long time, it can prevent the RIC from functioning and require redeployment.
 
 **Kong is stuck in CrashLoopBackOff!**
 

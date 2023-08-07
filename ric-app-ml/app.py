@@ -72,9 +72,8 @@ def entry(self):
             # Loop which runs if an SCTP connection is established
             while True:
                 # Send an E2-like request within the first second to ask nodeB to send I/Q data
-                if initial - time.time() < 1.0:
-                    conn.send(f"E2-like request at {datetime.now().strftime('%H:%M:%S')}".encode('utf-8'))
-                    log_info(self, "Sent E2-like request")
+                conn.send(f"E2-like request at {datetime.now().strftime('%H:%M:%S')}".encode('utf-8'))
+                log_info(self, "Sent E2-like request")
 
                 # Sending too much SCTP data in a single message will freeze the connection up, so we have srsRAN split our data
                 # into chunks of 16384 bytes. The data in this case is I/Q data sourced from the RU (radio unit).
@@ -92,6 +91,8 @@ def entry(self):
                     # to make a prediction.
                     current_iq_data = data
                     result = run_prediction(self)
+
+                    time.sleep(0.5)
 
                     # If there is interference, send a command to turn on adaptive MCS.
                     # This is a feature in srsRAN that we can leverage. When we turn it off, we set the MCS to a fixed value.
@@ -140,7 +141,7 @@ def iq_to_spectrogram(iq_data, sampling_rate=SAMPLING_RATE) -> np.ndarray:
     # Get width and height of the canvas
     w, h = [int(i) for i in fig.canvas.get_renderer().get_canvas_width_height()]
 
-    # Convert image to bytes, then read as a PIL image and return
+    # Convert image to bytes, then read as a PIL image and return as a numpy array
     return np.array(Image.frombytes('RGB', (w, h), fig.canvas.tostring_rgb()))
 
 
@@ -153,6 +154,7 @@ def predict(self, data) -> str:
     return classifiers[prediction] if confidence > CONFIDENCE_THRESHOLD else None
 
 
+start_time = time.time()
 def model_predict(model, unseen_data):
     # Instead of implementing a real model, we will simply use random values
 
