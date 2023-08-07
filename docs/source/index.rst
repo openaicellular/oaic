@@ -28,21 +28,16 @@ Welcome to OAIC's documentation!
    oran_installation.rst
    srsRAN_installation.rst
    setup5gnetwork.rst
-   multi_ue_example.rst
    
-.. toctree::
-   :maxdepth: 2
-   :caption: Installation script:
+   
 
-   installation.rst
-   
 .. toctree::
    :maxdepth: 2
    :caption: xApp Deployment:
 
    example_xapp_deployment.rst
    xapp_deployment.rst
-   nexran1.rst
+   xapp_python.rst
    
 
 .. toctree::
@@ -52,13 +47,7 @@ Welcome to OAIC's documentation!
    undeploy_ric.rst
    srsRAN_additional_features.rst
    kubectl_commands.rst
-   oaic_t.rst
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Workshop Instructions:
-
-   kpimon-workshop.rst
 
 Indices and tables
 ==================
