@@ -255,17 +255,17 @@ sudo<span class="w"> </span>mkdir<span class="w"> </span>config_files
 </pre></div>
 </div>
 <p>Create a Custom Configuration File and define file locations</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../../../etc/nginx/conf.d
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/etc/nginx/conf.d
 
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;server {</span>
-<span class="s2">    listen 5010 default_server;</span>
-<span class="s2">    server_name xApp_config.local;</span>
-<span class="s2">    location /config_files/ {</span>
+sudo<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;echo &#39;server {</span>
+<span class="s2">listen 5010 default_server;</span>
+<span class="s2">            server_name xApp_config.local;</span>
+<span class="s2">            location /config_files/ {</span>
 
 <span class="s2">        root /var/www/xApp_config.local/;</span>
-<span class="s2">    }</span>
+<span class="s2">            }</span>
 
-<span class="s2">}&quot;</span><span class="w"> </span>&gt;xApp_config.local.conf
+<span class="s2">    }&#39; &gt;xApp_config.local.conf&quot;</span>
 </pre></div>
 </div>
 <p>Save the configuration file and check if there are any errors in the configuration file.</p>
