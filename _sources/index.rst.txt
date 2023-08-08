@@ -58,6 +58,7 @@ Welcome to OAIC's documentation!
    :maxdepth: 2
    :caption: Workshop Instructions:
 
+   installation.rst
    kpimon-workshop.rst
    oaict-workshop.rst
 

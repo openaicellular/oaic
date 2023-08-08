@@ -1,5 +1,4 @@
 
-==================================
 OAIC Installation (ZeroMQ version)
 ==================================
 
@@ -11,11 +10,11 @@ The instructions are divided into five steps:
 2. Install O-RAN and the near real-time RIC
 3. Install srsRAN with e2 interface
 4. Start a 5G network
-5. Deploy an xApp
+5. Deploy an xApp (deprecated)
 
-===========================================
-Step 1. Clone OAIC and install dependencies
-===========================================
+
+Step 1. Clone OAIC and Install Dependencies
+-------------------------------------------
 
 Clone OAIC with all relevant submodules:
 
@@ -34,9 +33,8 @@ Install Dependencies:
     sudo apt-get install -y nginx
 
 
-=========================
 Step 2. ORAN Installation
-=========================
+-------------------------
 
 The ``RIC-Deployment`` directory contains the deployment scripts and pre generated helm charts for each of the RIC components. This repository also contains some “demo” scripts which can be run after complete installation.
 
@@ -100,9 +98,9 @@ Once the Kubernetes clusters are deployed, it is now time for us to deploy the n
     cd RIC-Deployment/bin
     sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
 
-===========================
+
 Step 3. srsRAN installation
-===========================
+---------------------------
 
 We will be using the modified ``asn1c compiler`` (for RAN and CN) that is hosted by Open Air Interface (OAI)
 
@@ -135,9 +133,9 @@ srsRAN with E2 agent Installation
     sudo srsran_install_configs.sh service
     cd ../../
 
-=================================
+
 Step 4. Setup your own 5G Network
-=================================
+---------------------------------
 
 Start srsRAN EPC:
 
@@ -173,9 +171,9 @@ Check for connectivity
 
     sudo ip netns exec ue1 ping 172.16.0.1 -c3
 
-==============================
-Step 5. Deploy the KPIMON xApp
-==============================
+
+Step 5. Deploy the KPIMON xApp (deprecated)
+-------------------------------------------
 
 Start nginx
 

@@ -63,12 +63,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Installation script:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">OAIC Installation (ZeroMQ version)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#step-1-clone-oaic-and-install-dependencies">Step 1. Clone OAIC and install dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#step-2-oran-installation">Step 2. ORAN Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#step-3-srsran-installation">Step 3. srsRAN installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#step-4-setup-your-own-5g-network">Step 4. Setup your own 5G Network</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#step-5-deploy-the-kpimon-xapp">Step 5. Deploy the KPIMON xApp</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">OAIC Installation (ZeroMQ version)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-clone-oaic-and-install-dependencies">Step 1. Clone OAIC and Install Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-oran-installation">Step 2. ORAN Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-srsran-installation">Step 3. srsRAN installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-setup-your-own-5g-network">Step 4. Setup your own 5G Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-5-deploy-the-kpimon-xapp-deprecated">Step 5. Deploy the KPIMON xApp (deprecated)</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
 <ul>
@@ -85,7 +87,15 @@
 <li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Workshop Instructions:</span></p>
-<ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">OAIC Installation (ZeroMQ version)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-clone-oaic-and-install-dependencies">Step 1. Clone OAIC and Install Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-oran-installation">Step 2. ORAN Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-srsran-installation">Step 3. srsRAN installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-setup-your-own-5g-network">Step 4. Setup your own 5G Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-5-deploy-the-kpimon-xapp-deprecated">Step 5. Deploy the KPIMON xApp (deprecated)</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="kpimon-workshop.html">Instructions for deploying the Kpimon XApp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oaict-workshop.html">Instructions for setting up OAIC-T</a></li>
 </ul>
@@ -124,11 +134,10 @@ The instructions are divided into five steps:</p>
 <li><p>Install O-RAN and the near real-time RIC</p></li>
 <li><p>Install srsRAN with e2 interface</p></li>
 <li><p>Start a 5G network</p></li>
-<li><p>Deploy an xApp</p></li>
+<li><p>Deploy an xApp (deprecated)</p></li>
 </ol>
-</section>
 <section id="step-1-clone-oaic-and-install-dependencies">
-<h1>Step 1. Clone OAIC and install dependencies<a class="headerlink" href="#step-1-clone-oaic-and-install-dependencies" title="Permalink to this heading"></a></h1>
+<h2>Step 1. Clone OAIC and Install Dependencies<a class="headerlink" href="#step-1-clone-oaic-and-install-dependencies" title="Permalink to this heading"></a></h2>
 <p>Clone OAIC with all relevant submodules:</p>
 <blockquote>
 <div><p>git clone <a class="reference external" href="https://github.com/openaicellular/oaic.git">https://github.com/openaicellular/oaic.git</a></p>
@@ -143,7 +152,7 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 </div>
 </section>
 <section id="step-2-oran-installation">
-<h1>Step 2. ORAN Installation<a class="headerlink" href="#step-2-oran-installation" title="Permalink to this heading"></a></h1>
+<h2>Step 2. ORAN Installation<a class="headerlink" href="#step-2-oran-installation" title="Permalink to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">RIC-Deployment</span></code> directory contains the deployment scripts and pre generated helm charts for each of the RIC components. This repository also contains some “demo” scripts which can be run after complete installation.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>RIC-Deployment/tools/k8s/bin
 </pre></div>
@@ -190,7 +199,7 @@ sudo<span class="w"> </span>./deploy-ric-platform<span class="w"> </span>-f<span
 </div>
 </section>
 <section id="step-3-srsran-installation">
-<h1>Step 3. srsRAN installation<a class="headerlink" href="#step-3-srsran-installation" title="Permalink to this heading"></a></h1>
+<h2>Step 3. srsRAN installation<a class="headerlink" href="#step-3-srsran-installation" title="Permalink to this heading"></a></h2>
 <p>We will be using the modified <code class="docutils literal notranslate"><span class="pre">asn1c</span> <span class="pre">compiler</span></code> (for RAN and CN) that is hosted by Open Air Interface (OAI)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../../asn1c
 <span class="c1"># git checkout velichkov_s1ap_plus_option_group</span>
@@ -220,7 +229,7 @@ sudo<span class="w"> </span>srsran_install_configs.sh<span class="w"> </span>ser
 </div>
 </section>
 <section id="step-4-setup-your-own-5g-network">
-<h1>Step 4. Setup your own 5G Network<a class="headerlink" href="#step-4-setup-your-own-5g-network" title="Permalink to this heading"></a></h1>
+<h2>Step 4. Setup your own 5G Network<a class="headerlink" href="#step-4-setup-your-own-5g-network" title="Permalink to this heading"></a></h2>
 <p>Start srsRAN EPC:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue1
 sudo<span class="w"> </span>srsepc
@@ -248,8 +257,8 @@ sleep<span class="w"> </span><span class="m">45</span>
 </pre></div>
 </div>
 </section>
-<section id="step-5-deploy-the-kpimon-xapp">
-<h1>Step 5. Deploy the KPIMON xApp<a class="headerlink" href="#step-5-deploy-the-kpimon-xapp" title="Permalink to this heading"></a></h1>
+<section id="step-5-deploy-the-kpimon-xapp-deprecated">
+<h2>Step 5. Deploy the KPIMON xApp (deprecated)<a class="headerlink" href="#step-5-deploy-the-kpimon-xapp-deprecated" title="Permalink to this heading"></a></h2>
 <p>Start nginx</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>nginx
 <span class="nb">cd</span><span class="w"> </span>/etc/nginx/sites-enabled
@@ -333,6 +342,7 @@ sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> <
 <span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;Successful: KPIMON xApp up and running&#39;</span>
 </pre></div>
 </div>
+</section>
 </section>
 
 
