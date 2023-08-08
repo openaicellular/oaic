@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instructions for setting up OAIC-T &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Instructions for deploying the Kpimon XApp" href="kpimon-workshop.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_ue_example.html">Multiple UEs with ZMQ Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nexran1.html">Running the Nexran Xapp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_python.html">Developing a custom xApp in Python</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Workshop Instructions:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="kpimon-workshop.html">Instructions for deploying the Kpimon XApp</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Instructions for setting up OAIC-T</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#get-needed-files">1. Get needed files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-the-ric-by-running-the-provided-script">2. Install the RIC by running the provided script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-the-5g-network">3. Setup the 5G Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deploy-the-kpimon-and-oaic-t-xapps">4. Deploy the KPIMON and OAIC-T xapps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deploy-the-server-and-actor">5. Deploy the Server and Actor</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Instructions for setting up OAIC-T</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/oaict-workshop.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="instructions-for-setting-up-oaic-t">
+<h1>Instructions for setting up OAIC-T<a class="headerlink" href="#instructions-for-setting-up-oaic-t" title="Permalink to this heading"></a></h1>
+<a class="reference internal image-reference" href="_images/tmux.png"><img alt="Tmux cheatsheet" src="_images/tmux.png" style="width: 80%;" /></a>
+<section id="get-needed-files">
+<h2>1. Get needed files<a class="headerlink" href="#get-needed-files" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Git<span class="w"> </span>clone<span class="w"> </span>the<span class="w"> </span>needed<span class="w"> </span>scripts:
+Git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/main-file-repo.git
+</pre></div>
+</div>
+<p>Move ricinstallation.sh to the root folder /
+Move kpimondeploy.sh and oaictdeploy.sh to oaic folder “oaic/”
+Make executable by running the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>filename.sh
+</pre></div>
+</div>
+</section>
+<section id="install-the-ric-by-running-the-provided-script">
+<h2>2. Install the RIC by running the provided script<a class="headerlink" href="#install-the-ric-by-running-the-provided-script" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>oaic
+</pre></div>
+</div>
+<p>Run the ricinstallation script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./ricinstallation.sh
+</pre></div>
+</div>
+</section>
+<section id="setup-the-5g-network">
+<h2>3. Setup the 5G Network<a class="headerlink" href="#setup-the-5g-network" title="Permalink to this heading"></a></h2>
+<p>Terminal 1: Add UEs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue1
+$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue2
+</pre></div>
+</div>
+<p>Check the results:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>list
+</pre></div>
+</div>
+<p>Start the Core Network:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>srsepc
+</pre></div>
+</div>
+<p>Terminal 2: Setup Environment Variables and Base Station:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_IP</span><span class="o">=</span><span class="sb">`</span>hostname<span class="w">  </span>-I<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1<span class="w"> </span>-d<span class="s1">&#39; &#39;</span><span class="sb">`</span>
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_PORT</span><span class="o">=</span><span class="m">5006</span>
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_IP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+
+$<span class="w"> </span>sudo<span class="w"> </span>srsenb<span class="w"> </span>--enb.n_prb<span class="o">=</span><span class="m">100</span><span class="w"> </span>--enb.name<span class="o">=</span>enb1<span class="w"> </span>--enb.enb_id<span class="o">=</span>0x19B<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2009,id=enb,base_srate=23.04e6&quot;</span><span class="w"> </span>--ric.agent.remote_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2TERM_IP</span><span class="si">}</span><span class="w"> </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--ric.agent.log_level<span class="o">=</span>debug<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--ric.agent.local_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_IP</span><span class="si">}</span><span class="w"> </span>--ric.agent.local_port<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_PORT</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>Terminal 3: Set up the first UE:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;tx_port=tcp://*:2010,rx_port=tcp://localhost:2008,id=ue,base_srate=23.04e6&quot;</span><span class="w"> </span><span class="se">\</span>
+--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456789</span><span class="w"> </span>--usim.k<span class="o">=</span>00112233445566778899aabbccddeeff<span class="w"> </span>--usim.imei<span class="o">=</span><span class="m">353490069873310</span><span class="w"> </span><span class="se">\</span>
+--log.all_level<span class="o">=</span>warn<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--gw.netns<span class="o">=</span>ue1
+</pre></div>
+</div>
+<p>Terminal 4: Set up the second UE:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;tx_port=tcp://*:2007,rx_port=tcp://localhost:2006,id=ue,base_srate=23.04e6&quot;</span><span class="w"> </span><span class="se">\</span>
+--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456780</span><span class="w"> </span>--usim.k<span class="o">=</span>00112233445566778899aabbccddeeff<span class="w"> </span>--usim.imei<span class="o">=</span><span class="m">353490069873310</span><span class="w"> </span><span class="se">\</span>
+--log.all_level<span class="o">=</span>warn<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--gw.netns<span class="o">=</span>ue2
+</pre></div>
+</div>
+<p>Terminal 5: Attach the two UEs to eNB:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>multi_ues.py
+</pre></div>
+</div>
+<p>Alternatively, generate traffics by iperf3:
+In Terminal 6 and 7:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>iperf3<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5201</span>
+$<span class="w"> </span>iperf3<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5301</span>
+</pre></div>
+</div>
+<p>In Terminal 6 and 7:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue1<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">600</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5201</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue2<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">600</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5301</span>
+</pre></div>
+</div>
+</section>
+<section id="deploy-the-kpimon-and-oaic-t-xapps">
+<h2>4. Deploy the KPIMON and OAIC-T xapps<a class="headerlink" href="#deploy-the-kpimon-and-oaic-t-xapps" title="Permalink to this heading"></a></h2>
+<p>Run the deploy script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./kpimondeploy.sh
+</pre></div>
+</div>
+<p>Run the deploy script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./oaict.sh
+</pre></div>
+</div>
+</section>
+<section id="deploy-the-server-and-actor">
+<h2>5. Deploy the Server and Actor<a class="headerlink" href="#deploy-the-server-and-actor" title="Permalink to this heading"></a></h2>
+<p>Pre-requisites:</p>
+<p>Install the following python package for the server:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>configparser
+sudo<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>psutil
+</pre></div>
+</div>
+<p>Run the Server</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>server/src
+sudo<span class="w"> </span>-E<span class="w"> </span>python3<span class="w"> </span>server_main.py
+</pre></div>
+</div>
+<p>Run the Actor</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>actor/src
+sudo<span class="w"> </span>python3<span class="w"> </span>actor_main.py
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="kpimon-workshop.html" class="btn btn-neutral float-left" title="Instructions for deploying the Kpimon XApp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

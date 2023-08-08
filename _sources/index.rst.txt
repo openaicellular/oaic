@@ -59,6 +59,7 @@ Welcome to OAIC's documentation!
    :caption: Workshop Instructions:
 
    kpimon-workshop.rst
+   oaict-workshop.rst
 
 Indices and tables
 ==================
