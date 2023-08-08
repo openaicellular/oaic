@@ -1,5 +1,7 @@
 
+==================================
 OAIC Installation (ZeroMQ version)
+==================================
 
 This documentation provides a consolidated overview of downloading, installing, and
 running OAIC-C on Ubuntu 20.04 using ZeroMQ for communication between radio nodes.
@@ -11,7 +13,9 @@ The instructions are divided into five steps:
 4. Start a 5G network
 5. Deploy an xApp
 
-1. Clone OAIC and install dependencies
+===========================================
+Step 1. Clone OAIC and install dependencies
+===========================================
 
 Clone OAIC with all relevant submodules:
 
@@ -30,7 +34,9 @@ Install Dependencies:
     sudo apt-get install -y nginx
 
 
-2. ORAN Installation:
+=========================
+Step 2. ORAN Installation
+=========================
 
 The ``RIC-Deployment`` directory contains the deployment scripts and pre generated helm charts for each of the RIC components. This repository also contains some “demo” scripts which can be run after complete installation.
 
@@ -94,7 +100,9 @@ Once the Kubernetes clusters are deployed, it is now time for us to deploy the n
     cd RIC-Deployment/bin
     sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
 
-3. srsRAN installation
+===========================
+Step 3. srsRAN installation
+===========================
 
 We will be using the modified ``asn1c compiler`` (for RAN and CN) that is hosted by Open Air Interface (OAI)
 
@@ -127,7 +135,9 @@ srsRAN with E2 agent Installation
     sudo srsran_install_configs.sh service
     cd ../../
 
-4. Setup your own 5G Network
+=================================
+Step 4. Setup your own 5G Network
+=================================
 
 Start srsRAN EPC:
 
@@ -163,7 +173,9 @@ Check for connectivity
 
     sudo ip netns exec ue1 ping 172.16.0.1 -c3
 
-5. Deploy KPIMON
+==============================
+Step 5. Deploy the KPIMON xApp
+==============================
 
 Start nginx
 

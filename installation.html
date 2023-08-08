@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; OAIC 0.1 documentation</title>
+  <title>OAIC Installation (ZeroMQ version) &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -61,6 +61,15 @@
 <li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multi_ue_example.html">Multiple UEs with ZMQ Example</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Installation script:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">OAIC Installation (ZeroMQ version)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#step-1-clone-oaic-and-install-dependencies">Step 1. Clone OAIC and install dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#step-2-oran-installation">Step 2. ORAN Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#step-3-srsran-installation">Step 3. srsRAN installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#step-4-setup-your-own-5g-network">Step 4. Setup your own 5G Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#step-5-deploy-the-kpimon-xapp">Step 5. Deploy the KPIMON xApp</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
@@ -95,7 +104,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="breadcrumb-item active">OAIC Installation (ZeroMQ version)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -105,7 +114,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <p>OAIC Installation (ZeroMQ version)</p>
+  <section id="oaic-installation-zeromq-version">
+<h1>OAIC Installation (ZeroMQ version)<a class="headerlink" href="#oaic-installation-zeromq-version" title="Permalink to this heading"></a></h1>
 <p>This documentation provides a consolidated overview of downloading, installing, and
 running OAIC-C on Ubuntu 20.04 using ZeroMQ for communication between radio nodes.
 The instructions are divided into five steps:</p>
@@ -116,9 +126,9 @@ The instructions are divided into five steps:</p>
 <li><p>Start a 5G network</p></li>
 <li><p>Deploy an xApp</p></li>
 </ol>
-<ol class="arabic simple">
-<li><p>Clone OAIC and install dependencies</p></li>
-</ol>
+</section>
+<section id="step-1-clone-oaic-and-install-dependencies">
+<h1>Step 1. Clone OAIC and install dependencies<a class="headerlink" href="#step-1-clone-oaic-and-install-dependencies" title="Permalink to this heading"></a></h1>
 <p>Clone OAIC with all relevant submodules:</p>
 <blockquote>
 <div><p>git clone <a class="reference external" href="https://github.com/openaicellular/oaic.git">https://github.com/openaicellular/oaic.git</a></p>
@@ -131,9 +141,9 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nginx
 </pre></div>
 </div>
-<ol class="arabic simple" start="2">
-<li><p>ORAN Installation:</p></li>
-</ol>
+</section>
+<section id="step-2-oran-installation">
+<h1>Step 2. ORAN Installation<a class="headerlink" href="#step-2-oran-installation" title="Permalink to this heading"></a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">RIC-Deployment</span></code> directory contains the deployment scripts and pre generated helm charts for each of the RIC components. This repository also contains some “demo” scripts which can be run after complete installation.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>RIC-Deployment/tools/k8s/bin
 </pre></div>
@@ -178,9 +188,9 @@ sudo<span class="w"> </span>docker<span class="w"> </span>push<span class="w"> <
 sudo<span class="w"> </span>./deploy-ric-platform<span class="w"> </span>-f<span class="w"> </span>../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
 </pre></div>
 </div>
-<ol class="arabic simple" start="3">
-<li><p>srsRAN installation</p></li>
-</ol>
+</section>
+<section id="step-3-srsran-installation">
+<h1>Step 3. srsRAN installation<a class="headerlink" href="#step-3-srsran-installation" title="Permalink to this heading"></a></h1>
 <p>We will be using the modified <code class="docutils literal notranslate"><span class="pre">asn1c</span> <span class="pre">compiler</span></code> (for RAN and CN) that is hosted by Open Air Interface (OAI)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../../asn1c
 <span class="c1"># git checkout velichkov_s1ap_plus_option_group</span>
@@ -208,9 +218,9 @@ sudo<span class="w"> </span>srsran_install_configs.sh<span class="w"> </span>ser
 <span class="nb">cd</span><span class="w"> </span>../../
 </pre></div>
 </div>
-<ol class="arabic simple" start="4">
-<li><p>Setup your own 5G Network</p></li>
-</ol>
+</section>
+<section id="step-4-setup-your-own-5g-network">
+<h1>Step 4. Setup your own 5G Network<a class="headerlink" href="#step-4-setup-your-own-5g-network" title="Permalink to this heading"></a></h1>
 <p>Start srsRAN EPC:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue1
 sudo<span class="w"> </span>srsepc
@@ -237,9 +247,9 @@ sleep<span class="w"> </span><span class="m">45</span>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue1<span class="w"> </span>ping<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-c3
 </pre></div>
 </div>
-<ol class="arabic simple" start="5">
-<li><p>Deploy KPIMON</p></li>
-</ol>
+</section>
+<section id="step-5-deploy-the-kpimon-xapp">
+<h1>Step 5. Deploy the KPIMON xApp<a class="headerlink" href="#step-5-deploy-the-kpimon-xapp" title="Permalink to this heading"></a></h1>
 <p>Start nginx</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>nginx
 <span class="nb">cd</span><span class="w"> </span>/etc/nginx/sites-enabled
@@ -323,6 +333,7 @@ sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> <
 <span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;Successful: KPIMON xApp up and running&#39;</span>
 </pre></div>
 </div>
+</section>
 
 
            </div>
