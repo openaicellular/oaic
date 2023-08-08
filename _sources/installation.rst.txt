@@ -1,4 +1,25 @@
+
 OAIC Installation (ZeroMQ version)
+
+This documentation provides a consolidated overview of downloading, installing, and
+running OAIC-C on Ubuntu 20.04 using ZeroMQ for communication between radio nodes.
+The instructions are divided into five steps:
+
+  1. Download the source code and install dependencies
+  2. Install O-RAN and the near real-time RIC
+  3. Install srsRAN with e2 interface
+  4. Start a 5G network
+  5. Deploy an xApp
+
+1. Clone OAIC and install dependencies
+
+Clone OAIC with all relevant submodules:
+
+    git clone https://github.com/openaicellular/oaic.git
+
+    cd oaic    
+
+    git submodule update --init --recursive --remote
 
 Install Dependencies:
 
@@ -6,15 +27,8 @@ Install Dependencies:
 
     sudo apt-get install -y build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
     sudo apt-get install -y libzmq3-dev
-    sudo apt-get -y install nginx
+    sudo apt-get install -y nginx
 
-
-1. Download the repository:
-
-    git clone https://github.com/openaicellular/oaic.git
-
-    cd oaic    
-    git submodule update --init --recursive --remote
 
 2. ORAN Installation:
 
@@ -60,10 +74,11 @@ Navigate to ``ric-plt-e2`` directory.
 
 .. code-block:: bash
    
-   cd ../../../..
-   cd ric-plt-e2
+   cd ../../../../ric-plt-e2
 
-The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order 
+The code in this repo needs to be packaged as a docker container.
+We make use of the existing Dockerfile in ``RIC-E2-TERMINATION`` to do this.
+Execute the following commands in the given order 
 
 .. code-block:: bash
 
@@ -81,18 +96,15 @@ Once the Kubernetes clusters are deployed, it is now time for us to deploy the n
 
 3. srsRAN installation
 
-We will be using the modified asn1c compiler (for RAN and CN) that is hosted by Open Air Interface (OAI)
+We will be using the modified ``asn1c compiler`` (for RAN and CN) that is hosted by Open Air Interface (OAI)
 
 .. code-block:: bash
 
-    cd ../..
-    sudo apt install libtool autoconf
-    git clone https://gitlab.eurecom.fr/oai/asn1c.git
-    cd asn1c
-    git checkout velichkov_s1ap_plus_option_group
+    cd ../../asn1c
+    # git checkout velichkov_s1ap_plus_option_group
     autoreconf -iv
     ./configure
-    make -j`nproc`
+    make -j4
     sudo make install
     sudo ldconfig
     cd ..

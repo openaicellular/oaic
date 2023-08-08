@@ -105,20 +105,34 @@
            <div itemprop="articleBody">
              
   <p>OAIC Installation (ZeroMQ version)</p>
+<p>This documentation provides a consolidated overview of downloading, installing, and
+running OAIC-C on Ubuntu 20.04 using ZeroMQ for communication between radio nodes.
+The instructions are divided into five steps:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Download the source code and install dependencies</p></li>
+<li><p>Install O-RAN and the near real-time RIC</p></li>
+<li><p>Install srsRAN with e2 interface</p></li>
+<li><p>Start a 5G network</p></li>
+<li><p>Deploy an xApp</p></li>
+</ol>
+</div></blockquote>
+<ol class="arabic simple">
+<li><p>Clone OAIC and install dependencies</p></li>
+</ol>
+<p>Clone OAIC with all relevant submodules:</p>
+<blockquote>
+<div><p>git clone <a class="reference external" href="https://github.com/openaicellular/oaic.git">https://github.com/openaicellular/oaic.git</a></p>
+<p>cd oaic</p>
+<p>git submodule update –init –recursive –remote</p>
+</div></blockquote>
 <p>Install Dependencies:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>build-essential<span class="w"> </span>cmake<span class="w"> </span>libfftw3-dev<span class="w"> </span>libmbedtls-dev<span class="w"> </span>libboost-program-options-dev<span class="w"> </span>libconfig++-dev<span class="w"> </span>libsctp-dev<span class="w"> </span>libtool<span class="w"> </span>autoconf
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libzmq3-dev
-sudo<span class="w"> </span>apt-get<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>nginx
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nginx
 </pre></div>
 </div>
-<ol class="arabic">
-<li><p>Download the repository:</p>
-<blockquote>
-<div><p>git clone <a class="reference external" href="https://github.com/openaicellular/oaic.git">https://github.com/openaicellular/oaic.git</a></p>
-<p>cd oaic
-git submodule update –init –recursive –remote</p>
-</div></blockquote>
-</li>
+<ol class="arabic simple" start="2">
 <li><p>ORAN Installation:</p></li>
 </ol>
 <p>The <code class="docutils literal notranslate"><span class="pre">RIC-Deployment</span></code> directory contains the deployment scripts and pre generated helm charts for each of the RIC components. This repository also contains some “demo” scripts which can be run after complete installation.</p>
@@ -148,11 +162,12 @@ sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> <
 </pre></div>
 </div>
 <p>Navigate to <code class="docutils literal notranslate"><span class="pre">ric-plt-e2</span></code> directory.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../../../..
-<span class="nb">cd</span><span class="w"> </span>ric-plt-e2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../../../../ric-plt-e2
 </pre></div>
 </div>
-<p>The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order</p>
+<p>The code in this repo needs to be packaged as a docker container.
+We make use of the existing Dockerfile in <code class="docutils literal notranslate"><span class="pre">RIC-E2-TERMINATION</span></code> to do this.
+Execute the following commands in the given order</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>RIC-E2-TERMINATION
 sudo<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span>-t<span class="w"> </span>localhost:5001/ric-plt-e2:5.5.0<span class="w"> </span>.
 sudo<span class="w"> </span>docker<span class="w"> </span>push<span class="w"> </span>localhost:5001/ric-plt-e2:5.5.0
@@ -167,15 +182,12 @@ sudo<span class="w"> </span>./deploy-ric-platform<span class="w"> </span>-f<span
 <ol class="arabic simple" start="3">
 <li><p>srsRAN installation</p></li>
 </ol>
-<p>We will be using the modified asn1c compiler (for RAN and CN) that is hosted by Open Air Interface (OAI)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../..
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libtool<span class="w"> </span>autoconf
-git<span class="w"> </span>clone<span class="w"> </span>https://gitlab.eurecom.fr/oai/asn1c.git
-<span class="nb">cd</span><span class="w"> </span>asn1c
-git<span class="w"> </span>checkout<span class="w"> </span>velichkov_s1ap_plus_option_group
+<p>We will be using the modified <code class="docutils literal notranslate"><span class="pre">asn1c</span> <span class="pre">compiler</span></code> (for RAN and CN) that is hosted by Open Air Interface (OAI)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../../asn1c
+<span class="c1"># git checkout velichkov_s1ap_plus_option_group</span>
 autoreconf<span class="w"> </span>-iv
 ./configure
-make<span class="w"> </span>-j<span class="sb">`</span>nproc<span class="sb">`</span>
+make<span class="w"> </span>-j4
 sudo<span class="w"> </span>make<span class="w"> </span>install
 sudo<span class="w"> </span>ldconfig
 <span class="nb">cd</span><span class="w"> </span>..
