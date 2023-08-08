@@ -32,12 +32,6 @@ Welcome to OAIC's documentation!
    
 .. toctree::
    :maxdepth: 2
-   :caption: Installation script:
-
-   installation.rst
-   
-.. toctree::
-   :maxdepth: 2
    :caption: xApp Deployment:
 
    example_xapp_deployment.rst
