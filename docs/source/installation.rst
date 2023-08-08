@@ -187,17 +187,17 @@ Create a Custom Configuration File and define file locations
 
 .. code-block:: bash
 
-    cd ../../../etc/nginx/conf.d
+    cd /etc/nginx/conf.d
 
-    echo "server {
-        listen 5010 default_server;
-        server_name xApp_config.local;
-        location /config_files/ {
+    sudo sh -c "echo 'server {
+    listen 5010 default_server;
+		server_name xApp_config.local;
+		location /config_files/ {
 
             root /var/www/xApp_config.local/;
-        }
+		}
 
-    }" >xApp_config.local.conf
+	}' >xApp_config.local.conf"
 
 Save the configuration file and check if there are any errors in the configuration file.
 
