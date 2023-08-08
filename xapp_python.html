@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developing a custom xApp in Python &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="UnDeploying RIC Platform" href="undeploy_ric.html" />
+    <link rel="prev" title="Running the Nexran Xapp" href="nexran1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_ue_example.html">Multiple UEs with ZMQ Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nexran1.html">Running the Nexran Xapp</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developing a custom xApp in Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compiling-e2-like-srsran">Compiling E2-like srsRAN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#development">Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deployment">Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#building-the-docker-image">Building the Docker image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-the-xapp-config">Creating the xApp config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#finding-local-ip-address">Finding local IP address</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuring-the-nginx-web-server">Configuring the Nginx Web server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hosting-the-config-files">Hosting the config Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-onboard-url-file">Create onboard URL file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#onboard-and-deploy-the-xapp">Onboard and deploy the xApp</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#demonstration">Demonstration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#managing-xapp-deployment">Managing xApp deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connecting-to-srsran">Connecting to srsRAN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#undeployment">Undeployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#srsran-commands">srsRAN commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#issues">Issues</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Workshop Instructions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kpimon-workshop.html">Instructions for deploying the Kpimon XApp</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Developing a custom xApp in Python</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/xapp_python.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="developing-a-custom-xapp-in-python">
+<span id="xapppython"></span><h1>Developing a custom xApp in Python<a class="headerlink" href="#developing-a-custom-xapp-in-python" title="Permalink to this heading"></a></h1>
+<p>This document describes how to write an xApp in Python, how to deploy it on the RIC platform, and how to use the xApp to communicate with the RAN.</p>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this heading"></a></h2>
+<p>An xApp is simply an application that is deployed to the RAN Intelligent Controller (RIC) and is capable of communicating to the RAN.
+An xApp can be developed in any programming language, but to be O-RAN compliant, it needs to be able to communicate over the E2 interface to E2 nodes.
+An E2 Node refers to a component of the RAN that can interface with the RIC via E2, usually referring to the base station (DU/CU).</p>
+<p>For this demonstration, we will simplify the xApp development process such that we utilize an E2-like interface, enabling us to focus on the functionality of our application rather than the specifications of the protocol (encoding and decoding of ASN.1 messages, subscription processes, etc.)</p>
+<a class="reference internal image-reference" href="_images/e2like.png"><img alt="_images/e2like.png" src="_images/e2like.png" style="width: 452.0px; height: 201.0px;" /></a>
+<p>To understand how an xApp works, first we must look at how an O-RAN network is implemented.
+The RAN Intelligent Controller (RIC) is capable of dynamically controlling the RAN.
+The RIC consists of a Kubernetes cluster which hosts several deployments which contain services and pods.
+An application such as an xApp is executed in the RIC using a deployment, which consists of the instructions and components needed to run the application.</p>
+<a class="reference internal image-reference" href="_images/kubernetes.png"><img alt="_images/kubernetes.png" src="_images/kubernetes.png" style="width: 445.20000000000005px; height: 277.2px;" /></a>
+<p>Inside the deployment, there are pods which contain different microservices, which are small containers running different software and make up the application. These containers are created and deployed using Docker, using an image that we prepare beforehand that consists of everything needed for the application to start instantly. For this xApp, we will use a <cite>single</cite> Kubernetes deployment with a <cite>single</cite> pod, running a <cite>single</cite> Docker container.</p>
+<p>For more information on Kubernetes and Docker, see the <cite>Background on Docker, Kubernetes &amp; Helm</cite> section.</p>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<p>To begin, checkout the E2-like branch of the OAIC codebase to access the xApp code and modified srsRAN.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git checkout e2like-doc
+</pre></div>
+</div>
+<p>Once the command is complete, you should be able to access the <code class="docutils literal notranslate"><span class="pre">ric-app-ml</span></code> and <code class="docutils literal notranslate"><span class="pre">srsRAN-e2-dev</span></code> folders.</p>
+<section id="compiling-e2-like-srsran">
+<h3>Compiling E2-like srsRAN<a class="headerlink" href="#compiling-e2-like-srsran" title="Permalink to this heading"></a></h3>
+<p>For our purposes, we use a modified version of srsRAN which accepts our E2-like commands.
+Follow the steps to compile the E2-like srsRAN:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd srsRAN-e2-dev
+mkdir build
+export SRS=<span class="nv">`realpath .`</span>
+cd build
+cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DRIC_GENERATED_E2AP_BINDING_DIR=${SRS}/e2_bindings/E2AP-v01.01 \
+    -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
+    -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
+make -j<span class="nv">`nproc`</span>
+touch agent_cmd.bin iq_data_last_full.bin
+cd ../../
+</pre></div>
+</div>
+<p>OAIC Workshop note: do not run <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">make</span> <span class="pre">install</span></code></p>
+<p>Once it is done, make sure the eNB and UE configs have ZeroMQ enabled:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo nano /root/.config/srsran/enb.conf
+sudo nano /root/.config/srsran/ue.conf
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[rf]</span>
+
+<span class="go">...</span>
+
+<span class="gp">#</span><span class="nv">device_args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>auto
+<span class="gp">#</span><span class="nv">time_adv_nsamples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>auto
+
+<span class="gp"># </span>Example<span class="w"> </span><span class="k">for</span><span class="w"> </span>ZMQ-based<span class="w"> </span>operation<span class="w"> </span>with<span class="w"> </span>TCP<span class="w"> </span>transport<span class="w"> </span><span class="k">for</span><span class="w"> </span>I/Q<span class="w"> </span>samples
+<span class="go">device_name = zmq</span>
+<span class="go">device_args = fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2001,id=enb,base_srate=23.04e6</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="development">
+<h2>Development<a class="headerlink" href="#development" title="Permalink to this heading"></a></h2>
+<p>First, let’s take a look at the <code class="docutils literal notranslate"><span class="pre">ric-app-ml</span></code> directory, where the xApp is located. We use a Python file called <code class="docutils literal notranslate"><span class="pre">app.py</span></code> to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN’s behavior.</p>
+<p>When using the E2-like interface, the xApp acts as an SCTP server and the nodeB is a client.</p>
+<p>Here are some excerpts of the code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">init_e2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">server</span>
+
+    <span class="c1"># This will automatically find a correct IP address to use, which can change depending on where the xApp is deployed.</span>
+    <span class="n">ip_addr</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">())</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="mi">5000</span>
+
+    <span class="c1"># Start the SCTP server and bind to the address and port</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">sctp</span><span class="o">.</span><span class="n">sctpsocket_tcp</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="n">ip_addr</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">listen</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">entry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">current_iq_data</span><span class="p">,</span> <span class="n">last_cmd</span><span class="p">,</span> <span class="n">server</span>
+
+    <span class="c1"># Initialize the E2-like interface</span>
+    <span class="n">init_e2</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="c1"># E2-like interface main loop</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Accept SCTP connections</span>
+            <span class="n">conn</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+
+            <span class="n">log_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Connected by </span><span class="si">{</span><span class="n">addr</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+            <span class="n">initial</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># initial timestamp</span>
+
+            <span class="c1"># Loop which runs if an SCTP connection is established</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="c1"># Send an E2-like request within the first second to ask nodeB to send I/Q data</span>
+                <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">initial</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+                    <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;E2-like request at </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+                    <span class="n">log_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Sent E2-like request&quot;</span><span class="p">)</span>
+
+                <span class="c1"># Sending too much SCTP data in a single message will freeze the connection up, so we have srsRAN split our data</span>
+                <span class="c1"># into chunks of 16384 bytes. The data in this case is I/Q data sourced from the RU (radio unit).</span>
+                <span class="c1"># This section of code will receive enough I/Q data to make one 10ms spectrogram.</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">16384</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+                    <span class="n">log_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Receiving I/Q data...&quot;</span><span class="p">)</span>
+                    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">spectrogram_size</span><span class="p">:</span>
+                        <span class="n">data</span> <span class="o">+=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">16384</span><span class="p">)</span>
+
+                    <span class="n">log_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Received buffer size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">log_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Finished receiving message, processing&quot;</span><span class="p">)</span>
+
+                    <span class="c1"># Point our global variable to the I/Q data we just received, and use our machine learning model</span>
+                    <span class="c1"># to make a prediction.</span>
+                    <span class="n">current_iq_data</span> <span class="o">=</span> <span class="n">data</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">run_prediction</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+                    <span class="c1"># If there is interference, send a command to turn on adaptive MCS.</span>
+                    <span class="c1"># This is a feature in srsRAN that we can leverage. When we turn it off, we set the MCS to a fixed value.</span>
+                    <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="s1">&#39;Interference&#39;</span><span class="p">:</span>
+                        <span class="n">log_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Interference signal detected, sending control message to enable adaptive MCS&quot;</span><span class="p">)</span>
+                        <span class="c1">#conn.send(cmds[&#39;BASE_STATION_OFF&#39;])</span>
+                        <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">cmds</span><span class="p">[</span><span class="s1">&#39;ENABLE_ADAPTIVE_MCS&#39;</span><span class="p">])</span>
+                    <span class="k">elif</span> <span class="n">result</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;5G&#39;</span><span class="p">,</span> <span class="s1">&#39;LTE&#39;</span><span class="p">):</span> <span class="c1">#and last_cmd == cmds[&#39;BASE_STATION_OFF&#39;]:</span>
+                        <span class="n">log_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Interference signal no longer detected, sending control message to disable adaptive MCS&quot;</span><span class="p">)</span>
+                        <span class="c1">#conn.send(cmds[&#39;BASE_STATION_ON&#39;])</span>
+                        <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">cmds</span><span class="p">[</span><span class="s1">&#39;DISABLE_ADAPTIVE_MCS&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Log any errors with the SCTP connection, but continue to run</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">log_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">run_prediction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">current_iq_data</span>
+
+    <span class="c1"># convert I/Q data into a spectrogram that our machine learning model can use as input</span>
+    <span class="n">sample</span> <span class="o">=</span> <span class="n">iq_to_spectrogram</span><span class="p">(</span><span class="n">current_iq_data</span><span class="p">)</span>
+    <span class="c1"># Make a prediction with our spectrogram and get the result</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="c1"># Actually do the prediction. This will be dependent on your model.</span>
+    <span class="n">prediction</span><span class="p">,</span> <span class="n">confidence</span> <span class="o">=</span> <span class="n">model_predict</span><span class="p">(</span><span class="n">ai_model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="n">classifiers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;5G&#39;</span><span class="p">,</span> <span class="s1">&#39;LTE&#39;</span><span class="p">,</span> <span class="s1">&#39;Interference&#39;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">classifiers</span><span class="p">[</span><span class="n">prediction</span><span class="p">]</span> <span class="k">if</span> <span class="n">confidence</span> <span class="o">&gt;</span> <span class="n">CONFIDENCE_THRESHOLD</span> <span class="k">else</span> <span class="kc">None</span>
+
+<span class="k">def</span> <span class="nf">model_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">unseen_data</span><span class="p">):</span>
+    <span class="c1"># Instead of implementing a real model, we will simply use random values</span>
+
+    <span class="c1"># Every 8 seconds, alternate between detecting LTE/5G and detecting interference.</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">%</span> <span class="mf">16.0</span> <span class="o">&lt;</span> <span class="mf">8.0</span> <span class="k">else</span> <span class="mi">2</span>
+    <span class="n">confidence</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">confidence</span>
+</pre></div>
+</div>
+<p>This xApp assumes a hypothetical scenario where interference is detected over the network using a machine learning model. In our case, we do not use a real model, but one could easily be substituted into this sample code. When interference is detected, we send a command from the xApp to the RAN to control the base station. In this case, we manipulate the Modulation and Coding Scheme (MCS) to mitigate interference. When interference is detected, we turn on adaptive MCS, and when it is no longer detected we disable it by setting the MCS to a fixed value. We only affect the uplink MCS for the purposes of this demo. We can adjust different parameters besides MCS if we implement the capabilitiy to do so on our RAN.</p>
+</section>
+<section id="deployment">
+<h2>Deployment<a class="headerlink" href="#deployment" title="Permalink to this heading"></a></h2>
+<section id="building-the-docker-image">
+<h3>Building the Docker image<a class="headerlink" href="#building-the-docker-image" title="Permalink to this heading"></a></h3>
+<p>Our xApp will be hosted in a Docker container. In order to create a Docker container, we must provide a Dockerfile which will provide the instructions as to how the machine should be set up. In this case, we use an Ubuntu setup with Python as the base for our Docker image. This is what the Dockerfile looks like:</p>
+<div class="highlight-docker notranslate"><div class="highlight"><pre><span></span><span class="c"># Load a miniconda setup for our base Docker image which contains Python</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">continuumio/miniconda3</span>
+
+<span class="c"># Install all necessary libraries</span>
+<span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>build-essential<span class="w"> </span>musl-dev<span class="w"> </span>libjpeg-dev<span class="w"> </span>zlib1g-dev<span class="w"> </span>libgl1-mesa-dev<span class="w"> </span>wget<span class="w"> </span>dpkg
+
+<span class="c"># Copy all the files in the current directory to /tmp/ml in our Docker image</span>
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>/tmp/ml
+
+<span class="c"># Go to /tmp/ml</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/tmp/ml</span>
+
+<span class="c"># Install requirements.txt</span>
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>requirements.txt
+
+<span class="c"># Set our xApp to run immediately when deployed</span>
+<span class="k">ENV</span><span class="w"> </span>PYTHONUNBUFFERED<span class="w"> </span><span class="m">1</span>
+<span class="k">CMD</span><span class="w"> </span>app.py
+</pre></div>
+</div>
+<p>Once we have this Dockerfile, we can then build our Docker image and submit it to the xApp registry. This is done with one command:</p>
+<div class="highlight-docker notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-t<span class="w"> </span>xApp-registry.local:5008/ric-app-ml:1.0.0
+</pre></div>
+</div>
+<p>This builds a Docker image labeled ric-app-ml with version 1.0.0, and submits it to the xApp registry.</p>
+<img alt="_images/ss_dockerbuild.png" src="_images/ss_dockerbuild.png" />
+</section>
+<section id="creating-the-xapp-config">
+<h3>Creating the xApp config<a class="headerlink" href="#creating-the-xapp-config" title="Permalink to this heading"></a></h3>
+<p>In our xApp, we have an init folder which contains the config.json file.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;json_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ric-app-ml&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;xapp_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ric-app-ml&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;containers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ric-app-ml&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;registry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xApp-registry.local:5008&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ric-app-ml&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;messaging&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;ports&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmr-data&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;container&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ric-app-ml&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4560</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;rxMessages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;RIC_SUB_RESP&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;RIC_SUB_FAILURE&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;RIC_INDICATION&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;RIC_SUB_DEL_RESP&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;RIC_SUB_DEL_FAILURE&quot;</span><span class="w"> </span><span class="p">],</span>
+<span class="w">                </span><span class="nt">&quot;txMessages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;RIC_SUB_REQ&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;RIC_SUB_DEL_REQ&quot;</span><span class="w"> </span><span class="p">],</span>
+<span class="w">                </span><span class="nt">&quot;policies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+<span class="w">                </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmr receive data port for ric-app-ml&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmr-route&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;container&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ric-app-ml&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4561</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmr route port for ric-app-ml&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;rmr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;protPort&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tcp:4560&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;maxSize&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2072</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;numWorkers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;txMessages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;RIC_SUB_REQ&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;RIC_SUB_DEL_REQ&quot;</span><span class="w"> </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;rxMessages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;RIC_SUB_RESP&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;RIC_SUB_FAILURE&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;RIC_INDICATION&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;RIC_SUB_DEL_RESP&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;RIC_SUB_DEL_FAILURE&quot;</span><span class="w"> </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;policies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This config file is important as it signifies where the Docker image is located, and also provides the ports and capabilities of the E2 interface.
+In our case, we are using an E2-like interface instead of the E2, so we will expose our own port after the deployment.</p>
+</section>
+<section id="finding-local-ip-address">
+<h3>Finding local IP address<a class="headerlink" href="#finding-local-ip-address" title="Permalink to this heading"></a></h3>
+<p>Before running further steps, we will need the local IP address of the system. Use the first command <code class="docutils literal notranslate"><span class="pre">hostname</span> <span class="pre">-I</span></code> to find your local IP addresses. The first one that appears should work. Then, run the second command and replace &lt;ip address&gt; with the first IP you see. On my system, the address is <code class="docutils literal notranslate"><span class="pre">10.0.2.15</span></code>.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>hostname -I
+export HOST_IP=&lt;ip address&gt;
+</pre></div>
+</div>
+<p>Once this is done, we can replace the machine IP address with $HOST_IP.</p>
+</section>
+<section id="configuring-the-nginx-web-server">
+<h3>Configuring the Nginx Web server<a class="headerlink" href="#configuring-the-nginx-web-server" title="Permalink to this heading"></a></h3>
+<p>The xApp descriptor files (config.json) must be hosted on a webserver when we use the <strong>xapp-onboarder</strong> to deploy xApps. This is because the xApp onboarder cannot access our local files, so we have to upload them to the network where it can find and download them. We will use Nginx as our webserver for hosting config files.</p>
+<p>First, we need to install Nginx and check if it is in <code class="docutils literal notranslate"><span class="pre">active</span> <span class="pre">(running)</span></code>  state.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt install nginx
+sudo systemctl status nginx
+</pre></div>
+</div>
+<p>Now we create some directories which can be accessed by the server and where the config files can be hosted.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo mkdir /var/www/xApp_config.local
+sudo mkdir /var/www/xApp_config.local/config_files
+</pre></div>
+</div>
+<p>Create a Custom Configuration File and define file locations</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo nano /etc/nginx/conf.d/xApp_config.local.conf
+</pre></div>
+</div>
+<p>Paste the following content in the <em>conf</em> file.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>server {
+    listen 5010 default_server;
+    server_name xApp_config.local;
+    location /config_files/ {
+
+        root /var/www/xApp_config.local/;
+    }
+
+}
+</pre></div>
+</div>
+<p>Save and update the configuration file with the following command, and check if there are any errors in the configuration file. If there is no output, then it updated successfully.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo nginx -t
+</pre></div>
+</div>
+<img alt="_images/ss_nginxt.png" src="_images/ss_nginxt.png" />
+</section>
+<section id="hosting-the-config-files">
+<h3>Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Permalink to this heading"></a></h3>
+<p>Make sure you are in the xApp directory, then copy the xApp config file to this directory. When we copy this file with sudo, it also protects the file from being modified, so we use the chmod command to re-enable read/write permissions.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo cp init/config.json /var/www/xApp_config.local/config_files/ml-config-file.json
+sudo chmod 755 /var/www/xApp_config.local/config_files/ml-config-file.json
+sudo systemctl restart nginx
+</pre></div>
+</div>
+<p>At the end of these commands we restart nginx to ensure that it is properly running. Now, you can check if the config file can be accessed from the newly created server.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>curl http://$HOST_IP:5010/config_files/ml-config-file.json
+</pre></div>
+</div>
+<img alt="_images/ss_curlconfig.png" src="_images/ss_curlconfig.png" />
+</section>
+<section id="create-onboard-url-file">
+<h3>Create onboard URL file<a class="headerlink" href="#create-onboard-url-file" title="Permalink to this heading"></a></h3>
+<p>Next, we need to create a <code class="docutils literal notranslate"><span class="pre">.url</span></code> file to point the <code class="docutils literal notranslate"><span class="pre">xApp-onboarder</span></code> to the Nginx server to get the xApp descriptor file and use it to create a helm chart and deploy the xApp. We echo the IP address to remember what it is, as we have to type it in ourselves in the text file.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>echo $HOST_IP
+nano ml-onboard.url
+</pre></div>
+</div>
+<p>Paste the following in the <code class="docutils literal notranslate"><span class="pre">ml-onboard.url</span></code> file. Substitute the <code class="docutils literal notranslate"><span class="pre">&lt;machine_ip_addr&gt;</span></code> with the IP address of your machine. You can find this out through <code class="docutils literal notranslate"><span class="pre">hostname</span> <span class="pre">-I</span></code> or <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">$HOST_IP</span></code>.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>{&quot;config-file.json_url&quot;:&quot;http://&lt;machine_ip_addr&gt;:5010/config_files/ml-config-file.json&quot;}
+</pre></div>
+</div>
+<img alt="_images/ss_mlonboard.png" src="_images/ss_mlonboard.png" />
+<p>Save the file. Now we are ready to deploy the xApp.</p>
+</section>
+<section id="onboard-and-deploy-the-xapp">
+<h3>Onboard and deploy the xApp<a class="headerlink" href="#onboard-and-deploy-the-xapp" title="Permalink to this heading"></a></h3>
+<p>First, we collect and store the IP address of the Kong proxy to a variable, which allows us to connect to the different components of the RIC through a single address.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export KONG_PROXY=<span class="nv">`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+</pre></div>
+</div>
+<img alt="_images/ss_kongproxy.png" src="_images/ss_kongproxy.png" />
+<p>Then, we submit our onboard URL file to the xApp onboarder, which indicates to the onboarder where our xApp config file is.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>curl -L -X POST &quot;http://$KONG_PROXY:32080/onboard/api/v1/onboard/download&quot; --header &#39;Content-Type: application/json&#39; --data-binary &quot;@ml-onboard.url&quot;
+</pre></div>
+</div>
+<img alt="_images/ss_postonboard.png" src="_images/ss_postonboard.png" />
+<p>The config file is then processed by the xApp onboarder and a chart is created, which contains the instructions to deploy the xApp.</p>
+<p>Finally, we request that the App Manager deploys our specific xApp, <code class="docutils literal notranslate"><span class="pre">ric-app-ml</span></code>. It will use the chart that the xApp onboarder has to deploy our xApp.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>curl -L -X POST &quot;http://$KONG_PROXY:32080/appmgr/ric/v1/xapps&quot; --header &#39;Content-Type: application/json&#39; --data-raw &#39;{&quot;xappName&quot;: &quot;ric-app-ml&quot;}&#39;
+</pre></div>
+</div>
+<img alt="_images/ss_postappmgr.png" src="_images/ss_postappmgr.png" />
+<p>Verify if the xApp is deployed using <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">pods</span> <span class="pre">-A</span></code>. There should be a <code class="docutils literal notranslate"><span class="pre">ric-app-ml</span></code> pod visible in the “ricxapp” namespace.</p>
+<img alt="_images/ss_pods.png" src="_images/ss_pods.png" />
+<p>Once the xApp is deployed, it will automatically restart itself on failure and will continue to run even on a restart of the computer, as long as the Kubernetes cluster is running. You will have to manually restart an xApp when making changes, and you will have to manually undeploy an xApp to stop it from running on the RIC.</p>
+</section>
+</section>
+<section id="demonstration">
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Permalink to this heading"></a></h2>
+<section id="managing-xapp-deployment">
+<h3>Managing xApp deployment<a class="headerlink" href="#managing-xapp-deployment" title="Permalink to this heading"></a></h3>
+<p>View Kubernetes pods:
+<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">pods</span> <span class="pre">-A</span></code></p>
+<p>View Kubernetes services:
+<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">svc</span> <span class="pre">-A</span></code></p>
+<p>Build Docker image:
+<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">docker</span> <span class="pre">build</span> <span class="pre">.</span> <span class="pre">-t</span> <span class="pre">xApp-registry.local:5008/ric-app-ml:1.0.0</span></code></p>
+<p>Restart xApp:
+<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">rollout</span> <span class="pre">restart</span> <span class="pre">deployment</span> <span class="pre">ricxapp-ric-app-ml</span> <span class="pre">-n</span> <span class="pre">ricxapp</span></code></p>
+<p>View xApp logs (replace &lt;podname&gt; with the name of your xApp’s pod):
+<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">logs</span> <span class="pre">-n</span> <span class="pre">ricxapp</span> <span class="pre">&lt;podname&gt;</span></code></p>
+<p>Enter xApp Kubernetes pod with bash shell (replace &lt;podname&gt; with the name of your xApp’s pod):
+<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">exec</span> <span class="pre">--stdin</span> <span class="pre">--tty</span> <span class="pre">-n</span> <span class="pre">ricxapp</span> <span class="pre">&lt;podname&gt;</span>&#160; <span class="pre">--</span> <span class="pre">/bin/sh</span></code></p>
+<p>Open additional port for E2-like interface
+<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">expose</span> <span class="pre">deployment</span> <span class="pre">ricxapp-ric-app-ml</span> <span class="pre">--port</span> <span class="pre">5000</span> <span class="pre">--target-port</span> <span class="pre">5000</span> <span class="pre">--protocol</span> <span class="pre">SCTP</span> <span class="pre">-n</span> <span class="pre">ricxapp</span> <span class="pre">--type=NodePort</span></code></p>
+</section>
+<section id="connecting-to-srsran">
+<h3>Connecting to srsRAN<a class="headerlink" href="#connecting-to-srsran" title="Permalink to this heading"></a></h3>
+<p>We will use a modified version of srsRAN with the E2-like interface enabled.</p>
+<p>To connect our xApp to the E2-like interface, we also need to expose port 5000 of the xApp to our system. This command will enable SCTP connections on our local IP address by creating a NodePort service in Kubernetes called ricxapp-ric-app-ml.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl expose deployment ricxapp-ric-app-ml --port 5000 --target-port 5000 --protocol SCTP -n ricxapp --type=NodePort
+</pre></div>
+</div>
+<p>However, Kubernetes will reroute the xApp’s port to another port that is not 5000, and we need to search for this port by finding the new Kubernetes service that we just created. Run the following command to get a list of all the services:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get svc -A
+</pre></div>
+</div>
+<p>Look for ricxapp-ric-app-ml. On the same row in the terminal you should see a set of ports that look like 5000:3XXXX/SCTP. An example is shown below:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>ricxapp       ricxapp-ric-app-ml            NodePort    10.109.106.34    &lt;none&gt;        5000:30255/SCTP   34m
+</pre></div>
+</div>
+<p>In the above case, we want to use port 30255, as that is the port to access the xApp’s SCTP interface from our local IP address.</p>
+<p>Let’s store this xApp port in a variable to use later. Replace &lt;xapp port&gt; with the port you found in the previous command.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export XAPP_PORT=&lt;xapp port&gt;
+</pre></div>
+</div>
+<p>Also, let’s make sure the ue1 network namespace exists:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns add ue1
+</pre></div>
+</div>
+<p>Assuming you have already built the E2-like version of srsRAN, go to the directory where srsRAN is built:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd ~/oaic
+cd srsRAN-e2-dev/build
+</pre></div>
+</div>
+<p>Now we can start srsRAN. First, start the EPC in a new terminal if you haven’t already:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsepc/src/srsepc
+</pre></div>
+</div>
+<p>Before starting the base station, make sure you have the local IP address that you found from the previous steps. Open another terminal for these commands.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>hostname -I
+export HOST_IP=&lt;ip address&gt;
+</pre></div>
+</div>
+<p>Then, we can start the base station, which will connect to the xApp immediately on startup:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb/src/srsenb --ric.agent.log_level=debug --log.filename=stdout --ric.agent.remote_ipv4_addr=$HOST_IP --ric.agent.remote_port=$XAPP_PORT --ric.agent.local_ipv4_addr=$HOST_IP --ric.agent.local_port=38071  --scheduler.pusch_mcs=28
+</pre></div>
+</div>
+<p>You should see srsENB connect to the xApp and start sending I/Q data. You will also see E2-like commands being sent.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>==== eNodeB started ===
+Type &lt;t&gt; to view trace
+2023-08-07T16:08:56.272384 [COMN   ] [D] [    0] Setting RTO_INFO options on SCTP socket. Association 0, Initial RTO 3000, Minimum RTO 1000, Maximum RTO 6000
+2023-08-07T16:08:56.272387 [COMN   ] [D] [    0] Setting SCTP_INITMSG options on SCTP socket. Max attempts 3, Max init attempts timeout 5000
+2023-08-07T16:08:56.272405 [COMN   ] [D] [    0] Successfully bound to address 192.168.122.20:38071
+2023-08-07T16:08:56.275261 [COMN   ] [D] [    0] RxSockets: socket fd=17 has been registered.
+2023-08-07T16:08:56.275264 [RIC    ] [D] [    0] RIC state -&gt; CONNECTED
+
+2023-08-07T16:08:56.275265 [RIC    ] [I] [    0] connected to RIC on 192.168.122.20
+2023-08-07T16:08:56.275265 [RIC    ] [I] [    0] E2-like interface enabled, skipping setup request
+
+2023-08-07T16:08:56.275266 [RIC    ] [D] [    0] RIC state -&gt; ESTABLISHED
+
+2023-08-07T16:08:56.278574 [RIC    ] [I] [    0] received e2-like message: E2-like request at 16:08:56
+
+2023-08-07T16:08:56.278663 [RIC    ] [I] [    0] wrote e2-like message to agent_cmd.bin
+2023-08-07T16:08:56.278834 [RIC    ] [I] [    0] Timestamp: 1691424536.2780001
+
+2023-08-07T16:08:56.287438 [RIC    ] [I] [    0] sent I/Q buffer
+
+2023-08-07T16:08:56.359478 [RIC    ] [I] [    0] received e2-like message: m
+
+2023-08-07T16:08:56.359561 [RIC    ] [I] [    0] wrote e2-like message to agent_cmd.bin
+2023-08-07T16:08:56.359735 [RIC    ] [I] [    0] Timestamp: 1691424536.3590000
+
+E2-like cmd received, using adaptive MCS
+</pre></div>
+</div>
+<p>The I/Q data will be empty and E2-like commands won’t be performed until we connect a UE. Start the UE in a new terminal window and it should connect, initiating I/Q data transfer.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsue/src/srsue --gw.netns=ue1
+</pre></div>
+</div>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>Waiting PHY to initialize ... done!
+Attaching UE...
+Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
+Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
+.
+Found Cell:  Mode=FDD, PCI=1, PRB=50, Ports=1, CP=Normal, CFO=-0.2 KHz
+Current sample rate is 11.52 MHz with a base rate of 23.04 MHz (x2 decimation)
+Current sample rate is 11.52 MHz with a base rate of 23.04 MHz (x2 decimation)
+Found PLMN:  Id=00101, TAC=7
+Random Access Transmission: seq=18, tti=341, ra-rnti=0x2
+RRC Connected
+Random Access Complete.     c-rnti=0x46, ta=0
+Network attach successful. IP: 172.16.0.3
+Software Radio Systems RAN (srsRAN) 7/8/2023 16:8:59 TZ:0
+</pre></div>
+</div>
+<p>Now, we can initiate uplink data transfer. Start an iperf3 server from the UE side in a new terminal:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns exec ue1 iperf3 -s -i 1
+</pre></div>
+</div>
+<p>Then, we can connect to this server from the host side. Replace &lt;UE IP&gt; with the IP address seen in the srsue window when connected. (In the above case, it is <code class="docutils literal notranslate"><span class="pre">172.16.0.3</span></code>)</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>iperf3 -c &lt;UE IP&gt; -b 10M -i 1 -t 60
+</pre></div>
+</div>
+<p>Traffic should be visible on both sides:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">-----------------------------------------------------------</span>
+<span class="gh">Server listening on 5201</span>
+<span class="gh">-----------------------------------------------------------</span>
+Accepted connection from 172.16.0.1, port 55794
+[  5] local 172.16.0.3 port 5201 connected to 172.16.0.1 port 55804
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-1.00   sec  1.20 MBytes  10.1 Mbits/sec
+[  5]   1.00-2.00   sec  1.15 MBytes  9.61 Mbits/sec
+[  5]   2.00-3.00   sec  1.23 MBytes  10.3 Mbits/sec
+[  5]   3.00-4.00   sec  1.17 MBytes  9.85 Mbits/sec
+[  5]   4.00-5.00   sec  1.20 MBytes  10.1 Mbits/sec
+[  5]   5.00-6.00   sec  1.20 MBytes  10.1 Mbits/sec
+</pre></div>
+</div>
+<p>Now, we should go back to srsUE to see the MCS change. input “t” into the terminal to open up a trace on the UE side. It should look like this:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>Software Radio Systems RAN (srsRAN) 7/8/2023 16:8:59 TZ:0
+t
+Enter t to stop trace.
+---------Signal-----------|-----------------DL-----------------|-----------UL-----------
+cc  pci  rsrp   pl   cfo | mcs  snr  iter  brate  bler  ta_us | mcs   buff  brate  bler
+0    1   -11   11 -800n |  27  137   1.0    12M    0%    0.0 |  28    290   295k    0%
+0    1   -11   11 -728n |  27  137   1.0    11M    0%    0.0 |  28    0.0   300k    0%
+0    1   -11   11 -971n |  27  137   1.0    12M    0%    0.0 |  20    0.0   298k    0%
+0    1   -11   11 -579n |  27  137   1.0    11M    0%    0.0 |  21    279   288k    0%
+</pre></div>
+</div>
+<p>Notice that in the previous <code class="docutils literal notranslate"><span class="pre">srsenb</span></code> command, we manually specify a fixed MCS of 28. When the E2-like interface is connected and the xApp sends a command to start using adaptive MCS, the trace will show the MCS changing to around 20-21, according to the signal quality.</p>
+<p>If you view the logs of the xApp, you should see the I/Q data being received and the predictions being made by the xApp. These predictions are not based on the I/Q data, but the xApp receives the I/Q data and creates valid spectrograms, so you can modify the code to handle the spectrograms however you would like.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>oaic-03-op@oaic-03:~/oaic/ric-app-ml$ sudo kubectl logs -n ricxapp ricxapp-ric-app-ml-7b87c4d788-9m9cx | head -c 1000
+[INFO] E2-like enabled, connecting using SCTP on 10.244.0.50
+[INFO] Server started
+[INFO] Connected by (&#39;10.244.0.1&#39;, 38071)
+[INFO] Sent E2-like request
+[INFO] Receiving I/Q data...
+[INFO] Received buffer size 622592
+[INFO] Finished receiving message, processing
+[INFO] Interference signal detected, sending control message to enable adaptive MCS
+[INFO] Sent E2-like request
+[INFO] Receiving I/Q data...
+</pre></div>
+</div>
+</section>
+</section>
+<section id="undeployment">
+<h2>Undeployment<a class="headerlink" href="#undeployment" title="Permalink to this heading"></a></h2>
+<p>Undeploy xApp using App Manager:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export APPMGR_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+curl -L -X DELETE http://${APPMGR_HTTP}:8080/ric/v1/xapps/ric-app-ml
+</pre></div>
+</div>
+<p>Remove xApp’s chart from xApp onboarder:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export ONBOARDER_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+curl -L -X DELETE &quot;http://${ONBOARDER_HTTP}:8080/api/charts/&lt;xApp_name&gt;/&lt;xApp_tag&gt;&quot;
+</pre></div>
+</div>
+<p>Undeploy/redeploy the RIC components in the Kubernetes cluster:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd ~/oaic/RIC-Deployment/bin/
+sudo ./undeploy-ric-platform
+
+sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
+</pre></div>
+</div>
+<p>Delete additional port for E2-like interface:
+<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">service</span> <span class="pre">ricxapp-ric-app-ml</span> <span class="pre">-n</span> <span class="pre">ricxapp</span></code></p>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading"></a></h2>
+<section id="srsran-commands">
+<h3>srsRAN commands<a class="headerlink" href="#srsran-commands" title="Permalink to this heading"></a></h3>
+<p>Force exit srsenb:
+<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">pkill</span> <span class="pre">-5</span> <span class="pre">srsenb</span></code></p>
+</section>
+<section id="issues">
+<h3>Issues<a class="headerlink" href="#issues" title="Permalink to this heading"></a></h3>
+<p><strong>xApp stuck on “Receiving I/Q data…” or srsenb won’t connect to xApp</strong></p>
+<p>This usually happens when srsenb has been closed and you try to restart and reconnect to the xApp. Restart the xApp with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">rollout</span> <span class="pre">restart</span> <span class="pre">deployment</span> <span class="pre">ricxapp-ric-app-ml</span> <span class="pre">-n</span> <span class="pre">ricxapp</span></code>, and wait for the previous xApp pod to be deleted from the list. Afterwards, start the eNB, then start the UE.</p>
+<p>If the xApp randomly gets stuck on “Receiving I/Q data…” while connected to the nodeB, it is likely that it is not receiving enough data from the RAN. With the E2-like version of srsRAN supplied in the <code class="docutils literal notranslate"><span class="pre">e2like-doc</span></code> branch, you may need to send more than one E2-like request to ensure that the nodeB has received the message and will respond.</p>
+<p><strong>xApp crashes after a while/pods eject themselves</strong></p>
+<p>Kubernetes will automatically shut off or restart pods when the system is low on resources. If you are on a system with low RAM, you may find that the xApp restarts with error code 137. If you are on a system with low hard drive space, you may find that the pods in the RIC will be repeatedly ejected. The RIC is also prone to CrashLoopBackOff and Error issues when the logs get too large, which also consumes hard drive space.</p>
+<p>To ensure xApp stability, first make sure that your computer has enough remaining resources to support the RIC. Beyond this, another solution is to reduce the amount of logs your xApp produces, as when the xApp produces logs for a long time, it can prevent the RIC from functioning and require redeployment.</p>
+<p><strong>Kong is stuck in CrashLoopBackOff!</strong></p>
+<p>If Kong is not working in your near-RT RIC, you will not be able to deploy the xApp with the above commands. However, we can directly access the xApp Onboarder and App Manager’s IP addresses and bypass the Kong proxy.</p>
+<p>For the <cite>Onboard and deploy the xApp</cite> section, use the following commands instead:</p>
+<p>Get the IP addresses for the necessary pods:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export APPMGR_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+export ONBOARDER_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
+</pre></div>
+</div>
+<p>Submit our onboard URL file to the xApp onboarder:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>curl -L -X POST &quot;http://$ONBOARDER_HTTP:8888/api/v1/onboard/download&quot; --header &#39;Content-Type: application/json&#39; --data-binary &quot;@ml-onboard.url&quot;
+</pre></div>
+</div>
+<p>Deploy the xApp:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>curl -L -X POST &quot;http://$APPMGR_HTTP:8080/ric/v1/xapps&quot; --header &#39;Content-Type: application/json&#39; --data-raw &#39;{&quot;xappName&quot;: &quot;ric-app-ml&quot;}&#39;
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nexran1.html" class="btn btn-neutral float-left" title="Running the Nexran Xapp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="undeploy_ric.html" class="btn btn-neutral float-right" title="UnDeploying RIC Platform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
