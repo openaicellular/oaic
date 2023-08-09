@@ -71,7 +71,7 @@ def entry(self):
 
             # Loop which runs if an SCTP connection is established
             while True:
-                # Send an E2-like request within the first second to ask nodeB to send I/Q data
+                # Send an E2-like request to ask nodeB to send I/Q data
                 conn.send(f"E2-like request at {datetime.now().strftime('%H:%M:%S')}".encode('utf-8'))
                 log_info(self, "Sent E2-like request")
 
