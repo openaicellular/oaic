@@ -126,10 +126,9 @@ Here are some excerpts of the code:
 
                 # Loop which runs if an SCTP connection is established
                 while True:
-                    # Send an E2-like request within the first second to ask nodeB to send I/Q data
-                    if time.time() - initial < 1.0:
-                        conn.send(f"E2-like request at {datetime.now().strftime('%H:%M:%S')}".encode('utf-8'))
-                        log_info(self, "Sent E2-like request")
+                    # Send an E2-like request to ask nodeB to send I/Q data
+                    conn.send(f"E2-like request at {datetime.now().strftime('%H:%M:%S')}".encode('utf-8'))
+                    log_info(self, "Sent E2-like request")
 
                     # Sending too much SCTP data in a single message will freeze the connection up, so we have srsRAN split our data
                     # into chunks of 16384 bytes. The data in this case is I/Q data sourced from the RU (radio unit).
@@ -192,12 +191,17 @@ Here are some excerpts of the code:
 
 This xApp assumes a hypothetical scenario where interference is detected over the network using a machine learning model. In our case, we do not use a real model, but one could easily be substituted into this sample code. When interference is detected, we send a command from the xApp to the RAN to control the base station. In this case, we manipulate the Modulation and Coding Scheme (MCS) to mitigate interference. When interference is detected, we turn on adaptive MCS, and when it is no longer detected we disable it by setting the MCS to a fixed value. We only affect the uplink MCS for the purposes of this demo. We can adjust different parameters besides MCS if we implement the capabilitiy to do so on our RAN.
 
+Here is an example image of the spectrograms that we would be receiving from ZeroMQ. In this image, 10ms of I/Q data is shown from a single UE.
+
+.. image:: xapp_python_static/spectrogram.png
+   :scale: 75%
+
 
 Deployment
 ----------
 
-Building the Docker image
-~~~~~~~~~~~~~~~~~~~~~~~~~
+1. Building the Docker image
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Our xApp will be hosted in a Docker container. In order to create a Docker container, we must provide a Dockerfile which will provide the instructions as to how the machine should be set up. In this case, we use an Ubuntu setup with Python as the base for our Docker image. This is what the Dockerfile looks like:
 
@@ -232,8 +236,8 @@ This builds a Docker image labeled ric-app-ml with version 1.0.0, and submits it
 
 .. image:: xapp_python_static/ss_dockerbuild.png
 
-Creating the xApp config
-~~~~~~~~~~~~~~~~~~~~~~~~
+2. Creating the xApp config
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In our xApp, we have an init folder which contains the config.json file.
 
@@ -285,8 +289,8 @@ In our xApp, we have an init folder which contains the config.json file.
 This config file is important as it signifies where the Docker image is located, and also provides the ports and capabilities of the E2 interface.
 In our case, we are using an E2-like interface instead of the E2, so we will expose our own port after the deployment.
 
-Finding local IP address
-~~~~~~~~~~~~~~~~~~~~~~~~
+3. Finding local IP address
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Before running further steps, we will need the local IP address of the system. Use the first command ``hostname -I`` to find your local IP addresses. The first one that appears should work. Then, run the second command and replace <ip address> with the first IP you see. On my system, the address is ``10.0.2.15``.
 
@@ -297,8 +301,8 @@ Before running further steps, we will need the local IP address of the system. U
 
 Once this is done, we can replace the machine IP address with $HOST_IP.
 
-Configuring the Nginx Web server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4. Configuring the Nginx Web server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The xApp descriptor files (config.json) must be hosted on a webserver when we use the **xapp-onboarder** to deploy xApps. This is because the xApp onboarder cannot access our local files, so we have to upload them to the network where it can find and download them. We will use Nginx as our webserver for hosting config files.
 
@@ -352,8 +356,8 @@ Save and update the configuration file with the following command, and check if 
 
 .. image:: xapp_python_static/ss_nginxt.png
 
-Hosting the config Files
-~~~~~~~~~~~~~~~~~~~~~~~~
+5. Hosting the config Files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Make sure you are in the xApp directory, then copy the xApp config file to this directory. When we copy this file with sudo, it also protects the file from being modified, so we use the chmod command to re-enable read/write permissions.
 
@@ -371,8 +375,8 @@ At the end of these commands we restart nginx to ensure that it is properly runn
 
 .. image:: xapp_python_static/ss_curlconfig.png
 
-Create onboard URL file
-~~~~~~~~~~~~~~~~~~~~~~~
+6. Create onboard URL file
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Next, we need to create a ``.url`` file to point the ``xApp-onboarder`` to the Nginx server to get the xApp descriptor file and use it to create a helm chart and deploy the xApp. We echo the IP address to remember what it is, as we have to type it in ourselves in the text file.
 
@@ -391,8 +395,8 @@ Paste the following in the ``ml-onboard.url`` file. Substitute the ``<machine_ip
 
 Save the file. Now we are ready to deploy the xApp. 
 
-Onboard and deploy the xApp
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+7. Onboard and deploy the xApp
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 First, we collect and store the IP address of the Kong proxy to a variable, which allows us to connect to the different components of the RIC through a single address.
 
@@ -454,17 +458,17 @@ Open additional port for E2-like interface
 ``sudo kubectl expose deployment ricxapp-ric-app-ml --port 5000 --target-port 5000 --protocol SCTP -n ricxapp --type=NodePort``
 
 Connecting to srsRAN
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 We will use a modified version of srsRAN with the E2-like interface enabled.
 
-To connect our xApp to the E2-like interface, we also need to expose port 5000 of the xApp to our system. This command will enable SCTP connections on our local IP address by creating a NodePort service in Kubernetes called ricxapp-ric-app-ml.
+**1.** To connect our xApp to the E2-like interface, we also need to expose port 5000 of the xApp to our system. This command will enable SCTP connections on our local IP address by creating a NodePort service in Kubernetes called ricxapp-ric-app-ml.
 
 .. code-block:: rst
 
     sudo kubectl expose deployment ricxapp-ric-app-ml --port 5000 --target-port 5000 --protocol SCTP -n ricxapp --type=NodePort
 
-However, Kubernetes will reroute the xApp's port to another port that is not 5000, and we need to search for this port by finding the new Kubernetes service that we just created. Run the following command to get a list of all the services:
+**2.** However, Kubernetes will reroute the xApp's port to another port that is not 5000, and we need to search for this port by finding the new Kubernetes service that we just created. Run the following command to get a list of all the services:
 
 .. code-block:: rst
 
@@ -478,39 +482,33 @@ Look for ricxapp-ric-app-ml. On the same row in the terminal you should see a se
 
 In the above case, we want to use port 30255, as that is the port to access the xApp's SCTP interface from our local IP address.
 
-Let's store this xApp port in a variable to use later. Replace <xapp port> with the port you found in the previous command.
+**3.** Let's store this xApp port in a variable to use later. Replace <xapp port> with the port you found in the previous command.
 
 .. code-block:: rst
 
     export XAPP_PORT=<xapp port>
 
-Also, let's make sure the ue1 network namespace exists:
-
-.. code-block:: rst
-
-    sudo ip netns add ue1
-
-Assuming you have already built the E2-like version of srsRAN, go to the directory where srsRAN is built:
+**4.** Assuming you have already built the E2-like version of srsRAN, go to the directory where srsRAN is built:
 
 .. code-block:: rst
 
     cd ~/oaic
     cd srsRAN-e2-dev/build
 
-Now we can start srsRAN. First, start the EPC in a new terminal if you haven't already:
+**5.** Now we can start srsRAN. First, start the EPC in a new terminal if you haven't already:
 
 .. code-block:: rst
 
 	sudo srsepc/src/srsepc
 
-Before starting the base station, make sure you have the local IP address that you found from the previous steps. Open another terminal for these commands.
+**6.** Before starting the base station, make sure you have the local IP address that you found from the previous steps. Open another terminal for these commands.
 
 .. code-block:: rst
 
     hostname -I
     export HOST_IP=<ip address>
 
-Then, we can start the base station, which will connect to the xApp immediately on startup:
+**7.** Then, we can start the base station, which will connect to the xApp immediately on startup:
 
 .. code-block:: rst
 
@@ -547,7 +545,15 @@ You should see srsENB connect to the xApp and start sending I/Q data. You will a
 
     E2-like cmd received, using adaptive MCS
 
-The I/Q data will be empty and E2-like commands won't be performed until we connect a UE. Start the UE in a new terminal window and it should connect, initiating I/Q data transfer.
+The I/Q data will be empty and E2-like commands won't be performed until we connect a UE.
+
+**8.** Before we start the UE, make sure the ue1 network namespace exists:
+
+.. code-block:: rst
+
+    sudo ip netns add ue1
+
+**9.** Now, start the UE in a new terminal window and it should connect, initiating I/Q data transfer.
 
 .. code-block:: rst
 
@@ -570,13 +576,13 @@ The I/Q data will be empty and E2-like commands won't be performed until we conn
     Network attach successful. IP: 172.16.0.3
     Software Radio Systems RAN (srsRAN) 7/8/2023 16:8:59 TZ:0
 
-Now, we can initiate uplink data transfer. Start an iperf3 server from the UE side in a new terminal:
+**10.** Now, we can initiate uplink data transfer. Start an iperf3 server from the UE side in a new terminal:
 
 .. code-block:: rst
 
     sudo ip netns exec ue1 iperf3 -s -i 1
 
-Then, we can connect to this server from the host side. Replace <UE IP> with the IP address seen in the srsue window when connected. (In the above case, it is ``172.16.0.3``)
+**11.** Then, we can connect to this server from the host side. Replace <UE IP> with the IP address seen in the srsue window when connected. (In the above case, it is ``172.16.0.3``)
 
 .. code-block:: rst
 
@@ -599,7 +605,7 @@ Traffic should be visible on both sides:
     [  5]   4.00-5.00   sec  1.20 MBytes  10.1 Mbits/sec
     [  5]   5.00-6.00   sec  1.20 MBytes  10.1 Mbits/sec
 
-Now, we should go back to srsUE to see the MCS change. input "t" into the terminal to open up a trace on the UE side. It should look like this:
+**12.** Now, we should go back to srsUE to see the MCS change. input "t" into the terminal to open up a trace on the UE side. It should look like this:
 
 .. code-block:: rst
 
