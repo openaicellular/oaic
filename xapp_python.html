@@ -74,13 +74,13 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#development">Development</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deployment">Deployment</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#building-the-docker-image">Building the Docker image</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#creating-the-xapp-config">Creating the xApp config</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#finding-local-ip-address">Finding local IP address</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#configuring-the-nginx-web-server">Configuring the Nginx Web server</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#hosting-the-config-files">Hosting the config Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#create-onboard-url-file">Create onboard URL file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#onboard-and-deploy-the-xapp">Onboard and deploy the xApp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-the-docker-image">1. Building the Docker image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-the-xapp-config">2. Creating the xApp config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#finding-local-ip-address">3. Finding local IP address</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuring-the-nginx-web-server">4. Configuring the Nginx Web server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hosting-the-config-files">5. Hosting the config Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-onboard-url-file">6. Create onboard URL file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#onboard-and-deploy-the-xapp">7. Onboard and deploy the xApp</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#demonstration">Demonstration</a><ul>
@@ -232,10 +232,9 @@ sudo nano /root/.config/srsran/ue.conf
 
             <span class="c1"># Loop which runs if an SCTP connection is established</span>
             <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="c1"># Send an E2-like request within the first second to ask nodeB to send I/Q data</span>
-                <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">initial</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
-                    <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;E2-like request at </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
-                    <span class="n">log_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Sent E2-like request&quot;</span><span class="p">)</span>
+                <span class="c1"># Send an E2-like request to ask nodeB to send I/Q data</span>
+                <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;E2-like request at </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+                <span class="n">log_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Sent E2-like request&quot;</span><span class="p">)</span>
 
                 <span class="c1"># Sending too much SCTP data in a single message will freeze the connection up, so we have srsRAN split our data</span>
                 <span class="c1"># into chunks of 16384 bytes. The data in this case is I/Q data sourced from the RU (radio unit).</span>
@@ -298,11 +297,13 @@ sudo nano /root/.config/srsran/ue.conf
 </pre></div>
 </div>
 <p>This xApp assumes a hypothetical scenario where interference is detected over the network using a machine learning model. In our case, we do not use a real model, but one could easily be substituted into this sample code. When interference is detected, we send a command from the xApp to the RAN to control the base station. In this case, we manipulate the Modulation and Coding Scheme (MCS) to mitigate interference. When interference is detected, we turn on adaptive MCS, and when it is no longer detected we disable it by setting the MCS to a fixed value. We only affect the uplink MCS for the purposes of this demo. We can adjust different parameters besides MCS if we implement the capabilitiy to do so on our RAN.</p>
+<p>Here is an example image of the spectrograms that we would be receiving from ZeroMQ. In this image, 10ms of I/Q data is shown from a single UE.</p>
+<a class="reference internal image-reference" href="_images/spectrogram.png"><img alt="_images/spectrogram.png" src="_images/spectrogram.png" style="width: 192.0px; height: 192.0px;" /></a>
 </section>
 <section id="deployment">
 <h2>Deployment<a class="headerlink" href="#deployment" title="Permalink to this heading"></a></h2>
 <section id="building-the-docker-image">
-<h3>Building the Docker image<a class="headerlink" href="#building-the-docker-image" title="Permalink to this heading"></a></h3>
+<h3>1. Building the Docker image<a class="headerlink" href="#building-the-docker-image" title="Permalink to this heading"></a></h3>
 <p>Our xApp will be hosted in a Docker container. In order to create a Docker container, we must provide a Dockerfile which will provide the instructions as to how the machine should be set up. In this case, we use an Ubuntu setup with Python as the base for our Docker image. This is what the Dockerfile looks like:</p>
 <div class="highlight-docker notranslate"><div class="highlight"><pre><span></span><span class="c"># Load a miniconda setup for our base Docker image which contains Python</span>
 <span class="k">FROM</span><span class="w"> </span><span class="s">continuumio/miniconda3</span>
@@ -332,7 +333,7 @@ sudo nano /root/.config/srsran/ue.conf
 <img alt="_images/ss_dockerbuild.png" src="_images/ss_dockerbuild.png" />
 </section>
 <section id="creating-the-xapp-config">
-<h3>Creating the xApp config<a class="headerlink" href="#creating-the-xapp-config" title="Permalink to this heading"></a></h3>
+<h3>2. Creating the xApp config<a class="headerlink" href="#creating-the-xapp-config" title="Permalink to this heading"></a></h3>
 <p>In our xApp, we have an init folder which contains the config.json file.</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;json_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ric-app-ml&quot;</span><span class="p">,</span>
@@ -382,7 +383,7 @@ sudo nano /root/.config/srsran/ue.conf
 In our case, we are using an E2-like interface instead of the E2, so we will expose our own port after the deployment.</p>
 </section>
 <section id="finding-local-ip-address">
-<h3>Finding local IP address<a class="headerlink" href="#finding-local-ip-address" title="Permalink to this heading"></a></h3>
+<h3>3. Finding local IP address<a class="headerlink" href="#finding-local-ip-address" title="Permalink to this heading"></a></h3>
 <p>Before running further steps, we will need the local IP address of the system. Use the first command <code class="docutils literal notranslate"><span class="pre">hostname</span> <span class="pre">-I</span></code> to find your local IP addresses. The first one that appears should work. Then, run the second command and replace &lt;ip address&gt; with the first IP you see. On my system, the address is <code class="docutils literal notranslate"><span class="pre">10.0.2.15</span></code>.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>hostname -I
 export HOST_IP=&lt;ip address&gt;
@@ -391,7 +392,7 @@ export HOST_IP=&lt;ip address&gt;
 <p>Once this is done, we can replace the machine IP address with $HOST_IP.</p>
 </section>
 <section id="configuring-the-nginx-web-server">
-<h3>Configuring the Nginx Web server<a class="headerlink" href="#configuring-the-nginx-web-server" title="Permalink to this heading"></a></h3>
+<h3>4. Configuring the Nginx Web server<a class="headerlink" href="#configuring-the-nginx-web-server" title="Permalink to this heading"></a></h3>
 <p>The xApp descriptor files (config.json) must be hosted on a webserver when we use the <strong>xapp-onboarder</strong> to deploy xApps. This is because the xApp onboarder cannot access our local files, so we have to upload them to the network where it can find and download them. We will use Nginx as our webserver for hosting config files.</p>
 <p>First, we need to install Nginx and check if it is in <code class="docutils literal notranslate"><span class="pre">active</span> <span class="pre">(running)</span></code>  state.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt install nginx
@@ -426,7 +427,7 @@ sudo mkdir /var/www/xApp_config.local/config_files
 <img alt="_images/ss_nginxt.png" src="_images/ss_nginxt.png" />
 </section>
 <section id="hosting-the-config-files">
-<h3>Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Permalink to this heading"></a></h3>
+<h3>5. Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Permalink to this heading"></a></h3>
 <p>Make sure you are in the xApp directory, then copy the xApp config file to this directory. When we copy this file with sudo, it also protects the file from being modified, so we use the chmod command to re-enable read/write permissions.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo cp init/config.json /var/www/xApp_config.local/config_files/ml-config-file.json
 sudo chmod 755 /var/www/xApp_config.local/config_files/ml-config-file.json
@@ -440,7 +441,7 @@ sudo systemctl restart nginx
 <img alt="_images/ss_curlconfig.png" src="_images/ss_curlconfig.png" />
 </section>
 <section id="create-onboard-url-file">
-<h3>Create onboard URL file<a class="headerlink" href="#create-onboard-url-file" title="Permalink to this heading"></a></h3>
+<h3>6. Create onboard URL file<a class="headerlink" href="#create-onboard-url-file" title="Permalink to this heading"></a></h3>
 <p>Next, we need to create a <code class="docutils literal notranslate"><span class="pre">.url</span></code> file to point the <code class="docutils literal notranslate"><span class="pre">xApp-onboarder</span></code> to the Nginx server to get the xApp descriptor file and use it to create a helm chart and deploy the xApp. We echo the IP address to remember what it is, as we have to type it in ourselves in the text file.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>echo $HOST_IP
 nano ml-onboard.url
@@ -454,7 +455,7 @@ nano ml-onboard.url
 <p>Save the file. Now we are ready to deploy the xApp.</p>
 </section>
 <section id="onboard-and-deploy-the-xapp">
-<h3>Onboard and deploy the xApp<a class="headerlink" href="#onboard-and-deploy-the-xapp" title="Permalink to this heading"></a></h3>
+<h3>7. Onboard and deploy the xApp<a class="headerlink" href="#onboard-and-deploy-the-xapp" title="Permalink to this heading"></a></h3>
 <p>First, we collect and store the IP address of the Kong proxy to a variable, which allows us to connect to the different components of the RIC through a single address.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export KONG_PROXY=<span class="nv">`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 </pre></div>
@@ -498,11 +499,11 @@ nano ml-onboard.url
 <section id="connecting-to-srsran">
 <h3>Connecting to srsRAN<a class="headerlink" href="#connecting-to-srsran" title="Permalink to this heading"></a></h3>
 <p>We will use a modified version of srsRAN with the E2-like interface enabled.</p>
-<p>To connect our xApp to the E2-like interface, we also need to expose port 5000 of the xApp to our system. This command will enable SCTP connections on our local IP address by creating a NodePort service in Kubernetes called ricxapp-ric-app-ml.</p>
+<p><strong>1.</strong> To connect our xApp to the E2-like interface, we also need to expose port 5000 of the xApp to our system. This command will enable SCTP connections on our local IP address by creating a NodePort service in Kubernetes called ricxapp-ric-app-ml.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl expose deployment ricxapp-ric-app-ml --port 5000 --target-port 5000 --protocol SCTP -n ricxapp --type=NodePort
 </pre></div>
 </div>
-<p>However, Kubernetes will reroute the xApp’s port to another port that is not 5000, and we need to search for this port by finding the new Kubernetes service that we just created. Run the following command to get a list of all the services:</p>
+<p><strong>2.</strong> However, Kubernetes will reroute the xApp’s port to another port that is not 5000, and we need to search for this port by finding the new Kubernetes service that we just created. Run the following command to get a list of all the services:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get svc -A
 </pre></div>
 </div>
@@ -511,29 +512,25 @@ nano ml-onboard.url
 </pre></div>
 </div>
 <p>In the above case, we want to use port 30255, as that is the port to access the xApp’s SCTP interface from our local IP address.</p>
-<p>Let’s store this xApp port in a variable to use later. Replace &lt;xapp port&gt; with the port you found in the previous command.</p>
+<p><strong>3.</strong> Let’s store this xApp port in a variable to use later. Replace &lt;xapp port&gt; with the port you found in the previous command.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export XAPP_PORT=&lt;xapp port&gt;
 </pre></div>
 </div>
-<p>Also, let’s make sure the ue1 network namespace exists:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns add ue1
-</pre></div>
-</div>
-<p>Assuming you have already built the E2-like version of srsRAN, go to the directory where srsRAN is built:</p>
+<p><strong>4.</strong> Assuming you have already built the E2-like version of srsRAN, go to the directory where srsRAN is built:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd ~/oaic
 cd srsRAN-e2-dev/build
 </pre></div>
 </div>
-<p>Now we can start srsRAN. First, start the EPC in a new terminal if you haven’t already:</p>
+<p><strong>5.</strong> Now we can start srsRAN. First, start the EPC in a new terminal if you haven’t already:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsepc/src/srsepc
 </pre></div>
 </div>
-<p>Before starting the base station, make sure you have the local IP address that you found from the previous steps. Open another terminal for these commands.</p>
+<p><strong>6.</strong> Before starting the base station, make sure you have the local IP address that you found from the previous steps. Open another terminal for these commands.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>hostname -I
 export HOST_IP=&lt;ip address&gt;
 </pre></div>
 </div>
-<p>Then, we can start the base station, which will connect to the xApp immediately on startup:</p>
+<p><strong>7.</strong> Then, we can start the base station, which will connect to the xApp immediately on startup:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsenb/src/srsenb --ric.agent.log_level=debug --log.filename=stdout --ric.agent.remote_ipv4_addr=$HOST_IP --ric.agent.remote_port=$XAPP_PORT --ric.agent.local_ipv4_addr=$HOST_IP --ric.agent.local_port=38071  --scheduler.pusch_mcs=28
 </pre></div>
 </div>
@@ -566,7 +563,12 @@ Type &lt;t&gt; to view trace
 E2-like cmd received, using adaptive MCS
 </pre></div>
 </div>
-<p>The I/Q data will be empty and E2-like commands won’t be performed until we connect a UE. Start the UE in a new terminal window and it should connect, initiating I/Q data transfer.</p>
+<p>The I/Q data will be empty and E2-like commands won’t be performed until we connect a UE.</p>
+<p><strong>8.</strong> Before we start the UE, make sure the ue1 network namespace exists:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns add ue1
+</pre></div>
+</div>
+<p><strong>9.</strong> Now, start the UE in a new terminal window and it should connect, initiating I/Q data transfer.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo srsue/src/srsue --gw.netns=ue1
 </pre></div>
 </div>
@@ -586,11 +588,11 @@ Network attach successful. IP: 172.16.0.3
 Software Radio Systems RAN (srsRAN) 7/8/2023 16:8:59 TZ:0
 </pre></div>
 </div>
-<p>Now, we can initiate uplink data transfer. Start an iperf3 server from the UE side in a new terminal:</p>
+<p><strong>10.</strong> Now, we can initiate uplink data transfer. Start an iperf3 server from the UE side in a new terminal:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns exec ue1 iperf3 -s -i 1
 </pre></div>
 </div>
-<p>Then, we can connect to this server from the host side. Replace &lt;UE IP&gt; with the IP address seen in the srsue window when connected. (In the above case, it is <code class="docutils literal notranslate"><span class="pre">172.16.0.3</span></code>)</p>
+<p><strong>11.</strong> Then, we can connect to this server from the host side. Replace &lt;UE IP&gt; with the IP address seen in the srsue window when connected. (In the above case, it is <code class="docutils literal notranslate"><span class="pre">172.16.0.3</span></code>)</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>iperf3 -c &lt;UE IP&gt; -b 10M -i 1 -t 60
 </pre></div>
 </div>
@@ -609,7 +611,7 @@ Accepted connection from 172.16.0.1, port 55794
 [  5]   5.00-6.00   sec  1.20 MBytes  10.1 Mbits/sec
 </pre></div>
 </div>
-<p>Now, we should go back to srsUE to see the MCS change. input “t” into the terminal to open up a trace on the UE side. It should look like this:</p>
+<p><strong>12.</strong> Now, we should go back to srsUE to see the MCS change. input “t” into the terminal to open up a trace on the UE side. It should look like this:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>Software Radio Systems RAN (srsRAN) 7/8/2023 16:8:59 TZ:0
 t
 Enter t to stop trace.
