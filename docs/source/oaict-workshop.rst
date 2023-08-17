@@ -17,7 +17,7 @@ Instructions for setting up OAIC-T
 
 
 Move ricinstallation.sh to the root folder /
-Move kpimondeploy.sh and oaictdeploy.sh to oaic folder "oaic/"
+Move kpimondeploy.sh, oaictdeploy.sh, and srsrandeploy.sh to oaic folder "oaic/"
 Make executable by running the following command:
 
 .. code-block:: bash
@@ -38,7 +38,21 @@ Run the ricinstallation script:
 
   ./ricinstallation.sh
 
-3. Setup the 5G Network
+3. Install srsRan by running the provided script
+------------------------------------------------
+
+.. code-block:: bash
+
+   cd oaic
+
+Run the installation script:
+
+.. code-block:: bash
+
+   ./srsrandeploy.sh
+
+
+4. Setup the 5G Network
 -------------------------
 
 Terminal 1: Add UEs:
