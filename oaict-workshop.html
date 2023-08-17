@@ -81,7 +81,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Instructions for setting up OAIC-T</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#get-needed-files">1. Get needed files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-the-ric-by-running-the-provided-script">2. Install the RIC by running the provided script</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#setup-the-5g-network">3. Setup the 5G Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-srsran-by-running-the-provided-script">3. Install srsRan by running the provided script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-the-5g-network">4. Setup the 5G Network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deploy-the-kpimon-and-oaic-t-xapps">4. Deploy the KPIMON and OAIC-T xapps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deploy-the-server-and-actor">5. Deploy the Server and Actor</a></li>
 </ul>
@@ -122,7 +123,7 @@ Git<span class="w"> </span>clone<span class="w"> </span>https://github.com/opena
 </pre></div>
 </div>
 <p>Move ricinstallation.sh to the root folder /
-Move kpimondeploy.sh and oaictdeploy.sh to oaic folder “oaic/”
+Move kpimondeploy.sh, oaictdeploy.sh, and srsrandeploy.sh to oaic folder “oaic/”
 Make executable by running the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>filename.sh
 </pre></div>
@@ -138,8 +139,18 @@ Make executable by running the following command:</p>
 </pre></div>
 </div>
 </section>
+<section id="install-srsran-by-running-the-provided-script">
+<h2>3. Install srsRan by running the provided script<a class="headerlink" href="#install-srsran-by-running-the-provided-script" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>oaic
+</pre></div>
+</div>
+<p>Run the installation script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./srsrandeploy.sh
+</pre></div>
+</div>
+</section>
 <section id="setup-the-5g-network">
-<h2>3. Setup the 5G Network<a class="headerlink" href="#setup-the-5g-network" title="Permalink to this heading"></a></h2>
+<h2>4. Setup the 5G Network<a class="headerlink" href="#setup-the-5g-network" title="Permalink to this heading"></a></h2>
 <p>Terminal 1: Add UEs:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue1
 $<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue2
