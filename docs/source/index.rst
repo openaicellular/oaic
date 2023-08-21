@@ -48,13 +48,6 @@ Welcome to OAIC's documentation!
    kubectl_commands.rst
    oaic_t.rst
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Workshop Instructions:
-
-   installation.rst
-   kpimon-workshop.rst
-   oaict-workshop.rst
 
 Indices and tables
 ==================
