@@ -1,0 +1,273 @@
+ASN_MODULE_SRCS=	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_E2AP-PDU.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_InitiatingMessage.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_SuccessfulOutcome.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_UnsuccessfulOutcome.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionRequest.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionDetails.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICactions-ToBeSetup-List.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICaction-ToBeSetup-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionResponse.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICaction-Admitted-List.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICaction-Admitted-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICaction-NotAdmitted-List.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICaction-NotAdmitted-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionFailure.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionDeleteRequest.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionDeleteResponse.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionDeleteFailure.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICindication.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolRequest.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolAcknowledge.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolFailure.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ErrorIndication.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_E2setupRequest.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_E2setupResponse.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_E2setupFailure.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ResetRequest.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ResetResponse.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICserviceUpdate.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctions-List.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunction-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionsID-List.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionID-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICserviceUpdateAcknowledge.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionsIDcause-List.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionIDcause-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICserviceUpdateFailure.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICserviceQuery.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_Cause.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CauseMisc.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CauseProtocol.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CauseRIC.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CauseRICservice.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CauseTransport.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CriticalityDiagnostics.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CriticalityDiagnostics-IE-List.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CriticalityDiagnostics-IE-Item.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ENB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ENB-ID-Choice.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ENGNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalE2node-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalE2node-en-gNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalE2node-eNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalE2node-gNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalE2node-ng-eNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalENB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalenGNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalgNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalngeNB-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalRIC-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GNB-CU-UP-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GNB-DU-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GNB-ID-Choice.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_PLMN-Identity.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionDefinition.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionRevision.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICactionDefinition.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICactionID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICactionType.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcallProcessID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolAckRequest.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolHeader.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolMessage.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolOutcome.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolStatus.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICeventTriggerDefinition.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICindicationHeader.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICindicationMessage.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICindicationSN.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICindicationType.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICrequestID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubsequentAction.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubsequentActionType.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICtimeToWait.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_TimeToWait.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_TypeOfError.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_Criticality.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_Presence.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProcedureCode.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-ID.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_TriggeringMessage.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-Container.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-SingleContainer.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-Field.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-ContainerPair.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-FieldPair.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-ContainerList.c	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-ContainerPairList.c
+
+ASN_MODULE_HDRS=	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_E2AP-PDU.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_InitiatingMessage.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_SuccessfulOutcome.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_UnsuccessfulOutcome.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionRequest.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionDetails.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICactions-ToBeSetup-List.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICaction-ToBeSetup-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionResponse.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICaction-Admitted-List.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICaction-Admitted-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICaction-NotAdmitted-List.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICaction-NotAdmitted-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionFailure.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionDeleteRequest.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionDeleteResponse.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubscriptionDeleteFailure.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICindication.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolRequest.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolAcknowledge.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolFailure.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ErrorIndication.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_E2setupRequest.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_E2setupResponse.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_E2setupFailure.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ResetRequest.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ResetResponse.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICserviceUpdate.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctions-List.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunction-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionsID-List.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionID-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICserviceUpdateAcknowledge.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionsIDcause-List.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionIDcause-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICserviceUpdateFailure.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICserviceQuery.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_Cause.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CauseMisc.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CauseProtocol.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CauseRIC.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CauseRICservice.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CauseTransport.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CriticalityDiagnostics.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CriticalityDiagnostics-IE-List.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_CriticalityDiagnostics-IE-Item.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ENB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ENB-ID-Choice.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ENGNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalE2node-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalE2node-en-gNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalE2node-eNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalE2node-gNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalE2node-ng-eNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalENB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalenGNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalgNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalngeNB-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GlobalRIC-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GNB-CU-UP-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GNB-DU-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_GNB-ID-Choice.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_PLMN-Identity.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionDefinition.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RANfunctionRevision.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICactionDefinition.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICactionID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICactionType.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcallProcessID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolAckRequest.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolHeader.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolMessage.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolOutcome.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICcontrolStatus.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICeventTriggerDefinition.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICindicationHeader.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICindicationMessage.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICindicationSN.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICindicationType.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICrequestID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubsequentAction.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICsubsequentActionType.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_RICtimeToWait.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_TimeToWait.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_TypeOfError.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_Criticality.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_Presence.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProcedureCode.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-ID.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_TriggeringMessage.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-Container.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-SingleContainer.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-Field.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-ContainerPair.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-FieldPair.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-ContainerList.h	\
+	/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/E2AP_ProtocolIE-ContainerPairList.h
+
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/ANY.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/ANY.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/OCTET_STRING.h
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/OPEN_TYPE.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/OPEN_TYPE.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/constr_CHOICE.h
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/INTEGER.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/INTEGER.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/NativeEnumerated.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/NativeEnumerated.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/NativeInteger.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/NativeInteger.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_SEQUENCE_OF.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_SEQUENCE_OF.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_SET_OF.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_SET_OF.c
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/constr_CHOICE.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/constr_SEQUENCE.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/constr_SEQUENCE.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/constr_SEQUENCE_OF.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/constr_SEQUENCE_OF.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/constr_SET_OF.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/constr_SET_OF.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_application.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_application.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_ioc.h
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_system.h
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_codecs.h
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_internal.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_internal.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_random_fill.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_random_fill.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_bit_data.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_bit_data.c
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/OCTET_STRING.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/BIT_STRING.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/BIT_STRING.c
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_codecs_prim.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/asn_codecs_prim.h
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/ber_tlv_length.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/ber_tlv_length.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/ber_tlv_tag.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/ber_tlv_tag.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/ber_decoder.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/ber_decoder.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/der_encoder.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/der_encoder.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/constr_TYPE.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/constr_TYPE.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/constraints.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/constraints.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/xer_support.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/xer_support.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/xer_decoder.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/xer_decoder.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/xer_encoder.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/xer_encoder.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/per_support.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/per_support.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/per_decoder.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/per_decoder.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/per_encoder.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/per_encoder.c
+ASN_MODULE_HDRS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/per_opentype.h
+ASN_MODULE_SRCS+=/local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/per_opentype.c
+
+ASN_MODULE_CFLAGS=-DASN_DISABLE_OER_SUPPORT 
+
+lib_LTLIBRARIES+=libasncodec.la
+libasncodec_la_SOURCES=$(ASN_MODULE_SRCS) $(ASN_MODULE_HDRS)
+libasncodec_la_CPPFLAGS=-I$(top_srcdir)//local/mnt/openairinterface5g/cmake_targets/ran_build/build/CMakeFiles/E2AP/
+libasncodec_la_CFLAGS=$(ASN_MODULE_CFLAGS)
+libasncodec_la_LDFLAGS=-lm

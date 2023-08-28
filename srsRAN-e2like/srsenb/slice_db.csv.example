@@ -1,0 +1,16 @@
+#
+# .csv to store initial RAN slice configuration
+# Kept in the following format: "name,n_sf,{imsi_0, imsi_1, ..., imsi_N}"
+#
+# name:   Human readable name of slice.
+#
+# n_sf:   Proportion of subframes dedicated to the slice per scheduling cycle.
+#         This will be divided by the greatest common factor for this setting
+#         among all slices in order to minimize the duration of a scheduling
+#         cycle while maintaining proportionality. E.g., if there are two slices
+#         with n_sf equal to 12 and 90, they will be allocated 2 and 15 sf
+#         respectively, resulting in a scheduling cycle of 17 subframes.
+#
+# imsi_N: IMSI for the Nth UE included in the slice.
+slice1,1,001010123456789,001010123456790,001010123456791
+slice2,1,001010123456792,001010123456793,001010123456794
