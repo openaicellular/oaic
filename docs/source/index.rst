@@ -29,7 +29,8 @@ Welcome to OAIC's documentation!
    srsRAN_installation.rst
    setup5gnetwork.rst
    multi_ue_example.rst
-   
+   nonrtric.rst 
+
 .. toctree::
    :maxdepth: 2
    :caption: xApp Deployment:
