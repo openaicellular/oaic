@@ -56,16 +56,17 @@ Follow the steps to compile the E2-like srsRAN:
     export SRS=`realpath .`
     cd build
     cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+        -DENABLE_E2_LIKE=1 \
+        -DENABLE_AGENT_CMD=1 \
         -DRIC_GENERATED_E2AP_BINDING_DIR=${SRS}/e2_bindings/E2AP-v01.01 \
         -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
         -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
     make -j`nproc`
-    touch agent_cmd.bin iq_data_last_full.bin
     cd ../../
 
-OAIC Workshop note: do not run ``sudo make install``
+In this tutorial, we will not use ``sudo make install`` so that we do not overwrite the installed srsRAN with E2.
 
-Once it is done, make sure the eNB and UE configs have ZeroMQ enabled:
+Once it is done, make sure the eNB and UE configs have ZeroMQ enabled (device_name and device_args for ZMQ are uncommented):
 
 .. code-block:: rst
 
@@ -84,6 +85,27 @@ Once it is done, make sure the eNB and UE configs have ZeroMQ enabled:
     # Example for ZMQ-based operation with TCP transport for I/Q samples
     device_name = zmq
     device_args = fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2001,id=enb,base_srate=23.04e6
+
+Creating RAM filesystem
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The current implementation of the E2-like interface in srsRAN uses files to communicate between threads. This can cause a slowdown in performance as reading a file from a hard drive is relatively slow, and it also takes time to call the OS to request this data.
+Despite this, we can improve the speed by writing the files to a temporarily filesystem stored in RAM instead of a hard drive.
+
+.. code-block:: rst
+
+    sudo mkdir /mnt/tmp
+    sudo mount -t tmpfs none -o size=64M /mnt/tmp
+    touch /mnt/tmp/agent_cmd.bin /mnt/tmp/iq_data_last_full.bin /mnt/tmp/iq_data_tmp.bin
+
+The above commands will create a 64MB filesystem in RAM at ``/mnt/tmp`` and create a few empty files.
+
+* ``agent_cmd.bin`` stores the most recent E2-like command received
+* ``iq_data_tmp.bin`` stores a buffer of I/Q data that is currently being written to by srsRAN
+* ``iq_data_last_full.bin`` stores the last completely full buffer of I/Q data
+
+Once we have this filesystem set up, we can continue on to the xApp development.
+
 
 Development
 -----------

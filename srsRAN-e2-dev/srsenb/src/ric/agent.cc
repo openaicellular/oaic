@@ -539,12 +539,12 @@ bool agent::handle_message(srsran::unique_byte_buffer_t pdu,
 
   RIC_INFO("received e2-like message: %.*s\n", pdu->N_bytes, pdu->msg);
   // agent_cmd.bin handled in txrx.cc to control PHY layer
-  f = fopen("agent_cmd.bin", "w");
+  f = fopen("/mnt/tmp/agent_cmd.bin", "w");
   fwrite(pdu->msg, pdu->N_bytes, 1, f);
   fclose(f);
   RIC_INFO("wrote e2-like message to agent_cmd.bin");
   // read I/Q data saved by txrx.cc and send it through SCTP
-  f = fopen("iq_data_last_full.bin", "r");
+  f = fopen("/mnt/tmp/iq_data_last_full.bin", "r");
   if (f) {
     fread(iq_buffer, 614400, 1, f);
   } else {

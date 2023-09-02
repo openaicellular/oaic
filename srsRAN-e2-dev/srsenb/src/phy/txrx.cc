@@ -174,26 +174,26 @@ void txrx::run_thread()
     buffer.set_nof_samples(sf_len);
     radio_h->rx_now(buffer, timestamp);
     if (iq_counter == 0) {
-      f = fopen("iq_data_tmp.bin", "r");
+      f = fopen("/mnt/tmp/iq_data_tmp.bin", "r");
       if (f) {  // if our buffer exists and is full, rename it
         fclose(f);
-        f = fopen("iq_data_last_full.bin", "r");
+        f = fopen("/mnt/tmp/iq_data_last_full.bin", "r");
         if (f) {
           fclose(f);
-          remove("iq_data_last_full.bin");
+          remove("/mnt/tmp/iq_data_last_full.bin");
         }
         //Info("Filled IQ data buffer, renaming file\n");
-        rename("iq_data_tmp.bin", "iq_data_last_full.bin");
+        rename("/mnt/tmp/iq_data_tmp.bin", "/mnt/tmp/iq_data_last_full.bin");
       }
-      f = fopen("iq_data_tmp.bin", "w");
+      f = fopen("/mnt/tmp/iq_data_tmp.bin", "w");
     } else {
-      f = fopen("iq_data_tmp.bin", "a");
+      f = fopen("/mnt/tmp/iq_data_tmp.bin", "a");
     }
     fwrite(buffer.get(worker_com->get_rf_port(0), 0, worker_com->get_nof_ports(0)), sf_len, 1, f);
     fclose(f);
     
     if (iq_counter % 250 == 0) {
-      f = fopen("agent_cmd.bin", "r");
+      f = fopen("/mnt/tmp/agent_cmd.bin", "r");
       if (f) {
         size_t s = fread(cmd_buffer, 1, 1, f);
         
