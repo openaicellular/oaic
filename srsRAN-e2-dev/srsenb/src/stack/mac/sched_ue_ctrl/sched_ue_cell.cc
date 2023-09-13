@@ -432,7 +432,10 @@ tbs_info cqi_to_tbs_dl(const sched_ue_cell& cell,
 tbs_info cqi_to_tbs_ul(sched_ue_cell& cell, uint32_t nof_prb, uint32_t nof_re, int req_bytes, int explicit_mcs)
 {
   using ul64qam_cap    = sched_interface::ue_cfg_t::ul64qam_cap;
-  if (cell.mcs_counter % 250 == 0) {
+  
+  #ifdef ENABLE_AGENT_CMD
+  //srsran::console("CQI to TBS UL\n");
+  if (cell.mcs_counter == 0) {
     cell.mcs_f = fopen("/mnt/tmp/agent_cmd.bin", "r");
     if (cell.mcs_f) {
       size_t s = fread(cell.mcs_cmd_buffer, 1, 1, cell.mcs_f);
@@ -459,16 +462,15 @@ tbs_info cqi_to_tbs_ul(sched_ue_cell& cell, uint32_t nof_prb, uint32_t nof_re, i
           // srsran::console("E2-like cmd received, using fixed MCS\n");
           break;
         default:
-          // srsran::console("unknown E2-like cmd received: %c\n", cell.mcs_cmd_buffer[0]);
+          srsran::console("unknown E2-like cmd received: %c\n", cell.mcs_cmd_buffer[0]);
           break;
       }
-    } else {
-      srsran::console("No agent command to receive\n");
-    }
+    } else { srsran::console("error opening agent_cmd.bin\n"); perror("error"); }
     fclose(cell.mcs_f);
-  }
-
+  } // else { srsran::console("error opening agent_cmd.bin\n"); perror("error"); }
+  
   cell.mcs_counter = (cell.mcs_counter + 1) % 250;
+  #endif
 
   int  mcs             = explicit_mcs >= 0 ? explicit_mcs : cell.fixed_mcs_ul;
   bool ulqam64_enabled = cell.get_ue_cfg()->support_ul64qam == ul64qam_cap::enabled;

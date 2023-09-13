@@ -103,6 +103,19 @@ void metrics_csv::set_metrics(const enb_metrics_t& metrics, const uint32_t perio
       file << float_to_string(0, 2);
     }
 
+    #ifdef ENABLE_AGENT_CMD
+    std::cout << "[METRICS] Writing ul_rate.bin\n";
+
+    int counter = 0;
+    if (counter == 0) {
+      FILE* f = fopen("/mnt/tmp/ul_rate.bin", "w");
+      fwrite(&ul_rate_sum, sizeof(float), 1, f);
+      fclose(f);
+    }
+
+    std::cout << "[METRICS] Wrote ul_rate.bin\n";
+    #endif
+
     // Write system metrics.
     const srsran::sys_metrics_t& m = metrics.sys;
     file << float_to_string(m.process_realmem, 2);

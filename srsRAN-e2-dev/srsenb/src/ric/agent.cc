@@ -542,8 +542,9 @@ bool agent::handle_message(srsran::unique_byte_buffer_t pdu,
   f = fopen("/mnt/tmp/agent_cmd.bin", "w");
   fwrite(pdu->msg, pdu->N_bytes, 1, f);
   fclose(f);
-  RIC_INFO("wrote e2-like message to agent_cmd.bin");
+  RIC_INFO("wrote e2-like message to agent_cmd.bin\n");
   // read I/Q data saved by txrx.cc and send it through SCTP
+  
   f = fopen("/mnt/tmp/iq_data_last_full.bin", "r");
   if (f) {
     fread(iq_buffer, 614400, 1, f);
@@ -551,17 +552,37 @@ bool agent::handle_message(srsran::unique_byte_buffer_t pdu,
     memset(iq_buffer, 0, 614400);
   }
   fclose(f);
+
+  // #ifdef UL_RATE
+  // uint8_t ul_rate[5] = {0,0,0,0,0};
+  // f = fopen("/mnt/tmp/ul_rate.bin", "r");
+  // if (f) {
+  //   fread(ul_rate, sizeof(float), 1, f);
+  // } else {
+  //   memset(ul_rate, 0, 5);
+  // }
+  // fclose(f);
+  // RIC_INFO("read ul_rate.bin");
+  // #endif
+
   uint8_t* buf = iq_buffer;
   int size = 0;
+  
   auto time = std::chrono::system_clock::now().time_since_epoch();
   std::chrono::seconds seconds = std::chrono::duration_cast< std::chrono::seconds >(time);
   std::chrono::milliseconds ms = std::chrono::duration_cast< std::chrono::milliseconds >(time);
   RIC_INFO("Timestamp: %0.7f\n", (double) seconds.count() + ((double) (ms.count() % 1000)/1000.0));
+  
   for (int i = 0; i < 614400; i += 16384) {
     size = (614400 - i > 16384) ? 16384 : 614400 - i;
     buf += 16384;
     send_sctp_data(buf, 16384);
   }
+
+  // #ifdef UL_RATE
+  // send_sctp_data(ul_rate, 5);
+  // #endif
+
   RIC_INFO("sent I/Q buffer\n");
 
   return true;

@@ -173,6 +173,8 @@ void txrx::run_thread()
 
     buffer.set_nof_samples(sf_len);
     radio_h->rx_now(buffer, timestamp);
+
+    #ifdef ENABLE_AGENT_CMD
     if (iq_counter == 0) {
       f = fopen("/mnt/tmp/iq_data_tmp.bin", "r");
       if (f) {  // if our buffer exists and is full, rename it
@@ -236,6 +238,7 @@ void txrx::run_thread()
     }
 
     iq_counter = (iq_counter + 1) % 1000;
+    #endif
 
     if (ul_channel) {
       ul_channel->run(buffer.to_cf_t(), buffer.to_cf_t(), sf_len, timestamp.get(0));
