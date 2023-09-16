@@ -34,15 +34,6 @@ For more information on Kubernetes and Docker, see the `Background on Docker, Ku
 Setup
 -----
 
-To begin, checkout the E2-like branch of the OAIC codebase to access the xApp code and modified srsRAN.
-
-.. code-block:: rst
-
-    git checkout e2like-doc
-
-Once the command is complete, you should be able to access the ``ric-app-ml`` and ``srsRAN-e2-dev`` folders.
-
-
 Compiling E2-like srsRAN
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -97,6 +88,7 @@ Despite this, we can improve the speed by writing the files to a temporarily fil
     sudo mkdir /mnt/tmp
     sudo mount -t tmpfs none -o size=64M /mnt/tmp
     touch /mnt/tmp/agent_cmd.bin /mnt/tmp/iq_data_last_full.bin /mnt/tmp/iq_data_tmp.bin
+    sudo chmod -R 755 /mnt/tmp
 
 The above commands will create a 64MB filesystem in RAM at ``/mnt/tmp`` and create a few empty files.
 
@@ -110,7 +102,7 @@ Once we have this filesystem set up, we can continue on to the xApp development.
 Development
 -----------
 
-First, let's take a look at the ``ric-app-ml`` directory, where the xApp is located. We use a Python file called ``app.py`` to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN's behavior.
+First, let's take a look at the ``ric-app-ml-e2like`` directory, where the xApp is located. We use a Python file called ``app.py`` to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN's behavior.
 
 When using the E2-like interface, the xApp acts as an SCTP server and the nodeB is a client.
 
@@ -598,17 +590,18 @@ The I/Q data will be empty and E2-like commands won't be performed until we conn
     Network attach successful. IP: 172.16.0.3
     Software Radio Systems RAN (srsRAN) 7/8/2023 16:8:59 TZ:0
 
-**10.** Now, we can initiate uplink data transfer. Start an iperf3 server from the UE side in a new terminal:
+**10.** Now, we can initiate uplink data transfer. Start an iperf3 server from the nodeB side in a new terminal:
 
 .. code-block:: rst
 
-    sudo ip netns exec ue1 iperf3 -s -i 1
+    iperf3 -s -i 1
 
-**11.** Then, we can connect to this server from the host side. Replace <UE IP> with the IP address seen in the srsue window when connected. (In the above case, it is ``172.16.0.3``)
+**11.** Then, we can connect to this server from the UE side.
+.. Replace <UE IP> with the IP address seen in the srsue window when connected. (In the above case, it is ``172.16.0.3``)
 
 .. code-block:: rst
 
-    iperf3 -c <UE IP> -b 10M -i 1 -t 60
+    sudo ip netns exec ue1 iperf3 -c 172.16.0.1 -b 10M -i 1 -t 0
 
 Traffic should be visible on both sides:
 
