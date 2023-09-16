@@ -34,15 +34,6 @@ For more information on Kubernetes and Docker, see the `Background on Docker, Ku
 Setup
 -----
 
-To begin, checkout the E2-like branch of the OAIC codebase to access the xApp code and modified srsRAN.
-
-.. code-block:: rst
-
-    git checkout e2like-doc
-
-Once the command is complete, you should be able to access the ``ric-app-ml`` and ``srsRAN-e2-dev`` folders.
-
-
 Compiling E2-like srsRAN
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -51,21 +42,22 @@ Follow the steps to compile the E2-like srsRAN:
 
 .. code-block:: rst
 
-    cd srsRAN-e2-dev
+    cd srsRAN-e2
     mkdir build
     export SRS=`realpath .`
     cd build
     cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+        -DENABLE_E2_LIKE=1 \
+        -DENABLE_AGENT_CMD=1 \
         -DRIC_GENERATED_E2AP_BINDING_DIR=${SRS}/e2_bindings/E2AP-v01.01 \
         -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
         -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
     make -j`nproc`
-    touch agent_cmd.bin iq_data_last_full.bin
     cd ../../
 
-OAIC Workshop note: do not run ``sudo make install``
+In this tutorial, we will not use ``sudo make install`` so that we do not overwrite the installed srsRAN with E2.
 
-Once it is done, make sure the eNB and UE configs have ZeroMQ enabled:
+Once it is done, make sure the eNB and UE configs have ZeroMQ enabled (device_name and device_args for ZMQ are uncommented):
 
 .. code-block:: rst
 
@@ -85,10 +77,32 @@ Once it is done, make sure the eNB and UE configs have ZeroMQ enabled:
     device_name = zmq
     device_args = fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2001,id=enb,base_srate=23.04e6
 
+Creating RAM filesystem
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The current implementation of the E2-like interface in srsRAN uses files to communicate between threads. This can cause a slowdown in performance as reading a file from a hard drive is relatively slow, and it also takes time to call the OS to request this data.
+Despite this, we can improve the speed by writing the files to a temporarily filesystem stored in RAM instead of a hard drive.
+
+.. code-block:: rst
+
+    sudo mkdir /mnt/tmp
+    sudo mount -t tmpfs none -o size=64M /mnt/tmp
+    touch /mnt/tmp/agent_cmd.bin /mnt/tmp/iq_data_last_full.bin /mnt/tmp/iq_data_tmp.bin
+    sudo chmod -R 755 /mnt/tmp
+
+The above commands will create a 64MB filesystem in RAM at ``/mnt/tmp`` and create a few empty files.
+
+* ``agent_cmd.bin`` stores the most recent E2-like command received
+* ``iq_data_tmp.bin`` stores a buffer of I/Q data that is currently being written to by srsRAN
+* ``iq_data_last_full.bin`` stores the last completely full buffer of I/Q data
+
+Once we have this filesystem set up, we can continue on to the xApp development.
+
+
 Development
 -----------
 
-First, let's take a look at the ``ric-app-ml`` directory, where the xApp is located. We use a Python file called ``app.py`` to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN's behavior.
+First, let's take a look at the ``ric-app-ml-e2like`` directory, where the xApp is located. We use a Python file called ``app.py`` to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN's behavior.
 
 When using the E2-like interface, the xApp acts as an SCTP server and the nodeB is a client.
 
@@ -493,7 +507,7 @@ In the above case, we want to use port 30255, as that is the port to access the 
 .. code-block:: rst
 
     cd ~/oaic
-    cd srsRAN-e2-dev/build
+    cd srsRAN-e2/build
 
 **5.** Now we can start srsRAN. First, start the EPC in a new terminal if you haven't already:
 
@@ -576,17 +590,18 @@ The I/Q data will be empty and E2-like commands won't be performed until we conn
     Network attach successful. IP: 172.16.0.3
     Software Radio Systems RAN (srsRAN) 7/8/2023 16:8:59 TZ:0
 
-**10.** Now, we can initiate uplink data transfer. Start an iperf3 server from the UE side in a new terminal:
+**10.** Now, we can initiate uplink data transfer. Start an iperf3 server from the nodeB side in a new terminal:
 
 .. code-block:: rst
 
-    sudo ip netns exec ue1 iperf3 -s -i 1
+    iperf3 -s -i 1
 
-**11.** Then, we can connect to this server from the host side. Replace <UE IP> with the IP address seen in the srsue window when connected. (In the above case, it is ``172.16.0.3``)
+**11.** Then, we can connect to this server from the UE side.
+.. Replace <UE IP> with the IP address seen in the srsue window when connected. (In the above case, it is ``172.16.0.3``)
 
 .. code-block:: rst
 
-    iperf3 -c <UE IP> -b 10M -i 1 -t 60
+    sudo ip netns exec ue1 iperf3 -c 172.16.0.1 -b 10M -i 1 -t 0
 
 Traffic should be visible on both sides:
 
