@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Instructions for deploying the Kpimon XApp &mdash; OAIC 0.1 documentation</title>
+  <title>Instructions for setting a 4G Network with Multiple UEs &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -88,9 +88,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Instructions for deploying the Kpimon XApp</li>
+      <li class="breadcrumb-item active">Instructions for setting a 4G Network with Multiple UEs</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/kpimon-workshop.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/Multiple UEs.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -98,10 +98,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="instructions-for-deploying-the-kpimon-xapp">
-<h1>Instructions for deploying the Kpimon XApp<a class="headerlink" href="#instructions-for-deploying-the-kpimon-xapp" title="Permalink to this heading"></a></h1>
+  <section id="instructions-for-setting-a-4g-network-with-multiple-ues">
+<h1>Instructions for setting a 4G Network with Multiple UEs<a class="headerlink" href="#instructions-for-setting-a-4g-network-with-multiple-ues" title="Permalink to this heading"></a></h1>
 <section id="edit-configurations">
 <h2>1. Edit Configurations<a class="headerlink" href="#edit-configurations" title="Permalink to this heading"></a></h2>
+<p>Download needed files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/main-file-repo
+</pre></div>
+</div>
 <p>We need to change some settings in the srsRan config files to use ZMQ for the multiple UEs. Access the command line as superuser:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>-i
 </pre></div>
@@ -203,16 +207,10 @@ $<span class="w"> </span>sudo<span class="w"> </span>srsenb<span class="w"> </sp
 </pre></div>
 </div>
 <p>Terminal 5: Attach the two UEs to eNB:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>multi_ues.py
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>main-file-repo/python3<span class="w"> </span>2UES_4G.py
 </pre></div>
 </div>
-<p>Generate traffic by ping test on server side
-In Terminal 6 and 7:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue1<span class="w"> </span>ping<span class="w"> </span><span class="m">172</span>.16.0.1
-$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue2<span class="w"> </span>ping<span class="w"> </span><span class="m">172</span>.16.0.1
-</pre></div>
-</div>
-<p>Alternatively, generate traffics by iperf3:
+<p>Generate traffic by iperf3:
 In Terminal 6 and 7:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>iperf3<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5201</span>
 $<span class="w"> </span>iperf3<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5301</span>
@@ -224,105 +222,88 @@ $<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>n
 </pre></div>
 </div>
 </section>
-<section id="upgraded-kpimon-deployment">
-<h2>3. Upgraded KPIMON deployment<a class="headerlink" href="#upgraded-kpimon-deployment" title="Permalink to this heading"></a></h2>
-<p>The xApp descriptor files (config.json) must be hosted on a web server when we use the xapp-onboarder to deploy xApps. To host these files we use Nginx to create a web server.</p>
-<p>In a New Terminal, go through the following commands one by one:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>nginx
-$<span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>nginx
-$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/nginx/sites-enabled
-$<span class="w"> </span>sudo<span class="w"> </span>unlink<span class="w"> </span>default
-$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>../
-$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>../../var/www
-$<span class="w"> </span>sudo<span class="w"> </span>mkdir<span class="w"> </span>xApp_config.local
-$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>xApp_config.local/
-$<span class="w"> </span>sudo<span class="w"> </span>mkdir<span class="w"> </span>config_files
-$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>../../../etc/nginx/conf.d
-$<span class="w"> </span>sudo<span class="w"> </span>vim<span class="w"> </span>xApp_config.local.conf
+</section>
+<section id="instructions-for-setting-a-5g-network-with-multiple-ues">
+<h1>Instructions for setting a 5G Network with Multiple UEs<a class="headerlink" href="#instructions-for-setting-a-5g-network-with-multiple-ues" title="Permalink to this heading"></a></h1>
+<section id="setup">
+<h2>1. Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<p>Access the command line as superuser:</p>
+<blockquote>
+<div><p>$ sudo -i</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Open user_db.csv file with the following command:</dt><dd><p>$ vim /root/.config/srsran/user_db.csv</p>
+</dd>
+</dl>
+<p>edit the file with the following:</p>
+<p>ue2,xor,001010123456780,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8000,000000001590,7,dynamic
+ue3,xor,001010123456781,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8002,000000001488,7,dynamic
+ue4,xor,001010123456782,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8003,000000001446,7,dynamic
+ue5,xor,001010123456783,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8004,000000001467,7,dynamic
+ue1,xor,001010123456789,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,9001,000000001656,7,dynamic</p>
+<p>Terminal 1:open a terminal run the following commands for each UE:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue1
+$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue2
+$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue3
+$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue4
+$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue5
 </pre></div>
 </div>
-<p>Paste the following content in the conf file.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>server {
-    listen 5010 default_server;
-    server_name xApp_config.local;
-    location /config_files/ {
-        root /var/www/xApp_config.local/;
-    }
-}
+<p>Check the results:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>list
 </pre></div>
 </div>
-<p>Save the configuration file and check if there are any errors in the configuration file.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>nginx<span class="w"> </span>-t
+<p>If five UEs are listed, start the Core Network:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>srsepc
 </pre></div>
 </div>
-<p>We can now clone the repositories. Under the OAIC directory, run the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/upgraded-kpimon-xApp.git
+<p>Terminal 2: Set up Environment Variables and Base Station:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_IP</span><span class="o">=</span><span class="sb">`</span>hostname<span class="w"> </span>-I<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1<span class="w"> </span>-d<span class="s1">&#39; &#39;</span><span class="sb">`</span>
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_PORT</span><span class="o">=</span><span class="m">5006</span>
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_IP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+
+$<span class="w"> </span>sudo<span class="w"> </span>srsenb<span class="w"> </span>--enb.n_prb<span class="o">=</span><span class="m">50</span><span class="w"> </span>--enb.name<span class="o">=</span>enb1<span class="w"> </span>--enb.enb_id<span class="o">=</span>0x19B<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port0=tcp://*:2000,rx_port0=tcp://localhost:2001,tx_port1=tcp://*:2100,rx_port1=tcp://localhost:2101,id=enb,base_srate=23.04e6&quot;</span><span class="w"> </span>--ric.agent.remote_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2TERM_IP</span><span class="si">}</span><span class="w"> </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--ric.agent.log_level<span class="o">=</span>debug<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--ric.agent.local_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_IP</span><span class="si">}</span><span class="w"> </span>--ric.agent.local_port<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_PORT</span><span class="si">}</span>
 </pre></div>
 </div>
-<p>Create a symlink from the xapp’s config file (in this case kpimon). This can be replaced by another symlink in the future. Reload Nginx once this has been done.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>cp<span class="w"> </span>/scp-kpimon-config-file.json<span class="w"> </span>/var/www/xApp_config.local/config_files/
-$<span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
+<p>Terminal 3: Set up the first UE:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>srsue<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port0=tcp://*:2002,rx_port0=tcp://localhost:2052,tx_port1=tcp://*:2102,rx_port1=tcp://localhost:2152,id=ue1,base_srate=23.04e6&quot;</span><span class="w"> </span>--gw.netns<span class="o">=</span>ue1<span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456789</span>
 </pre></div>
 </div>
-<p>Check if the config file can be accessed from the newly created server.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">MACHINE_IP</span><span class="o">=</span><span class="sb">`</span>hostname<span class="w"> </span>-I<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1<span class="w"> </span>-d<span class="s1">&#39; &#39;</span><span class="sb">`</span>
-$<span class="w"> </span>curl<span class="w"> </span>http://<span class="si">${</span><span class="nv">MACHINE_IP</span><span class="si">}</span>:5010/config_files/scp-kpimon-config-file.json
+<p>Terminal 4: Set up the second UE:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>srsue<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port0=tcp://*:2003,rx_port0=tcp://localhost:2053,tx_port1=tcp://*:2103,rx_port1=tcp://localhost:2153,id=ue2,base_srate=23.04e6&quot;</span><span class="w"> </span>--gw.netns<span class="o">=</span>ue2<span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456780</span>
 </pre></div>
 </div>
-<p>Now, we create a docker image of the KPIMON xApp using the given docker file.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>upgraded-kpimon-xApp
-$<span class="w"> </span>sudo<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-t<span class="w"> </span>xApp-registry.local:5008/scp-kpimon:1.0.1
+<p>Terminal 5: Set up the third UE:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>srsue<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port0=tcp://*:2004,rx_port0=tcp://localhost:2054,tx_port1=tcp://*:2104,rx_port1=tcp://localhost:2154,id=ue3,base_srate=23.04e6&quot;</span><span class="w"> </span>--gw.netns<span class="o">=</span>ue3<span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456781</span>
 </pre></div>
 </div>
-<p>Get some variables of RIC Platform ready. The following Three variables represent the IP addresses of the services running on the RIC Platform.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">KONG_PROXY</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>kong<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">APPMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-appmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">ONBOARDER_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-xapp-onboarder-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<p>Terminal 6: Set up the fourth UE:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>srsue<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port0=tcp://*:2005,rx_port0=tcp://localhost:2055,tx_port1=tcp://*:2105,rx_port1=tcp://localhost:2155,id=ue4,base_srate=23.04e6&quot;</span><span class="w"> </span>--gw.netns<span class="o">=</span>ue4<span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456782</span>
 </pre></div>
 </div>
-<p>Check for helm charts:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>--location<span class="w"> </span>--request<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/charts&quot;</span>
+<p>Terminal 7: Set up the fifth UE:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>srsue<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port0=tcp://*:2006,rx_port0=tcp://localhost:2056,tx_port1=tcp://*:2106,rx_port1=tcp://localhost:2156,id=ue5,base_srate=23.04e6&quot;</span><span class="w"> </span>--gw.netns<span class="o">=</span>ue5<span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456783</span>
 </pre></div>
 </div>
-<p>Next, we need to create a .url file to point the xApp-onboarder to the Nginx server to get the xApp descriptor file and use it to create a helm chart and deploy the xApp.</p>
-<p>Get IP address by one of the two commands below:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>hostname<span class="w"> </span>-I
-or
-$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$MACHINE_IP</span>$
+<p>Terminal 8: Attach the five UEs to eNB:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>main-file-repo/python3<span class="w"> </span>5UES_5g.py
 </pre></div>
 </div>
-<p>Create url file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>vim<span class="w"> </span>scp-kpimon-onboard.url
+<p>Generate traffic by iperf3:
+In Terminal 9, 10, 11, 12, and 13:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>iperf3<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5201</span>
+$<span class="w"> </span>iperf3<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5301</span>
+$<span class="w"> </span>iperf3<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5401</span>
+$<span class="w"> </span>iperf3<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5501</span>
+$<span class="w"> </span>iperf3<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5601</span>
 </pre></div>
 </div>
-<p>Paste the following in the <cite>scp-kpimon-onboard.url</cite> file. Substitute the <cite>172.17.0.1</cite> with the IP address of your machine.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{&quot;config-file.json_url&quot;:&quot;http://&lt;machine_ip_address&gt;:5010/config_files/scp-kpimon-config-file.json&quot;}
-</pre></div>
-</div>
-<p>Save the file.</p>
-<p>Deploying the xApp:</p>
-<p>Check for helm charts and determine if the current xApp is present. If no helm chart exists, proceed. If a chart exists, either use it or delete it before continuing.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/onboard/download&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;@scp-kpimon-onboard.url&quot;</span>
-$<span class="w"> </span>curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/charts&quot;</span>
-$<span class="w"> </span>curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/appmgr/ric/v1/xapps&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-raw<span class="w"> </span><span class="s1">&#39;{&quot;xappName&quot;: &quot;scp-kpimon&quot;}&#39;</span>
-</pre></div>
-</div>
-<p>Verify xApp Deployment:</p>
-<p>There should be a ricxapp-scp-kpimon pod in ricxapp namespace:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A
-</pre></div>
-</div>
-<p>In the terminal, print the KPIMON logs:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>ricxapp-scp-kpimon
-</pre></div>
-</div>
-<p>If you already have KPIMON xApp deployed on your system, you need to restart the pod using the command below before running the rest of the commands.</p>
-<p>In a New Terminal, print the KPIMON Metrics:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>ricxapp-scp-kpimon<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="sb">`</span><span class="w"> </span>--<span class="w"> </span>tail<span class="w"> </span>-F<span class="w"> </span>/opt/kpimon.log
-</pre></div>
-</div>
-<p>If the above deployment has an issue, you can restart the KPIMON xApp:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>kubectl<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deployment<span class="w"> </span>ricxapp-scp-kpimon
+<p>In Terminal 14, 15, 16, 17, 18:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue1<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">600</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5201</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue2<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">600</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5301</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue2<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">600</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5401</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue2<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">600</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5501</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue2<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">600</span><span class="w"> </span>-p<span class="w"> </span><span class="m">5601</span>
 </pre></div>
 </div>
 </section>

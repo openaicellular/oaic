@@ -28,8 +28,7 @@ Welcome to OAIC's documentation!
    oran_installation.rst
    srsRAN_installation.rst
    setup5gnetwork.rst
-   multi_ue_example.rst
-   mutli_ue_example_with_5g.rst
+   MultipleUEs.rst
    nonrtric.rst 
 
 .. toctree::
