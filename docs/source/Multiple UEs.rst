@@ -4,6 +4,15 @@ Instructions for setting a 4G Network with Multiple UEs
 1. Edit Configurations
 ----------------------
 
+
+Download needed files:
+
+.. code-block:: bash
+
+   $ git clone https://github.com/openaicellular/main-file-repo
+
+
+
 We need to change some settings in the srsRan config files to use ZMQ for the multiple UEs. Access the command line as superuser:
 
 .. code-block:: bash
@@ -141,7 +150,7 @@ Terminal 5: Attach the two UEs to eNB:
 
 .. code-block:: bash
 
-    $ python3 2UES_4G.py
+    $ main-file-repo/python3 2UES_4G.py
 
 Generate traffic by iperf3:
 In Terminal 6 and 7:
@@ -249,7 +258,7 @@ Terminal 8: Attach the five UEs to eNB:
 
 .. code-block:: bash
 
-    $ python3 5UES_5g.py
+    $ main-file-repo/python3 5UES_5g.py
 
 Generate traffic by iperf3: 
 In Terminal 9, 10, 11, 12, and 13:
