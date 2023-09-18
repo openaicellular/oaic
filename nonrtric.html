@@ -66,6 +66,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-the-non-real-time-ric">Installing the Non-Real Time RIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#healthcheck-rapp-simulator">Healthcheck rApp Simulator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-the-non-real-time-ric-healthcheck-rapp">Running the Non-Real Time RIC Healthcheck rApp</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -117,10 +122,10 @@
 <p>For Non-SMO installation</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>We recommend you to run these installation procedures on a VM with the specs below</p>
+<p>We recommend you to run these installation procedures on a machine with the specs below</p>
 </div>
 <ul class="simple">
-<li><p>OS: <a class="reference external" href="https://releases.ubuntu.com/focal/ubuntu-20.04.6-live-server-amd64.iso">Ubuntu Live server 20.04 LTS (Focal Fossa)</a></p></li>
+<li><p>OS: <a class="reference external" href="https://www.releases.ubuntu.com/focal/ubuntu-20.04.6-desktop-amd64.iso">Ubuntu Desktop 20.04 LTS (Focal Fossa)</a></p></li>
 <li><p>CPU(s): 6 vCPUs</p></li>
 <li><p>RAM: 40 GB</p></li>
 <li><p>Storage: 60 GB</p></li>
@@ -129,39 +134,44 @@
 </section>
 <section id="installing-the-non-real-time-ric">
 <h2>Installing the Non-Real Time RIC<a class="headerlink" href="#installing-the-non-real-time-ric" title="Permalink to this heading"></a></h2>
-<p>First install snap and reboot.</p>
+<p>First install packages and reboot.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>snapd<span class="w"> </span>-y
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>curl
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git
 sudo<span class="w"> </span>reboot
 </pre></div>
 </div>
 <p>After your machine have finished rebooting git clone the following repositories into your home directory</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span><span class="s2">&quot;https://gerrit.o-ran-sc.org/r/it/dep&quot;</span>
-sudo<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/sebdet/oran-deployment.git
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/nonrtric.git
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/main-file-repo.git
 </pre></div>
 </div>
-<p>Checkout your <code class="docutils literal notranslate"><span class="pre">dep</span></code> repository to master and do a git submodule update.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/dep
-sudo<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>master
-sudo<span class="w"> </span>git<span class="w"> </span>submodule<span class="w"> </span>update<span class="w"> </span>--init<span class="w"> </span>--recursive
+<p>The nonrtric repo will contain all the scripts to deploy the Non-Real Time RIC, and the main-file-repo repository will contain all the materials to deploy it.</p>
+<p>Run these following commands to setup Kubernetes,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/
+sudo<span class="w"> </span>./nonrtric/smo-install/scripts/layer-0/0-setup-microk8s.sh
+</pre></div>
+</div>
+<p>Chart Museum,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./nonrtric/smo-install/scripts/layer-0/0-setup-charts-museum.sh
+</pre></div>
+</div>
+<p>and Helm v3</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./nonrtric/smo-install/scripts/layer-0/0-setup-helm3.sh
+</pre></div>
+</div>
+<p>Build the helm charts for the Non-Real Time RIC</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./nonrtric/smo-install/scripts/layer-1/1-build-all-charts.sh
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If your git commands doesn’t work, you may need to declare the git repository as safe with this command: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span> <span class="pre">--global</span> <span class="pre">--add</span> <span class="pre">safe.directory</span> <span class="pre">/home/YOUR_USERNAME/dep</span></code></p>
-</div>
-<p>Then run these following commands to setup Kubernetes, Chart Museum, and Helm v3</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/
-sudo<span class="w"> </span>./dep/smo-install/scripts/layer-0/0-setup-microk8s.sh
-sudo<span class="w"> </span>./dep/smo-install/scripts/layer-0/0-setup-charts-museum.sh
-sudo<span class="w"> </span>./dep/smo-install/scripts/layer-0/0-setup-helm3.sh
-</pre></div>
-</div>
-<p>Build the helm charts for the Non-Real Time RIC</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./dep/smo-install/scripts/layer-1/1-build-all-charts.sh
-</pre></div>
+<p>This make take around 30 minutes</p>
 </div>
 <p>Finally, deploy the Non-Real Time RIC</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./dep/smo-install/scripts/layer-2/2-install-nonrtric-only.sh<span class="w"> </span>standalone-nonrtric
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/nonrtric/bin
+sudo<span class="w"> </span>./deploy-nonrtric<span class="w"> </span>-f<span class="w"> </span>../RECIPE_EXAMPLE/NONRTRIC/example_recipe.yaml
 </pre></div>
 </div>
 <p>Run this command to get all your pods.</p>
@@ -172,8 +182,61 @@ sudo<span class="w"> </span>./dep/smo-install/scripts/layer-0/0-setup-helm3.sh
 <a class="reference internal image-reference" href="_images/nonrtric_pods.png"><img alt="Non Real-time RIC Pods" src="_images/nonrtric_pods.png" style="width: 60%;" /></a>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>It may take thirty minutes for all your pods to start running</p>
+<p>It may take a while for all your pods to start running</p>
 </div>
+<p>After all your pods have came up, go to your browser and type in <code class="docutils literal notranslate"><span class="pre">localhost:30091/policy</span></code> to view the interface for the Policy Management Service pod.</p>
+<p>The final results should look something like this</p>
+<a class="reference internal image-reference" href="_images/policy_management_UI.png"><img alt="Interface for the policy management service pod" src="_images/policy_management_UI.png" style="width: 60%;" /></a>
+</section>
+<section id="healthcheck-rapp-simulator">
+<h2>Healthcheck rApp Simulator<a class="headerlink" href="#healthcheck-rapp-simulator" title="Permalink to this heading"></a></h2>
+<section id="introduction">
+<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h3>
+<p>The Health Check use case test provides a python script that regularly creates, reads, updates, and deletes a policy in all Near-RT RICs that support the type used by the script. A self refreshing web page provides a view of statistics for these regular checks.</p>
+</section>
+<section id="running-the-non-real-time-ric-healthcheck-rapp">
+<h3>Running the Non-Real Time RIC Healthcheck rApp<a class="headerlink" href="#running-the-non-real-time-ric-healthcheck-rapp" title="Permalink to this heading"></a></h3>
+<p>First install all the package(s) that is required to run this rApp.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>docker.io
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-pip
+</pre></div>
+</div>
+<p>Git clone the rapp-healthcheck into your home directory. The rapp-healthcheck repo will contain all the scripts to run an example rApp using the nonrtric components policymanagementservice(PMS) and the A1 simulators to simulate rics.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/rapp-healthcheck.git
+</pre></div>
+</div>
+<p>Go into the repo’s <code class="docutils literal notranslate"><span class="pre">src</span></code> folder and install all the python dependencies.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rapp-healthcheck/src/
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>Go to the <code class="docutils literal notranslate"><span class="pre">test</span></code> folder and run the <code class="docutils literal notranslate"><span class="pre">start.sh</span></code> script</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please check and make sure your <code class="docutils literal notranslate"><span class="pre">start.sh</span></code> script has the right versions of PMS and A1 simulator specified.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rapp-healthcheck/test/
+sudo<span class="w"> </span>./start.sh
+</pre></div>
+</div>
+<p>The script will finish when the policy type is registered and synched in PMS.</p>
+<p>Now go to the <code class="docutils literal notranslate"><span class="pre">src</span></code> folder and start the use cases</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rapp-healthcheck/src/
+python3<span class="w"> </span>main.py
+</pre></div>
+</div>
+<p>As default, the script uses the “Hello World” policy type with ID “2”. To create the instances it uses the body file <code class="docutils literal notranslate"><span class="pre">rapp-healthcheck/src/pihw_template.json</span></code>. The body file contains the string “XXX” as a parameter value. This string will be replaced with dynamic data during creation. It is possible to provide a custom policy type and body file to the script at startup.</p>
+<p>To see the web page, navigate to <code class="docutils literal notranslate"><span class="pre">localhost:9990/stats</span></code>. The page refreshes itself with the same interval as the script uses.</p>
+<p>Your results look something like this</p>
+<a class="reference internal image-reference" href="_images/healthcheck_rapp_UI.png"><img alt="Healthcheck rApp User Interface" src="_images/healthcheck_rapp_UI.png" style="width: 60%;" /></a>
+<p>To stop PMS and the simulators, run the <code class="docutils literal notranslate"><span class="pre">stop.sh</span></code> script.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rapp-healthcheck/test/
+sudo<span class="w"> </span>./stop.sh
+</pre></div>
+</div>
+<p>Source: <a class="reference external" href="https://github.com/o-ran-sc/nonrtric-rapp-healthcheck">https://github.com/o-ran-sc/nonrtric-rapp-healthcheck</a></p>
+</section>
 </section>
 </section>
 
