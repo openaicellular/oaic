@@ -30,8 +30,7 @@ Welcome to OAIC's documentation!
    setup5gnetwork.rst
    multi_ue_example.rst
    mutli_ue_example_with_5g.rst
-   
-   
+   nonrtric.rst 
 
 .. toctree::
    :maxdepth: 2
@@ -39,8 +38,9 @@ Welcome to OAIC's documentation!
 
    example_xapp_deployment.rst
    xapp_deployment.rst
+   nexran1.rst
+   xapp_python.rst
    
-
 .. toctree::
    :maxdepth: 2
    :caption: Additional Features
