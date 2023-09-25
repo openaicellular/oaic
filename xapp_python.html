@@ -71,6 +71,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#compiling-e2-like-srsran">Compiling E2-like srsRAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-ram-filesystem">Creating RAM filesystem</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#development">Development</a></li>
@@ -150,30 +151,26 @@ An application such as an xApp is executed in the RIC using a deployment, which 
 </section>
 <section id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
-<p>To begin, checkout the E2-like branch of the OAIC codebase to access the xApp code and modified srsRAN.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>git checkout e2like-doc
-</pre></div>
-</div>
-<p>Once the command is complete, you should be able to access the <code class="docutils literal notranslate"><span class="pre">ric-app-ml</span></code> and <code class="docutils literal notranslate"><span class="pre">srsRAN-e2-dev</span></code> folders.</p>
 <section id="compiling-e2-like-srsran">
 <h3>Compiling E2-like srsRAN<a class="headerlink" href="#compiling-e2-like-srsran" title="Permalink to this heading"></a></h3>
 <p>For our purposes, we use a modified version of srsRAN which accepts our E2-like commands.
 Follow the steps to compile the E2-like srsRAN:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd srsRAN-e2-dev
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd srsRAN-e2
 mkdir build
 export SRS=<span class="nv">`realpath .`</span>
 cd build
 cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DENABLE_E2_LIKE=1 \
+    -DENABLE_AGENT_CMD=1 \
     -DRIC_GENERATED_E2AP_BINDING_DIR=${SRS}/e2_bindings/E2AP-v01.01 \
     -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
     -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
 make -j<span class="nv">`nproc`</span>
-touch agent_cmd.bin iq_data_last_full.bin
 cd ../../
 </pre></div>
 </div>
-<p>OAIC Workshop note: do not run <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">make</span> <span class="pre">install</span></code></p>
-<p>Once it is done, make sure the eNB and UE configs have ZeroMQ enabled:</p>
+<p>In this tutorial, we will not use <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">make</span> <span class="pre">install</span></code> so that we do not overwrite the installed srsRAN with E2.</p>
+<p>Once it is done, make sure the eNB and UE configs have ZeroMQ enabled (device_name and device_args for ZMQ are uncommented):</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo nano /root/.config/srsran/enb.conf
 sudo nano /root/.config/srsran/ue.conf
 </pre></div>
@@ -191,10 +188,28 @@ sudo nano /root/.config/srsran/ue.conf
 </pre></div>
 </div>
 </section>
+<section id="creating-ram-filesystem">
+<h3>Creating RAM filesystem<a class="headerlink" href="#creating-ram-filesystem" title="Permalink to this heading"></a></h3>
+<p>The current implementation of the E2-like interface in srsRAN uses files to communicate between threads. This can cause a slowdown in performance as reading a file from a hard drive is relatively slow, and it also takes time to call the OS to request this data.
+Despite this, we can improve the speed by writing the files to a temporarily filesystem stored in RAM instead of a hard drive.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo mkdir /mnt/tmp
+sudo mount -t tmpfs none -o size=64M /mnt/tmp
+touch /mnt/tmp/agent_cmd.bin /mnt/tmp/iq_data_last_full.bin /mnt/tmp/iq_data_tmp.bin
+sudo chmod -R 755 /mnt/tmp
+</pre></div>
+</div>
+<p>The above commands will create a 64MB filesystem in RAM at <code class="docutils literal notranslate"><span class="pre">/mnt/tmp</span></code> and create a few empty files.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">agent_cmd.bin</span></code> stores the most recent E2-like command received</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iq_data_tmp.bin</span></code> stores a buffer of I/Q data that is currently being written to by srsRAN</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iq_data_last_full.bin</span></code> stores the last completely full buffer of I/Q data</p></li>
+</ul>
+<p>Once we have this filesystem set up, we can continue on to the xApp development.</p>
+</section>
 </section>
 <section id="development">
 <h2>Development<a class="headerlink" href="#development" title="Permalink to this heading"></a></h2>
-<p>First, let’s take a look at the <code class="docutils literal notranslate"><span class="pre">ric-app-ml</span></code> directory, where the xApp is located. We use a Python file called <code class="docutils literal notranslate"><span class="pre">app.py</span></code> to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN’s behavior.</p>
+<p>First, let’s take a look at the <code class="docutils literal notranslate"><span class="pre">ric-app-ml-e2like</span></code> directory, where the xApp is located. We use a Python file called <code class="docutils literal notranslate"><span class="pre">app.py</span></code> to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN’s behavior.</p>
 <p>When using the E2-like interface, the xApp acts as an SCTP server and the nodeB is a client.</p>
 <p>Here are some excerpts of the code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">init_e2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -513,7 +528,7 @@ nano ml-onboard.url
 </div>
 <p><strong>4.</strong> Assuming you have already built the E2-like version of srsRAN, go to the directory where srsRAN is built:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd ~/oaic
-cd srsRAN-e2-dev/build
+cd srsRAN-e2/build
 </pre></div>
 </div>
 <p><strong>5.</strong> Now we can start srsRAN. First, start the EPC in a new terminal if you haven’t already:</p>
@@ -583,12 +598,13 @@ Network attach successful. IP: 172.16.0.3
 Software Radio Systems RAN (srsRAN) 7/8/2023 16:8:59 TZ:0
 </pre></div>
 </div>
-<p><strong>10.</strong> Now, we can initiate uplink data transfer. Start an iperf3 server from the UE side in a new terminal:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns exec ue1 iperf3 -s -i 1
+<p><strong>10.</strong> Now, we can initiate uplink data transfer. Start an iperf3 server from the nodeB side in a new terminal:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>iperf3 -s -i 1
 </pre></div>
 </div>
-<p><strong>11.</strong> Then, we can connect to this server from the host side. Replace &lt;UE IP&gt; with the IP address seen in the srsue window when connected. (In the above case, it is <code class="docutils literal notranslate"><span class="pre">172.16.0.3</span></code>)</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>iperf3 -c &lt;UE IP&gt; -b 10M -i 1 -t 60
+<p><strong>11.</strong> Then, we can connect to this server from the UE side.
+.. Replace &lt;UE IP&gt; with the IP address seen in the srsue window when connected. (In the above case, it is <code class="docutils literal notranslate"><span class="pre">172.16.0.3</span></code>)</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo ip netns exec ue1 iperf3 -c 172.16.0.1 -b 10M -i 1 -t 0
 </pre></div>
 </div>
 <p>Traffic should be visible on both sides:</p>
