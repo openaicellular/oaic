@@ -9,7 +9,7 @@
 [submodule "srsRAN-e2"]
 	path = srsRAN-e2
 	url = https://github.com/openaicellular/srsRAN-e2.git
-	branch = srs_KPIMON_5G
+	branch = e2like_support
 [submodule "ric-scp-kpimon"]
 	path = ric-scp-kpimon
 	url = https://github.com/openaicellular/ric-scp-kpimon.git
@@ -21,3 +21,9 @@
 	path = asn1c
 	url = https://gitlab.eurecom.fr/oai/asn1c.git
 	branch = velichkov_s1ap_plus_option_group
+[submodule "ric-app-ml-e2like"]
+	path = ric-app-ml-e2like
+	url = https://github.com/openaicellular/ric-app-ml-e2like
+[submodule "ric-app-ic-e2like"]
+	path = ric-app-ic-e2like
+	url = https://github.com/openaicellular/ric-app-ic-e2like

@@ -56,10 +56,26 @@ jobs:
           # Step 4: Deploy the near-Real Time RIC (3 minutes)
           cd RIC-Deployment/bin
           sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
+    - name: Install srsRAN with E2-Like Agent
+      run: |
+          # compile srsRAN-e2 with e2-like build flags (19 minutes without running tests)
+          cd srsRAN-e2
+          mkdir build
+          export SRS=`realpath .`
+          cd build
+          cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+              -DENABLE_E2_LIKE=1 \
+              -DENABLE_AGENT_CMD=1 \
+              -DRIC_GENERATED_E2AP_BINDING_DIR=${SRS}/e2_bindings/E2AP-v01.01 \
+              -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
+              -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
+          make -j4
+          cd ../..
     - name: Install srsRAN with E2 Agent
       run: |
           # compile srsRAN-e2 (19 minutes without running tests)
           cd srsRAN-e2
+          rm -rf build
           mkdir build
           export SRS=`realpath .`
           cd build
