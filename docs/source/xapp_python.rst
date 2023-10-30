@@ -703,7 +703,7 @@ Issues
 
 This usually happens when srsenb has been closed and you try to restart and reconnect to the xApp. Restart the xApp with ``sudo kubectl rollout restart deployment ricxapp-ric-app-ml -n ricxapp``, and wait for the previous xApp pod to be deleted from the list. Afterwards, start the eNB, then start the UE.
 
-If the xApp randomly gets stuck on "Receiving I/Q data..." while connected to the nodeB, it is likely that it is not receiving enough data from the RAN. With the E2-like version of srsRAN supplied in the ``e2like-doc`` branch, you may need to send more than one E2-like request to ensure that the nodeB has received the message and will respond.
+If the xApp randomly gets stuck on "Receiving I/Q data..." while connected to the nodeB, it is likely that it is not receiving enough data from the RAN. With the E2-like version of srsRAN, you may need to send more than one E2-like request to ensure that the nodeB has received the message and will respond.
 
 **xApp crashes after a while/pods eject themselves**
 
