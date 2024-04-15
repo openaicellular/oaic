@@ -1,0 +1,102 @@
+name: Setup and Build OAI
+
+on:
+  push:
+    branches:
+      - OAI
+  pull_request:
+    branches:
+      - OAI
+  workflow_dispatch:
+
+jobs:
+  setup_and_build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository including submodules
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Install Core Network Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git net-tools putty
+
+      - name: Install UHD Dependencies
+        run: >
+          sudo apt-get install -y autoconf automake build-essential
+          ccache cmake cpufrequtils doxygen ethtool g++ git inetutils-tools
+          libboost-all-dev libncurses5 libncurses5-dev libusb-1.0-0
+          libusb-1.0-0-dev libusb-dev python3-dev python3-mako python3-numpy
+          python3-requests python3-scipy python3-setuptools python3-ruamel.yaml
+      
+      - name: Install nrscope Dependencies
+        run: sudo apt-get install -y libforms-dev libforms-bin
+
+      - name: Install swig Dependencies
+        run: sudo apt install libsctp-dev cmake-curses-gui libpcre2-dev
+      
+      - name: Set up GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+           version: 10
+           platform: x64
+      
+      - name: Download Core Network
+        run: |
+          wget -O /home/runner/work/OAI/OAI/oai-cn5g.zip "https://gitlab.eurecom.fr/oai/openairinterface5g/-/archive/develop/openairinterface5g-develop.zip?path=doc/tutorial_resources/oai-cn5g"
+          unzip /home/runner/work/OAI/OAI/oai-cn5g.zip
+          mv /home/runner/work/OAI/OAI/openairinterface5g-develop-doc-tutorial_resources-oai-cn5g/doc/tutorial_resources/oai-cn5g /home/runner/work/OAI/OAI/oai-cn5g
+          rm -r /home/runner/work/OAI/OAI/openairinterface5g-develop-doc-tutorial_resources-oai-cn5g /home/runner/work/OAI/OAI/oai-cn5g.zip
+          cd /home/runner/work/OAI/OAI/oai-cn5g
+          docker compose pull
+      
+      - name: Build and Install UHD
+        run: |
+          cd /home/runner/work/OAI/OAI/uhd/host
+          mkdir build
+          cd build
+          cmake ../
+          make -j $(nproc)
+          make test
+          sudo make install
+          sudo ldconfig
+          sudo uhd_images_downloader
+      
+      - name: Install OAI dependencies
+        run: |
+          cd /home/runner/work/OAI/OAI/openairinterface5g/cmake_targets
+          ./build_oai -I
+      
+      - name: Build OAI gNB
+        run: |
+          cd /home/runner/work/OAI/OAI/openairinterface5g/cmake_targets
+          ./build_oai -w USRP --ninja --nrUE --gNB --build-lib "nrscope" -C
+
+      - name: Remove Old swig Version
+        run: |
+          sudo apt remove swig swig4.0
+          sudo apt autoremove
+      
+      - name: Install swig
+        run: |
+          cd /home/runner/work/OAI/OAI/swig
+          ./autogen.sh
+          ./configure --prefix=/usr/
+          sudo make -j8
+          sudo make install
+      
+      - name: Build E2 Agent
+        run: |
+          cd /home/runner/work/OAI/OAI/openairinterface5g/cmake_targets
+          ./build_oai -I -w SIMU --gNB --nrUE --build-e2 --ninja
+      
+      - name: Build FlexRIC
+        run: |
+          cd /home/runner/work/OAI/OAI/flexric
+          mkdir build
+          cd build
+          sudo cmake ..
+          sudo make -j8
+          sudo make install
