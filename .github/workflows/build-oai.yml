@@ -71,7 +71,7 @@ jobs:
       
       - name: Build OAI gNB
         run: |
-          cd /home/runner/work/OAI/OAI/openairinterface5g/cmake_targets
+          cd /home/runner/work/oaic/oaic/openairinterface5g/cmake_targets
           ./build_oai -w USRP --ninja --nrUE --gNB --build-lib "nrscope" -C
 
       - name: Remove Old swig Version
