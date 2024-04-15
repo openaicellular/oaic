@@ -1,29 +1,16 @@
-[submodule "RIC-Deployment"]
-	path = RIC-Deployment
-	url = https://github.com/openaicellular/RIC-Deployment.git
-	branch = kubernetes-fix
-[submodule "ric-plt-e2"]
-	path = ric-plt-e2
-	url = https://github.com/openaicellular/ric-plt-e2.git
-	branch = e-release
-[submodule "srsRAN-e2"]
-	path = srsRAN-e2
-	url = https://github.com/openaicellular/srsRAN-e2.git
-	branch = e2like_support
-[submodule "ric-scp-kpimon"]
-	path = ric-scp-kpimon
-	url = https://github.com/openaicellular/ric-scp-kpimon.git
-	branch = master
-[submodule "oaic-t"]
-	path = oaic-t
-	url = https://github.com/openaicellular/oaic-t.git
-[submodule "asn1c"]
-	path = asn1c
-	url = https://gitlab.eurecom.fr/oai/asn1c.git
-	branch = velichkov_s1ap_plus_option_group
-[submodule "ric-app-ml-e2like"]
-	path = ric-app-ml-e2like
-	url = https://github.com/openaicellular/ric-app-ml-e2like
-[submodule "ric-app-ic-e2like"]
-	path = ric-app-ic-e2like
-	url = https://github.com/openaicellular/ric-app-ic-e2like
+[submodule "uhd"]
+	path = uhd
+	url = https://github.com/EttusResearch/uhd.git
+	tag = v4.6.0.0
+[submodule "openairinterface5g"]
+	path = openairinterface5g
+	url = https://gitlab.eurecom.fr/oai/openairinterface5g.git
+	branch = develop
+[submodule "swig"]
+	path = swig
+	url = https://github.com/swig/swig.git
+	branch = release-4.1
+[submodule "flexric"]
+	path = flexric
+	url = https://gitlab.eurecom.fr/mosaic5g/flexric
+	commit = f1c08ed2b9b1eceeda7941dd7bf435db0168dd56
