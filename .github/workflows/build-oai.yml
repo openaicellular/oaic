@@ -45,16 +45,16 @@ jobs:
       
       - name: Download Core Network
         run: |
-          wget -O /home/runner/work/OAI/OAI/oai-cn5g.zip "https://gitlab.eurecom.fr/oai/openairinterface5g/-/archive/develop/openairinterface5g-develop.zip?path=doc/tutorial_resources/oai-cn5g"
-          unzip /home/runner/work/OAI/OAI/oai-cn5g.zip
-          mv /home/runner/work/OAI/OAI/openairinterface5g-develop-doc-tutorial_resources-oai-cn5g/doc/tutorial_resources/oai-cn5g /home/runner/work/OAI/OAI/oai-cn5g
-          rm -r /home/runner/work/OAI/OAI/openairinterface5g-develop-doc-tutorial_resources-oai-cn5g /home/runner/work/OAI/OAI/oai-cn5g.zip
-          cd /home/runner/work/OAI/OAI/oai-cn5g
+          wget -O /home/runner/work/oaic/oaic/oai-cn5g.zip "https://gitlab.eurecom.fr/oai/openairinterface5g/-/archive/develop/openairinterface5g-develop.zip?path=doc/tutorial_resources/oai-cn5g"
+          unzip /home/runner/work/oaic/oaic/oai-cn5g.zip
+          mv /home/runner/work/oaic/oaic/openairinterface5g-develop-doc-tutorial_resources-oai-cn5g/doc/tutorial_resources/oai-cn5g /home/runner/work/oaic/oaic/oai-cn5g
+          rm -r /home/runner/work/oaic/oaic/openairinterface5g-develop-doc-tutorial_resources-oai-cn5g /home/runner/work/oaic/oaic/oai-cn5g.zip
+          cd /home/runner/work/oaic/oaic/oai-cn5g
           docker compose pull
       
       - name: Build and Install UHD
         run: |
-          cd /home/runner/work/OAI/OAI/uhd/host
+          cd /home/runner/work/oaic/oaic/uhd/host
           mkdir build
           cd build
           cmake ../
@@ -66,7 +66,7 @@ jobs:
       
       - name: Install OAI dependencies
         run: |
-          cd /home/runner/work/OAI/OAI/openairinterface5g/cmake_targets
+          cd /home/runner/work/oaic/oaic/openairinterface5g/cmake_targets
           ./build_oai -I
       
       - name: Build OAI gNB
@@ -81,7 +81,7 @@ jobs:
       
       - name: Install swig
         run: |
-          cd /home/runner/work/OAI/OAI/swig
+          cd /home/runner/work/oaic/oaic/swig
           ./autogen.sh
           ./configure --prefix=/usr/
           sudo make -j8
@@ -89,12 +89,12 @@ jobs:
       
       - name: Build E2 Agent
         run: |
-          cd /home/runner/work/OAI/OAI/openairinterface5g/cmake_targets
+          cd /home/runner/work/oaic/oaic/openairinterface5g/cmake_targets
           ./build_oai -I -w SIMU --gNB --nrUE --build-e2 --ninja
       
       - name: Build FlexRIC
         run: |
-          cd /home/runner/work/OAI/OAI/flexric
+          cd /home/runner/work/oaic/oaic/flexric
           mkdir build
           cd build
           sudo cmake ..
