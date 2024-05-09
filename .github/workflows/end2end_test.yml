@@ -19,6 +19,7 @@ jobs:
       uses: actions/checkout@master
       with:
         fetch-depth: 0 # otherwise will fail to push refs to dest repo
+    - run: sudo apt update
     - run: pip3 install docutils
     - run: git submodule update --init --recursive --remote
     - run: python3 generate_installation_script.py
