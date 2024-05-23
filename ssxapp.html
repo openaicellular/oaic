@@ -69,15 +69,21 @@
 <li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nexran1.html">Running the Nexran Xapp</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Running the SS Xapp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#setup">Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#id1">Running the SS xApp</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#starting-the-network-with-zmq">Starting the network with ZMQ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#starting-the-network-with-usrps">Starting the network with USRPs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Running the SS Xapp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#system-requirements">System Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hardware">Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software">Software</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#deploying-the-xapp">Deploying the xApp</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Deploying the xApp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deploying-the-ss-xapp">Deploying the SS xApp</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#starting-the-network-with-zmq">Starting the network with ZMQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#starting-the-network-with-usrps">Starting the network with USRPs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-xapp">Running the xApp</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="xapp_python.html">Developing a custom xApp in Python</a></li>
@@ -116,24 +122,60 @@
              
   <section id="running-the-ss-xapp">
 <h1>Running the SS Xapp<a class="headerlink" href="#running-the-ss-xapp" title="Permalink to this heading"></a></h1>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#prerequisites"><span class="std std-ref">Prerequisites</span></a></p></li>
+<li><p><a class="reference internal" href="#setup"><span class="std std-ref">Setup</span></a></p></li>
+<li><p><a class="reference internal" href="#deploying"><span class="std std-ref">Deploying the SS xApp</span></a></p></li>
+<li><p><a class="reference internal" href="#zmq"><span class="std std-ref">Starting the network with ZMQ</span></a></p></li>
+<li><p><a class="reference internal" href="#usrp"><span class="std std-ref">Starting the network with USRPs</span></a></p></li>
+<li><p><a class="reference internal" href="#running-the-xapp"><span class="std std-ref">Running the xApp</span></a></p></li>
+</ul>
 </section>
-<section id="setup">
-<h1>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h1>
+<section id="prerequisites">
+<span id="id1"></span><h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
+<section id="system-requirements">
+<h3>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>OS: <a class="reference external" href="https://www.releases.ubuntu.com/focal/ubuntu-20.04.6-desktop-amd64.iso">Ubuntu Desktop 20.04 LTS (Focal Fossa)</a> Baremetal Preferred</p></li>
+<li><p><a class="reference external" href="https://unix.stackexchange.com/questions/739769/how-do-you-install-the-linux-lowlatency-kernel-and-why-does-it-stops-at-version">Low Latency Kernel recommended</a></p></li>
+<li><p><a class="reference external" href="https://askubuntu.com/questions/604720/setting-to-high-performance">Performance mode setting</a></p></li>
+<li><p>10 Gbps NIC (USRP only)</p></li>
+<li><p>CPU(s): 8 vCPUs</p></li>
+<li><p>RAM: 8 GB minimum, 32 GB recommended</p></li>
+<li><p>Storage: 100 GB</p></li>
+</ul>
+</section>
+<section id="hardware">
+<h3>Hardware<a class="headerlink" href="#hardware" title="Permalink to this heading"></a></h3>
+<p>For ZMQ scenario:</p>
+<ul class="simple">
+<li><p>1 machine</p></li>
+</ul>
+<p>For USRP scenario:</p>
+<ul class="simple">
+<li><p>4 machines (1 for EPC &amp; eNB, 3 for UEs)</p></li>
+<li><p>4 B210</p></li>
+<li><p>1 Octoclock for 10MHz reference</p></li>
+</ul>
+</section>
+<section id="software">
+<h3>Software<a class="headerlink" href="#software" title="Permalink to this heading"></a></h3>
 <ol class="arabic">
-<li><p>Install Near-Real Time RIC</p>
+<li><p>Deploy Near-Real Time RIC</p>
 <blockquote>
-<div><p>Follow instructions on the OAIC documentation: <a class="reference external" href="https://openaicellular.github.io/oaic/oran_installation.html">https://openaicellular.github.io/oaic/oran_installation.html</a></p>
+<div><p>Follow instructions on the OAIC documentation: <a class="reference external" href="https://openaicellular.github.io/oaic/oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></p>
 </div></blockquote>
 </li>
 <li><p>Next install all the required dependencies, ZMQ, UHD and asn1c Compiler</p>
 <blockquote>
-<div><p>Follow instructions on OAIC documentation for installation of dependencies, ZMQ and as1nc compiler: <a class="reference external" href="https://openaicellular.github.io/oaic/srsRAN_installation.html">https://openaicellular.github.io/oaic/srsRAN_installation.html</a></p>
-<p>You will need to build UHD-3.15-LTS from source. Follow instructions on: <a class="reference external" href="https://files.ettus.com/manual/page_build_guide.html">https://files.ettus.com/manual/page_build_guide.html</a></p>
+<div><p>Follow instructions on OAIC documentation for installation of dependencies, ZMQ and as1nc compiler: <a class="reference external" href="https://openaicellular.github.io/oaic/srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></p>
 </div></blockquote>
 </li>
 <li><p>Clone down the srslte modified with e2</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>oaic
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/srslte-e2
 <span class="nb">cd</span><span class="w"> </span>srslte-e2
 </pre></div>
@@ -147,47 +189,94 @@ cmake<span class="w"> </span>../<span class="w"> </span>-DCMAKE_BUILD_TYPE<span 
 <span class="w">    </span>-DRIC_GENERATED_E2SM_KPM_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-KPM<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR<span class="o">=</span><span class="si">${</span><span class="nv">SRS</span><span class="si">}</span>/e2_bindings/E2SM-GNB-NRT
 make<span class="w"> </span>-j<span class="sb">`</span>nproc<span class="sb">`</span>
-make<span class="w"> </span><span class="nb">test</span>
 sudo<span class="w"> </span>make<span class="w"> </span>install
 sudo<span class="w"> </span>ldconfig
 sudo<span class="w"> </span>srslte_install_configs.sh<span class="w"> </span>user<span class="w"> </span>--force
-<span class="nb">cd</span><span class="w"> </span>../../
+</pre></div>
+</div>
+<p>After install srslte modified, open the <code class="docutils literal notranslate"><span class="pre">user_db.csv</span></code> file with your preferred text editor</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>-i
+<span class="nb">cd</span><span class="w"> </span>.config/srslte
+vim<span class="w"> </span>user_db.csv
+</pre></div>
+</div>
+<p>Replace these lines of code with the existing configurations at the bottom of the file. This allows the ENB to be able to connect with 3 UEs.</p>
+<p><em>Kept in the following format: “Name, Auth, IMSI, Key, OP_Type, OP/OPc, AMF, SQN, QCI, IP_alloc”.</em></p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>ue2,xor,001010123456780,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8000,000000001635,7,dynamic
+ue3,xor,001010123456781,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8002,0000000014eb,7,dynamic
+ue1,xor,001010123456789,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,9001,00000000131b,7,dynamic
+</pre></div>
+</div>
+<p>Exit out of sudo once you are done editing the file</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">exit</span>
 </pre></div>
 </div>
 <p>We can now clone the repositories we will need to run build the xapp and onboard it as well as run multiple UEs.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Make sure you open a new terminal before you run these following commands. This prevents you from downloading anything under the root directory.</p>
-</div>
-<p>Under the oaic directory, run the following commands</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/ss-xapp.git
+</section>
+</section>
+<section id="setup">
+<span id="id2"></span><h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<p>Install the following dependencies</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gnuradio<span class="w"> </span>python3-pip<span class="w"> </span>iperf3<span class="w"> </span>-y
 </pre></div>
 </div>
-<p>Now we are going to build the xapp from the dockerfile</p>
-<p>Before deploying the xApp, we need to host the config file (xApp descriptor) provided in the web server we have created already.
-Follow the instructions to create a Web server from here:  <a class="reference external" href="https://openaicellular.github.io/oaic/xapp_deployment.html">https://openaicellular.github.io/oaic/xapp_deployment.html</a></p>
-<p>You need to follow Configuring the Nginx Server and Hosting Config Files portion of the documentation. The config file is located within the repository you just cloned.</p>
+<p>Under the oaic directory, run the following commands</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/ss-xapp.git
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you do not have Nginx web server setted up, head over to the  <a class="reference external" href="https://openaicellular.github.io/oaic/xapp_deployment.html">xApp Deployment - General Guidelines</a> and follow the <code class="docutils literal notranslate"><span class="pre">Configuring</span> <span class="pre">the</span> <span class="pre">Nginx</span> <span class="pre">Web</span> <span class="pre">Server</span></code> section and nothing else.</p>
+</div>
+<p>Create a symlink from the xApp’s config file. This can be replaced by another symlink in the future. Reload Nginx once this has been done.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
+sudo<span class="w"> </span>cp<span class="w"> </span>config-file.json<span class="w"> </span>/var/www/xApp_config.local/config_files/
+sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
+</pre></div>
+</div>
+<p>Now we are going to build the xapp from the DockerFile</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
 sudo<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-t<span class="w"> </span>xApp-registry.local:5008/ss:0.1.0
 </pre></div>
 </div>
-<p>Paste the following in the <code class="docutils literal notranslate"><span class="pre">ss-xapp-onboard.url</span></code> file. Substitute the <code class="docutils literal notranslate"><span class="pre">&lt;machine_ip_addr&gt;</span></code> with the IP address of your machine. You can find this out through <code class="docutils literal notranslate"><span class="pre">ifconfig</span></code>.</p>
+<p>Paste the following in the <code class="docutils literal notranslate"><span class="pre">ss-xapp-onboard.url</span></code> file. Substitute the <code class="docutils literal notranslate"><span class="pre">&lt;machine_ip_addr&gt;</span></code> with the IP address of your machine. You can find this out by pasting the command <code class="docutils literal notranslate"><span class="pre">ifconfig</span></code> or <code class="docutils literal notranslate"><span class="pre">hostname</span> <span class="pre">-I</span></code> in the terminal.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">{</span><span class="s2">&quot;config-file.json_url&quot;</span>:<span class="s2">&quot;http://&lt;machine_ip_addr&gt;:5010/config_files/config-file.json&quot;</span><span class="o">}</span>
 </pre></div>
 </div>
 </section>
-<section id="id1">
-<h1>Running the SS xApp<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
+<section id="deploying-the-ss-xapp">
+<span id="deploying"></span><h2>Deploying the SS xApp<a class="headerlink" href="#deploying-the-ss-xapp" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">KONG_PROXY</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>kong<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2MGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2mgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">APPMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-appmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_SCTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ONBOARDER_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-xapp-onboarder-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">RTMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-rtmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/onboard/download&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;@ss-xapp-onboard.url&quot;</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/charts&quot;</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/appmgr/ric/v1/xapps&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-raw<span class="w"> </span><span class="s1">&#39;{&quot;xappName&quot;: &quot;ss&quot;}&#39;</span>
+</pre></div>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>If you already have SS xApp deployed on your system, you need to restart the pod using the command below before running the rest of the commands. If you are freshly deploying the xApp, you can skip this step.</p>
+<p>If you are repeating an experiement, you may want to restart the pod using the command below. By doing so, you do not have to undeploy and redeploy the xApp again.</p>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deployment<span class="w"> </span>ricxapp-ss
 </pre></div>
 </div>
 <section id="starting-the-network-with-zmq">
-<h2>Starting the network with ZMQ<a class="headerlink" href="#starting-the-network-with-zmq" title="Permalink to this heading"></a></h2>
-<p>Terminal 1: Start the Core Network/Add Ues to Network Namespace</p>
+<span id="zmq"></span><h3>Starting the network with ZMQ<a class="headerlink" href="#starting-the-network-with-zmq" title="Permalink to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are using USRPs, head to <a class="reference internal" href="#usrp"><span class="std std-ref">Starting the network with USRPs</span></a>.</p>
+</div>
+<p><strong>Terminal 1</strong>: Start the Core Network/Add Ues to Network Namespace</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue1
 sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue2
 sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue3
@@ -195,7 +284,7 @@ sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </sp
 sudo<span class="w"> </span>srsepc
 </pre></div>
 </div>
-<p>Terminal 2: Set up Environment Variables and Base Station</p>
+<p><strong>Terminal 2</strong>: Set up Environment Variables and Base Station</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_IP</span><span class="o">=</span><span class="sb">`</span>hostname<span class="w">  </span>-I<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1<span class="w"> </span>-d<span class="s1">&#39; &#39;</span><span class="sb">`</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_PORT</span><span class="o">=</span><span class="m">5006</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_IP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
@@ -205,53 +294,77 @@ sudo<span class="w"> </span>srsepc
 --rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2009,id=enb,base_srate=23.04e6&quot;</span><span class="w"> </span>--ric.agent.remote_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2TERM_IP</span><span class="si">}</span><span class="w"> </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--ric.agent.log_level<span class="o">=</span>debug<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--ric.agent.local_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_IP</span><span class="si">}</span><span class="w"> </span>--ric.agent.local_port<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_PORT</span><span class="si">}</span><span class="w"> </span>--slicer.enable<span class="o">=</span><span class="m">1</span><span class="w"> </span>--slicer.workshare<span class="o">=</span><span class="m">0</span>
 </pre></div>
 </div>
-<p>Terminal 3: Set up the first UE</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure you can see the eNB have a RIC State Establish message as shown in the image below before proceeding.</p>
+</div>
+<a class="reference internal image-reference" href="_images/RIC_State_Established.png"><img alt="eNB having a RIC State Established message" src="_images/RIC_State_Established.png" style="width: 80%;" /></a>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using these two commands in order <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">E2NODE=`sudo</span> <span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">pods</span> <span class="pre">-A</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">deployment-ricplt-e2term-alpha</span> <span class="pre">|</span> <span class="pre">awk</span> <span class="pre">'{print</span> <span class="pre">$2}'`</span></code> and <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">ricplt</span> <span class="pre">${E2NODE}</span></code></p>
+</div>
+<p><strong>Terminal 3</strong>: Set up the first UE</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
 --rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;tx_port=tcp://*:2010,rx_port=tcp://localhost:2300,id=ue,base_srate=23.04e6&quot;</span><span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456789</span><span class="w"> </span>--usim.k<span class="o">=</span>00112233445566778899aabbccddeeff<span class="w"> </span>--usim.imei<span class="o">=</span><span class="m">353490069873310</span><span class="w"> </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--gw.netns<span class="o">=</span>ue1
 </pre></div>
 </div>
-<p>Terminal 4: Set up the second UE</p>
+<p><strong>Terminal 4</strong>: Set up the second UE</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
 --rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;tx_port=tcp://*:2007,rx_port=tcp://localhost:2400,id=ue,base_srate=23.04e6&quot;</span><span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456780</span><span class="w"> </span>--usim.k<span class="o">=</span>00112233445566778899aabbccddeeff<span class="w"> </span>--usim.imei<span class="o">=</span><span class="m">353490069873310</span><span class="w"> </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--gw.netns<span class="o">=</span>ue2
 </pre></div>
 </div>
-<p>Terminal 5: Set up the second UE</p>
+<p><strong>Terminal 5</strong>: Set up the third UE</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
 --rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;tx_port=tcp://*:2008,rx_port=tcp://localhost:2500,id=ue,base_srate=23.04e6&quot;</span><span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456781</span><span class="w"> </span>--usim.k<span class="o">=</span>00112233445566778899aabbccddeeff<span class="w"> </span>--usim.imei<span class="o">=</span><span class="m">353490069873310</span><span class="w"> </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--gw.netns<span class="o">=</span>ue3
 </pre></div>
 </div>
-<p>Terminal 6: Start the gnuradio flowgraph</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>multi_ue.py
-</pre></div>
+<p>Open the <code class="docutils literal notranslate"><span class="pre">GNU</span> <span class="pre">Radio</span> <span class="pre">Companion</span></code> App. It should be installed when installing the gnuradio package. Open the <code class="docutils literal notranslate"><span class="pre">multi_ue.grc</span></code> file located in the ~/oaic/ss-xapp directory.</p>
+<p>Press play as marked in the image below. This allows the UEs to attach to the eNodeB base station.</p>
+<a class="reference internal image-reference" href="_images/gnu_flowchart.png"><img alt="GNU Flowchart" src="_images/gnu_flowchart.png" style="width: 80%;" /></a>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Execute the next commands each in a separate terminal</p>
 </div>
-<p>Terminal 6 &amp; 7: Set up iperf3 test on the server side</p>
+<p><strong>Terminal 6/7/8</strong>: Set up iperf3 test on the server side</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5006</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
 iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
-iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
+iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
-<p>Terminal 8 &amp; 9: Set up iperf3 test on the client side</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Execute the next commands each in a separate terminal</p>
+</div>
+<p><strong>Terminal 9/10/11</strong>: Set up iperf3 test on the client side</p>
 <p>We add an additional bandwidth argument “-b xxM” on each iperf3 test on client side to create a scenario of UEs trying to access more or less of resources on the network. If a UE surpasses the pre-determined threshold for amount of data packets transmitted, it is considered as malicious by the SS xApp.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue1<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5006</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>40M
 sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue2<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>10M
-sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue2<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>15M
+sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue3<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>15M
 </pre></div>
 </div>
-<p>You should notice traffic flow on both the server and client side for both UEs. Move on to deploying the xApp.</p>
+<p>You should notice traffic flow on both the server and client side for both UEs.</p>
+<p>Move on to the <a class="reference internal" href="#running-the-xapp"><span class="std std-ref">Running the xApp</span></a> section for running the xApp</p>
 </section>
 <section id="starting-the-network-with-usrps">
-<h2>Starting the network with USRPs<a class="headerlink" href="#starting-the-network-with-usrps" title="Permalink to this heading"></a></h2>
-<p>For better performance of USRPs, we use the CDA-2990 Octaclock as an external clock reference source for the B210s. To ensure that the B210s recognize the source, we have to add an extra argument “clock=external” on the eNodeB and UE commands.</p>
-<a class="reference internal image-reference" href="_images/b210octaclock.png"><img alt="B210 with Octaclock Setup" src="_images/b210octaclock.png" style="width: 80%;" /></a>
-<p>Before starting the network, check to see if each device recognizes the USRPs.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uhd_find_devices
+<span id="usrp"></span><h3>Starting the network with USRPs<a class="headerlink" href="#starting-the-network-with-usrps" title="Permalink to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you already started the network using ZMQ, you can head to the <a class="reference internal" href="#running-the-xapp"><span class="std std-ref">Running the xApp</span></a> section</p>
+</div>
+<p>For better performance of USRPs, we use the CDA-2990 Octoclock as an external clock reference source for the B210s. To ensure that the B210s recognize the source, we have to add an extra argument “clock=external” on the eNodeB and UE commands.</p>
+<a class="reference internal image-reference" href="_images/b210octaclock.png"><img alt="B210 with Octoclock Setup" src="_images/b210octaclock.png" style="width: 80%;" /></a>
+<p>Connect the SMA cables from each of the 10 MHz out of the Octoclock to the REF IN port for the B210 as shown in the picture.</p>
+<p>Connect the two Antennas in the RF A section for both the TX/RX and RX2 ports.</p>
+<p>Connect the USB port from the B210 to your machines.</p>
+<p>Before starting the network, check to see if each machine recognizes the USRPs by using the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>uhd_find_devices
 </pre></div>
 </div>
-<p>Terminal 1: Start the Core Network on server side (eNodeB server)</p>
+<p><strong>Machine 1 - Terminal 1</strong>: Start the Core Network on server side (eNodeB server)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsepc
 </pre></div>
 </div>
-<p>Terminal 2: Set up Environment Variables and Base Station</p>
+<p><strong>Machine 1 - Terminal 2</strong>: Set up Environment Variables and Base Station</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_IP</span><span class="o">=</span><span class="sb">`</span>hostname<span class="w">  </span>-I<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1<span class="w"> </span>-d<span class="s1">&#39; &#39;</span><span class="sb">`</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_PORT</span><span class="o">=</span><span class="m">5006</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_IP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
@@ -260,57 +373,53 @@ sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </sp
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsenb<span class="w"> </span>--enb.n_prb<span class="o">=</span><span class="m">100</span><span class="w"> </span>--enb.name<span class="o">=</span>enb1<span class="w"> </span>--enb.enb_id<span class="o">=</span>0x19B<span class="w"> </span>--rf.device_name<span class="o">=</span>uhd<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;clock=external&quot;</span><span class="w"> </span>--ric.agent.remote_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2TERM_IP</span><span class="si">}</span><span class="w"> </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--ric.agent.log_level<span class="o">=</span>debug<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--ric.agent.local_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_IP</span><span class="si">}</span><span class="w"> </span>--ric.agent.local_port<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_PORT</span><span class="si">}</span><span class="w"> </span>--slicer.enable<span class="o">=</span><span class="m">1</span><span class="w"> </span>--slicer.workshare<span class="o">=</span><span class="m">0</span>
 </pre></div>
 </div>
-<p>Terminal 3: Set up the first UE</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure you can see the eNB have a RIC State Establish message as shown in the image below before proceeding.</p>
+</div>
+<a class="reference internal image-reference" href="_images/RIC_State_Established.png"><img alt="eNB having a RIC State Established message" src="_images/RIC_State_Established.png" style="width: 80%;" /></a>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using these two commands in order <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">E2NODE=`sudo</span> <span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">pods</span> <span class="pre">-A</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">deployment-ricplt-e2term-alpha</span> <span class="pre">|</span> <span class="pre">awk</span> <span class="pre">'{print</span> <span class="pre">$2}'`</span></code> and <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">ricplt</span> <span class="pre">${E2NODE}</span></code></p>
+</div>
+<p><strong>Machine 2 - Terminal 1</strong>: Set up the first UE</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
 --rf.device_name<span class="o">=</span>uhd<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;clock=external&quot;</span><span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456789</span><span class="w"> </span>--usim.k<span class="o">=</span>00112233445566778899aabbccddeeff<span class="w"> </span>--usim.imei<span class="o">=</span><span class="m">353490069873310</span><span class="w">  </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--log.filename<span class="o">=</span>stdout
 </pre></div>
 </div>
-<p>Terminal 4: Set up the second UE</p>
+<p><strong>Machine 3 - Terminal 1</strong>: Set up the second UE</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
 --rf.device_name<span class="o">=</span>uhd<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;clock=external&quot;</span><span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456780</span><span class="w"> </span>--usim.k<span class="o">=</span>00112233445566778899aabbccddeeff<span class="w"> </span>--usim.imei<span class="o">=</span><span class="m">353490069873310</span><span class="w">  </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--log.filename<span class="o">=</span>stdout
 </pre></div>
 </div>
-<p>Terminal 5: Set up the third UE</p>
+<p><strong>Machine 4 - Terminal 1</strong>: Set up the third UE</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
 --rf.device_name<span class="o">=</span>uhd<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;clock=external&quot;</span><span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456781</span><span class="w"> </span>--usim.k<span class="o">=</span>00112233445566778899aabbccddeeff<span class="w"> </span>--usim.imei<span class="o">=</span><span class="m">353490069873310</span><span class="w">  </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--log.filename<span class="o">=</span>stdout
 </pre></div>
 </div>
-<p>Terminal 6 &amp; 7: Set up iperf3 test on the server side (eNodeB server)</p>
+<p><strong>Machine 1 - Terminal 3/4/5</strong>: Set up iperf3 test on the server side (eNodeB server)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5006</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
 iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
-iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
+iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
-<p>Terminal 8 &amp; 9: Set up iperf3 test on the client side (UE servers)</p>
+<p><strong>Machine 2/3/4 - Terminal 2</strong>: Set up iperf3 test on the client side (UE servers)</p>
 <p>We add an additional bandwidth argument “-b xxM” on each iperf3 test on client side to create a scenario of UEs trying to access more or less of resources on the network. If a UE surpasses the pre-determined threshold for amount of data packets transmitted, it is considered as malicious by the SS xApp.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5006</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>40M
 sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>10M
-sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>15M
+sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>15M
 </pre></div>
 </div>
-<p>You should notice traffic flow on both the server and client side for both UEs. Move on to the next step.</p>
+<p>You should notice traffic flow on both the server and client side for all three UEs. Move on to the next step.</p>
 </section>
 </section>
-<section id="deploying-the-xapp">
-<h1>Deploying the xApp<a class="headerlink" href="#deploying-the-xapp" title="Permalink to this heading"></a></h1>
-<p>Terminal 10</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ss-xapp
-<span class="nb">export</span><span class="w"> </span><span class="nv">KONG_PROXY</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>kong<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">E2MGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2mgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">APPMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-appmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_SCTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">ONBOARDER_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-xapp-onboarder-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">RTMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-rtmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-</pre></div>
+<section id="running-the-xapp">
+<span id="id3"></span><h2>Running the xApp<a class="headerlink" href="#running-the-xapp" title="Permalink to this heading"></a></h2>
+<p>In one terminal, print the logs for the SS xApp</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The SS xApp have to be deployed in order for this to work</p>
 </div>
-<section id="id2">
-<h2>Deploying the xApp<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/onboard/download&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;@ss-xapp-onboard.url&quot;</span>
-curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/charts&quot;</span>
-curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/appmgr/ric/v1/xapps&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-raw<span class="w"> </span><span class="s1">&#39;{&quot;xappName&quot;: &quot;ss&quot;}&#39;</span>
-</pre></div>
-</div>
-<p>Add another terminal to print the logs</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>ricxapp-ss
 </pre></div>
 </div>
@@ -319,12 +428,17 @@ curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>
 <p>Before running the rest of the commands, detach two of the terminals with the iperf3 test running for 2 UEs to observe the downlink traffic.
 Also, detach the terminal with the logs.</p>
 </div>
-<p>Now run the test script with the following commands. You have to access the test script through the root directory to execute the commands in the script. The test script has commands for creating NodeB, UEs, and slices within the xApp, as well as binding the UEs to the slices. The xApp runs it’s authentication mechanism for identifying authorized UEs during the creation of UEs.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>zmqthreeue.sh
-./zmqthreeue.sh
+<p>Now run the test script with the following commands. You have to access the test script through the root directory to execute the commands in the script. The test script has commands for creating NodeB, UEs, and slices within the xApp, as well as binding the UEs to the slices. The xApp runs its authentication mechanism for identifying authorized UEs during the creation of UEs.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
+sudo<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>zmqthreeue.sh
+sudo<span class="w"> </span>./zmqthreeue.sh
 </pre></div>
 </div>
 <p>After a short time you can observe through the logs that UE1 will be considered malicious and moved to a different slice. You also observe the traffic exchange for UE1 will significantly decrease.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To run the script again, you have to restart the SS xApp and redeploy the network again.</p>
+</div>
 </section>
 </section>
 
