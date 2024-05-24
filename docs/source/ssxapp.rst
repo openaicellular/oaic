@@ -24,7 +24,7 @@ System Requirements
 * `Low Latency Kernel recommended <https://unix.stackexchange.com/questions/739769/how-do-you-install-the-linux-lowlatency-kernel-and-why-does-it-stops-at-version>`_
 * `Performance mode setting <https://askubuntu.com/questions/604720/setting-to-high-performance>`_
 * 10 Gbps NIC (USRP only)
-* CPU(s): 8 vCPUs
+* CPU(s): 8 vCPUs (Threads)
 * RAM: 8 GB minimum, 32 GB recommended
 * Storage: 100 GB
 
@@ -37,14 +37,14 @@ For ZMQ scenario:
 
 For USRP scenario:
 
-* 4 machines (1 for EPC & eNB, 3 for UEs)
-* 4 B210
+* 3 - 4 machines (1 for EPC & eNB, 2 - 3 for UEs)
+* 1 B210 for each machine
 * 1 Octoclock for 10MHz reference
 
 Software
 --------
 
-1. Deploy Near-Real Time RIC
+1. Deploy Near-Real Time RIC **(EPC & eNB server ONLY)**
 
     Follow instructions on the OAIC documentation: `O-RAN Near-Real Time RIC Installation Guide <https://openaicellular.github.io/oaic/oran_installation.html>`_
 
@@ -75,6 +75,10 @@ Software
     sudo ldconfig
     sudo srslte_install_configs.sh user --force
     
+.. warning::
+
+    The rest of this section is for **EPC & eNB server ONLY** if you are working with USRPs and ZMQ. If you're setting up for a UE for USRPs, skip to the :ref:`USRP` section.
+   
 After install srslte modified, open the ``user_db.csv`` file with your preferred text editor
 
 .. code-block:: bash
@@ -138,7 +142,12 @@ Now we are going to build the xapp from the DockerFile
     cd ~/oaic/ss-xapp
     sudo docker build . -t xApp-registry.local:5008/ss:0.1.0
 
-Paste the following in the ``ss-xapp-onboard.url`` file. Substitute the ``<machine_ip_addr>`` with the IP address of your machine. You can find this out by pasting the command ``ifconfig`` or ``hostname -I`` in the terminal.
+Paste the following in the ``ss-xapp-onboard.url`` file located in the ss-xapp directory. Substitute the ``<machine_ip_addr>`` with the IP address of your machine. You can find this out by pasting the command ``ifconfig`` or ``hostname -I`` in the terminal.
+
+.. code-block:: bash
+
+    cd ~/oaic/ss-xapp
+    vim ss-xapp-onboard.url
 
 .. code-block:: bash
 
@@ -218,7 +227,7 @@ Starting the network with ZMQ
 
 .. note::
 
-    If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using these two commands in order ``export E2NODE=`sudo kubectl get pods -A | grep deployment-ricplt-e2term-alpha | awk '{print $2}'``` and ``sudo kubectl delete pod -n ricplt ${E2NODE}``
+    If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using the command: ``sudo kubectl delete pod -n ricplt -l app=ricplt-e2term-alpha``
 
 
 **Terminal 3**: Set up the first UE
@@ -305,6 +314,7 @@ Before starting the network, check to see if each machine recognizes the USRPs b
 
 .. code-block:: bash
 
+    sudo uhd_images_downloader
     sudo uhd_find_devices
 
 **Machine 1 - Terminal 1**: Start the Core Network on server side (eNodeB server)
@@ -335,9 +345,7 @@ Before starting the network, check to see if each machine recognizes the USRPs b
 
 .. note::
 
-    If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using these two commands in order ``export E2NODE=`sudo kubectl get pods -A | grep deployment-ricplt-e2term-alpha | awk '{print $2}'``` and ``sudo kubectl delete pod -n ricplt ${E2NODE}``
-
-
+    If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using the command: ``sudo kubectl delete pod -n ricplt -l app=ricplt-e2term-alpha``
 
 **Machine 2 - Terminal 1**: Set up the first UE
 
@@ -353,7 +361,7 @@ Before starting the network, check to see if each machine recognizes the USRPs b
     sudo srsue \
     --rf.device_name=uhd --rf.device_args="clock=external" --usim.algo=xor --usim.imsi=001010123456780 --usim.k=00112233445566778899aabbccddeeff --usim.imei=353490069873310  --log.all_level=warn --log.filename=stdout
     
-**Machine 4 - Terminal 1**: Set up the third UE
+**Machine 4 - Terminal 1**: Set up the third UE (If you have one)
 
 .. code-block:: bash
 
@@ -366,7 +374,7 @@ Before starting the network, check to see if each machine recognizes the USRPs b
    
    iperf3 -s -B 172.16.0.1 -p 5006 -i 1
    iperf3 -s -B 172.16.0.1 -p 5020 -i 1 
-   iperf3 -s -B 172.16.0.1 -p 5021 -i 1
+   iperf3 -s -B 172.16.0.1 -p 5021 -i 1 # If you have a third UE
 
 **Machine 2/3/4 - Terminal 2**: Set up iperf3 test on the client side (UE servers)
 
@@ -376,7 +384,7 @@ We add an additional bandwidth argument "-b xxM" on each iperf3 test on client s
 
    sudo iperf3 -c 172.16.0.1 -p 5006 -i 1 -t 36000 -R -b 40M
    sudo iperf3 -c 172.16.0.1 -p 5020 -i 1 -t 36000 -R -b 10M
-   sudo iperf3 -c 172.16.0.1 -p 5021 -i 1 -t 36000 -R -b 15M
+   sudo iperf3 -c 172.16.0.1 -p 5021 -i 1 -t 36000 -R -b 15M # If you have a third UE
 
 You should notice traffic flow on both the server and client side for all three UEs. Move on to the next step.
 
@@ -385,21 +393,29 @@ You should notice traffic flow on both the server and client side for all three 
 Running the xApp
 ================
 
-In one terminal, print the logs for the SS xApp
+In your EPC & eNB server's terminal, print the logs for the SS xApp
 
 .. note::
 
-    The SS xApp have to be deployed in order for this to work
+    The SS xApp has to be deployed in order for this to work.
 
 .. code-block:: bash
 
     sudo kubectl logs -f -n ricxapp -l app=ricxapp-ss
 
-.. warning::
-    Before running the rest of the commands, detach two of the terminals with the iperf3 test running for 2 UEs to observe the downlink traffic.
-    Also, detach the terminal with the logs.
+Now run the test script with the following commands on a separate terminal, depending on the number of UEs you have.
 
-Now run the test script with the following commands. You have to access the test script through the root directory to execute the commands in the script. The test script has commands for creating NodeB, UEs, and slices within the xApp, as well as binding the UEs to the slices. The xApp runs its authentication mechanism for identifying authorized UEs during the creation of UEs.
+Two UEs
+-------
+
+.. code-block:: bash
+
+    cd ~/oaic/ss-xapp
+    sudo chmod +x zmqtwoue.sh
+    sudo ./zmqtwoue.sh
+
+Three UEs
+---------
 
 .. code-block:: bash
 
@@ -412,4 +428,10 @@ After a short time you can observe through the logs that UE1 will be considered 
 .. note::
 
    To run the script again, you have to restart the SS xApp and redeploy the network again.	
+   
+.. code-block:: bash
+
+    sudo kubectl -n ricxapp rollout restart deployment ricxapp-ss
+
+
 
