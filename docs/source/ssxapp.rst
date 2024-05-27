@@ -371,6 +371,10 @@ Before starting the network, check to see if each machine recognizes the USRPs b
 **Machine 1 - Terminal 3/4/5**: Set up iperf3 test on the server side (eNodeB server)
 
 .. code-block:: bash
+
+    sudo apt install iperf3 -y
+
+.. code-block:: bash
    
    iperf3 -s -B 172.16.0.1 -p 5006 -i 1
    iperf3 -s -B 172.16.0.1 -p 5020 -i 1 
