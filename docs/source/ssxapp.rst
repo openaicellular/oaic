@@ -317,6 +317,12 @@ Before starting the network, check to see if each machine recognizes the USRPs b
     sudo uhd_images_downloader
     sudo uhd_find_devices
 
+Install iperf3 for all machines if not already done so.
+
+.. code-block:: bash
+
+    sudo apt install iperf3 -y
+
 **Machine 1 - Terminal 1**: Start the Core Network on server side (eNodeB server)
 
 .. code-block:: bash
@@ -369,10 +375,6 @@ Before starting the network, check to see if each machine recognizes the USRPs b
     --rf.device_name=uhd --rf.device_args="clock=external" --usim.algo=xor --usim.imsi=001010123456781 --usim.k=00112233445566778899aabbccddeeff --usim.imei=353490069873310  --log.all_level=warn --log.filename=stdout
 
 **Machine 1 - Terminal 3/4/5**: Set up iperf3 test on the server side (eNodeB server)
-
-.. code-block:: bash
-
-    sudo apt install iperf3 -y
 
 .. code-block:: bash
    
