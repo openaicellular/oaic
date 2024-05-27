@@ -83,7 +83,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#starting-the-network-with-usrps">Starting the network with USRPs</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#running-the-xapp">Running the xApp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-xapp">Running the xApp</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#two-ues">Two UEs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#three-ues">Three UEs</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="xapp_python.html">Developing a custom xApp in Python</a></li>
@@ -142,7 +146,7 @@
 <li><p><a class="reference external" href="https://unix.stackexchange.com/questions/739769/how-do-you-install-the-linux-lowlatency-kernel-and-why-does-it-stops-at-version">Low Latency Kernel recommended</a></p></li>
 <li><p><a class="reference external" href="https://askubuntu.com/questions/604720/setting-to-high-performance">Performance mode setting</a></p></li>
 <li><p>10 Gbps NIC (USRP only)</p></li>
-<li><p>CPU(s): 8 vCPUs</p></li>
+<li><p>CPU(s): 8 vCPUs (Threads)</p></li>
 <li><p>RAM: 8 GB minimum, 32 GB recommended</p></li>
 <li><p>Storage: 100 GB</p></li>
 </ul>
@@ -155,15 +159,15 @@
 </ul>
 <p>For USRP scenario:</p>
 <ul class="simple">
-<li><p>4 machines (1 for EPC &amp; eNB, 3 for UEs)</p></li>
-<li><p>4 B210</p></li>
+<li><p>3 - 4 machines (1 for EPC &amp; eNB, 2 - 3 for UEs)</p></li>
+<li><p>1 B210 for each machine</p></li>
 <li><p>1 Octoclock for 10MHz reference</p></li>
 </ul>
 </section>
 <section id="software">
 <h3>Software<a class="headerlink" href="#software" title="Permalink to this heading"></a></h3>
 <ol class="arabic">
-<li><p>Deploy Near-Real Time RIC</p>
+<li><p>Deploy Near-Real Time RIC <strong>(EPC &amp; eNB server ONLY)</strong></p>
 <blockquote>
 <div><p>Follow instructions on the OAIC documentation: <a class="reference external" href="https://openaicellular.github.io/oaic/oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></p>
 </div></blockquote>
@@ -193,6 +197,10 @@ sudo<span class="w"> </span>make<span class="w"> </span>install
 sudo<span class="w"> </span>ldconfig
 sudo<span class="w"> </span>srslte_install_configs.sh<span class="w"> </span>user<span class="w"> </span>--force
 </pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The rest of this section is for <strong>EPC &amp; eNB server ONLY</strong> if you are working with USRPs and ZMQ. If you’re setting up for a UE for USRPs, skip to the <a class="reference internal" href="#usrp"><span class="std std-ref">Starting the network with USRPs</span></a> section.</p>
 </div>
 <p>After install srslte modified, open the <code class="docutils literal notranslate"><span class="pre">user_db.csv</span></code> file with your preferred text editor</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>-i
@@ -240,7 +248,11 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="
 sudo<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-t<span class="w"> </span>xApp-registry.local:5008/ss:0.1.0
 </pre></div>
 </div>
-<p>Paste the following in the <code class="docutils literal notranslate"><span class="pre">ss-xapp-onboard.url</span></code> file. Substitute the <code class="docutils literal notranslate"><span class="pre">&lt;machine_ip_addr&gt;</span></code> with the IP address of your machine. You can find this out by pasting the command <code class="docutils literal notranslate"><span class="pre">ifconfig</span></code> or <code class="docutils literal notranslate"><span class="pre">hostname</span> <span class="pre">-I</span></code> in the terminal.</p>
+<p>Paste the following in the <code class="docutils literal notranslate"><span class="pre">ss-xapp-onboard.url</span></code> file located in the ss-xapp directory. Substitute the <code class="docutils literal notranslate"><span class="pre">&lt;machine_ip_addr&gt;</span></code> with the IP address of your machine. You can find this out by pasting the command <code class="docutils literal notranslate"><span class="pre">ifconfig</span></code> or <code class="docutils literal notranslate"><span class="pre">hostname</span> <span class="pre">-I</span></code> in the terminal.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
+vim<span class="w"> </span>ss-xapp-onboard.url
+</pre></div>
+</div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">{</span><span class="s2">&quot;config-file.json_url&quot;</span>:<span class="s2">&quot;http://&lt;machine_ip_addr&gt;:5010/config_files/config-file.json&quot;</span><span class="o">}</span>
 </pre></div>
 </div>
@@ -301,7 +313,7 @@ sudo<span class="w"> </span>srsepc
 <a class="reference internal image-reference" href="_images/RIC_State_Established.png"><img alt="eNB having a RIC State Established message" src="_images/RIC_State_Established.png" style="width: 80%;" /></a>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using these two commands in order <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">E2NODE=`sudo</span> <span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">pods</span> <span class="pre">-A</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">deployment-ricplt-e2term-alpha</span> <span class="pre">|</span> <span class="pre">awk</span> <span class="pre">'{print</span> <span class="pre">$2}'`</span></code> and <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">ricplt</span> <span class="pre">${E2NODE}</span></code></p>
+<p>If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using the command: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">ricplt</span> <span class="pre">-l</span> <span class="pre">app=ricplt-e2term-alpha</span></code></p>
 </div>
 <p><strong>Terminal 3</strong>: Set up the first UE</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
@@ -357,7 +369,12 @@ sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </sp
 <p>Connect the two Antennas in the RF A section for both the TX/RX and RX2 ports.</p>
 <p>Connect the USB port from the B210 to your machines.</p>
 <p>Before starting the network, check to see if each machine recognizes the USRPs by using the following command.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>uhd_find_devices
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>uhd_images_downloader
+sudo<span class="w"> </span>uhd_find_devices
+</pre></div>
+</div>
+<p>Install iperf3 for all machines if not already done so.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>iperf3<span class="w"> </span>-y
 </pre></div>
 </div>
 <p><strong>Machine 1 - Terminal 1</strong>: Start the Core Network on server side (eNodeB server)</p>
@@ -380,7 +397,7 @@ sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </sp
 <a class="reference internal image-reference" href="_images/RIC_State_Established.png"><img alt="eNB having a RIC State Established message" src="_images/RIC_State_Established.png" style="width: 80%;" /></a>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using these two commands in order <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">E2NODE=`sudo</span> <span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">pods</span> <span class="pre">-A</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">deployment-ricplt-e2term-alpha</span> <span class="pre">|</span> <span class="pre">awk</span> <span class="pre">'{print</span> <span class="pre">$2}'`</span></code> and <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">ricplt</span> <span class="pre">${E2NODE}</span></code></p>
+<p>If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using the command: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">ricplt</span> <span class="pre">-l</span> <span class="pre">app=ricplt-e2term-alpha</span></code></p>
 </div>
 <p><strong>Machine 2 - Terminal 1</strong>: Set up the first UE</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
@@ -392,7 +409,7 @@ sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </sp
 --rf.device_name<span class="o">=</span>uhd<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;clock=external&quot;</span><span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456780</span><span class="w"> </span>--usim.k<span class="o">=</span>00112233445566778899aabbccddeeff<span class="w"> </span>--usim.imei<span class="o">=</span><span class="m">353490069873310</span><span class="w">  </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--log.filename<span class="o">=</span>stdout
 </pre></div>
 </div>
-<p><strong>Machine 4 - Terminal 1</strong>: Set up the third UE</p>
+<p><strong>Machine 4 - Terminal 1</strong>: Set up the third UE (If you have one)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
 --rf.device_name<span class="o">=</span>uhd<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;clock=external&quot;</span><span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456781</span><span class="w"> </span>--usim.k<span class="o">=</span>00112233445566778899aabbccddeeff<span class="w"> </span>--usim.imei<span class="o">=</span><span class="m">353490069873310</span><span class="w">  </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--log.filename<span class="o">=</span>stdout
 </pre></div>
@@ -400,14 +417,14 @@ sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </sp
 <p><strong>Machine 1 - Terminal 3/4/5</strong>: Set up iperf3 test on the server side (eNodeB server)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5006</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
 iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
-iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
+iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="c1"># If you have a third UE</span>
 </pre></div>
 </div>
 <p><strong>Machine 2/3/4 - Terminal 2</strong>: Set up iperf3 test on the client side (UE servers)</p>
 <p>We add an additional bandwidth argument “-b xxM” on each iperf3 test on client side to create a scenario of UEs trying to access more or less of resources on the network. If a UE surpasses the pre-determined threshold for amount of data packets transmitted, it is considered as malicious by the SS xApp.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5006</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>40M
 sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>10M
-sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>15M
+sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>15M<span class="w"> </span><span class="c1"># If you have a third UE</span>
 </pre></div>
 </div>
 <p>You should notice traffic flow on both the server and client side for all three UEs. Move on to the next step.</p>
@@ -415,20 +432,25 @@ sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </s
 </section>
 <section id="running-the-xapp">
 <span id="id3"></span><h2>Running the xApp<a class="headerlink" href="#running-the-xapp" title="Permalink to this heading"></a></h2>
-<p>In one terminal, print the logs for the SS xApp</p>
+<p>In your EPC &amp; eNB server’s terminal, print the logs for the SS xApp</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The SS xApp have to be deployed in order for this to work</p>
+<p>The SS xApp has to be deployed in order for this to work.</p>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>ricxapp-ss
 </pre></div>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Before running the rest of the commands, detach two of the terminals with the iperf3 test running for 2 UEs to observe the downlink traffic.
-Also, detach the terminal with the logs.</p>
+<p>Now run the test script with the following commands on a separate terminal, depending on the number of UEs you have.</p>
+<section id="two-ues">
+<h3>Two UEs<a class="headerlink" href="#two-ues" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
+sudo<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>zmqtwoue.sh
+sudo<span class="w"> </span>./zmqtwoue.sh
+</pre></div>
 </div>
-<p>Now run the test script with the following commands. You have to access the test script through the root directory to execute the commands in the script. The test script has commands for creating NodeB, UEs, and slices within the xApp, as well as binding the UEs to the slices. The xApp runs its authentication mechanism for identifying authorized UEs during the creation of UEs.</p>
+</section>
+<section id="three-ues">
+<h3>Three UEs<a class="headerlink" href="#three-ues" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
 sudo<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>zmqthreeue.sh
 sudo<span class="w"> </span>./zmqthreeue.sh
@@ -439,6 +461,10 @@ sudo<span class="w"> </span>./zmqthreeue.sh
 <p class="admonition-title">Note</p>
 <p>To run the script again, you have to restart the SS xApp and redeploy the network again.</p>
 </div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deployment<span class="w"> </span>ricxapp-ss
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 
