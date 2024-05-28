@@ -23,7 +23,6 @@ System Requirements
 * OS: `Ubuntu Desktop 20.04 LTS (Focal Fossa) <https://www.releases.ubuntu.com/focal/ubuntu-20.04.6-desktop-amd64.iso>`_ Baremetal Preferred
 * `Low Latency Kernel recommended <https://unix.stackexchange.com/questions/739769/how-do-you-install-the-linux-lowlatency-kernel-and-why-does-it-stops-at-version>`_
 * `Performance mode setting <https://askubuntu.com/questions/604720/setting-to-high-performance>`_
-* 10 Gbps NIC (USRP only)
 * CPU(s): 8 vCPUs (Threads)
 * RAM: 8 GB minimum, 32 GB recommended
 * Storage: 100 GB
@@ -50,7 +49,7 @@ Software
 
 2. Next install all the required dependencies, ZMQ, UHD and asn1c Compiler
 
-    Follow instructions on OAIC documentation for installation of dependencies, ZMQ and as1nc compiler: `srsRAN with E2 Agent Installation Guide <https://openaicellular.github.io/oaic/srsRAN_installation.html>`_
+    Follow instructions on OAIC documentation for installation of dependencies, ZMQ and as1nc compiler: `srsRAN with E2 Agent Installation Guide <https://openaicellular.github.io/oaic/srsRAN_installation.html>`_. Do **NOT** do the ``srsRAN with E2 agent Installation``.
 
 3. Clone down the srslte modified with e2
 
@@ -125,7 +124,7 @@ Under the oaic directory, run the following commands
 
 .. note::
 
-    If you do not have Nginx web server setted up, head over to the  `xApp Deployment - General Guidelines <https://openaicellular.github.io/oaic/xapp_deployment.html>`_ and follow the ``Configuring the Nginx Web Server`` section and nothing else.
+    If you do not have Nginx web server setted up, head over to the  `xApp Deployment - General Guidelines <https://openaicellular.github.io/oaic/xapp_deployment.html>`_ and follow the ``Configuring the Nginx Web Server`` section **ONLY** and nothing else.
 
 Create a symlink from the xApp’s config file. This can be replaced by another symlink in the future. Reload Nginx once this has been done.
 
