@@ -49,7 +49,7 @@ Software
 
 2. Next install all the required dependencies, ZMQ, UHD and asn1c Compiler
 
-    Follow instructions on OAIC documentation for installation of dependencies, ZMQ and as1nc compiler: `srsRAN with E2 Agent Installation Guide <https://openaicellular.github.io/oaic/srsRAN_installation.html>`_. Do **NOT** do the ``srsRAN with E2 agent Installation``.
+    Follow instructions on OAIC documentation for installation of dependencies, ZMQ and as1nc compiler: `srsRAN with E2 Agent Installation Guide <https://openaicellular.github.io/oaic/srsRAN_installation.html>`_. Do **NOT** follow the section that says ``srsRAN with E2 agent Installation``.
 
 3. Clone down the srslte modified with e2
 
