@@ -23,8 +23,8 @@ System Requirements
 * OS: `Ubuntu Desktop 20.04 LTS (Focal Fossa) <https://www.releases.ubuntu.com/focal/ubuntu-20.04.6-desktop-amd64.iso>`_ Baremetal Preferred
 * `Low Latency Kernel recommended <https://unix.stackexchange.com/questions/739769/how-do-you-install-the-linux-lowlatency-kernel-and-why-does-it-stops-at-version>`_
 * `Performance mode setting <https://askubuntu.com/questions/604720/setting-to-high-performance>`_
-* CPU(s): 8 vCPUs (Threads)
-* RAM: 8 GB minimum, 32 GB recommended
+* CPU(s): 12 vCPUs (Threads)
+* RAM: 16 GB minimum
 * Storage: 100 GB
 
 Hardware
@@ -267,7 +267,13 @@ Press play as marked in the image below. This allows the UEs to attach to the eN
 .. code-block:: bash
    
     iperf3 -s -B 172.16.0.1 -p 5006 -i 1
+
+.. code-block:: bash
+
     iperf3 -s -B 172.16.0.1 -p 5020 -i 1 
+
+.. code-block:: bash
+
     iperf3 -s -B 172.16.0.1 -p 5021 -i 1
 
 .. note::
@@ -281,7 +287,13 @@ We add an additional bandwidth argument "-b xxM" on each iperf3 test on client s
 .. code-block:: bash
 
    sudo ip netns exec ue1 iperf3 -c 172.16.0.1 -p 5006 -i 1 -t 36000 -R -b 40M
+
+.. code-block:: bash
+
    sudo ip netns exec ue2 iperf3 -c 172.16.0.1 -p 5020 -i 1 -t 36000 -R -b 10M
+
+.. code-block:: bash
+
    sudo ip netns exec ue3 iperf3 -c 172.16.0.1 -p 5021 -i 1 -t 36000 -R -b 15M
 
 You should notice traffic flow on both the server and client side for both UEs.
@@ -378,7 +390,13 @@ Install iperf3 for all machines if not already done so.
 .. code-block:: bash
    
    iperf3 -s -B 172.16.0.1 -p 5006 -i 1
+
+.. code-block:: bash
+
    iperf3 -s -B 172.16.0.1 -p 5020 -i 1 
+
+.. code-block:: bash
+
    iperf3 -s -B 172.16.0.1 -p 5021 -i 1 # If you have a third UE
 
 **Machine 2/3/4 - Terminal 2**: Set up iperf3 test on the client side (UE servers)
@@ -388,7 +406,13 @@ We add an additional bandwidth argument "-b xxM" on each iperf3 test on client s
 .. code-block:: bash
 
    sudo iperf3 -c 172.16.0.1 -p 5006 -i 1 -t 36000 -R -b 40M
+
+.. code-block:: bash
+
    sudo iperf3 -c 172.16.0.1 -p 5020 -i 1 -t 36000 -R -b 10M
+
+.. code-block:: bash
+
    sudo iperf3 -c 172.16.0.1 -p 5021 -i 1 -t 36000 -R -b 15M # If you have a third UE
 
 You should notice traffic flow on both the server and client side for all three UEs. Move on to the next step.
