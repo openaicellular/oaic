@@ -23,9 +23,9 @@ System Requirements
 * OS: `Ubuntu Desktop 20.04 LTS (Focal Fossa) <https://www.releases.ubuntu.com/focal/ubuntu-20.04.6-desktop-amd64.iso>`_ Baremetal Preferred
 * `Low Latency Kernel recommended <https://unix.stackexchange.com/questions/739769/how-do-you-install-the-linux-lowlatency-kernel-and-why-does-it-stops-at-version>`_
 * `Performance mode setting <https://askubuntu.com/questions/604720/setting-to-high-performance>`_
-* 10 Gbps NIC (USRP only)
-* CPU(s): 8 vCPUs (Threads)
-* RAM: 8 GB minimum, 32 GB recommended
+* 10 Gbps NIC (if using USRPs)
+* CPU(s): 12 vCPUs (Threads)
+* RAM: 16 GB minimum
 * Storage: 100 GB
 
 Hardware
@@ -50,7 +50,7 @@ Software
 
 2. Next install all the required dependencies, ZMQ, UHD and asn1c Compiler
 
-    Follow instructions on OAIC documentation for installation of dependencies, ZMQ and as1nc compiler: `srsRAN with E2 Agent Installation Guide <https://openaicellular.github.io/oaic/srsRAN_installation.html>`_
+    Follow instructions on OAIC documentation for installation of dependencies, ZMQ and as1nc compiler: `srsRAN with E2 Agent Installation Guide <https://openaicellular.github.io/oaic/srsRAN_installation.html>`_. Do **NOT** follow the section that says ``srsRAN with E2 agent Installation``.
 
 3. Clone down the srslte modified with e2
 
@@ -125,7 +125,7 @@ Under the oaic directory, run the following commands
 
 .. note::
 
-    If you do not have Nginx web server setted up, head over to the  `xApp Deployment - General Guidelines <https://openaicellular.github.io/oaic/xapp_deployment.html>`_ and follow the ``Configuring the Nginx Web Server`` section and nothing else.
+    If you do not have Nginx web server setted up, head over to the  `xApp Deployment - General Guidelines <https://openaicellular.github.io/oaic/xapp_deployment.html>`_ and follow the ``Configuring the Nginx Web Server`` section **ONLY** and nothing else.
 
 Create a symlink from the xApp’s config file. This can be replaced by another symlink in the future. Reload Nginx once this has been done.
 
@@ -227,7 +227,7 @@ Starting the network with ZMQ
 
 .. note::
 
-    If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using the command: ``sudo kubectl delete pod -n ricplt -l app=ricplt-e2term-alpha``
+    If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using the command: ``sudo kubectl delete pod -n ricplt -l app=ricplt-e2term-alpha``. If that still doesn't work, undeploy and redeploy the near-realtime RIC.
 
 
 **Terminal 3**: Set up the first UE
@@ -268,7 +268,13 @@ Press play as marked in the image below. This allows the UEs to attach to the eN
 .. code-block:: bash
    
     iperf3 -s -B 172.16.0.1 -p 5006 -i 1
+
+.. code-block:: bash
+
     iperf3 -s -B 172.16.0.1 -p 5020 -i 1 
+
+.. code-block:: bash
+
     iperf3 -s -B 172.16.0.1 -p 5021 -i 1
 
 .. note::
@@ -282,7 +288,13 @@ We add an additional bandwidth argument "-b xxM" on each iperf3 test on client s
 .. code-block:: bash
 
    sudo ip netns exec ue1 iperf3 -c 172.16.0.1 -p 5006 -i 1 -t 36000 -R -b 40M
+
+.. code-block:: bash
+
    sudo ip netns exec ue2 iperf3 -c 172.16.0.1 -p 5020 -i 1 -t 36000 -R -b 10M
+
+.. code-block:: bash
+
    sudo ip netns exec ue3 iperf3 -c 172.16.0.1 -p 5021 -i 1 -t 36000 -R -b 15M
 
 You should notice traffic flow on both the server and client side for both UEs.
@@ -351,7 +363,7 @@ Install iperf3 for all machines if not already done so.
 
 .. note::
 
-    If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using the command: ``sudo kubectl delete pod -n ricplt -l app=ricplt-e2term-alpha``
+    If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using the command: ``sudo kubectl delete pod -n ricplt -l app=ricplt-e2term-alpha``. If that still doesn't work, undeploy and redeploy the near-realtime RIC.
 
 **Machine 2 - Terminal 1**: Set up the first UE
 
@@ -379,7 +391,13 @@ Install iperf3 for all machines if not already done so.
 .. code-block:: bash
    
    iperf3 -s -B 172.16.0.1 -p 5006 -i 1
+
+.. code-block:: bash
+
    iperf3 -s -B 172.16.0.1 -p 5020 -i 1 
+
+.. code-block:: bash
+
    iperf3 -s -B 172.16.0.1 -p 5021 -i 1 # If you have a third UE
 
 **Machine 2/3/4 - Terminal 2**: Set up iperf3 test on the client side (UE servers)
@@ -389,7 +407,13 @@ We add an additional bandwidth argument "-b xxM" on each iperf3 test on client s
 .. code-block:: bash
 
    sudo iperf3 -c 172.16.0.1 -p 5006 -i 1 -t 36000 -R -b 40M
+
+.. code-block:: bash
+
    sudo iperf3 -c 172.16.0.1 -p 5020 -i 1 -t 36000 -R -b 10M
+
+.. code-block:: bash
+
    sudo iperf3 -c 172.16.0.1 -p 5021 -i 1 -t 36000 -R -b 15M # If you have a third UE
 
 You should notice traffic flow on both the server and client side for all three UEs. Move on to the next step.

@@ -145,9 +145,9 @@
 <li><p>OS: <a class="reference external" href="https://www.releases.ubuntu.com/focal/ubuntu-20.04.6-desktop-amd64.iso">Ubuntu Desktop 20.04 LTS (Focal Fossa)</a> Baremetal Preferred</p></li>
 <li><p><a class="reference external" href="https://unix.stackexchange.com/questions/739769/how-do-you-install-the-linux-lowlatency-kernel-and-why-does-it-stops-at-version">Low Latency Kernel recommended</a></p></li>
 <li><p><a class="reference external" href="https://askubuntu.com/questions/604720/setting-to-high-performance">Performance mode setting</a></p></li>
-<li><p>10 Gbps NIC (USRP only)</p></li>
-<li><p>CPU(s): 8 vCPUs (Threads)</p></li>
-<li><p>RAM: 8 GB minimum, 32 GB recommended</p></li>
+<li><p>10 Gbps NIC (if using USRPs)</p></li>
+<li><p>CPU(s): 12 vCPUs (Threads)</p></li>
+<li><p>RAM: 16 GB minimum</p></li>
 <li><p>Storage: 100 GB</p></li>
 </ul>
 </section>
@@ -174,7 +174,7 @@
 </li>
 <li><p>Next install all the required dependencies, ZMQ, UHD and asn1c Compiler</p>
 <blockquote>
-<div><p>Follow instructions on OAIC documentation for installation of dependencies, ZMQ and as1nc compiler: <a class="reference external" href="https://openaicellular.github.io/oaic/srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></p>
+<div><p>Follow instructions on OAIC documentation for installation of dependencies, ZMQ and as1nc compiler: <a class="reference external" href="https://openaicellular.github.io/oaic/srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a>. Do <strong>NOT</strong> follow the section that says <code class="docutils literal notranslate"><span class="pre">srsRAN</span> <span class="pre">with</span> <span class="pre">E2</span> <span class="pre">agent</span> <span class="pre">Installation</span></code>.</p>
 </div></blockquote>
 </li>
 <li><p>Clone down the srslte modified with e2</p></li>
@@ -235,7 +235,7 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/opena
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you do not have Nginx web server setted up, head over to the  <a class="reference external" href="https://openaicellular.github.io/oaic/xapp_deployment.html">xApp Deployment - General Guidelines</a> and follow the <code class="docutils literal notranslate"><span class="pre">Configuring</span> <span class="pre">the</span> <span class="pre">Nginx</span> <span class="pre">Web</span> <span class="pre">Server</span></code> section and nothing else.</p>
+<p>If you do not have Nginx web server setted up, head over to the  <a class="reference external" href="https://openaicellular.github.io/oaic/xapp_deployment.html">xApp Deployment - General Guidelines</a> and follow the <code class="docutils literal notranslate"><span class="pre">Configuring</span> <span class="pre">the</span> <span class="pre">Nginx</span> <span class="pre">Web</span> <span class="pre">Server</span></code> section <strong>ONLY</strong> and nothing else.</p>
 </div>
 <p>Create a symlink from the xApp’s config file. This can be replaced by another symlink in the future. Reload Nginx once this has been done.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
@@ -313,7 +313,7 @@ sudo<span class="w"> </span>srsepc
 <a class="reference internal image-reference" href="_images/RIC_State_Established.png"><img alt="eNB having a RIC State Established message" src="_images/RIC_State_Established.png" style="width: 80%;" /></a>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using the command: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">ricplt</span> <span class="pre">-l</span> <span class="pre">app=ricplt-e2term-alpha</span></code></p>
+<p>If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using the command: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">ricplt</span> <span class="pre">-l</span> <span class="pre">app=ricplt-e2term-alpha</span></code>. If that still doesn’t work, undeploy and redeploy the near-realtime RIC.</p>
 </div>
 <p><strong>Terminal 3</strong>: Set up the first UE</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
@@ -339,8 +339,12 @@ sudo<span class="w"> </span>srsepc
 </div>
 <p><strong>Terminal 6/7/8</strong>: Set up iperf3 test on the server side</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5006</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
-iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
-iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -350,8 +354,12 @@ iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </spa
 <p><strong>Terminal 9/10/11</strong>: Set up iperf3 test on the client side</p>
 <p>We add an additional bandwidth argument “-b xxM” on each iperf3 test on client side to create a scenario of UEs trying to access more or less of resources on the network. If a UE surpasses the pre-determined threshold for amount of data packets transmitted, it is considered as malicious by the SS xApp.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue1<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5006</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>40M
-sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue2<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>10M
-sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue3<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>15M
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue2<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>10M
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue3<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>15M
 </pre></div>
 </div>
 <p>You should notice traffic flow on both the server and client side for both UEs.</p>
@@ -397,7 +405,7 @@ sudo<span class="w"> </span>uhd_find_devices
 <a class="reference internal image-reference" href="_images/RIC_State_Established.png"><img alt="eNB having a RIC State Established message" src="_images/RIC_State_Established.png" style="width: 80%;" /></a>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using the command: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">ricplt</span> <span class="pre">-l</span> <span class="pre">app=ricplt-e2term-alpha</span></code></p>
+<p>If you are not getting a RIC State Established message, you need to restart the e2term-alpha pod by using the command: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">ricplt</span> <span class="pre">-l</span> <span class="pre">app=ricplt-e2term-alpha</span></code>. If that still doesn’t work, undeploy and redeploy the near-realtime RIC.</p>
 </div>
 <p><strong>Machine 2 - Terminal 1</strong>: Set up the first UE</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span><span class="se">\</span>
@@ -416,15 +424,23 @@ sudo<span class="w"> </span>uhd_find_devices
 </div>
 <p><strong>Machine 1 - Terminal 3/4/5</strong>: Set up iperf3 test on the server side (eNodeB server)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5006</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
-iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
-iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="c1"># If you have a third UE</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf3<span class="w"> </span>-s<span class="w"> </span>-B<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="c1"># If you have a third UE</span>
 </pre></div>
 </div>
 <p><strong>Machine 2/3/4 - Terminal 2</strong>: Set up iperf3 test on the client side (UE servers)</p>
 <p>We add an additional bandwidth argument “-b xxM” on each iperf3 test on client side to create a scenario of UEs trying to access more or less of resources on the network. If a UE surpasses the pre-determined threshold for amount of data packets transmitted, it is considered as malicious by the SS xApp.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5006</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>40M
-sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>10M
-sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>15M<span class="w"> </span><span class="c1"># If you have a third UE</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5020</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>10M
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">5021</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">36000</span><span class="w"> </span>-R<span class="w"> </span>-b<span class="w"> </span>15M<span class="w"> </span><span class="c1"># If you have a third UE</span>
 </pre></div>
 </div>
 <p>You should notice traffic flow on both the server and client side for all three UEs. Move on to the next step.</p>
