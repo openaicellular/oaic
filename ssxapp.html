@@ -79,7 +79,12 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deploying-the-ss-xapp">Deploying the SS xApp</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#starting-the-network-with-zmq">Starting the network with ZMQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#starting-the-network-with-zmq">Starting the network with ZMQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gui">GUI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#no-gui">No GUI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iperf3">Iperf3</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#starting-the-network-with-usrps">Starting the network with USRPs</a></li>
 </ul>
 </li>
@@ -330,9 +335,26 @@ sudo<span class="w"> </span>srsepc
 --rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;tx_port=tcp://*:2008,rx_port=tcp://localhost:2500,id=ue,base_srate=23.04e6&quot;</span><span class="w"> </span>--usim.algo<span class="o">=</span>xor<span class="w"> </span>--usim.imsi<span class="o">=</span><span class="m">001010123456781</span><span class="w"> </span>--usim.k<span class="o">=</span>00112233445566778899aabbccddeeff<span class="w"> </span>--usim.imei<span class="o">=</span><span class="m">353490069873310</span><span class="w"> </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--gw.netns<span class="o">=</span>ue3
 </pre></div>
 </div>
+<section id="gui">
+<h4>GUI<a class="headerlink" href="#gui" title="Permalink to this heading"></a></h4>
 <p>Open the <code class="docutils literal notranslate"><span class="pre">GNU</span> <span class="pre">Radio</span> <span class="pre">Companion</span></code> App. It should be installed when installing the gnuradio package. Open the <code class="docutils literal notranslate"><span class="pre">multi_ue.grc</span></code> file located in the ~/oaic/ss-xapp directory.</p>
 <p>Press play as marked in the image below. This allows the UEs to attach to the eNodeB base station.</p>
 <a class="reference internal image-reference" href="_images/gnu_flowchart.png"><img alt="GNU Flowchart" src="_images/gnu_flowchart.png" style="width: 80%;" /></a>
+</section>
+<section id="no-gui">
+<h4>No GUI<a class="headerlink" href="#no-gui" title="Permalink to this heading"></a></h4>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you have already ran the GNU Radio Companion Application, skip this step.</p>
+</div>
+<p>If you running without a GUI, open a new terminal and run the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
+python3<span class="w"> </span>multi_ue.py
+</pre></div>
+</div>
+</section>
+<section id="iperf3">
+<h4>Iperf3<a class="headerlink" href="#iperf3" title="Permalink to this heading"></a></h4>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Execute the next commands each in a separate terminal</p>
@@ -364,6 +386,7 @@ sudo<span class="w"> </span>srsepc
 </div>
 <p>You should notice traffic flow on both the server and client side for both UEs.</p>
 <p>Move on to the <a class="reference internal" href="#running-the-xapp"><span class="std std-ref">Running the xApp</span></a> section for running the xApp</p>
+</section>
 </section>
 <section id="starting-the-network-with-usrps">
 <span id="usrp"></span><h3>Starting the network with USRPs<a class="headerlink" href="#starting-the-network-with-usrps" title="Permalink to this heading"></a></h3>
