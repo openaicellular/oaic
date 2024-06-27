@@ -250,7 +250,10 @@ Starting the network with ZMQ
 
     sudo srsue \
     --rf.device_name=zmq --rf.device_args="tx_port=tcp://*:2008,rx_port=tcp://localhost:2500,id=ue,base_srate=23.04e6" --usim.algo=xor --usim.imsi=001010123456781 --usim.k=00112233445566778899aabbccddeeff --usim.imei=353490069873310 --log.all_level=warn --log.filename=stdout --gw.netns=ue3
-    
+
+GUI
+~~~
+
 Open the ``GNU Radio Companion`` App. It should be installed when installing the gnuradio package. Open the ``multi_ue.grc`` file located in the ~/oaic/ss-xapp directory.
 
 Press play as marked in the image below. This allows the UEs to attach to the eNodeB base station.
@@ -258,7 +261,24 @@ Press play as marked in the image below. This allows the UEs to attach to the eN
 .. image:: gnu_flowchart.png
     :width: 80%
     :alt: GNU Flowchart
-    
+
+No GUI
+~~~~~~
+
+.. note::
+
+    If you have already ran the GNU Radio Companion Application, skip this step.
+
+If you running without a GUI, open a new terminal and run the following commands:
+
+.. code-block:: bash
+
+    cd ~/oaic/ss-xapp
+    python3 multi_ue.py
+
+Iperf3
+~~~~~~
+
 .. note::
 
     Execute the next commands each in a separate terminal
