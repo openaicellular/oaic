@@ -153,38 +153,6 @@ Paste the following in the ``ss-xapp-onboard.url`` file located in the ss-xapp d
 
     {"config-file.json_url":"http://<machine_ip_addr>:5010/config_files/config-file.json"}
     
-.. _Deploying:
-    
-Deploying the SS xApp
-=====================
-
-.. code-block:: bash
-
-    cd ~/oaic/ss-xapp
-
-.. code-block:: bash
-    
-    export KONG_PROXY=`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath='{.items[0].spec.clusterIP}'`
-    export E2MGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2mgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
-    export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
-    export E2TERM_SCTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
-    export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
-    export RTMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-rtmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
-
-.. code-block:: bash
-
-    curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@ss-xapp-onboard.url"
-    curl -L -X GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"
-    curl -L -X POST "http://$KONG_PROXY:32080/appmgr/ric/v1/xapps" --header 'Content-Type: application/json' --data-raw '{"xappName": "ss"}'
-
-.. warning::
-
-    If you are repeating an experiement, you may want to restart the pod using the command below. By doing so, you do not have to undeploy and redeploy the xApp again.
-    
-.. code-block:: bash
-
-    sudo kubectl -n ricxapp rollout restart deployment ricxapp-ss
-
 .. _ZMQ:
 
 Starting the network with ZMQ
@@ -319,7 +287,7 @@ We add an additional bandwidth argument "-b xxM" on each iperf3 test on client s
 
 You should notice traffic flow on both the server and client side for both UEs.
 
-Move on to the :ref:`Running The xApp` section for running the xApp
+Move on to the :ref:`Deploying` section for deploying the xApp
 
 .. _USRP:
 
@@ -328,7 +296,7 @@ Starting the network with USRPs
 
 .. note::
 
-    If you already started the network using ZMQ, you can head to the :ref:`Running The xApp` section
+    If you already started the network using ZMQ, you can head to the :ref:`Deploying` section
 
 For better performance of USRPs, we use the CDA-2990 Octoclock as an external clock reference source for the B210s. To ensure that the B210s recognize the source, we have to add an extra argument "clock=external" on the eNodeB and UE commands.
 
@@ -437,6 +405,38 @@ We add an additional bandwidth argument "-b xxM" on each iperf3 test on client s
    sudo iperf3 -c 172.16.0.1 -p 5021 -i 1 -t 36000 -R -b 15M # If you have a third UE
 
 You should notice traffic flow on both the server and client side for all three UEs. Move on to the next step.
+
+.. _Deploying:
+    
+Deploying the SS xApp
+=====================
+
+.. code-block:: bash
+
+    cd ~/oaic/ss-xapp
+
+.. code-block:: bash
+    
+    export KONG_PROXY=`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath='{.items[0].spec.clusterIP}'`
+    export E2MGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2mgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
+    export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
+    export E2TERM_SCTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
+    export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
+    export RTMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-rtmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
+
+.. code-block:: bash
+
+    curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@ss-xapp-onboard.url"
+    curl -L -X GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"
+    curl -L -X POST "http://$KONG_PROXY:32080/appmgr/ric/v1/xapps" --header 'Content-Type: application/json' --data-raw '{"xappName": "ss"}'
+
+.. warning::
+
+    If you are repeating an experiement, you may want to restart the pod using the command below. By doing so, you do not have to undeploy and redeploy the xApp again.
+    
+.. code-block:: bash
+
+    sudo kubectl -n ricxapp rollout restart deployment ricxapp-ss
 
 .. _Running The xApp:
 
