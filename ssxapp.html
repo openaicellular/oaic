@@ -77,8 +77,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#software">Software</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#deploying-the-ss-xapp">Deploying the SS xApp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#starting-the-network-with-zmq">Starting the network with ZMQ</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#gui">GUI</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#no-gui">No GUI</a></li>
@@ -88,6 +87,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#starting-the-network-with-usrps">Starting the network with USRPs</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#deploying-the-ss-xapp">Deploying the SS xApp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#running-the-xapp">Running the xApp</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#two-ues">Two UEs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#three-ues">Three UEs</a></li>
@@ -261,32 +261,6 @@ vim<span class="w"> </span>ss-xapp-onboard.url
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">{</span><span class="s2">&quot;config-file.json_url&quot;</span>:<span class="s2">&quot;http://&lt;machine_ip_addr&gt;:5010/config_files/config-file.json&quot;</span><span class="o">}</span>
 </pre></div>
 </div>
-</section>
-<section id="deploying-the-ss-xapp">
-<span id="deploying"></span><h2>Deploying the SS xApp<a class="headerlink" href="#deploying-the-ss-xapp" title="Permalink to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">KONG_PROXY</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>kong<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">E2MGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2mgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">APPMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-appmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_SCTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">ONBOARDER_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-xapp-onboarder-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">RTMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-rtmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/onboard/download&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;@ss-xapp-onboard.url&quot;</span>
-curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/charts&quot;</span>
-curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/appmgr/ric/v1/xapps&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-raw<span class="w"> </span><span class="s1">&#39;{&quot;xappName&quot;: &quot;ss&quot;}&#39;</span>
-</pre></div>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>If you are repeating an experiement, you may want to restart the pod using the command below. By doing so, you do not have to undeploy and redeploy the xApp again.</p>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deployment<span class="w"> </span>ricxapp-ss
-</pre></div>
-</div>
 <section id="starting-the-network-with-zmq">
 <span id="zmq"></span><h3>Starting the network with ZMQ<a class="headerlink" href="#starting-the-network-with-zmq" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
@@ -385,14 +359,14 @@ python3<span class="w"> </span>multi_ue.py
 </pre></div>
 </div>
 <p>You should notice traffic flow on both the server and client side for both UEs.</p>
-<p>Move on to the <a class="reference internal" href="#running-the-xapp"><span class="std std-ref">Running the xApp</span></a> section for running the xApp</p>
+<p>Move on to the <a class="reference internal" href="#deploying"><span class="std std-ref">Deploying the SS xApp</span></a> section for deploying the xApp</p>
 </section>
 </section>
 <section id="starting-the-network-with-usrps">
 <span id="usrp"></span><h3>Starting the network with USRPs<a class="headerlink" href="#starting-the-network-with-usrps" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you already started the network using ZMQ, you can head to the <a class="reference internal" href="#running-the-xapp"><span class="std std-ref">Running the xApp</span></a> section</p>
+<p>If you already started the network using ZMQ, you can head to the <a class="reference internal" href="#deploying"><span class="std std-ref">Deploying the SS xApp</span></a> section</p>
 </div>
 <p>For better performance of USRPs, we use the CDA-2990 Octoclock as an external clock reference source for the B210s. To ensure that the B210s recognize the source, we have to add an extra argument “clock=external” on the eNodeB and UE commands.</p>
 <a class="reference internal image-reference" href="_images/b210octaclock.png"><img alt="B210 with Octoclock Setup" src="_images/b210octaclock.png" style="width: 80%;" /></a>
@@ -468,6 +442,32 @@ sudo<span class="w"> </span>uhd_find_devices
 </div>
 <p>You should notice traffic flow on both the server and client side for all three UEs. Move on to the next step.</p>
 </section>
+</section>
+<section id="deploying-the-ss-xapp">
+<span id="deploying"></span><h2>Deploying the SS xApp<a class="headerlink" href="#deploying-the-ss-xapp" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">KONG_PROXY</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>kong<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2MGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2mgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">APPMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-appmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_SCTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ONBOARDER_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-xapp-onboarder-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">RTMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-rtmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/onboard/download&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;@ss-xapp-onboard.url&quot;</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/charts&quot;</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/appmgr/ric/v1/xapps&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-raw<span class="w"> </span><span class="s1">&#39;{&quot;xappName&quot;: &quot;ss&quot;}&#39;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you are repeating an experiement, you may want to restart the pod using the command below. By doing so, you do not have to undeploy and redeploy the xApp again.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deployment<span class="w"> </span>ricxapp-ss
+</pre></div>
+</div>
 </section>
 <section id="running-the-xapp">
 <span id="id3"></span><h2>Running the xApp<a class="headerlink" href="#running-the-xapp" title="Permalink to this heading"></a></h2>
