@@ -69,7 +69,7 @@ The ``RIC-Deployment`` directory contains the deployment scripts and pre generat
 
 .. code-block:: bash
 
-    cd RIC-Deployment/tools/k8s/bin
+    cd ~/oaic/RIC-Deployment/tools/k8s/bin
     
 
 This directory contains tools for generating a simple script that can help us set up a one-node Kubernetes cluster (OSC also supports a 3 node Master slave Kubernetes configuration, but we do not cover that here).
@@ -204,24 +204,16 @@ Now you can either push or pull images using,
 or ``docker pull localhost:5001/<image_name>:<image_tag>``
  
 
-Creating Docker image
+Pulling Docker image
 ~~~~~~~~~~~~~~~~~~~~~
 
-Navigate to ``ric-plt-e2`` directory.
-
-.. code-block:: bash
-   
-   cd ../../../..
-   cd ric-plt-e2 
-
-The code in this repo needs to be packaged as a docker container. We make use of the existing Dockerfile in RIC-E2-TERMINATION to do this. Execute the following commands in the given order 
+Pull the E2 termination docker image from the OAIC's DockerHub and retagging it to be hosted in the local registry
 
 .. code-block:: bash
 
-    cd RIC-E2-TERMINATION
-    sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
+    sudo docker pull oaic/e2:5.5.0
+    sudo docker tag oaic/e2:5.5.0 localhost:5001/ric-plt-e2:5.5.0
     sudo docker push localhost:5001/ric-plt-e2:5.5.0
-    cd ../../
 
 This image can be used when deploying the near-real time RIC Kubernetes Cluster in the next step.
 
@@ -247,7 +239,7 @@ Once the Kubernetes clusters are deployed, it is now time for us to deploy the n
 
 .. code-block:: bash
 
-    cd RIC-Deployment/bin
+    cd ~/oaic/RIC-Deployment/bin
     sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
     
 This command deploys the near-real time RIC according to the RECIPE stored in ``RIC-Deployment/RECIPE_EXAMPLE/PLATFORM/`` directory. A Recipe is an important concept for Near Realtime RIC deployment. Each deployment group has its own recipe. Recipe provides a customized specification for the components of a deployment group for a specific deployment site. The ``RECIPE_EXAMPLE`` directory contains the example recipes for the three deployment groups (bronze, cherry, dawn, e-release). The benefit of using *recipe files* is that changing over from one release to another is seamless requiring just the execution of a single script without having to perform “Step 2” all over again.
