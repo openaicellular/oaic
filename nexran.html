@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Running the Nexran Xapp &mdash; OAIC 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -103,15 +102,15 @@
            <div itemprop="articleBody">
              
   <section id="running-the-nexran-xapp">
-<h1>Running the Nexran Xapp<a class="headerlink" href="#running-the-nexran-xapp" title="Permalink to this heading"></a></h1>
+<h1>Running the Nexran Xapp<a class="headerlink" href="#running-the-nexran-xapp" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p>Powder’s Nexran xapp implements ran slicing by sending instructions to RAN nodes, that performs custom resource allocation and we bind UE’s to those slices of allocated resources.</p>
 <p>The xapp has a southbound interface to the RIC where it can send commands down to the nodes and a northbound interface where high level commands can be issued by the user.</p>
 <a class="reference internal image-reference" href="_images/nexran_xapp_diagram.png"><img alt="Nexran Xapp diagram" src="_images/nexran_xapp_diagram.png" style="width: 80%;" /></a>
 </section>
 <section id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h2>
 <p>First we have to turn on some extra functionality in srsRan and recompile. To do this, follow the steps below:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>srsRAN-e2
 vim<span class="w"> </span>CMakeLists.txt
@@ -139,7 +138,7 @@ sudo<span class="w"> </span>srsran_install_configs.sh<span class="w"> </span>use
 </pre></div>
 </div>
 <section id="editing-configurations">
-<h3>Editing Configurations<a class="headerlink" href="#editing-configurations" title="Permalink to this heading"></a></h3>
+<h3>Editing Configurations<a class="headerlink" href="#editing-configurations" title="Link to this heading"></a></h3>
 <p>We need to change some settings in the srsRan config files to use ZMQ in 4G</p>
 <p>Access the command line as superuser:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>-i
@@ -226,7 +225,7 @@ vim<span class="w"> </span>nexran-onboard.url
 </div>
 </section>
 <section id="configuring-the-nginx-web-server">
-<h3>Configuring the Nginx Web server<a class="headerlink" href="#configuring-the-nginx-web-server" title="Permalink to this heading"></a></h3>
+<h3>Configuring the Nginx Web server<a class="headerlink" href="#configuring-the-nginx-web-server" title="Link to this heading"></a></h3>
 <p>First, we need to install Nginx and check if it is in active (running) state.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>nginx
 sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>nginx
@@ -268,7 +267,7 @@ sudo<span class="w"> </span>vim<span class="w"> </span>xApp_config.local.conf
 </div>
 </section>
 <section id="hosting-the-config-files">
-<h3>Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Permalink to this heading"></a></h3>
+<h3>Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Link to this heading"></a></h3>
 <p>Copy the xApp config file to this directory. Reload Nginx once this has been done</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>cp<span class="w"> </span>&lt;path_to_config_file&gt;/config-file.json<span class="w"> </span>/var/www/xApp_config.local/config_files/
 sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
@@ -286,9 +285,9 @@ sudo<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> 
 </section>
 </section>
 <section id="xapp-onboarder-deployment">
-<h2>xApp Onboarder Deployment<a class="headerlink" href="#xapp-onboarder-deployment" title="Permalink to this heading"></a></h2>
+<h2>xApp Onboarder Deployment<a class="headerlink" href="#xapp-onboarder-deployment" title="Link to this heading"></a></h2>
 <section id="get-variables">
-<h3>Get Variables<a class="headerlink" href="#get-variables" title="Permalink to this heading"></a></h3>
+<h3>Get Variables<a class="headerlink" href="#get-variables" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">KONG_PROXY</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>kong<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">E2MGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2mgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">APPMGR_HTTP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-appmgr-http<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
@@ -305,7 +304,7 @@ sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </sp
 </section>
 </section>
 <section id="running-the-xapp">
-<h2>Running the xApp<a class="headerlink" href="#running-the-xapp" title="Permalink to this heading"></a></h2>
+<h2>Running the xApp<a class="headerlink" href="#running-the-xapp" title="Link to this heading"></a></h2>
 <p>Terminal 1: Start the Core Network</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsepc<span class="w"> </span>--spgw.sgi_if_addr<span class="o">=</span><span class="m">192</span>.168.0.1
 </pre></div>
@@ -333,7 +332,7 @@ python3<span class="w"> </span>2ue4g.py
 </pre></div>
 </div>
 <section id="deploying-the-xapp">
-<h3>Deploying the xApp<a class="headerlink" href="#deploying-the-xapp" title="Permalink to this heading"></a></h3>
+<h3>Deploying the xApp<a class="headerlink" href="#deploying-the-xapp" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/onboard/download&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;@nexran-onboard.url&quot;</span>
 curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/onboard/api/v1/charts&quot;</span>
 curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$KONG_PROXY</span><span class="s2">:32080/appmgr/ric/v1/xapps&quot;</span><span class="w"> </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>--data-raw<span class="w"> </span><span class="s1">&#39;{&quot;xappName&quot;: &quot;nexran&quot;}&#39;</span>

@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>O-RAN Non-Real Time RIC Installation Guide &mdash; OAIC 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -117,11 +116,11 @@
            <div itemprop="articleBody">
              
   <section id="o-ran-non-real-time-ric-installation-guide">
-<h1>O-RAN Non-Real Time RIC Installation Guide<a class="headerlink" href="#o-ran-non-real-time-ric-installation-guide" title="Permalink to this heading"></a></h1>
+<h1>O-RAN Non-Real Time RIC Installation Guide<a class="headerlink" href="#o-ran-non-real-time-ric-installation-guide" title="Link to this heading"></a></h1>
 <section id="pre-requisites">
-<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this heading"></a></h2>
+<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading"></a></h2>
 <section id="system-requirements">
-<h3>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this heading"></a></h3>
+<h3>System Requirements<a class="headerlink" href="#system-requirements" title="Link to this heading"></a></h3>
 <p>For Non-SMO installation</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -136,7 +135,7 @@
 </section>
 </section>
 <section id="installing-the-non-real-time-ric">
-<h2>Installing the Non-Real Time RIC<a class="headerlink" href="#installing-the-non-real-time-ric" title="Permalink to this heading"></a></h2>
+<h2>Installing the Non-Real Time RIC<a class="headerlink" href="#installing-the-non-real-time-ric" title="Link to this heading"></a></h2>
 <p>First install packages and reboot.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>snapd<span class="w"> </span>-y
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>curl
@@ -192,13 +191,13 @@ sudo<span class="w"> </span>./deploy-nonrtric<span class="w"> </span>-f<span cla
 <a class="reference internal image-reference" href="_images/policy_management_UI.png"><img alt="Interface for the policy management service pod" src="_images/policy_management_UI.png" style="width: 60%;" /></a>
 </section>
 <section id="healthcheck-rapp-simulator">
-<h2>Healthcheck rApp Simulator<a class="headerlink" href="#healthcheck-rapp-simulator" title="Permalink to this heading"></a></h2>
+<h2>Healthcheck rApp Simulator<a class="headerlink" href="#healthcheck-rapp-simulator" title="Link to this heading"></a></h2>
 <section id="introduction">
-<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h3>
+<h3>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h3>
 <p>The Health Check use case test provides a python script that regularly creates, reads, updates, and deletes a policy in all Near-RT RICs that support the type used by the script. A self refreshing web page provides a view of statistics for these regular checks.</p>
 </section>
 <section id="running-the-non-real-time-ric-healthcheck-rapp">
-<h3>Running the Non-Real Time RIC Healthcheck rApp<a class="headerlink" href="#running-the-non-real-time-ric-healthcheck-rapp" title="Permalink to this heading"></a></h3>
+<h3>Running the Non-Real Time RIC Healthcheck rApp<a class="headerlink" href="#running-the-non-real-time-ric-healthcheck-rapp" title="Link to this heading"></a></h3>
 <p>First install all the package(s) that is required to run this rApp.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>docker.io
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-pip

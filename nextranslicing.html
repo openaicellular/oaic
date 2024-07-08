@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NexRAN Slicing xApp Installation &amp; running in Kubernetes &mdash; OAIC 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -103,7 +102,7 @@
            <div itemprop="articleBody">
              
   <section id="nexran-slicing-xapp-installation-running-in-kubernetes">
-<h1>NexRAN Slicing xApp Installation &amp; running in Kubernetes<a class="headerlink" href="#nexran-slicing-xapp-installation-running-in-kubernetes" title="Permalink to this heading"></a></h1>
+<h1>NexRAN Slicing xApp Installation &amp; running in Kubernetes<a class="headerlink" href="#nexran-slicing-xapp-installation-running-in-kubernetes" title="Link to this heading"></a></h1>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export KONG_PROXY=`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`
 export E2MGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2mgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`
 export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`
@@ -137,7 +136,7 @@ export RTMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name
 </div>
 </section>
 <section id="srsran-nexran-running-procedure">
-<h1>srsRAN nexRAN Running Procedure<a class="headerlink" href="#srsran-nexran-running-procedure" title="Permalink to this heading"></a></h1>
+<h1>srsRAN nexRAN Running Procedure<a class="headerlink" href="#srsran-nexran-running-procedure" title="Link to this heading"></a></h1>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sudo /home/pratheek/kumar/srslte-ric/build/srsepc/src/srsepc --spgw.sgi_if_addr=192.168.0.1
 
 export E2TERM_SCTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`

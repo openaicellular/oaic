@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Developing a custom xApp in Python &mdash; OAIC 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -135,10 +134,10 @@
            <div itemprop="articleBody">
              
   <section id="developing-a-custom-xapp-in-python">
-<span id="xapppython"></span><h1>Developing a custom xApp in Python<a class="headerlink" href="#developing-a-custom-xapp-in-python" title="Permalink to this heading"></a></h1>
+<span id="xapppython"></span><h1>Developing a custom xApp in Python<a class="headerlink" href="#developing-a-custom-xapp-in-python" title="Link to this heading"></a></h1>
 <p>This document describes how to write an xApp in Python, how to deploy it on the RIC platform, and how to use the xApp to communicate with the RAN.</p>
 <section id="background">
-<h2>Background<a class="headerlink" href="#background" title="Permalink to this heading"></a></h2>
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h2>
 <p>An xApp is simply an application that is deployed to the RAN Intelligent Controller (RIC) and is capable of communicating to the RAN.
 An xApp can be developed in any programming language, but to be O-RAN compliant, it needs to be able to communicate over the E2 interface to E2 nodes.
 An E2 Node refers to a component of the RAN that can interface with the RIC via E2, usually referring to the base station (DU/CU).</p>
@@ -153,9 +152,9 @@ An application such as an xApp is executed in the RIC using a deployment, which 
 <p>For more information on Kubernetes and Docker, see the <cite>Background on Docker, Kubernetes &amp; Helm</cite> section.</p>
 </section>
 <section id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h2>
 <section id="compiling-e2-like-srsran">
-<h3>Compiling E2-like srsRAN<a class="headerlink" href="#compiling-e2-like-srsran" title="Permalink to this heading"></a></h3>
+<h3>Compiling E2-like srsRAN<a class="headerlink" href="#compiling-e2-like-srsran" title="Link to this heading"></a></h3>
 <p>For our purposes, we use a modified version of srsRAN which accepts our E2-like commands.
 Follow the steps to compile the E2-like srsRAN:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cd srsRAN-e2
@@ -192,7 +191,7 @@ sudo nano /root/.config/srsran/ue.conf
 </div>
 </section>
 <section id="creating-ram-filesystem">
-<h3>Creating RAM filesystem<a class="headerlink" href="#creating-ram-filesystem" title="Permalink to this heading"></a></h3>
+<h3>Creating RAM filesystem<a class="headerlink" href="#creating-ram-filesystem" title="Link to this heading"></a></h3>
 <p>The current implementation of the E2-like interface in srsRAN uses files to communicate between threads. This can cause a slowdown in performance as reading a file from a hard drive is relatively slow, and it also takes time to call the OS to request this data.
 Despite this, we can improve the speed by writing the files to a temporarily filesystem stored in RAM instead of a hard drive.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo mkdir /mnt/tmp
@@ -211,7 +210,7 @@ sudo chmod -R 755 /mnt/tmp
 </section>
 </section>
 <section id="development">
-<h2>Development<a class="headerlink" href="#development" title="Permalink to this heading"></a></h2>
+<h2>Development<a class="headerlink" href="#development" title="Link to this heading"></a></h2>
 <p>First, let’s take a look at the <code class="docutils literal notranslate"><span class="pre">ric-app-ml-e2like</span></code> directory, where the xApp is located. We use a Python file called <code class="docutils literal notranslate"><span class="pre">app.py</span></code> to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN’s behavior.</p>
 <p>When using the E2-like interface, the xApp acts as an SCTP server and the nodeB is a client.</p>
 <p>Here are some excerpts of the code:</p>
@@ -314,9 +313,9 @@ sudo chmod -R 755 /mnt/tmp
 <a class="reference internal image-reference" href="_images/spectrogram.png"><img alt="_images/spectrogram.png" src="_images/spectrogram.png" style="width: 192.0px; height: 192.0px;" /></a>
 </section>
 <section id="deployment">
-<h2>Deployment<a class="headerlink" href="#deployment" title="Permalink to this heading"></a></h2>
+<h2>Deployment<a class="headerlink" href="#deployment" title="Link to this heading"></a></h2>
 <section id="building-the-docker-image">
-<h3>1. Building the Docker image<a class="headerlink" href="#building-the-docker-image" title="Permalink to this heading"></a></h3>
+<h3>1. Building the Docker image<a class="headerlink" href="#building-the-docker-image" title="Link to this heading"></a></h3>
 <p>Our xApp will be hosted in a Docker container. In order to create a Docker container, we must provide a Dockerfile which will provide the instructions as to how the machine should be set up. In this case, we use an Ubuntu setup with Python as the base for our Docker image. This is what the Dockerfile looks like:</p>
 <div class="highlight-docker notranslate"><div class="highlight"><pre><span></span><span class="c"># Load a miniconda setup for our base Docker image which contains Python</span>
 <span class="k">FROM</span><span class="w"> </span><span class="s">continuumio/miniconda3</span>
@@ -346,7 +345,7 @@ sudo chmod -R 755 /mnt/tmp
 <img alt="_images/ss_dockerbuild.png" src="_images/ss_dockerbuild.png" />
 </section>
 <section id="creating-the-xapp-config">
-<h3>2. Creating the xApp config<a class="headerlink" href="#creating-the-xapp-config" title="Permalink to this heading"></a></h3>
+<h3>2. Creating the xApp config<a class="headerlink" href="#creating-the-xapp-config" title="Link to this heading"></a></h3>
 <p>In our xApp, we have an init folder which contains the config.json file.</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;json_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ric-app-ml&quot;</span><span class="p">,</span>
@@ -396,7 +395,7 @@ sudo chmod -R 755 /mnt/tmp
 In our case, we are using an E2-like interface instead of the E2, so we will expose our own port after the deployment.</p>
 </section>
 <section id="finding-local-ip-address">
-<h3>3. Finding local IP address<a class="headerlink" href="#finding-local-ip-address" title="Permalink to this heading"></a></h3>
+<h3>3. Finding local IP address<a class="headerlink" href="#finding-local-ip-address" title="Link to this heading"></a></h3>
 <p>Before running further steps, we will need the local IP address of the system. Use the first command <code class="docutils literal notranslate"><span class="pre">hostname</span> <span class="pre">-I</span></code> to find your local IP addresses. The first one that appears should work. Then, run the second command and replace &lt;ip address&gt; with the first IP you see. On my system, the address is <code class="docutils literal notranslate"><span class="pre">10.0.2.15</span></code>.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>hostname -I
 export HOST_IP=&lt;ip address&gt;
@@ -405,7 +404,7 @@ export HOST_IP=&lt;ip address&gt;
 <p>Once this is done, we can replace the machine IP address with $HOST_IP.</p>
 </section>
 <section id="configuring-the-nginx-web-server">
-<h3>4. Configuring the Nginx Web server<a class="headerlink" href="#configuring-the-nginx-web-server" title="Permalink to this heading"></a></h3>
+<h3>4. Configuring the Nginx Web server<a class="headerlink" href="#configuring-the-nginx-web-server" title="Link to this heading"></a></h3>
 <p>The xApp descriptor files (config.json) must be hosted on a webserver when we use the <strong>xapp-onboarder</strong> to deploy xApps. This is because the xApp onboarder cannot access our local files, so we have to upload them to the network where it can find and download them. We will use Nginx as our webserver for hosting config files.</p>
 <p>First, we need to install Nginx and check if it is in <code class="docutils literal notranslate"><span class="pre">active</span> <span class="pre">(running)</span></code>  state.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo apt install nginx
@@ -440,7 +439,7 @@ sudo mkdir /var/www/xApp_config.local/config_files
 <img alt="_images/ss_nginxt.png" src="_images/ss_nginxt.png" />
 </section>
 <section id="hosting-the-config-files">
-<h3>5. Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Permalink to this heading"></a></h3>
+<h3>5. Hosting the config Files<a class="headerlink" href="#hosting-the-config-files" title="Link to this heading"></a></h3>
 <p>Make sure you are in the xApp directory, then copy the xApp config file to this directory. When we copy this file with sudo, it also protects the file from being modified, so we use the chmod command to re-enable read/write permissions.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo cp init/config.json /var/www/xApp_config.local/config_files/ml-config-file.json
 sudo chmod 755 /var/www/xApp_config.local/config_files/ml-config-file.json
@@ -454,7 +453,7 @@ sudo systemctl restart nginx
 <img alt="_images/ss_curlconfig.png" src="_images/ss_curlconfig.png" />
 </section>
 <section id="create-onboard-url-file">
-<h3>6. Create onboard URL file<a class="headerlink" href="#create-onboard-url-file" title="Permalink to this heading"></a></h3>
+<h3>6. Create onboard URL file<a class="headerlink" href="#create-onboard-url-file" title="Link to this heading"></a></h3>
 <p>Next, we need to create a <code class="docutils literal notranslate"><span class="pre">.url</span></code> file to point the <code class="docutils literal notranslate"><span class="pre">xApp-onboarder</span></code> to the Nginx server to get the xApp descriptor file and use it to create a helm chart and deploy the xApp. We echo the IP address to remember what it is, as we have to type it in ourselves in the text file.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>echo $HOST_IP
 nano ml-onboard.url
@@ -468,7 +467,7 @@ nano ml-onboard.url
 <p>Save the file. Now we are ready to deploy the xApp.</p>
 </section>
 <section id="onboard-and-deploy-the-xapp">
-<h3>7. Onboard and deploy the xApp<a class="headerlink" href="#onboard-and-deploy-the-xapp" title="Permalink to this heading"></a></h3>
+<h3>7. Onboard and deploy the xApp<a class="headerlink" href="#onboard-and-deploy-the-xapp" title="Link to this heading"></a></h3>
 <p>First, we collect and store the IP address of the Kong proxy to a variable, which allows us to connect to the different components of the RIC through a single address.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export KONG_PROXY=<span class="nv">`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 </pre></div>
@@ -491,9 +490,9 @@ nano ml-onboard.url
 </section>
 </section>
 <section id="demonstration">
-<h2>Demonstration<a class="headerlink" href="#demonstration" title="Permalink to this heading"></a></h2>
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Link to this heading"></a></h2>
 <section id="managing-xapp-deployment">
-<h3>Managing xApp deployment<a class="headerlink" href="#managing-xapp-deployment" title="Permalink to this heading"></a></h3>
+<h3>Managing xApp deployment<a class="headerlink" href="#managing-xapp-deployment" title="Link to this heading"></a></h3>
 <p>View Kubernetes pods:
 <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">pods</span> <span class="pre">-A</span></code></p>
 <p>View Kubernetes services:
@@ -510,7 +509,7 @@ nano ml-onboard.url
 <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">expose</span> <span class="pre">deployment</span> <span class="pre">ricxapp-ric-app-ml</span> <span class="pre">--port</span> <span class="pre">5000</span> <span class="pre">--target-port</span> <span class="pre">5000</span> <span class="pre">--protocol</span> <span class="pre">SCTP</span> <span class="pre">-n</span> <span class="pre">ricxapp</span> <span class="pre">--type=NodePort</span></code></p>
 </section>
 <section id="connecting-to-srsran">
-<h3>Connecting to srsRAN<a class="headerlink" href="#connecting-to-srsran" title="Permalink to this heading"></a></h3>
+<h3>Connecting to srsRAN<a class="headerlink" href="#connecting-to-srsran" title="Link to this heading"></a></h3>
 <p>We will use a modified version of srsRAN with the E2-like interface enabled.</p>
 <p><strong>1.</strong> To connect our xApp to the E2-like interface, we also need to expose port 5000 of the xApp to our system. This command will enable SCTP connections on our local IP address by creating a NodePort service in Kubernetes called ricxapp-ric-app-ml.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl expose deployment ricxapp-ric-app-ml --port 5000 --target-port 5000 --protocol SCTP -n ricxapp --type=NodePort
@@ -655,7 +654,7 @@ cc  pci  rsrp   pl   cfo | mcs  snr  iter  brate  bler  ta_us | mcs   buff  brat
 </section>
 </section>
 <section id="undeployment">
-<h2>Undeployment<a class="headerlink" href="#undeployment" title="Permalink to this heading"></a></h2>
+<h2>Undeployment<a class="headerlink" href="#undeployment" title="Link to this heading"></a></h2>
 <p>Undeploy xApp using App Manager:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>export APPMGR_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;`</span>
 curl -L -X DELETE http://${APPMGR_HTTP}:8080/ric/v1/xapps/ric-app-ml
@@ -677,14 +676,14 @@ sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_r
 <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">service</span> <span class="pre">ricxapp-ric-app-ml</span> <span class="pre">-n</span> <span class="pre">ricxapp</span></code></p>
 </section>
 <section id="troubleshooting">
-<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading"></a></h2>
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
 <section id="srsran-commands">
-<h3>srsRAN commands<a class="headerlink" href="#srsran-commands" title="Permalink to this heading"></a></h3>
+<h3>srsRAN commands<a class="headerlink" href="#srsran-commands" title="Link to this heading"></a></h3>
 <p>Force exit srsenb:
 <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">pkill</span> <span class="pre">-5</span> <span class="pre">srsenb</span></code></p>
 </section>
 <section id="issues">
-<h3>Issues<a class="headerlink" href="#issues" title="Permalink to this heading"></a></h3>
+<h3>Issues<a class="headerlink" href="#issues" title="Link to this heading"></a></h3>
 <p><strong>xApp stuck on “Receiving I/Q data…” or srsenb won’t connect to xApp</strong></p>
 <p>This usually happens when srsenb has been closed and you try to restart and reconnect to the xApp. Restart the xApp with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">rollout</span> <span class="pre">restart</span> <span class="pre">deployment</span> <span class="pre">ricxapp-ric-app-ml</span> <span class="pre">-n</span> <span class="pre">ricxapp</span></code>, and wait for the previous xApp pod to be deleted from the list. Afterwards, start the eNB, then start the UE.</p>
 <p>If the xApp randomly gets stuck on “Receiving I/Q data…” while connected to the nodeB, it is likely that it is not receiving enough data from the RAN. With the E2-like version of srsRAN supplied in the <code class="docutils literal notranslate"><span class="pre">e2like-doc</span></code> branch, you may need to send more than one E2-like request to ensure that the nodeB has received the message and will respond.</p>

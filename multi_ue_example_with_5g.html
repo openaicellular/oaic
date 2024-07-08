@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Multiple UEs with ZMQ in 5G Example &mdash; OAIC 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -103,7 +102,7 @@
            <div itemprop="articleBody">
              
   <section id="multiple-ues-with-zmq-in-5g-example">
-<h1>Multiple UEs with ZMQ in 5G Example<a class="headerlink" href="#multiple-ues-with-zmq-in-5g-example" title="Permalink to this heading"></a></h1>
+<h1>Multiple UEs with ZMQ in 5G Example<a class="headerlink" href="#multiple-ues-with-zmq-in-5g-example" title="Link to this heading"></a></h1>
 <p>Video guide: <a class="reference external" href="https://www.youtube.com/watch?v=n6Bp1sNcQeU">https://www.youtube.com/watch?v=n6Bp1sNcQeU</a></p>
 <p>This example uses a gnuradio flowgraph (broker) to establish the connection between 3 UEs with 5G.</p>
 <p>Below is a flowgraph for gnuradio that makes the connection among the uplink and downlink channels for each UE. You will need the free and open source software Gnu Radio which can be obtained on Ubuntu by running:</p>
@@ -113,12 +112,12 @@
 <p>Please download this file to be run later in the example:
 <a class="reference external" href="https://github.com/openaicellular/main-file-repo/blob/master/3ue_NR_OAIC.grc">https://github.com/openaicellular/main-file-repo/blob/master/3ue_NR_OAIC.grc</a></p>
 <section id="gnu-radio-walkthrough">
-<h2>GNU Radio Walkthrough<a class="headerlink" href="#gnu-radio-walkthrough" title="Permalink to this heading"></a></h2>
+<h2>GNU Radio Walkthrough<a class="headerlink" href="#gnu-radio-walkthrough" title="Link to this heading"></a></h2>
 <p>This program will help establish an uplink and downlink connection between the srsUE and the srsENodeB for both control and data transfer</p>
 <a class="reference internal image-reference" href="_images/5g_gnu_radio_flowchart.jpg"><img alt="GNU Radio flowchart for 5g" src="_images/5g_gnu_radio_flowchart.jpg" style="width: 100%;" /></a>
 </section>
 <section id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h2>
 <p>Check and edit the conf file in /root/.config/srsran/user_db.csv, make sure it has the following:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ue2,xor,001010123456780,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8000,00000000131b,7,dynamic
 ue4,xor,001010123456787,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,9002,000000001276,7,dynamic
@@ -138,7 +137,7 @@ sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </sp
 </div>
 </section>
 <section id="running-the-example">
-<h2>Running the example<a class="headerlink" href="#running-the-example" title="Permalink to this heading"></a></h2>
+<h2>Running the example<a class="headerlink" href="#running-the-example" title="Link to this heading"></a></h2>
 <p>Terminal 1: Start the Core Network</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsepc
 </pre></div>
@@ -167,11 +166,11 @@ sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </sp
 <p>Open gnuradio companion and run the provided grc file by opening the file and pressing the play button.</p>
 <p>After you execute the grc file, Ping and Iperf test can now be performed to measure performance or generate traffic to each connected UE.</p>
 <section id="testing-the-network">
-<h3>Testing the Network<a class="headerlink" href="#testing-the-network" title="Permalink to this heading"></a></h3>
+<h3>Testing the Network<a class="headerlink" href="#testing-the-network" title="Link to this heading"></a></h3>
 <section id="ping">
-<h4>PING<a class="headerlink" href="#ping" title="Permalink to this heading"></a></h4>
+<h4>PING<a class="headerlink" href="#ping" title="Link to this heading"></a></h4>
 <section id="uplink">
-<h5>Uplink<a class="headerlink" href="#uplink" title="Permalink to this heading"></a></h5>
+<h5>Uplink<a class="headerlink" href="#uplink" title="Link to this heading"></a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue1<span class="w"> </span>ping<span class="w"> </span><span class="m">172</span>.16.0.1
 sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue2<span class="w"> </span>ping<span class="w"> </span><span class="m">172</span>.16.0.1
 sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue3<span class="w"> </span>ping<span class="w"> </span><span class="m">172</span>.16.0.1
@@ -179,7 +178,7 @@ sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </sp
 </div>
 </section>
 <section id="downlink">
-<h5>Downlink<a class="headerlink" href="#downlink" title="Permalink to this heading"></a></h5>
+<h5>Downlink<a class="headerlink" href="#downlink" title="Link to this heading"></a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ping<span class="w"> </span><span class="m">172</span>.16.0.2
 sudo<span class="w"> </span>ping<span class="w"> </span><span class="m">172</span>.16.0.3
 sudo<span class="w"> </span>ping<span class="w"> </span><span class="m">172</span>.16.0.4
@@ -188,15 +187,15 @@ sudo<span class="w"> </span>ping<span class="w"> </span><span class="m">172</spa
 </section>
 </section>
 <section id="iperf3">
-<h4>iPerf3<a class="headerlink" href="#iperf3" title="Permalink to this heading"></a></h4>
+<h4>iPerf3<a class="headerlink" href="#iperf3" title="Link to this heading"></a></h4>
 <section id="network-side">
-<h5>Network Side<a class="headerlink" href="#network-side" title="Permalink to this heading"></a></h5>
+<h5>Network Side<a class="headerlink" href="#network-side" title="Link to this heading"></a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>iperf3<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
 </section>
 <section id="ue-side">
-<h5>UE-Side<a class="headerlink" href="#ue-side" title="Permalink to this heading"></a></h5>
+<h5>UE-Side<a class="headerlink" href="#ue-side" title="Link to this heading"></a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue1<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">60</span>
 sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue2<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">60</span>
 sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue3<span class="w"> </span>iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">172</span>.16.0.1<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">60</span>

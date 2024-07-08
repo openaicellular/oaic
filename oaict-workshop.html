@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Instructions for setting up OAIC-T &mdash; OAIC 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -103,10 +102,10 @@
            <div itemprop="articleBody">
              
   <section id="instructions-for-setting-up-oaic-t">
-<h1>Instructions for setting up OAIC-T<a class="headerlink" href="#instructions-for-setting-up-oaic-t" title="Permalink to this heading"></a></h1>
+<h1>Instructions for setting up OAIC-T<a class="headerlink" href="#instructions-for-setting-up-oaic-t" title="Link to this heading"></a></h1>
 <a class="reference internal image-reference" href="_images/tmux.png"><img alt="Tmux cheatsheet" src="_images/tmux.png" style="width: 80%;" /></a>
 <section id="get-needed-files">
-<h2>1. Get needed files<a class="headerlink" href="#get-needed-files" title="Permalink to this heading"></a></h2>
+<h2>1. Get needed files<a class="headerlink" href="#get-needed-files" title="Link to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Git<span class="w"> </span>clone<span class="w"> </span>the<span class="w"> </span>needed<span class="w"> </span>scripts:
 Git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/main-file-repo.git
 </pre></div>
@@ -119,7 +118,7 @@ Make executable by running the following command:</p>
 </div>
 </section>
 <section id="install-the-ric-by-running-the-provided-script">
-<h2>2. Install the RIC by running the provided script<a class="headerlink" href="#install-the-ric-by-running-the-provided-script" title="Permalink to this heading"></a></h2>
+<h2>2. Install the RIC by running the provided script<a class="headerlink" href="#install-the-ric-by-running-the-provided-script" title="Link to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>oaic
 </pre></div>
 </div>
@@ -129,7 +128,7 @@ Make executable by running the following command:</p>
 </div>
 </section>
 <section id="install-srsran-by-running-the-provided-script">
-<h2>3. Install srsRan by running the provided script<a class="headerlink" href="#install-srsran-by-running-the-provided-script" title="Permalink to this heading"></a></h2>
+<h2>3. Install srsRan by running the provided script<a class="headerlink" href="#install-srsran-by-running-the-provided-script" title="Link to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>oaic
 </pre></div>
 </div>
@@ -139,7 +138,7 @@ Make executable by running the following command:</p>
 </div>
 </section>
 <section id="setup-the-5g-network">
-<h2>4. Setup the 5G Network<a class="headerlink" href="#setup-the-5g-network" title="Permalink to this heading"></a></h2>
+<h2>4. Setup the 5G Network<a class="headerlink" href="#setup-the-5g-network" title="Link to this heading"></a></h2>
 <p>Terminal 1: Add UEs:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue1
 $<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue2
@@ -192,7 +191,7 @@ $<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>n
 </div>
 </section>
 <section id="deploy-the-kpimon-and-oaic-t-xapps">
-<h2>4. Deploy the KPIMON and OAIC-T xapps<a class="headerlink" href="#deploy-the-kpimon-and-oaic-t-xapps" title="Permalink to this heading"></a></h2>
+<h2>4. Deploy the KPIMON and OAIC-T xapps<a class="headerlink" href="#deploy-the-kpimon-and-oaic-t-xapps" title="Link to this heading"></a></h2>
 <p>Run the deploy script:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./kpimondeploy.sh
 </pre></div>
@@ -203,7 +202,7 @@ $<span class="w"> </span>sudo<span class="w"> </span>ip<span class="w"> </span>n
 </div>
 </section>
 <section id="deploy-the-server-and-actor">
-<h2>5. Deploy the Server and Actor<a class="headerlink" href="#deploy-the-server-and-actor" title="Permalink to this heading"></a></h2>
+<h2>5. Deploy the Server and Actor<a class="headerlink" href="#deploy-the-server-and-actor" title="Link to this heading"></a></h2>
 <p>Pre-requisites:</p>
 <p>Install the following python package for the server:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>configparser

@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kubectl Commands - Cheat Sheet &mdash; OAIC 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -117,9 +116,9 @@
            <div itemprop="articleBody">
              
   <section id="kubectl-commands-cheat-sheet">
-<span id="kubectl-commands"></span><h1>Kubectl Commands - Cheat Sheet<a class="headerlink" href="#kubectl-commands-cheat-sheet" title="Permalink to this heading"></a></h1>
+<span id="kubectl-commands"></span><h1>Kubectl Commands - Cheat Sheet<a class="headerlink" href="#kubectl-commands-cheat-sheet" title="Link to this heading"></a></h1>
 <section id="check-the-kubernetes-pods-and-services">
-<h2>Check the Kubernetes pods and services<a class="headerlink" href="#check-the-kubernetes-pods-and-services" title="Permalink to this heading"></a></h2>
+<h2>Check the Kubernetes pods and services<a class="headerlink" href="#check-the-kubernetes-pods-and-services" title="Link to this heading"></a></h2>
 <p>View all pods deployed</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get pods -A
 </pre></div>
@@ -138,7 +137,7 @@
 </div>
 </section>
 <section id="view-logs-of-kubernetes-pods">
-<h2>View logs of Kubernetes pods<a class="headerlink" href="#view-logs-of-kubernetes-pods" title="Permalink to this heading"></a></h2>
+<h2>View logs of Kubernetes pods<a class="headerlink" href="#view-logs-of-kubernetes-pods" title="Link to this heading"></a></h2>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl logs -f -n &lt;namespace&gt; -l app=&lt;pod_name&gt;
 </pre></div>
 </div>
@@ -151,37 +150,37 @@ sudo kubectl logs -f -n ricplt -l app=ricplt-appmgr
 </div>
 </section>
 <section id="see-in-depth-information-about-a-given-pod">
-<h2>See in-depth information about a given pod<a class="headerlink" href="#see-in-depth-information-about-a-given-pod" title="Permalink to this heading"></a></h2>
+<h2>See in-depth information about a given pod<a class="headerlink" href="#see-in-depth-information-about-a-given-pod" title="Link to this heading"></a></h2>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl describe pod &lt;pod_name&gt; -n &lt;namespace&gt;
 </pre></div>
 </div>
 </section>
 <section id="run-commands-in-a-kubernetes-pod">
-<h2>Run commands in a Kubernetes pod<a class="headerlink" href="#run-commands-in-a-kubernetes-pod" title="Permalink to this heading"></a></h2>
+<h2>Run commands in a Kubernetes pod<a class="headerlink" href="#run-commands-in-a-kubernetes-pod" title="Link to this heading"></a></h2>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl exec -it -n &lt;namespace&gt; &lt;pod_name&gt; &lt;command&gt;
 </pre></div>
 </div>
 <section id="get-the-full-pod-name">
-<h3>Get the full pod name<a class="headerlink" href="#get-the-full-pod-name" title="Permalink to this heading"></a></h3>
+<h3>Get the full pod name<a class="headerlink" href="#get-the-full-pod-name" title="Link to this heading"></a></h3>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get pod -n ricxapp -l app=&lt;pod_name&gt; -o jsonpath=&#39;{.items[0].metadata.name}&#39;
 </pre></div>
 </div>
 </section>
 <section id="get-the-ip-of-a-service-offered-by-a-pod">
-<h3>Get the IP of a service offered by a pod<a class="headerlink" href="#get-the-ip-of-a-service-offered-by-a-pod" title="Permalink to this heading"></a></h3>
+<h3>Get the IP of a service offered by a pod<a class="headerlink" href="#get-the-ip-of-a-service-offered-by-a-pod" title="Link to this heading"></a></h3>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl get svc -n ricxapp --field-selector metadata.name=&lt;service_name&gt; -o jsonpath=&#39;{.items[0].spec.clusterIP}&#39;
 </pre></div>
 </div>
 </section>
 </section>
 <section id="restart-a-kubernetes-pod">
-<h2>Restart a Kubernetes pod<a class="headerlink" href="#restart-a-kubernetes-pod" title="Permalink to this heading"></a></h2>
+<h2>Restart a Kubernetes pod<a class="headerlink" href="#restart-a-kubernetes-pod" title="Link to this heading"></a></h2>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl -n &lt;namespace&gt; rollout restart deployment &lt;pod_name&gt;
 </pre></div>
 </div>
 </section>
 <section id="delete-a-kubernetes-pod">
-<h2>Delete a Kubernetes pod<a class="headerlink" href="#delete-a-kubernetes-pod" title="Permalink to this heading"></a></h2>
+<h2>Delete a Kubernetes pod<a class="headerlink" href="#delete-a-kubernetes-pod" title="Link to this heading"></a></h2>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo kubectl delete pod -n &lt;namespace&gt; -l app=&lt;pod_name&gt;
 </pre></div>
 </div>
