@@ -54,7 +54,7 @@ Welcome to OAIC's documentation!
    :maxdepth: 2
    :caption: 2024 OAIC Workshop
 
-   2024_workshop_ss.rst
+   workshop2024_ss.rst
 
 Indices and tables
 ==================
