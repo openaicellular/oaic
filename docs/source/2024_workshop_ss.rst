@@ -24,12 +24,12 @@ System Requirements
 
 * OS: `Ubuntu Desktop 20.04 LTS (Focal Fossa) <https://www.releases.ubuntu.com/focal/ubuntu-20.04.6-desktop-amd64.iso>`_ Baremetal Preferred
 * `Low Latency Kernel recommended <https://unix.stackexchange.com/questions/739769/how-do-you-install-the-linux-lowlatency-kernel-and-why-does-it-stops-at-version>`_
-* `Performance mode setting <https://askubuntu.com/questions/604720/setting-to-high-performance>`_
+* `Performance mode setting <https://askubuntu.com/questions/604720/setting-to-high-performance>`_ 
 * CPU(s): 12 vCPUs (Threads)
 * RAM: 16 GB minimum
 * Storage: 100 GB
 
-
+    
 Install packages
 
 
