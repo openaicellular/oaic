@@ -50,6 +50,12 @@ Welcome to OAIC's documentation!
    kubectl_commands.rst
    oaic_t.rst
 
+.. toctree::
+   :maxdepth: 2
+   :caption: 2024 OAIC Workshop
+
+   2024_workshop_gcp.rst
+   2024_workshop_ss.rst
 
 Indices and tables
 ==================
