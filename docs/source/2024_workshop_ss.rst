@@ -16,7 +16,7 @@ Table of Contents
 
 .. _Prerequisites:
 
-Prerequisites 
+Prerequisites
 =============
 
 System Requirements
@@ -24,18 +24,20 @@ System Requirements
 
 * OS: `Ubuntu Desktop 20.04 LTS (Focal Fossa) <https://www.releases.ubuntu.com/focal/ubuntu-20.04.6-desktop-amd64.iso>`_ Baremetal Preferred
 * `Low Latency Kernel recommended <https://unix.stackexchange.com/questions/739769/how-do-you-install-the-linux-lowlatency-kernel-and-why-does-it-stops-at-version>`_
-* `Performance mode setting <https://askubuntu.com/questions/604720/setting-to-high-performance>`_ 
+* `Performance mode setting <https://askubuntu.com/questions/604720/setting-to-high-performance>`_
 * CPU(s): 12 vCPUs (Threads)
 * RAM: 16 GB minimum
 * Storage: 100 GB
 
-    
+
 Install packages
 
 
 .. code-block:: bash
 
+    sudo apt update -y
     sudo apt install git vim tmux build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf gnuradio python3-pip iperf3 libzmq3-dev -y
+
 
 For this Workshop, it is recommended to use tmux to be able to manage many terminal sessions at once. Here is a cheatsheet for how to use tmux
 
@@ -60,7 +62,7 @@ Clone OAIC and Install Submodules
 
     cd ~/
     git clone https://github.com/openaicellular/oaic.git
-    cd oaic    
+    cd oaic
     git submodule update --init --recursive --remote
 
 Install Kubernetes, Docker, and Helm
@@ -76,7 +78,7 @@ You can check if all the pods in the Kubernetes Cluster are in “Running” sta
 
 .. code-block:: bash
 
-    sudo kubectl get pods -A  
+    sudo kubectl get pods -A
 
 One time setup for Influxdb
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -93,7 +95,7 @@ Install the nfs-common pakcage for Influxdb setup
 
     sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
     sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-    sudo apt install nfs-common
+    sudo apt install nfs-common -y
 
 .. tip::
 
@@ -107,7 +109,7 @@ You're required a local docker registry to host docker images. You can create on
 .. code-block:: bash
 
     sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
- 
+
 Pull the E2 termination docker image from the OAIC's DockerHub and retagging it to be hosted in the local registry
 
 .. code-block:: bash
@@ -172,7 +174,7 @@ Install Srslte from source
 Setup - Nginx Web Server
 ------------------------
 
-For this workshop Nginx web server is required to setup a web server for hosting xApp configuration files for xApp deployment 
+For this workshop Nginx web server is required to setup a web server for hosting xApp configuration files for xApp deployment
 
 First install Nginx package
 
@@ -206,13 +208,13 @@ Now we create some directories which can be accessed by the server and where the
 Create a Custom Configuration File and define file locations
 
 .. code-block:: bash
-	
+
 	cd ../../../etc/nginx/conf.d
 	sudo vim xApp_config.local.conf
 
 Paste the following content in the *conf* file.
 
-.. code-block:: rst  
+.. code-block:: rst
 
 	server {
 	    listen 5010 default_server;
@@ -246,10 +248,10 @@ You will need to modify srslte to be able to connect with 2 user equipments (UEs
     cd .config/srslte
     vim user_db.csv
 
-Replace these lines of code with the existing configurations at the bottom of the file. This allows the ENB to be able to connect with 2 UEs. 
+Replace these lines of code with the existing configurations at the bottom of the file. This allows the ENB to be able to connect with 2 UEs.
 
 *Kept in the following format: "Name, Auth, IMSI, Key, OP_Type, OP/OPc, AMF, SQN, QCI, IP_alloc".*
-   
+
 .. code-block:: rst
 
     ue2,xor,001010123456780,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8000,000000001635,7,dynamic
@@ -311,8 +313,8 @@ Srsepc
 
     sudo ip netns add ue1
     sudo ip netns add ue2
-    sudo ip netns list    
-    sudo srsepc 
+    sudo ip netns list
+    sudo srsepc
 
 Srsenb
 ~~~~~~
@@ -324,9 +326,9 @@ Srsenb
     export E2NODE_IP=`hostname  -I | cut -f1 -d' '`
     export E2NODE_PORT=5006
     export E2TERM_IP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
-    
+
 .. code-block:: bash
-       
+
     sudo srsenb --enb.n_prb=100 --enb.name=enb1 --enb.enb_id=0x19B \
     --rf.device_name=zmq --rf.device_args="fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2009,id=enb,base_srate=23.04e6" --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT} --slicer.enable=1 --slicer.workshare=0
 
@@ -379,12 +381,12 @@ Iperf3
 **Terminal 6/7**: Set up iperf3 test on the server side
 
 .. code-block:: bash
-   
+
     iperf3 -s -B 172.16.0.1 -p 5006 -i 1
 
 .. code-block:: bash
 
-    iperf3 -s -B 172.16.0.1 -p 5020 -i 1 
+    iperf3 -s -B 172.16.0.1 -p 5020 -i 1
 
 .. note::
 
@@ -405,7 +407,7 @@ We add an additional bandwidth argument "-b xxM" on each iperf3 test on client s
 You should notice traffic flow on both the server and client side for both UEs.
 
 .. _Deploying:
-    
+
 Deploying the SS xApp
 =====================
 
@@ -414,7 +416,7 @@ Deploying the SS xApp
     cd ~/oaic/ss-xapp
 
 .. code-block:: bash
-    
+
     export KONG_PROXY=`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath='{.items[0].spec.clusterIP}'`
     export E2MGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2mgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
     export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
@@ -431,7 +433,7 @@ Deploying the SS xApp
 .. warning::
 
     If you are repeating an experiement, you may want to restart the pod using the command below. By doing so, you do not have to undeploy and redeploy the xApp again.
-    
+
 .. code-block:: bash
 
     sudo kubectl -n ricxapp rollout restart deployment ricxapp-ss
@@ -459,13 +461,12 @@ Running the xApp
     sudo chmod +x zmqtwoue.sh
     sudo ./zmqtwoue.sh
 
-After a short time you can observe through the logs that UE1 will be considered malicious and moved to a different slice. You also observe the traffic exchange for UE1 will significantly decrease. 
-	
+After a short time you can observe through the logs that UE1 will be considered malicious and moved to a different slice. You also observe the traffic exchange for UE1 will significantly decrease.
+
 .. note::
 
-   To run the script again, you have to restart the SS xApp and redeploy the network again.	
-   
+   To run the script again, you have to restart the SS xApp and redeploy the network again.
+
 .. code-block:: bash
 
     sudo kubectl -n ricxapp rollout restart deployment ricxapp-ss
-
