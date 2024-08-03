@@ -39,7 +39,7 @@ Deployment Workflow
 
 *source:* `On-boarding and Deploying xApps, Zhe Huang <https://wiki.o-ran-sc.org/display/RICA/On-boarding+and+Deploying+xApps>`_
 
-The important parts of the workflow are:
+This diagram depicts an overview of the xApp deployment workflow. The important parts are:
 
 * ① xApp config file
     * The configuration file is a JSON file
@@ -75,9 +75,9 @@ Follow the steps to compile the E2-like srsRAN:
         -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
         -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
     make -j`nproc`
+    sudo make install
+    sudo srsran_install_configs.sh user --force
     cd ../../
-
-In this tutorial, we will not use ``sudo make install`` so that we do not overwrite the installed srsRAN with E2.
 
 Once it is done, make sure the eNB and UE configs have ZeroMQ enabled (device_name and device_args for ZMQ are uncommented):
 
@@ -126,7 +126,7 @@ Development
 
 First, let's take a look at the ``ric-app-ml-e2like`` directory, where the xApp is located. We use a Python file called ``app.py`` to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive data and send control messages to change the RAN's behavior.
 
-In this xApp we will have two different types of data we can receive from the RAN: I/Q data and KPM data. I/Q data is the raw waveform data, which can we use to generate spectrograms and analyze the channel in-depth. However, we also can receive KPMs (key performance metrics) from the RAN, including bitrate and block error rate. This data will help us make informed decisions based on the RAN's current performance.
+The E2-like version of srsRAN is configured to send uplink I/Q data, which we can use to generate spectrogram images and analyze information about the channel using the xApp.
 
 When using the E2-like interface, the xApp acts as an SCTP server and the nodeB is a client.
 
@@ -361,7 +361,7 @@ Our xApp will be hosted in a Docker container. In order to create a Docker conta
     FROM continuumio/miniconda3
 
     # Install all necessary libraries
-    RUN apt-get update && apt-get -y install build-essential musl-dev libjpeg-dev zlib1g-dev libgl1-mesa-dev wget dpkg
+    RUN apt-get update && apt-get -y install build-essential musl-dev libjpeg-dev zlib1g-dev libgl1-mesa-dev wget dpkg libsctp-dev
 
     # Copy all the files in the current directory to /tmp/ml in our Docker image
     COPY . /tmp/ml
