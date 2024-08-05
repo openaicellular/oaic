@@ -14,6 +14,9 @@ Table of Contents
 * :ref:`Deploying`
 * :ref:`Running The xApp`
 
+.. image:: network_slicing.png
+   :alt: Network Slicing description
+
 .. image:: slicex_deployment_architecture.png
    :alt: Secure Slicing xApp Deployment and Demonstration
 
