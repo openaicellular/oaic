@@ -1,6 +1,6 @@
-========================================
-2024 OAIC Workshop - Secure Slicing xApp
-========================================
+===========================
+Day 1 - Secure Slicing xApp
+===========================
 
 Table of Contents
 =================
@@ -13,6 +13,20 @@ Table of Contents
 * :ref:`Setup_5G`
 * :ref:`Deploying`
 * :ref:`Running The xApp`
+
+.. image:: network_slicing.png
+   :alt: Network Slicing description
+
+.. image:: slicex_deployment_architecture.png
+   :alt: Secure Slicing xApp Deployment and Demonstration
+
+| (1) :ref:`Setup_Near` 
+| (2a & b) :ref:`Setup_Srslte` 
+| (4) :ref:`Setup_SS` 
+| (5) :ref:`Deploying`
+
+.. image:: slicex_flowchart.png
+   :alt: SliceX methodology
 
 .. _Prerequisites:
 
@@ -29,9 +43,11 @@ System Requirements
 * RAM: 16 GB minimum
 * Storage: 100 GB
 
-
 Install packages
 
+.. code-block:: bash
+
+    sudo apt update
 
 .. code-block:: bash
 
@@ -44,8 +60,6 @@ For this Workshop, it is recommended to use tmux to be able to manage many termi
 .. image:: tmux.png
    :width: 60%
    :alt: Tmux cheatsheet
-
-
 
 Setup
 =====
@@ -128,6 +142,15 @@ Deploy the Near-Realtime RIC with the commands below
     cd ~/oaic/RIC-Deployment/bin
     sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
 
+Use this command to check all the Kubernetes pods
+
+.. code-block:: bash
+
+    sudo kubectl get pods -A
+
+.. warning::
+
+    Make sure that All pods (besides tiller generator) are in the ``1/1 Running`` state before proceeding
 
 .. _Setup_Srslte:
 
@@ -288,12 +311,14 @@ Now we are going to build the xapp from the DockerFile
     cd ~/oaic/ss-xapp
     sudo docker build . -t xApp-registry.local:5008/ss:0.1.0
 
-Paste the following in the ``ss-xapp-onboard.url`` file located in the ss-xapp directory. Substitute the ``<machine_ip_addr>`` with the IP address of your machine. You can find this out by pasting the command ``ifconfig`` or ``hostname -I`` in the terminal.
+Paste the following in the ``ss-xapp-onboard.url`` file located in the ss-xapp directory. Substitute the ``<machine_ip_addr>`` with the IP address of your machine. You can find this out by pasting the command ``ifconfig`` or ``hostname -I | cut -f1 -d' '`` in the terminal.
 
 .. code-block:: bash
 
     cd ~/oaic/ss-xapp
     vim ss-xapp-onboard.url
+
+Paste the following in url file. **Remember to change Ip address**
 
 .. code-block:: bash
 
@@ -325,10 +350,13 @@ Srsenb
 
     export E2NODE_IP=`hostname  -I | cut -f1 -d' '`
     export E2NODE_PORT=5006
-    export E2TERM_IP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
 
 .. code-block:: bash
 
+    export E2TERM_IP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`  
+
+.. code-block:: bash
+    
     sudo srsenb --enb.n_prb=100 --enb.name=enb1 --enb.enb_id=0x19B \
     --rf.device_name=zmq --rf.device_args="fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2009,id=enb,base_srate=23.04e6" --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT} --slicer.enable=1 --slicer.workshare=0
 
@@ -370,6 +398,10 @@ Gnuradio
 
     cd ~/oaic/ss-xapp
     python3 two_ue.py
+
+.. warning::
+
+    Make sure the UEs are connected with an Ip address before proceeding
 
 Iperf3
 ~~~~~~
