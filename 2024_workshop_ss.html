@@ -177,7 +177,8 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>vim<span class="w"> </span>tmux<span class="w"> </span>build-essential<span class="w"> </span>cmake<span class="w"> </span>libfftw3-dev<span class="w"> </span>libmbedtls-dev<span class="w"> </span>libboost-program-options-dev<span class="w"> </span>libconfig++-dev<span class="w"> </span>libsctp-dev<span class="w"> </span>libtool<span class="w"> </span>autoconf<span class="w"> </span>gnuradio<span class="w"> </span>python3-pip<span class="w"> </span>iperf3<span class="w"> </span>libzmq3-dev<span class="w"> </span>-y
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span>-y
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>vim<span class="w"> </span>tmux<span class="w"> </span>build-essential<span class="w"> </span>cmake<span class="w"> </span>libfftw3-dev<span class="w"> </span>libmbedtls-dev<span class="w"> </span>libboost-program-options-dev<span class="w"> </span>libconfig++-dev<span class="w"> </span>libsctp-dev<span class="w"> </span>libtool<span class="w"> </span>autoconf<span class="w"> </span>gnuradio<span class="w"> </span>python3-pip<span class="w"> </span>iperf3<span class="w"> </span>libzmq3-dev<span class="w"> </span>-y
 </pre></div>
 </div>
 <p>For this Workshop, it is recommended to use tmux to be able to manage many terminal sessions at once. Here is a cheatsheet for how to use tmux</p>
@@ -218,7 +219,7 @@ sudo<span class="w"> </span>./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
 <p>Install the nfs-common pakcage for Influxdb setup</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>stable/nfs-server-provisioner<span class="w"> </span>--namespace<span class="w"> </span>ricinfra<span class="w"> </span>--name<span class="w"> </span>nfs-release-1
 sudo<span class="w"> </span>kubectl<span class="w"> </span>patch<span class="w"> </span>storageclass<span class="w"> </span>nfs<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;metadata&quot;: {&quot;annotations&quot;:{&quot;storageclass.kubernetes.io/is-default-class&quot;:&quot;true&quot;}}}&#39;</span>
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nfs-common
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nfs-common<span class="w"> </span>-y
 </pre></div>
 </div>
 <div class="admonition tip">
@@ -395,7 +396,9 @@ sudo<span class="w"> </span>srsepc
 <p><strong>Terminal 2</strong>: Set up Environment Variables and Base Station</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_IP</span><span class="o">=</span><span class="sb">`</span>hostname<span class="w">  </span>-I<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1<span class="w"> </span>-d<span class="s1">&#39; &#39;</span><span class="sb">`</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_PORT</span><span class="o">=</span><span class="m">5006</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_IP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_IP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsenb<span class="w"> </span>--enb.n_prb<span class="o">=</span><span class="m">100</span><span class="w"> </span>--enb.name<span class="o">=</span>enb1<span class="w"> </span>--enb.enb_id<span class="o">=</span>0x19B<span class="w"> </span><span class="se">\</span>
