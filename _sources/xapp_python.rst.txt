@@ -31,6 +31,28 @@ Inside the deployment, there are pods which contain different microservices, whi
 For more information on Kubernetes and Docker, see the `Background on Docker, Kubernetes & Helm` section.
 
 
+Deployment Workflow
+-------------------
+
+.. image:: xapp_python_static/onboard.png
+   :scale: 70%
+
+*source:* `On-boarding and Deploying xApps, Zhe Huang <https://wiki.o-ran-sc.org/display/RICA/On-boarding+and+Deploying+xApps>`_
+
+This diagram depicts an overview of the xApp deployment workflow. The important parts are:
+
+* ① xApp config file
+    * The configuration file is a JSON file
+    * It contains Docker image name, network ports, and supported E2 messages
+    * This config file is submitted to the RIC through the xApp Onboarder
+* ①,② xApp Onboarder
+    * The xApp Onboarder is a service in the near-RT RIC which accepts config files and generates charts
+    * The xApp charts contain instructions on how to deploy an xApp
+* ⑤,⑥ App Manager
+    * The App Manager is another service in the RIC which deploys xApps based on charts stored in the onboarder
+* ⑦ RIC cluster
+    * xApps are deployed as pods in Kubernetes
+
 Setup
 -----
 
@@ -53,9 +75,9 @@ Follow the steps to compile the E2-like srsRAN:
         -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
         -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
     make -j`nproc`
+    sudo make install
+    sudo srsran_install_configs.sh user --force
     cd ../../
-
-In this tutorial, we will not use ``sudo make install`` so that we do not overwrite the installed srsRAN with E2.
 
 Once it is done, make sure the eNB and UE configs have ZeroMQ enabled (device_name and device_args for ZMQ are uncommented):
 
@@ -102,7 +124,9 @@ Once we have this filesystem set up, we can continue on to the xApp development.
 Development
 -----------
 
-First, let's take a look at the ``ric-app-ml-e2like`` directory, where the xApp is located. We use a Python file called ``app.py`` to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN's behavior.
+First, let's take a look at the ``ric-app-ml-e2like`` directory, where the xApp is located. We use a Python file called ``app.py`` to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive data and send control messages to change the RAN's behavior.
+
+The E2-like version of srsRAN is configured to send uplink I/Q data, which we can use to generate spectrogram images and analyze information about the channel using the xApp.
 
 When using the E2-like interface, the xApp acts as an SCTP server and the nodeB is a client.
 
@@ -205,11 +229,123 @@ Here are some excerpts of the code:
 
 This xApp assumes a hypothetical scenario where interference is detected over the network using a machine learning model. In our case, we do not use a real model, but one could easily be substituted into this sample code. When interference is detected, we send a command from the xApp to the RAN to control the base station. In this case, we manipulate the Modulation and Coding Scheme (MCS) to mitigate interference. When interference is detected, we turn on adaptive MCS, and when it is no longer detected we disable it by setting the MCS to a fixed value. We only affect the uplink MCS for the purposes of this demo. We can adjust different parameters besides MCS if we implement the capabilitiy to do so on our RAN.
 
-Here is an example image of the spectrograms that we would be receiving from ZeroMQ. In this image, 10ms of I/Q data is shown from a single UE.
+Here is an example image of a spectrogram generated from the uplink I/Q data received by the base station. In this image, 10ms of I/Q data is shown from a single UE.
 
 .. image:: xapp_python_static/spectrogram.png
    :scale: 75%
 
+
+Integrating machine learning into xApps
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Although this example xApp does not directly use a model, it's a good idea to demonstrate how a real ML model would be integrated into an xApp.
+
+To begin, we can look into basic neural networks.
+For our purposes, we can view a neural network as a black box that takes an input vector and gives us an output vector as a result.
+Our goals are to convert our inputs to the format that the model wants, and to be able to interpret the output results.
+
+Let's assume we have a deep neural network (DNN) that is meant to classify the state of the network based on KPMs (key performance metrics) such as bitrate and error rate. If we assume those are the only two KPMs, then there are two values per point in time. Generally, it's a good idea to evaluate multiple time points in a model, so we'll say that there are 10 time points in the input, leading to a 2x10 input matrix.
+
+The model might look something like this:
+
+.. code-block:: python
+
+    model = tf.keras.Sequential([
+        tf.keras.layers.Input(shape=(20,)),  # 2x10 KPMs  
+        ...
+        tf.keras.layers.Dense(2, activation='softmax')   # two outputs
+    ])
+
+
+To have enough KPM data, we need to save each time point and add it to an array of time points.
+
+.. code-block:: python
+
+    # Keep an array of time points
+    # This is an array of 10 KPM data points, filled with zeroes.
+    time_points = [b'\x00'*8 for i in range(10)]
+
+    while True:
+        # Bitrate and error rate are floats, which are 4 bytes each, making 8 bytes total
+        data_point = conn.recv(8)
+        arr.append(data_point)
+
+        # Once we have enough data
+        if len(time_points) >= 10:
+            # handle 10 KPM data points we collected
+            process_kpms(time_points[:10])
+            # reset the array
+            time_points = []
+
+Meanwhile in srsRAN, we can decide what data to send over the E2-like interface by changing the behavior of the E2 agent in `src/ric/agent.cc`.
+If we want to collect the bitrate and the error rate from srsRAN's metrics, we could include something like this in `agent::handle_message`:
+
+.. code-block:: c++
+
+    float ul_rate_sum = 0.0, ul_bler_sum = 0.0;
+
+    srsenb::enb_metrics_t enb_metrics = {};
+    if (enb_metrics_interface->get_metrics(&enb_metrics)) {
+        // for each UE
+      for (size_t i = 0; i < enb_metrics.stack.rrc.ues.size(); i++) {
+
+        if (enb_metrics.stack.mac.ues[i].nof_tti)  // if there are UEs actually connected
+          ul_rate_sum += enb_metrics.stack.mac.ues[i].rx_brate / (enb_metrics.stack.mac.ues[i].nof_tti * 1e-3);
+        if (enb_metrics.stack.mac.ues[i].rx_pkts)  // if we've received any data from the UEs
+          ul_bler_sum += (float)(100*enb_metrics.stack.mac.ues[i].rx_errors)/enb_metrics.stack.mac.ues[i].rx_pkts;
+
+      }
+    }
+
+    // send the values over E2-like interface as bytes
+    send_sctp_data(static_cast<uint8_t*>(static_cast<void*>(&ul_rate_sum)), 4);  // bitrate
+    send_sctp_data(static_cast<uint8_t*>(static_cast<void*>(&ul_bler_sum)), 4);  // block error rate
+
+For a deep neural network functioning as a classifier, our output will be a vector representing the model's confidence of each possible class.
+We will assume two classes: signal without interference, and signal with interference.
+
+.. code-block:: python
+
+    def handle_kpms(kpms):
+        global model
+        # We want a one-dimensional array of floats corresponding to the KPMs of 10 data points (20 floats total)
+        # For each data point, convert every 4 bytes to a float
+        kpm_floats = np.array(
+            [np.frombuffer(data_point, dtype=float) for data_point in kpms]
+        )
+        # Flatten to one-dimensional array by concatenating all of the floats together
+        sample = kpm_floats.flatten()
+
+        predict(model, sample)
+
+    classes = {
+        0: 'signal without interference',
+        1: 'signal with interference'
+    }
+
+    def predict(model, sample):
+        # Using Keras, it's as simple as model.predict(sample)
+        # For PyTorch it's model(sample)
+        output = model.predict(sample)
+
+        # The output is structured like [0.2, 0.5]
+        # where 0.2 is the confidence value for signal without interference,
+        # and 0.5 is the confidence value for signal with interference.
+
+        # We want to find the class with the maximum confidence.
+        # We can use np.argmax() for this, which will give us the
+        # index where the maximum confidence value is located and the value itself.
+        max_index, max_confidence = np.argmax(output, axis=1)  # [1, 0.5]
+
+        # To get the value, we do np.argmax(output)
+        prediction = classes[max_index]
+
+        return prediction, max_confidence
+
+Using these functions, we can convert the KPM inputs that we're receiving from the RAN side and feed them into our ML model.
+From here, we can decide how to act. We could set a minimum confidence value that is needed for the model to take action, or accept the highest prediction every time. Once we have a prediction, we can use it to dynamically control the RAN, as we've seen in the example xApp code.
+
+For examples of ML xApps, refer to the `interference classification xApp <https://github.com/openaicellular/ric-app-ic-e2like/>`_ for a similar approach, as well as the `spectrum sensing xApp <https://github.com/nextg-wireless/ric-app-ss/>`_ for object detection.
 
 Deployment
 ----------
@@ -225,7 +361,7 @@ Our xApp will be hosted in a Docker container. In order to create a Docker conta
     FROM continuumio/miniconda3
 
     # Install all necessary libraries
-    RUN apt-get update && apt-get -y install build-essential musl-dev libjpeg-dev zlib1g-dev libgl1-mesa-dev wget dpkg
+    RUN apt-get update && apt-get -y install build-essential musl-dev libjpeg-dev zlib1g-dev libgl1-mesa-dev wget dpkg libsctp-dev
 
     # Copy all the files in the current directory to /tmp/ml in our Docker image
     COPY . /tmp/ml

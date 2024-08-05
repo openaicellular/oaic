@@ -71,12 +71,16 @@
 <li class="toctree-l1"><a class="reference internal" href="ssxapp.html">Running the SS Xapp</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Developing a custom xApp in Python</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deployment-workflow">Deployment Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#compiling-e2-like-srsran">Compiling E2-like srsRAN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#creating-ram-filesystem">Creating RAM filesystem</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#development">Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#development">Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#integrating-machine-learning-into-xapps">Integrating machine learning into xApps</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#deployment">Deployment</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#building-the-docker-image">1. Building the Docker image</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#creating-the-xapp-config">2. Creating the xApp config</a></li>
@@ -110,8 +114,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">2024 OAIC Workshop</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="2024_workshop_gcp.html">2024 OAIC Workshop - Google Cloud Platform Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="2024_workshop_ss.html">2024 OAIC Workshop - Secure Slicing xApp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2024_workshop_gcp.html">Day 1 - Google Cloud Platform Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2024_workshop_ss.html">Day 1 - Secure Slicing xApp</a></li>
 </ul>
 
         </div>
@@ -156,6 +160,45 @@ An application such as an xApp is executed in the RIC using a deployment, which 
 <p>Inside the deployment, there are pods which contain different microservices, which are small containers running different software and make up the application. These containers are created and deployed using Docker, using an image that we prepare beforehand that consists of everything needed for the application to start instantly. For this xApp, we will use a <cite>single</cite> Kubernetes deployment with a <cite>single</cite> pod, running a <cite>single</cite> Docker container.</p>
 <p>For more information on Kubernetes and Docker, see the <cite>Background on Docker, Kubernetes &amp; Helm</cite> section.</p>
 </section>
+<section id="deployment-workflow">
+<h2>Deployment Workflow<a class="headerlink" href="#deployment-workflow" title="Link to this heading"></a></h2>
+<a class="reference internal image-reference" href="_images/onboard.png"><img alt="_images/onboard.png" src="_images/onboard.png" style="width: 631.4px; height: 343.0px;" /></a>
+<p><em>source:</em> <a class="reference external" href="https://wiki.o-ran-sc.org/display/RICA/On-boarding+and+Deploying+xApps">On-boarding and Deploying xApps, Zhe Huang</a></p>
+<p>This diagram depicts an overview of the xApp deployment workflow. The important parts are:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>① xApp config file</dt><dd><ul>
+<li><p>The configuration file is a JSON file</p></li>
+<li><p>It contains Docker image name, network ports, and supported E2 messages</p></li>
+<li><p>This config file is submitted to the RIC through the xApp Onboarder</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>①,② xApp Onboarder</dt><dd><ul>
+<li><p>The xApp Onboarder is a service in the near-RT RIC which accepts config files and generates charts</p></li>
+<li><p>The xApp charts contain instructions on how to deploy an xApp</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>⑤,⑥ App Manager</dt><dd><ul>
+<li><p>The App Manager is another service in the RIC which deploys xApps based on charts stored in the onboarder</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>⑦ RIC cluster</dt><dd><ul>
+<li><p>xApps are deployed as pods in Kubernetes</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
 <section id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h2>
 <section id="compiling-e2-like-srsran">
@@ -173,10 +216,11 @@ cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
     -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
 make -j<span class="nv">`nproc`</span>
+sudo make install
+sudo srsran_install_configs.sh user --force
 cd ../../
 </pre></div>
 </div>
-<p>In this tutorial, we will not use <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">make</span> <span class="pre">install</span></code> so that we do not overwrite the installed srsRAN with E2.</p>
 <p>Once it is done, make sure the eNB and UE configs have ZeroMQ enabled (device_name and device_args for ZMQ are uncommented):</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>sudo nano /root/.config/srsran/enb.conf
 sudo nano /root/.config/srsran/ue.conf
@@ -216,7 +260,8 @@ sudo chmod -R 755 /mnt/tmp
 </section>
 <section id="development">
 <h2>Development<a class="headerlink" href="#development" title="Link to this heading"></a></h2>
-<p>First, let’s take a look at the <code class="docutils literal notranslate"><span class="pre">ric-app-ml-e2like</span></code> directory, where the xApp is located. We use a Python file called <code class="docutils literal notranslate"><span class="pre">app.py</span></code> to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive I/Q data and send control messages to change the RAN’s behavior.</p>
+<p>First, let’s take a look at the <code class="docutils literal notranslate"><span class="pre">ric-app-ml-e2like</span></code> directory, where the xApp is located. We use a Python file called <code class="docutils literal notranslate"><span class="pre">app.py</span></code> to store the main code of our xApp. In this file we will setup an SCTP connection and run a constant loop to accept a connection from a nodeB (base station), receive data and send control messages to change the RAN’s behavior.</p>
+<p>The E2-like version of srsRAN is configured to send uplink I/Q data, which we can use to generate spectrogram images and analyze information about the channel using the xApp.</p>
 <p>When using the E2-like interface, the xApp acts as an SCTP server and the nodeB is a client.</p>
 <p>Here are some excerpts of the code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">init_e2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -314,8 +359,106 @@ sudo chmod -R 755 /mnt/tmp
 </pre></div>
 </div>
 <p>This xApp assumes a hypothetical scenario where interference is detected over the network using a machine learning model. In our case, we do not use a real model, but one could easily be substituted into this sample code. When interference is detected, we send a command from the xApp to the RAN to control the base station. In this case, we manipulate the Modulation and Coding Scheme (MCS) to mitigate interference. When interference is detected, we turn on adaptive MCS, and when it is no longer detected we disable it by setting the MCS to a fixed value. We only affect the uplink MCS for the purposes of this demo. We can adjust different parameters besides MCS if we implement the capabilitiy to do so on our RAN.</p>
-<p>Here is an example image of the spectrograms that we would be receiving from ZeroMQ. In this image, 10ms of I/Q data is shown from a single UE.</p>
+<p>Here is an example image of a spectrogram generated from the uplink I/Q data received by the base station. In this image, 10ms of I/Q data is shown from a single UE.</p>
 <a class="reference internal image-reference" href="_images/spectrogram.png"><img alt="_images/spectrogram.png" src="_images/spectrogram.png" style="width: 192.0px; height: 192.0px;" /></a>
+<section id="integrating-machine-learning-into-xapps">
+<h3>Integrating machine learning into xApps<a class="headerlink" href="#integrating-machine-learning-into-xapps" title="Link to this heading"></a></h3>
+<p>Although this example xApp does not directly use a model, it’s a good idea to demonstrate how a real ML model would be integrated into an xApp.</p>
+<p>To begin, we can look into basic neural networks.
+For our purposes, we can view a neural network as a black box that takes an input vector and gives us an output vector as a result.
+Our goals are to convert our inputs to the format that the model wants, and to be able to interpret the output results.</p>
+<p>Let’s assume we have a deep neural network (DNN) that is meant to classify the state of the network based on KPMs (key performance metrics) such as bitrate and error rate. If we assume those are the only two KPMs, then there are two values per point in time. Generally, it’s a good idea to evaluate multiple time points in a model, so we’ll say that there are 10 time points in the input, leading to a 2x10 input matrix.</p>
+<p>The model might look something like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,)),</span>  <span class="c1"># 2x10 KPMs</span>
+    <span class="o">...</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">)</span>   <span class="c1"># two outputs</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p>To have enough KPM data, we need to save each time point and add it to an array of time points.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Keep an array of time points</span>
+<span class="c1"># This is an array of 10 KPM data points, filled with zeroes.</span>
+<span class="n">time_points</span> <span class="o">=</span> <span class="p">[</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="o">*</span><span class="mi">8</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="c1"># Bitrate and error rate are floats, which are 4 bytes each, making 8 bytes total</span>
+    <span class="n">data_point</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_point</span><span class="p">)</span>
+
+    <span class="c1"># Once we have enough data</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_points</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="c1"># handle 10 KPM data points we collected</span>
+        <span class="n">process_kpms</span><span class="p">(</span><span class="n">time_points</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+        <span class="c1"># reset the array</span>
+        <span class="n">time_points</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p>Meanwhile in srsRAN, we can decide what data to send over the E2-like interface by changing the behavior of the E2 agent in <cite>src/ric/agent.cc</cite>.
+If we want to collect the bitrate and the error rate from srsRAN’s metrics, we could include something like this in <cite>agent::handle_message</cite>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span><span class="w"> </span><span class="n">ul_rate_sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">ul_bler_sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+
+<span class="n">srsenb</span><span class="o">::</span><span class="n">enb_metrics_t</span><span class="w"> </span><span class="n">enb_metrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">enb_metrics_interface</span><span class="o">-&gt;</span><span class="n">get_metrics</span><span class="p">(</span><span class="o">&amp;</span><span class="n">enb_metrics</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// for each UE</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">enb_metrics</span><span class="p">.</span><span class="n">stack</span><span class="p">.</span><span class="n">rrc</span><span class="p">.</span><span class="n">ues</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">enb_metrics</span><span class="p">.</span><span class="n">stack</span><span class="p">.</span><span class="n">mac</span><span class="p">.</span><span class="n">ues</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">nof_tti</span><span class="p">)</span><span class="w">  </span><span class="c1">// if there are UEs actually connected</span>
+<span class="w">      </span><span class="n">ul_rate_sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">enb_metrics</span><span class="p">.</span><span class="n">stack</span><span class="p">.</span><span class="n">mac</span><span class="p">.</span><span class="n">ues</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">rx_brate</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">enb_metrics</span><span class="p">.</span><span class="n">stack</span><span class="p">.</span><span class="n">mac</span><span class="p">.</span><span class="n">ues</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">nof_tti</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-3</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">enb_metrics</span><span class="p">.</span><span class="n">stack</span><span class="p">.</span><span class="n">mac</span><span class="p">.</span><span class="n">ues</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">rx_pkts</span><span class="p">)</span><span class="w">  </span><span class="c1">// if we&#39;ve received any data from the UEs</span>
+<span class="w">      </span><span class="n">ul_bler_sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)(</span><span class="mi">100</span><span class="o">*</span><span class="n">enb_metrics</span><span class="p">.</span><span class="n">stack</span><span class="p">.</span><span class="n">mac</span><span class="p">.</span><span class="n">ues</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">rx_errors</span><span class="p">)</span><span class="o">/</span><span class="n">enb_metrics</span><span class="p">.</span><span class="n">stack</span><span class="p">.</span><span class="n">mac</span><span class="p">.</span><span class="n">ues</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">rx_pkts</span><span class="p">;</span>
+
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// send the values over E2-like interface as bytes</span>
+<span class="n">send_sctp_data</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ul_rate_sum</span><span class="p">)),</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span><span class="w">  </span><span class="c1">// bitrate</span>
+<span class="n">send_sctp_data</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ul_bler_sum</span><span class="p">)),</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span><span class="w">  </span><span class="c1">// block error rate</span>
+</pre></div>
+</div>
+<p>For a deep neural network functioning as a classifier, our output will be a vector representing the model’s confidence of each possible class.
+We will assume two classes: signal without interference, and signal with interference.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">handle_kpms</span><span class="p">(</span><span class="n">kpms</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">model</span>
+    <span class="c1"># We want a one-dimensional array of floats corresponding to the KPMs of 10 data points (20 floats total)</span>
+    <span class="c1"># For each data point, convert every 4 bytes to a float</span>
+    <span class="n">kpm_floats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">data_point</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="k">for</span> <span class="n">data_point</span> <span class="ow">in</span> <span class="n">kpms</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="c1"># Flatten to one-dimensional array by concatenating all of the floats together</span>
+    <span class="n">sample</span> <span class="o">=</span> <span class="n">kpm_floats</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+    <span class="n">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">sample</span><span class="p">)</span>
+
+<span class="n">classes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;signal without interference&#39;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;signal with interference&#39;</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+    <span class="c1"># Using Keras, it&#39;s as simple as model.predict(sample)</span>
+    <span class="c1"># For PyTorch it&#39;s model(sample)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+
+    <span class="c1"># The output is structured like [0.2, 0.5]</span>
+    <span class="c1"># where 0.2 is the confidence value for signal without interference,</span>
+    <span class="c1"># and 0.5 is the confidence value for signal with interference.</span>
+
+    <span class="c1"># We want to find the class with the maximum confidence.</span>
+    <span class="c1"># We can use np.argmax() for this, which will give us the</span>
+    <span class="c1"># index where the maximum confidence value is located and the value itself.</span>
+    <span class="n">max_index</span><span class="p">,</span> <span class="n">max_confidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># [1, 0.5]</span>
+
+    <span class="c1"># To get the value, we do np.argmax(output)</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">classes</span><span class="p">[</span><span class="n">max_index</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">max_confidence</span>
+</pre></div>
+</div>
+<p>Using these functions, we can convert the KPM inputs that we’re receiving from the RAN side and feed them into our ML model.
+From here, we can decide how to act. We could set a minimum confidence value that is needed for the model to take action, or accept the highest prediction every time. Once we have a prediction, we can use it to dynamically control the RAN, as we’ve seen in the example xApp code.</p>
+<p>For examples of ML xApps, refer to the <a class="reference external" href="https://github.com/openaicellular/ric-app-ic-e2like/">interference classification xApp</a> for a similar approach, as well as the <a class="reference external" href="https://github.com/nextg-wireless/ric-app-ss/">spectrum sensing xApp</a> for object detection.</p>
+</section>
 </section>
 <section id="deployment">
 <h2>Deployment<a class="headerlink" href="#deployment" title="Link to this heading"></a></h2>
@@ -326,7 +469,7 @@ sudo chmod -R 755 /mnt/tmp
 <span class="k">FROM</span><span class="w"> </span><span class="s">continuumio/miniconda3</span>
 
 <span class="c"># Install all necessary libraries</span>
-<span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>build-essential<span class="w"> </span>musl-dev<span class="w"> </span>libjpeg-dev<span class="w"> </span>zlib1g-dev<span class="w"> </span>libgl1-mesa-dev<span class="w"> </span>wget<span class="w"> </span>dpkg
+<span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>build-essential<span class="w"> </span>musl-dev<span class="w"> </span>libjpeg-dev<span class="w"> </span>zlib1g-dev<span class="w"> </span>libgl1-mesa-dev<span class="w"> </span>wget<span class="w"> </span>dpkg<span class="w"> </span>libsctp-dev
 
 <span class="c"># Copy all the files in the current directory to /tmp/ml in our Docker image</span>
 <span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>/tmp/ml
