@@ -16,7 +16,7 @@ Table of Contents
 Pre-requisites
 ==============
 
-* Google Account 
+* Google Account
 * Active debit/credit card for identification
 * Home address
 
@@ -69,9 +69,9 @@ Creating the Virtual Machine
 
     **Step 5.2:** Under "Machine type", click "Custom" and set "Cores" to 24 vCPU (12 core) and change "Memory" to 48 GB
 
-    **Step 5.3:** Under "Boot Disk", click "CHANGE". 
+    **Step 5.3:** Under "Boot Disk", click "CHANGE".
 
-        * Select "Ubuntu" from the "Operating system" dropdown menu 
+        * Select "Ubuntu" from the "Operating system" dropdown menu
 
         * Select "Ubuntu 20.04 LTS" from the "Version" dropdown menu. Make sure it is the x86/64, amd64 image.
 
@@ -101,7 +101,7 @@ To get the IP of the machine, you can refer to the Networking Interfaces Section
 .. image:: GCP_iii.png
     :alt: GCP image III
 
-In order to access the VM, you have to SSH into the machine. Google has their own browser based SSH client that you can do by clicking the “SSH” button at the top left under Details or you can choose another option via the little arrow to the right of the “SSH” button. 
+In order to access the VM, you have to SSH into the machine. Google has their own browser based SSH client that you can do by clicking the “SSH” button at the top left under Details or you can choose another option via the little arrow to the right of the “SSH” button.
 
 .. warning::
 
@@ -109,11 +109,69 @@ In order to access the VM, you have to SSH into the machine. Google has their ow
 
 If a file is needed to be transferred from your machine to the VM or vise versa, you can choose from the two options at the top of the Google SSH client. In order to get a file, you must provide the absolute path of the file and to send a file it is done through a GUI interface.
 
+
+.. _VNC-access:
+
+VNC access
+==========
+
+First, install VNC on the server:
+
+VNC server Installation
+-----------------------
+Open an SSH connection then run the following commands:
+
+.. code-block:: bash
+
+    sudo apt update -y
+    sudo apt install xvfb x11-utils x11vnc icewm -y
+    export DISPLAY=:0
+    Xvfb &
+    # Wait a bit for Xvfb to start up before running the following X applications.
+    sleep 1
+    x11vnc -forever &
+    icewm-session &
+
+
+VNC firewall configuration
+--------------------------
+Now, open a port to allow VNC access:
+
+Click on the ``nic0`` link:
+
+.. image:: firewall_nic0.png
+
+Next, click on the ``default`` network:
+
+.. image:: firewall_default_network.png
+
+Next, click on the ``Firewalls`` tab:
+
+.. image:: firewall_firewall_tab.png
+
+Next, click on the ``add firewall rule`` button, then set:
+
+-   Name: ``vnc``
+-   Targets: ``All instances in the network``
+-   Source IPv4 ranges: ``0.0.0.0/0``
+-   Check the TCP box under Protocols and ports, then enter a port of ``5900``.
+-   Click the ``Create`` button.
+
+.. image:: firewall_create_rule1.png
+.. image:: firewall_create_rule2.png
+
+VNC client
+----------
+Download [RealVNC](https://www.realvnc.com/en/connect/download/viewer/), install it, then run it. Enter an address of **IP of the machine**``::5900``; for example, ``34.28.200.62::5900``. (To determine your machine's IP address, see `Demo/Testing <Demo_Testing>`_.) Finally, press the Connect button. VNC should open; right-click then select Terminal.
+
+
+
+
 .. _Alternatives:
 
 Alternatives
 ============
 
-In the case that you cannot use GCP, Azure by Microsoft has a similar service, but this option was not tested and may not work for you. Additionally, Azure has more limiting credit and time for their free credit. Other than these issues, the process should be similar to GCP and may work as an appropriate alternative. 
-    
+In the case that you cannot use GCP, Azure by Microsoft has a similar service, but this option was not tested and may not work for you. Additionally, Azure has more limiting credit and time for their free credit. Other than these issues, the process should be similar to GCP and may work as an appropriate alternative.
+
     * Link to Azure's services: `Azure Cloud Computing Services <https://azure.microsoft.com/en-us>`_
