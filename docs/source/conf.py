@@ -32,7 +32,8 @@ release = '0.1'
 # ones.
 extensions = [
     'sphinx_rtd_theme',
-    'sphinx.ext.githubpages'
+    'sphinx.ext.githubpages',
+     'sphinx_copybutton',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -57,4 +58,3 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = [] #['_static']
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-
