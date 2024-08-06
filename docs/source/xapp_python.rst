@@ -1,8 +1,8 @@
 .. _xapppython:
 
-==================================
-Developing a custom xApp in Python
-==================================
+==========================================
+Day 2 - Developing a custom xApp in Python
+==========================================
 
 This document describes how to write an xApp in Python, how to deploy it on the RIC platform, and how to use the xApp to communicate with the RAN.
 
