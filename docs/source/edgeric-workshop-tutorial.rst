@@ -1,5 +1,5 @@
-EdgeRIC tutorial 
---------------------------
+Day 2 - EdgeRIC tutorial 
+------------------------
 | Website: https://edgeric.github.io/
 | Tutorial: https://edgeric.github.io/edgeric-workshop-tutorial.html
 
