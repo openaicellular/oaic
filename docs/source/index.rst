@@ -56,6 +56,7 @@ Welcome to OAIC's documentation!
 
    2024_workshop_gcp.rst
    2024_workshop_ss.rst
+   edgeric-workshop-tutorial.rst
 
 Indices and tables
 ==================
