@@ -162,7 +162,7 @@ Next, click on the ``add firewall rule`` button, then set:
 
 VNC client
 ----------
-Download `RealVNC <https://www.realvnc.com/en/connect/download/viewer/>`_, install it, then run it. Enter an address of **IP of the machine**\ ``::5900``; for example, ``34.28.200.62::5900``. (To determine your machine's IP address, see `Demo/Testing <Demo_Testing>`_.) Finally, press the Connect button. VNC should open; right-click then select Terminal.
+Download `tightVNC <https://www.tightvnc.com/download.php>`_, install it, then run it. Enter an address of **IP of the machine**\ ``::5900``; for example, ``34.28.200.62::5900``. (To determine your machine's IP address, see `Demo/Testing <Demo_Testing>`_.) Finally, press the Connect button. VNC should open; right-click then select Terminal.
 
 
 .. _Alternatives:
