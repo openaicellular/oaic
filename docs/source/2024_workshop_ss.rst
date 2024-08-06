@@ -47,10 +47,6 @@ Install packages
 
 .. code-block:: bash
 
-    sudo apt update
-
-.. code-block:: bash
-
     sudo apt update -y
     sudo apt install git vim tmux build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf gnuradio python3-pip iperf3 libzmq3-dev -y
 
