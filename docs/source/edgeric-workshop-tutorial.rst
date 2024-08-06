@@ -29,8 +29,7 @@ Actions Sent: ``weight_{i}`` which corresponds to the weight of each UE
 RT-E2 Policy Format for this μApp: ``RNTI_{i}, weight{i}`` where ``i``
 corresponds to each UE.
 
-Training Reinforcement Learning scheduling Policy
-                                                 
+*Training Reinforcement Learning scheduling Policy*                                              
 
 Here, we train an RL agent with the objective of **total system
 throughput maximization**. Listed below are the specifications for our
@@ -57,9 +56,8 @@ Option 1: Install on your system
 You would need Ubuntu 20 to run this repository, with option 2 you can
 run on any Linux environment
 
-Dependencies and cloning the repository
+*Dependencies and cloning the repository*
                                        
-
 .. code:: bash
 
    sudo apt-get update
@@ -83,8 +81,7 @@ Dependencies and cloning the repository
    git clone https://github.com/ushasigh/EdgeRIC-A-real-time-RIC.git
    git checkout oaic-workshop
 
-Compile the protobuf message schema
-                                   
+*Compile the protobuf message schema*
 
 | The protobuf schemas are found in ``srsran-enb/srsenb/protobufs`` for
   RAN and in ``edgeric`` for EdgeRIC
@@ -112,8 +109,7 @@ included in this repository, so this step can be skipped
 The generated ``metrics_pb2.py`` and ``control_actions_pb2.py`` is
 included in this repository, so this step can be skipped
 
-Build the repository
-                    
+*Build the repository*           
 
 .. code:: bash
 
@@ -130,8 +126,6 @@ to local machine
 
 .. figure:: edgeric-docker.png
    :alt: EdgeRIC docker
-
-   Image 1
 
 .. code:: bash
 
@@ -172,7 +166,9 @@ Setup the core and srsenb
 
    python3 top_block_2ue_no_gui.py # OR ./top_block_2ue_23.04MHz.py if you have GUI support
 
-This step is not needed in over the air mode
+.. note::
+
+  This step is not needed in over the air mode
 
 **Terminal 2**: Run the EPC
 
