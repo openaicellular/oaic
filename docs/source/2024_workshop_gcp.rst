@@ -112,8 +112,8 @@ If a file is needed to be transferred from your machine to the VM or vise versa,
 
 .. _VNC-access:
 
-VNC access
-==========
+VNC access (optional)
+=====================
 
 First, install VNC on the server:
 
@@ -124,13 +124,13 @@ Open an SSH connection then run the following commands:
 .. code-block:: bash
 
     sudo apt update -y
-    sudo apt install xvfb x11-utils x11vnc icewm -y
+    sudo apt install xvfb x11-utils tightvncserver icewm -y
     export DISPLAY=:0
     Xvfb &
     # Wait a bit for Xvfb to start up before running the following X applications.
     sleep 1
-    x11vnc -forever &
-    icewm-session &
+    # Enter a password below, perhaps "testing".
+    tightvncserver
 
 
 VNC firewall configuration
@@ -154,7 +154,7 @@ Next, click on the ``add firewall rule`` button, then set:
 -   Name: ``vnc``
 -   Targets: ``All instances in the network``
 -   Source IPv4 ranges: ``0.0.0.0/0``
--   Check the TCP box under Protocols and ports, then enter a port of ``5900``.
+-   Check the TCP box under Protocols and ports, then enter a port of ``5900-5901``.
 -   Click the ``Create`` button.
 
 .. image:: firewall_create_rule1.png
@@ -162,9 +162,7 @@ Next, click on the ``add firewall rule`` button, then set:
 
 VNC client
 ----------
-Download [RealVNC](https://www.realvnc.com/en/connect/download/viewer/), install it, then run it. Enter an address of **IP of the machine**``::5900``; for example, ``34.28.200.62::5900``. (To determine your machine's IP address, see `Demo/Testing <Demo_Testing>`_.) Finally, press the Connect button. VNC should open; right-click then select Terminal.
-
-
+Download `RealVNC <https://www.realvnc.com/en/connect/download/viewer/>`_, install it, then run it. Enter an address of **IP of the machine**\ ``::5900``; for example, ``34.28.200.62::5900``. (To determine your machine's IP address, see `Demo/Testing <Demo_Testing>`_.) Finally, press the Connect button. VNC should open; right-click then select Terminal.
 
 
 .. _Alternatives:
