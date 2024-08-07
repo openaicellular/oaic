@@ -149,8 +149,8 @@ Run the following on every terminal before running the following set of commands
 
 .. code-block:: bash
 
-    sudo ./dockerexec_edgeric_oaic.sh 0
     cd EdgeRIC-A-real-time-RIC
+    sudo ./dockerexec_edgeric_oaic.sh 0
 
 **Running natively:** Use ``sudo`` for running all the commands.
 
@@ -354,7 +354,7 @@ Running muApp1 - downlink scheduler
     cd edgeric
     cd muApp1
     redis-cli set scheduling_algorithm "Max CQI" # setting an initial scheduler
-    sudo python3 muApp1_run_DL_scheduling.py # sudo not required if you are running in docker
+    python3 muApp1_run_DL_scheduling.py # sudo not required if you are running in docker
 
 Setting the scheduler algorithm manually
 ===============
