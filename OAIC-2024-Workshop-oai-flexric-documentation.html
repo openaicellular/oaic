@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2024 OAIC Workshop - OAI/FlexRIC Tutorial &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Day 2 - EdgeRIC tutorial" href="edgeric-workshop-tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MultipleUEs.html">Multiples UEs ZMQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nonrtric.html">O-RAN Non-Real Time RIC Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nexran1.html">Running the Nexran Xapp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ssxapp.html">Running the SS Xapp</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">2024 OAIC Workshop</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="2024_workshop_gcp.html">Day 1 - Google Cloud Platform Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2024_workshop_ss.html">Day 1 - Secure Slicing xApp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_python.html">Day 2 - Developing a custom xApp in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="edgeric-workshop-tutorial.html">Day 2 - EdgeRIC tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2024 OAIC Workshop - OAI/FlexRIC Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-dependencies">Install Dependencies</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-swig-4-1">Install Swig 4.1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#check-gcc-version-gcc-10-gcc-12-or-gcc-13">Check GCC Version (gcc-10, gcc-12, or gcc-13)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-docker-compose">Install Docker Compose</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setup-oai-5g-core-network">Setup OAI 5G Core Network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#get-core-network-configuration-files-and-docker-images">Get Core Network Configuration files and docker images</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#test-the-deployment-of-core-network">Test the deployment of Core Network</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#setup-oai-radio-access-network-and-ue">Setup OAI Radio Access Network and UE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup-flexric">Setup FlexRIC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-5g-network">Deploy 5G Network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#start-the-core-network">Start the Core Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#start-the-gnb">Start the gNB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#start-the-ue">Start the UE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#start-the-near-rt-ric">Start the near-RT RIC</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#exchange-traffic-between-network-and-ue">Exchange traffic between Network and UE</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#streaming-traffic-using-ping">Streaming Traffic using Ping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#streaming-traffic-with-iperf">Streaming Traffic with iPerf</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#run-xapps">Run xApps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kpimon-xapp">KPIMON xApp</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">2024 OAIC Workshop - OAI/FlexRIC Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/OAIC-2024-Workshop-oai-flexric-documentation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="oaic-workshop-oai-flexric-tutorial">
+<h1>2024 OAIC Workshop - OAI/FlexRIC Tutorial<a class="headerlink" href="#oaic-workshop-oai-flexric-tutorial" title="Link to this heading"></a></h1>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="ssxapp.html#prerequisites"><span class="std std-ref">Prerequisites</span></a></p></li>
+<li><p><a class="reference internal" href="#setup-cn"><span class="std std-ref">Setup OAI 5G Core Network</span></a></p></li>
+<li><p><a class="reference internal" href="#setup-ran"><span class="std std-ref">Setup OAI Radio Access Network and UE</span></a></p></li>
+<li><p><a class="reference internal" href="#setup-flexric"><span class="std std-ref">Setup FlexRIC</span></a></p></li>
+<li><p><a class="reference internal" href="#run-nw"><span class="std std-ref">Deploy 5G Network</span></a></p></li>
+<li><p><a class="reference internal" href="#exch-trf"><span class="std std-ref">Exchange traffic between Network and UE</span></a></p></li>
+<li><p><a class="reference internal" href="#run-xapp"><span class="std std-ref">Run xApps</span></a></p></li>
+</ul>
+</section>
+<section id="prerequisites">
+<span id="id1"></span><h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<section id="install-dependencies">
+<h3>Install Dependencies<a class="headerlink" href="#install-dependencies" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>vim<span class="w"> </span>tree<span class="w"> </span>net-tools<span class="w"> </span>libsctp-dev<span class="w"> </span>python3.8<span class="w"> </span>cmake-curses-gui<span class="w"> </span>libpcre2-dev<span class="w"> </span>python-dev<span class="w"> </span>build-essential<span class="w"> </span>cmake<span class="w"> </span>libfftw3-dev<span class="w"> </span>libmbedtls-dev<span class="w"> </span>libboost-program-options-dev<span class="w"> </span>libconfig++-dev<span class="w"> </span>libtool<span class="w"> </span>autoconf<span class="w"> </span>python3-pip<span class="w"> </span>curl
+</pre></div>
+</div>
+<section id="install-swig-4-1">
+<h4>Install Swig 4.1<a class="headerlink" href="#install-swig-4-1" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/swig/swig.git
+<span class="nb">cd</span><span class="w"> </span>swig
+git<span class="w"> </span>checkout<span class="w"> </span>release-4.1
+./autogen.sh
+./configure<span class="w"> </span>--prefix<span class="o">=</span>/usr/
+make<span class="w"> </span>-j8
+sudo<span class="w"> </span>make<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+<section id="check-gcc-version-gcc-10-gcc-12-or-gcc-13">
+<h4>Check GCC Version (gcc-10, gcc-12, or gcc-13)<a class="headerlink" href="#check-gcc-version-gcc-10-gcc-12-or-gcc-13" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gcc<span class="w"> </span>--version
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you see that you have gcc 11, follow the steps given <a class="reference external" href="https://linuxconfig.org/how-to-switch-between-multiple-gcc-and-g-compiler-versions-on-ubuntu-20-04-lts-focal-fossa">here</a> to switch to a different version</p>
+</div>
+</section>
+<section id="install-docker-compose">
+<h4>Install Docker Compose<a class="headerlink" href="#install-docker-compose" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>putty<span class="w"> </span>ca-certificates<span class="w"> </span>gnupg
+sudo<span class="w"> </span>install<span class="w"> </span>-m<span class="w"> </span><span class="m">0755</span><span class="w"> </span>-d<span class="w"> </span>/etc/apt/keyrings
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/ubuntu/gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.gpg
+sudo<span class="w"> </span>chmod<span class="w"> </span>a+r<span class="w"> </span>/etc/apt/keyrings/docker.gpg
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [arch=&quot;</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2">&quot; signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu &quot;</span><span class="k">$(</span>.<span class="w"> </span>/etc/os-release<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$VERSION_CODENAME</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot; stable&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.list<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>docker-buildx-plugin<span class="w"> </span>docker-compose-plugin
+</pre></div>
+</div>
+<p>Check docker compose version. The installed version should be <code class="docutils literal notranslate"><span class="pre">v2.29</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>--version
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Optional Step: If you do not want to use sudo while executing docker compose commands, run <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">usermod</span> <span class="pre">-a</span> <span class="pre">-G</span> <span class="pre">docker</span> <span class="pre">$(whoami)</span></code> and <code class="docutils literal notranslate"><span class="pre">reboot</span></code> the machine.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h2>
+<section id="setup-oai-5g-core-network">
+<span id="setup-cn"></span><h3>Setup OAI 5G Core Network<a class="headerlink" href="#setup-oai-5g-core-network" title="Link to this heading"></a></h3>
+<p>In this demo, we will employ the Core Network solution provided by Open Air Interface. This solution deploys network functions as docker containers. The CN components can be customized according to experimental requirements by modifying the configuration files. However, for the purposes of this tutorial we retain the default functionality.</p>
+<section id="get-core-network-configuration-files-and-docker-images">
+<h4>Get Core Network Configuration files and docker images<a class="headerlink" href="#get-core-network-configuration-files-and-docker-images" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>-O<span class="w"> </span>~/oai-cn5g.zip<span class="w"> </span>https://gitlab.eurecom.fr/oai/openairinterface5g/-/archive/develop/openairinterface5g-develop.zip?path<span class="o">=</span>doc/tutorial_resources/oai-cn5g
+unzip<span class="w"> </span>~/oai-cn5g.zip
+mv<span class="w"> </span>~/openairinterface5g-develop-doc-tutorial_resources-oai-cn5g/doc/tutorial_resources/oai-cn5g<span class="w"> </span>~/oai-cn5g
+rm<span class="w"> </span>-r<span class="w"> </span>~/openairinterface5g-develop-doc-tutorial_resources-oai-cn5g<span class="w"> </span>~/oai-cn5g.zip
+<span class="nb">cd</span><span class="w"> </span>~/oai-cn5g
+sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>pull
+</pre></div>
+</div>
+</section>
+<section id="test-the-deployment-of-core-network">
+<h4>Test the deployment of Core Network<a class="headerlink" href="#test-the-deployment-of-core-network" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/oai_cn_start.png"><img alt="OAI 5G CN Initialization" src="_images/oai_cn_start.png" style="width: 60%;" /></a>
+<p>Verify that all the 10 containers are deployed and <code class="docutils literal notranslate"><span class="pre">healthy</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span>ps<span class="w"> </span>-a
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/oai_cn_verify.png"><img alt="OAI CN Deployment Verification" src="_images/oai_cn_verify.png" style="width: 60%;" /></a>
+<p>Turn the core network off.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>down
+</pre></div>
+</div>
+</section>
+</section>
+<section id="setup-oai-radio-access-network-and-ue">
+<span id="setup-ran"></span><h3>Setup OAI Radio Access Network and UE<a class="headerlink" href="#setup-oai-radio-access-network-and-ue" title="Link to this heading"></a></h3>
+<p>Clone the OAI 5G RAN repository and checkout the <code class="docutils literal notranslate"><span class="pre">oaic_workshop_2024_v1</span></code> branch.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/openairinterface5G.git<span class="w"> </span>~/oai
+git<span class="w"> </span>checkout<span class="w"> </span>oaic_workshop_2024_v1
+<span class="nb">cd</span><span class="w"> </span>~/oai/cmake_targets/
+./build_oai<span class="w"> </span>-I<span class="w"> </span>-w<span class="w"> </span>SIMU<span class="w"> </span>--gNB<span class="w"> </span>--nrUE<span class="w"> </span>--build-e2<span class="w"> </span>--ninja
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/oai_install.png"><img alt="OAI Installation" src="_images/oai_install.png" style="width: 60%;" /></a>
+</section>
+<section id="setup-flexric">
+<span id="id2"></span><h3>Setup FlexRIC<a class="headerlink" href="#setup-flexric" title="Link to this heading"></a></h3>
+<p>Clone the OAI 5G RAN repository and checkout the <code class="docutils literal notranslate"><span class="pre">beabdd07</span></code> commit.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/flexric.git<span class="w"> </span>~/flexric
+<span class="nb">cd</span><span class="w"> </span>~/flexric
+git<span class="w"> </span>checkout<span class="w"> </span>beabdd07
+</pre></div>
+</div>
+<p>Build the flexRIC module.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>../
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/flexric_cmake.png"><img alt="CMake Build of flexRIC module" src="_images/flexric_cmake.png" style="width: 60%;" /></a>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>-j<span class="sb">`</span>nproc<span class="sb">`</span>
+sudo<span class="w"> </span>make<span class="w"> </span>install
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/flexric_make_inst.png"><img alt="Tmux cheatsheet" src="_images/flexric_make_inst.png" style="width: 60%;" /></a>
+</section>
+<section id="deploy-5g-network">
+<span id="run-nw"></span><h3>Deploy 5G Network<a class="headerlink" href="#deploy-5g-network" title="Link to this heading"></a></h3>
+<section id="start-the-core-network">
+<h4>Start the Core Network<a class="headerlink" href="#start-the-core-network" title="Link to this heading"></a></h4>
+<p>In Terminal 1,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oai-cn5g
+sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>–d
+<span class="nb">cd</span><span class="w"> </span>~/
+</pre></div>
+</div>
+<p>Check if the Core Network is up and running</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span>ps<span class="w"> </span>-a
+</pre></div>
+</div>
+</section>
+<section id="start-the-gnb">
+<h4>Start the gNB<a class="headerlink" href="#start-the-gnb" title="Link to this heading"></a></h4>
+<p>In <code class="docutils literal notranslate"><span class="pre">Terminal</span> <span class="pre">1</span></code>,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oai/cmake_targets/ran_build/build
+sudo<span class="w"> </span>./nr-softmodem<span class="w"> </span>-O<span class="w"> </span>../../../targets/PROJECTS/GENERIC-NR-5GC/CONF/gnb.sa.band78.fr1.106PRB.usrpb210.conf<span class="w"> </span>--gNBs.<span class="o">[</span><span class="m">0</span><span class="o">]</span>.min_rxtxtime<span class="w"> </span><span class="m">6</span><span class="w"> </span>--rfsim<span class="w"> </span>--sa
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/gnb_initialization.png"><img alt="gNB Initialization" src="_images/gnb_initialization.png" style="width: 60%;" /></a>
+</section>
+<section id="start-the-ue">
+<h4>Start the UE<a class="headerlink" href="#start-the-ue" title="Link to this heading"></a></h4>
+<p>In <code class="docutils literal notranslate"><span class="pre">terminal</span> <span class="pre">2</span></code>,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oai/cmake_targets/ran_build/build
+sudo<span class="w"> </span>./nr-uesoftmodem<span class="w"> </span>-r<span class="w"> </span><span class="m">106</span><span class="w"> </span>--numerology<span class="w"> </span><span class="m">1</span><span class="w"> </span>--band<span class="w"> </span><span class="m">78</span><span class="w"> </span>-C<span class="w"> </span><span class="m">3619200000</span><span class="w"> </span>--rfsim<span class="w"> </span>--sa<span class="w"> </span>--uicc0.imsi<span class="w"> </span><span class="m">001010000000001</span><span class="w"> </span>--rfsimulator.serveraddr<span class="w"> </span><span class="m">127</span>.0.0.1
+</pre></div>
+</div>
+</section>
+<section id="start-the-near-rt-ric">
+<h4>Start the near-RT RIC<a class="headerlink" href="#start-the-near-rt-ric" title="Link to this heading"></a></h4>
+<p>In <code class="docutils literal notranslate"><span class="pre">terminal</span> <span class="pre">3</span></code>,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/
+./flexric/build/examples/ric/nearRT-RIC
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/near-rt-ric-initialization.png"><img alt="Near-RT RIC Initialization" src="_images/near-rt-ric-initialization.png" style="width: 60%;" /></a>
+<a class="reference internal image-reference" href="_images/e2_near-rt-ric-resp.png"><img alt="E2 Message reception and RAN function Accept" src="_images/e2_near-rt-ric-resp.png" style="width: 60%;" /></a>
+</section>
+</section>
+<section id="exchange-traffic-between-network-and-ue">
+<span id="exch-trf"></span><h3>Exchange traffic between Network and UE<a class="headerlink" href="#exchange-traffic-between-network-and-ue" title="Link to this heading"></a></h3>
+<section id="streaming-traffic-using-ping">
+<h4>Streaming Traffic using Ping<a class="headerlink" href="#streaming-traffic-using-ping" title="Link to this heading"></a></h4>
+<p>For uplink ping - UE to network</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">terminal</span> <span class="pre">4</span></code>,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ping<span class="w"> </span><span class="m">192</span>.168.70.135<span class="w"> </span>-I<span class="w"> </span>oaitun_ue1
+</pre></div>
+</div>
+<p>For Downlink ping - Network to UE</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>oai-ext-dn<span class="w"> </span>ping<span class="w"> </span><span class="m">12</span>.1.1.2
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">ctrl+c</span></code> or <code class="docutils literal notranslate"><span class="pre">ctrl+d</span></code> to stop/exit the ping processes.</p>
+</section>
+<section id="streaming-traffic-with-iperf">
+<h4>Streaming Traffic with iPerf<a class="headerlink" href="#streaming-traffic-with-iperf" title="Link to this heading"></a></h4>
+<p>Downlink iPerf</p>
+<p>Find out the IP address of the UE by running <code class="docutils literal notranslate"><span class="pre">ifconfig</span></code> on the UE machine and check the IP address field of <code class="docutils literal notranslate"><span class="pre">oaitun_ue1</span></code> network Interface. Here we initialize an iperf server for UDP traffic.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">terminal</span> <span class="pre">4</span></code>,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf<span class="w"> </span>-s<span class="w"> </span>-u<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-B<span class="w"> </span>&lt;ue_ip&gt;
+</pre></div>
+</div>
+<p>The below command generates UDP traffic for 100 seconds, at the rate of 10Mbps from the Core network. In terminal 5,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>oai-ext-dn<span class="w"> </span>iperf<span class="w"> </span>-u<span class="w"> </span>-t<span class="w"> </span><span class="m">100</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-fk<span class="w"> </span>-B<span class="w"> </span><span class="m">192</span>.168.70.135<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-c<span class="w"> </span>&lt;ue_ip&gt;
+</pre></div>
+</div>
+<p>Uplink iperf</p>
+<p>On <code class="docutils literal notranslate"><span class="pre">terminal</span> <span class="pre">4</span></code>, initialize the iperf server (metrics are printed every second) for TCP traffic run,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>oai-ext-dn<span class="w"> </span>iperf<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-fk<span class="w"> </span>-B<span class="w"> </span><span class="m">192</span>.168.70.135
+</pre></div>
+</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">terminal</span> <span class="pre">5</span></code>, run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iperf<span class="w"> </span>-c<span class="w"> </span><span class="m">192</span>.168.70.135<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-B<span class="w"> </span>&lt;ue_ip&gt;
+</pre></div>
+</div>
+</section>
+</section>
+<section id="run-xapps">
+<span id="run-xapp"></span><h3>Run xApps<a class="headerlink" href="#run-xapps" title="Link to this heading"></a></h3>
+<section id="kpimon-xapp">
+<h4>KPIMON xApp<a class="headerlink" href="#kpimon-xapp" title="Link to this heading"></a></h4>
+<p>First we will run the KPIMON xApp and observe some metrics. This xApp is based on the <code class="docutils literal notranslate"><span class="pre">E2SM-KPM</span> <span class="pre">(Key</span> <span class="pre">Performance</span> <span class="pre">Metrics)</span></code> service model. It is responsible for collecting metrics collected by the RAN and forwarding it to relevant xApps to help in RAN control.
+Per O-RAN specifications, 5G measurements supported by KPM are specified in <strong>3GPP TS 28.552</strong>. Some of the metrics supported are <code class="docutils literal notranslate"><span class="pre">DRB.PdcpSduVolumeDL</span></code>, <code class="docutils literal notranslate"><span class="pre">DRB.PdcpSduVolumeUL</span></code>, <code class="docutils literal notranslate"><span class="pre">DRB.RlcSduDelayDl</span></code>, <code class="docutils literal notranslate"><span class="pre">DRB.UEThpDl</span></code>, <code class="docutils literal notranslate"><span class="pre">DRB.UEThpUl</span></code>, <code class="docutils literal notranslate"><span class="pre">RRU.PrbTotDl</span></code>, <code class="docutils literal notranslate"><span class="pre">RRU.PrbTotUl</span></code>.
+In this implementation <strong>Report Style 4 (Section 7.4.5)</strong> has been considered.</p>
+<p>In a new Terminal, run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/flexric
+./build/examples/xApp/c/monitor/xapp_kpm_moni
+</pre></div>
+</div>
+<p>RAN Control (RC) xApp</p>
+<p>This xApp enables control of RAN services exposed by the RAN. The current implementation exposes RAN control function <code class="docutils literal notranslate"><span class="pre">QoS</span> <span class="pre">flow</span> <span class="pre">mapping</span> <span class="pre">configuration</span></code>. This version of the xApp supports <code class="docutils literal notranslate"><span class="pre">REPORT</span> <span class="pre">Service</span> <span class="pre">Style</span> <span class="pre">4</span></code> (UE Information - section 7.4.5) - aperiodic subscription for <code class="docutils literal notranslate"><span class="pre">UE</span> <span class="pre">RRC</span> <span class="pre">State</span> <span class="pre">Change</span></code> and <code class="docutils literal notranslate"><span class="pre">CONTROL</span> <span class="pre">Service</span> <span class="pre">Style</span> <span class="pre">1</span></code> (“Radio Bearer Control” - section 7.6.2) - “QoS flow mapping configuration” (e.g creating a new DRB).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/flexric
+./build/examples/xApp/c/kpm_rc/xapp_kpm_rc
+</pre></div>
+</div>
+<p><strong>Follow the instructions during the workshop to modify the RC xApp in order to issue a Control Command to the gNB to release a specified UE’s connection.</strong></p>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="edgeric-workshop-tutorial.html" class="btn btn-neutral float-left" title="Day 2 - EdgeRIC tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
