@@ -23,7 +23,7 @@ Install Dependencies
 
 .. code-block:: bash
 	
-	sudo apt install git vim tree net-tools libsctp-dev python3.8 cmake-curses-gui libpcre2-dev python-dev build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libtool autoconf python3-pip curl
+	sudo apt install git vim tree net-tools libsctp-dev python3.8 cmake-curses-gui libpcre2-dev python-dev build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libtool autoconf python3-pip curl bison flex iperf
 	
 Install Swig 4.1
 ~~~~~~~~~~~~~~~~
@@ -132,6 +132,7 @@ Clone the OAI 5G RAN repository and checkout the ``oaic_workshop_2024_v1`` branc
 .. code-block:: bash
 
 	git clone https://github.com/openaicellular/openairinterface5G.git ~/oai
+	cd ~/oai
 	git checkout oaic_workshop_2024_v1
 	cd ~/oai/cmake_targets/
 	./build_oai -I -w SIMU --gNB --nrUE --build-e2 --ninja
@@ -258,7 +259,7 @@ For Downlink ping - Network to UE
 
 .. code-block:: bash
 
-	docker exec -it oai-ext-dn ping 12.1.1.2
+	sudo docker exec -it oai-ext-dn ping <ue_ip>
 	
 Use ``ctrl+c`` or ``ctrl+d`` to stop/exit the ping processes.
 
@@ -279,7 +280,7 @@ The below command generates UDP traffic for 100 seconds, at the rate of 10Mbps f
 
 .. code-block:: bash
 
-	docker exec -it oai-ext-dn iperf -u -t 100 -i 1 -fk -B 192.168.70.135 -b 10M -c <ue_ip>
+	sudo docker exec -it oai-ext-dn iperf -u -t 100 -i 1 -fk -B 192.168.70.135 -b 10M -c <ue_ip>
 
 Uplink iperf
 
@@ -287,7 +288,7 @@ On ``terminal 4``, initialize the iperf server (metrics are printed every second
 
 .. code-block:: bash
 
-	docker exec -it oai-ext-dn iperf -s -i 1 -fk -B 192.168.70.135
+	sudo docker exec -it oai-ext-dn iperf -s -i 1 -fk -B 192.168.70.135
 	
 In ``terminal 5``, run
 

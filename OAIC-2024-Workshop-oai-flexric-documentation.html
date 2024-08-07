@@ -168,7 +168,7 @@
 <span id="id1"></span><h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
 <section id="install-dependencies">
 <h3>Install Dependencies<a class="headerlink" href="#install-dependencies" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>vim<span class="w"> </span>tree<span class="w"> </span>net-tools<span class="w"> </span>libsctp-dev<span class="w"> </span>python3.8<span class="w"> </span>cmake-curses-gui<span class="w"> </span>libpcre2-dev<span class="w"> </span>python-dev<span class="w"> </span>build-essential<span class="w"> </span>cmake<span class="w"> </span>libfftw3-dev<span class="w"> </span>libmbedtls-dev<span class="w"> </span>libboost-program-options-dev<span class="w"> </span>libconfig++-dev<span class="w"> </span>libtool<span class="w"> </span>autoconf<span class="w"> </span>python3-pip<span class="w"> </span>curl
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>vim<span class="w"> </span>tree<span class="w"> </span>net-tools<span class="w"> </span>libsctp-dev<span class="w"> </span>python3.8<span class="w"> </span>cmake-curses-gui<span class="w"> </span>libpcre2-dev<span class="w"> </span>python-dev<span class="w"> </span>build-essential<span class="w"> </span>cmake<span class="w"> </span>libfftw3-dev<span class="w"> </span>libmbedtls-dev<span class="w"> </span>libboost-program-options-dev<span class="w"> </span>libconfig++-dev<span class="w"> </span>libtool<span class="w"> </span>autoconf<span class="w"> </span>python3-pip<span class="w"> </span>curl<span class="w"> </span>bison<span class="w"> </span>flex<span class="w"> </span>iperf
 </pre></div>
 </div>
 <section id="install-swig-4-1">
@@ -252,6 +252,7 @@ sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"
 <span id="setup-ran"></span><h3>Setup OAI Radio Access Network and UE<a class="headerlink" href="#setup-oai-radio-access-network-and-ue" title="Link to this heading"></a></h3>
 <p>Clone the OAI 5G RAN repository and checkout the <code class="docutils literal notranslate"><span class="pre">oaic_workshop_2024_v1</span></code> branch.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/openairinterface5G.git<span class="w"> </span>~/oai
+<span class="nb">cd</span><span class="w"> </span>~/oai
 git<span class="w"> </span>checkout<span class="w"> </span>oaic_workshop_2024_v1
 <span class="nb">cd</span><span class="w"> </span>~/oai/cmake_targets/
 ./build_oai<span class="w"> </span>-I<span class="w"> </span>-w<span class="w"> </span>SIMU<span class="w"> </span>--gNB<span class="w"> </span>--nrUE<span class="w"> </span>--build-e2<span class="w"> </span>--ninja
@@ -333,7 +334,7 @@ sudo<span class="w"> </span>./nr-uesoftmodem<span class="w"> </span>-r<span clas
 </pre></div>
 </div>
 <p>For Downlink ping - Network to UE</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>oai-ext-dn<span class="w"> </span>ping<span class="w"> </span><span class="m">12</span>.1.1.2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>oai-ext-dn<span class="w"> </span>ping<span class="w"> </span>&lt;ue_ip&gt;
 </pre></div>
 </div>
 <p>Use <code class="docutils literal notranslate"><span class="pre">ctrl+c</span></code> or <code class="docutils literal notranslate"><span class="pre">ctrl+d</span></code> to stop/exit the ping processes.</p>
@@ -347,12 +348,12 @@ sudo<span class="w"> </span>./nr-uesoftmodem<span class="w"> </span>-r<span clas
 </pre></div>
 </div>
 <p>The below command generates UDP traffic for 100 seconds, at the rate of 10Mbps from the Core network. In terminal 5,</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>oai-ext-dn<span class="w"> </span>iperf<span class="w"> </span>-u<span class="w"> </span>-t<span class="w"> </span><span class="m">100</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-fk<span class="w"> </span>-B<span class="w"> </span><span class="m">192</span>.168.70.135<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-c<span class="w"> </span>&lt;ue_ip&gt;
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>oai-ext-dn<span class="w"> </span>iperf<span class="w"> </span>-u<span class="w"> </span>-t<span class="w"> </span><span class="m">100</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-fk<span class="w"> </span>-B<span class="w"> </span><span class="m">192</span>.168.70.135<span class="w"> </span>-b<span class="w"> </span>10M<span class="w"> </span>-c<span class="w"> </span>&lt;ue_ip&gt;
 </pre></div>
 </div>
 <p>Uplink iperf</p>
 <p>On <code class="docutils literal notranslate"><span class="pre">terminal</span> <span class="pre">4</span></code>, initialize the iperf server (metrics are printed every second) for TCP traffic run,</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>oai-ext-dn<span class="w"> </span>iperf<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-fk<span class="w"> </span>-B<span class="w"> </span><span class="m">192</span>.168.70.135
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>oai-ext-dn<span class="w"> </span>iperf<span class="w"> </span>-s<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>-fk<span class="w"> </span>-B<span class="w"> </span><span class="m">192</span>.168.70.135
 </pre></div>
 </div>
 <p>In <code class="docutils literal notranslate"><span class="pre">terminal</span> <span class="pre">5</span></code>, run</p>
