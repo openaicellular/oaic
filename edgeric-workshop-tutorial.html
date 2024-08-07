@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 2 - EdgeRIC tutorial &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Day 2 - Developing a custom xApp in Python" href="xapp_python.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MultipleUEs.html">Multiples UEs ZMQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nonrtric.html">O-RAN Non-Real Time RIC Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nexran1.html">Running the Nexran Xapp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ssxapp.html">Running the SS Xapp</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">2024 OAIC Workshop</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="2024_workshop_gcp.html">Day 1 - Google Cloud Platform Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2024_workshop_ss.html">Day 1 - Secure Slicing xApp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_python.html">Day 2 - Developing a custom xApp in Python</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Day 2 - EdgeRIC tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#app-demo-mac-scheduling">μApp demo: MAC scheduling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#training-reinforcement-learning-scheduling-policy">Training Reinforcement Learning scheduling Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-srsran-supporting-edgeric-hooks">Install srsRAN supporting EdgeRIC hooks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#option-1-install-on-your-system">Option 1: Install on your system</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dependencies-and-cloning-the-repository">Dependencies and cloning the repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compile-the-protobuf-message-schema">Compile the protobuf message schema</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-the-repository">Build the repository</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#option-2-install-the-containerized-version">Option 2: Install the containerized version</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#building-the-srsran-with-edgeric-support">Building the srsRAN with EdgeRIC support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-run-the-network">How to run the network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setup-the-core-and-srsenb">Setup the core and srsenb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-the-ues">Run the UEs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#known-issue">Known Issue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stream-traffic">Stream Traffic:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-downlink-iperf-traffic">Running Downlink iperf traffic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-edgeric">Running EdgeRIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#edgeric-messenger">EdgeRIC messenger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#apps-supported-in-this-codebase">μApps supported in this codebase</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-muapp1-downlink-scheduler">Running muApp1 - downlink scheduler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-the-scheduler-algorithm-manually">Setting the scheduler algorithm manually</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-redis-to-update-the-scheduling-algorithm">Using redis to update the scheduling algorithm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-muapp3-monitoring">Running muApp3 - Monitoring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-muapp2-training-an-rl-policy-for-scheduling">Running muApp2 - Training an RL policy for scheduling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#muapp2-train-rl-dl-scheduling-py">muApp2_train_RL_DL_scheduling.py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#repo-structure">Repo Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#edgeric-env-edge-ric-py">EdgeRIC Env (edge_ric.py)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Day 2 - EdgeRIC tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/edgeric-workshop-tutorial.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="day-2-edgeric-tutorial">
+<h1>Day 2 - EdgeRIC tutorial<a class="headerlink" href="#day-2-edgeric-tutorial" title="Link to this heading"></a></h1>
+<div class="line-block">
+<div class="line">Website: <a class="reference external" href="https://edgeric.github.io/">https://edgeric.github.io/</a></div>
+<div class="line">Tutorial: <a class="reference external" href="https://edgeric.github.io/edgeric-workshop-tutorial.html">https://edgeric.github.io/edgeric-workshop-tutorial.html</a></div>
+</div>
+<p>In this tutorial, we will go over the EdgeRIC architecture and installation of the srsRAN network facilitated with EdgeRIC hooks. We also provide a containerized version of our codebase. We will discuss how to write μApps. As an example, we will run a real-time MAC scheduler μApp that assigns scheduling decisions per UE for each TTI. We will look at multiple scheduling algorithms with this μApp to demonstrate the system behavior: <code class="docutils literal notranslate"><span class="pre">Max</span> <span class="pre">Weight</span></code>, <code class="docutils literal notranslate"><span class="pre">Max</span> <span class="pre">CQI</span></code>, <code class="docutils literal notranslate"><span class="pre">Proportional</span> <span class="pre">Fairness</span></code>, <code class="docutils literal notranslate"><span class="pre">Round</span> <span class="pre">Robin</span></code>, and <code class="docutils literal notranslate"><span class="pre">an</span> <span class="pre">RL</span> <span class="pre">based</span> <span class="pre">scheduler</span></code>.</p>
+<section id="app-demo-mac-scheduling">
+<h2>μApp demo: MAC scheduling<a class="headerlink" href="#app-demo-mac-scheduling" title="Link to this heading"></a></h2>
+<p>This μApp offers scheduling decisions to the RAN at the granularity of one TTI (~1ms). It adopts a weight-based approach for its decision. The weight of a UE corresponds to its relative priority to be scheduled given the current state of the system. We list the metrics used by this μApp below:</p>
+<p>Metrics: <code class="docutils literal notranslate"><span class="pre">ue_data[rnti]['Tx'],</span> <span class="pre">ue_data[rnti]['CQI'],</span> <span class="pre">ue_data[rnti]['BL']</span></code> for each UE.</p>
+<p>Actions Sent: <code class="docutils literal notranslate"><span class="pre">weight_{i}</span></code> which corresponds to the weight of each UE <code class="docutils literal notranslate"><span class="pre">i</span></code></p>
+<p>RT-E2 Policy Format for this μApp: <code class="docutils literal notranslate"><span class="pre">RNTI_{i},</span> <span class="pre">weight_{i}</span></code> where <code class="docutils literal notranslate"><span class="pre">i</span></code> corresponds to each UE.</p>
+</section>
+<section id="training-reinforcement-learning-scheduling-policy">
+<h2>Training Reinforcement Learning scheduling Policy<a class="headerlink" href="#training-reinforcement-learning-scheduling-policy" title="Link to this heading"></a></h2>
+<p>Here, we train an RL agent with the objective of <strong>total system throughput maximization</strong>. Listed below are the specifications for our training:</p>
+<ul class="simple">
+<li><p>Algorithm used: Proximal Policy Optimization</p></li>
+<li><p>State_space: [BL1,CQI1,BL2,CQI2…..]</p></li>
+<li><p>Action_space: <code class="docutils literal notranslate"><span class="pre">[Weight1,Weight2.....]</span></code></p></li>
+<li><p>Reward: Total system throughput</p></li>
+</ul>
+</section>
+<section id="install-srsran-supporting-edgeric-hooks">
+<h2>Install srsRAN supporting EdgeRIC hooks<a class="headerlink" href="#install-srsran-supporting-edgeric-hooks" title="Link to this heading"></a></h2>
+<p>We will be using Option 2 in this tutorial!</p>
+<section id="option-1-install-on-your-system">
+<h3>Option 1: Install on your system<a class="headerlink" href="#option-1-install-on-your-system" title="Link to this heading"></a></h3>
+<p>You would need Ubuntu 20 to run this repository, with option 2 you can run on any Linux environment.</p>
+<section id="dependencies-and-cloning-the-repository">
+<h4>Dependencies and cloning the repository<a class="headerlink" href="#dependencies-and-cloning-the-repository" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>-y<span class="w"> </span>upgrade
+
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libfftw3-dev<span class="w"> </span>libmbedtls-dev<span class="w"> </span>libsctp-dev<span class="w"> </span>qt5-default<span class="w"> </span>libconfig++-dev<span class="w"> </span>net-tools<span class="w"> </span>nano<span class="w"> </span>libtool<span class="w"> </span>pkg-config<span class="w"> </span>build-essential<span class="w"> </span>autoconf<span class="w"> </span>automake<span class="w"> </span>git<span class="w"> </span>python3<span class="w"> </span>python3-distutils<span class="w"> </span>python3-pip<span class="w"> </span>python3-apt<span class="w"> </span>libzmq3-dev<span class="w"> </span>python3-zmq<span class="w"> </span>software-properties-common
+
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>add-apt-repository<span class="w"> </span>ppa:gnuradio/gnuradio-releases
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>gnuradio<span class="w"> </span>xterm<span class="w"> </span>python3-gi<span class="w"> </span>gobject-introspection<span class="w"> </span>gir1.2-gtk-3.0<span class="w"> </span>iputils-ping<span class="w"> </span>iproute2<span class="w"> </span>libx11-dev<span class="w"> </span>iperf
+
+sudo<span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+
+sudo<span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>gym<span class="w"> </span>pandas<span class="w"> </span>torchvision<span class="w"> </span>tensorboard<span class="w"> </span>redis<span class="w"> </span>debugpy<span class="w"> </span>ray<span class="w"> </span>gymnasium<span class="w"> </span>dm_tree<span class="w"> </span>pyarrow<span class="w"> </span>typer<span class="w"> </span>scikit-image<span class="w"> </span>plotly
+sudo<span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>hydra-core<span class="o">==</span><span class="m">1</span>.1.0
+
+sudo<span class="w"> </span>pip3<span class="w"> </span>uninstall<span class="w"> </span>-y<span class="w"> </span>protobuf
+sudo<span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span><span class="nv">protobuf</span><span class="o">==</span><span class="m">3</span>.20.*
+
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ushasigh/EdgeRIC-A-real-time-RIC.git
+git<span class="w"> </span>checkout<span class="w"> </span>oaic-workshop
+</pre></div>
+</div>
+</section>
+<section id="compile-the-protobuf-message-schema">
+<h4>Compile the protobuf message schema<a class="headerlink" href="#compile-the-protobuf-message-schema" title="Link to this heading"></a></h4>
+<p>The protobuf schemas are found in <code class="docutils literal notranslate"><span class="pre">srsran-enb/srsenb/protobufs</span></code> for RAN and in <code class="docutils literal notranslate"><span class="pre">edgeric</span></code> for EdgeRIC.</p>
+<p><strong>Compile the protobuf format for the RT-E2 agent</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>srsran-enb/srsenb/protobufs
+protoc<span class="w"> </span>--cpp_out<span class="o">=</span>../rtagent<span class="w"> </span>metrics.proto<span class="w"> </span><span class="c1">## RT-E2 Report Message</span>
+protoc<span class="w"> </span>--cpp_out<span class="o">=</span>../rtagent<span class="w"> </span>control_actions.proto<span class="w"> </span><span class="c1">## RT-E2 Policy message</span>
+<span class="nb">cd</span><span class="w"> </span>../../..
+</pre></div>
+</div>
+<p>The generated <code class="docutils literal notranslate"><span class="pre">metrics.pb.cc</span></code> and <code class="docutils literal notranslate"><span class="pre">control_actions.pb.cc</span></code> are included in this repository, so this step can be skipped.</p>
+<p><strong>Compile the protobuf format for EdgeRIC</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>edgeric
+protoc<span class="w"> </span>--python_out<span class="o">=</span>.<span class="w"> </span>metrics.proto<span class="w"> </span><span class="c1">## RT-E2 Report Message</span>
+protoc<span class="w"> </span>--python_out<span class="o">=</span>.<span class="w"> </span>control_actions.proto<span class="w"> </span><span class="c1">## RT-E2 Policy message</span>
+<span class="nb">cd</span><span class="w"> </span>..
+</pre></div>
+</div>
+<p>The generated <code class="docutils literal notranslate"><span class="pre">metrics_pb2.py</span></code> and <code class="docutils literal notranslate"><span class="pre">control_actions_pb2.py</span></code> are included in this repository, so this step can be skipped.</p>
+</section>
+<section id="build-the-repository">
+<h4>Build the repository<a class="headerlink" href="#build-the-repository" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./make-ran.sh
+</pre></div>
+</div>
+<p>All config files used in this tutorial are provided in <code class="docutils literal notranslate"><span class="pre">.config</span></code>.</p>
+</section>
+</section>
+<section id="option-2-install-the-containerized-version">
+<h3>Option 2: Install the containerized version<a class="headerlink" href="#option-2-install-the-containerized-version" title="Link to this heading"></a></h3>
+<p>We provide the Dockerfile to run this repository inside a container, the bash scripts account for development mode by mounting the docker volume to the local machine.</p>
+<img alt="EdgeRIC docker" class="align-center" src="_images/edgeric-docker.png" />
+<p>Let us first download and install the image of the compute environment.</p>
+<p><strong>Terminal 0</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ushasigh/EdgeRIC-A-real-time-RIC.git
+<span class="nb">cd</span><span class="w"> </span>EdgeRIC-A-real-time-RIC
+git<span class="w"> </span>checkout<span class="w"> </span>oaic-workshop
+
+sudo<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>nlpurnhyun/edgeric_base_oaic
+
+<span class="c1"># sudo ./dockerbuild_edgeric_oaic.sh</span>
+
+sudo<span class="w"> </span>./dockerrun_edgeric_oaic.sh<span class="w"> </span>host<span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+<section id="building-the-srsran-with-edgeric-support">
+<h4>Building the srsRAN with EdgeRIC support<a class="headerlink" href="#building-the-srsran-with-edgeric-support" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./make_ran.sh
+</pre></div>
+</div>
+<p><strong>Note on Channel Emulation</strong></p>
+<p>We use a modified version of the <code class="docutils literal notranslate"><span class="pre">srsue</span></code> codebase to account for channel variation. The channel is abstracted by the CQI (Channel Quality Indicator) - a 5G MAC layer parameter defined to represent the wireless environment.</p>
+<img alt="CQI emulation" class="align-center" src="_images/tiny-twin%2B%2B.png" />
+<p>Included in this repository are the CQI trace datasets obtained from an extensive measurement drive. The traces can be found in <code class="docutils literal notranslate"><span class="pre">srsran-ue/cqis</span></code>.</p>
+</section>
+<section id="how-to-run-the-network">
+<h4>How to run the network<a class="headerlink" href="#how-to-run-the-network" title="Link to this heading"></a></h4>
+<p><strong>Running in Docker container:</strong></p>
+<p>Run the following on every terminal before running the following set of commands.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./dockerexec_edgeric_oaic.sh<span class="w"> </span><span class="m">0</span>
+<span class="nb">cd</span><span class="w"> </span>EdgeRIC-A-real-time-RIC
+</pre></div>
+</div>
+<p><strong>Running natively:</strong> Use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> for running all the commands.</p>
+</section>
+<section id="setup-the-core-and-srsenb">
+<h4>Setup the core and srsenb<a class="headerlink" href="#setup-the-core-and-srsenb" title="Link to this heading"></a></h4>
+<p><strong>Terminal 1</strong>: Run the GRC broker. We will run a 2UE scenario.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>top_block_2ue_no_gui.py<span class="w"> </span><span class="c1"># OR ./top_block_2ue_23.04MHz.py if you have GUI support</span>
+</pre></div>
+</div>
+<p>This step is not needed in over-the-air mode.</p>
+<p><strong>Terminal 2</strong>: Run the EPC.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./run_epc.sh
+</pre></div>
+</div>
+<p><strong>Terminal 3</strong>: Run the enb.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./run_enb.sh
+</pre></div>
+</div>
+</section>
+<section id="run-the-ues">
+<h4>Run the UEs<a class="headerlink" href="#run-the-ues" title="Link to this heading"></a></h4>
+<p>First, add the UE namespaces.</p>
+<p><strong>Terminal 4:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue1
+ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue2
+</pre></div>
+</div>
+<p>In this repository, we will use the modified <code class="docutils literal notranslate"><span class="pre">srsue</span></code> codebase provided in <code class="docutils literal notranslate"><span class="pre">srsran-ue</span></code>, which provides support to run UE with a specified channel trace collected from real-world experiments. [In our case, the channel is represented by CQI]</p>
+<p><strong>Updating the CQI channel trace</strong>: File under concern: <code class="docutils literal notranslate"><span class="pre">srsran-ue/params{1}.txt</span></code> for ue {i}, update line 5 with the desired CQI file, which should be present in folder <code class="docutils literal notranslate"><span class="pre">srsran-ue/cqis</span></code>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>File: params1.txt
+2
+1 7
+1
+../cqis/random_1.txt
+60000
+# in line 1 First: period of cqi emulation
+# in line 2 First: minimum of cqi emulation
+# in line 2 Second: of maximum cqi emulation
+# If in line 2 both values are zero, it reads a file to get realistic cqi data.
+# in line 3 First: initial value of cqi emulation
+# in line 4: filename of cqi trace
+# in line 5: number of data
+</pre></div>
+</div>
+<p><strong>Option 1:</strong> Run automated scripts for 2 UEs:</p>
+<p><strong>Terminal 4:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./run_srsran_2ue.sh
+</pre></div>
+</div>
+<p>Press <code class="docutils literal notranslate"><span class="pre">t</span></code> to view the UE metrics on the console.</p>
+<p><strong>Option 2:</strong> Run the UEs on separate terminals</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>srsran-ue/build
+</pre></div>
+</div>
+<p>Run UE1:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./srsue/src/srsue<span class="w"> </span>../.config/ue1.conf<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;tx_port=tcp://*:2001,rx_port=tcp://localhost:2000,id=ue,base_srate=23.04e6&quot;</span><span class="w"> </span>--gw.netns<span class="o">=</span>ue1<span class="w"> </span>--params_filename<span class="o">=</span><span class="s2">&quot;../params1.txt&quot;</span>
+</pre></div>
+</div>
+<p>Run UE2:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./srsue/src/srsue2<span class="w"> </span>../.config/ue2.conf<span class="w"> </span>--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--rf.device_args<span class="o">=</span><span class="s2">&quot;tx_port=tcp://*:2011,rx_port=tcp://localhost:2010,id=ue,base_srate=23.04e6&quot;</span><span class="w"> </span>--gw.netns<span class="o">=</span>ue2<span class="w"> </span>--params_filename<span class="o">=</span><span class="s2">&quot;../params2.txt&quot;</span>
+</pre></div>
+</div>
+<p>Press <code class="docutils literal notranslate"><span class="pre">t</span></code> to view the UE metrics on the console.</p>
+</section>
+<section id="known-issue">
+<h4>Known Issue<a class="headerlink" href="#known-issue" title="Link to this heading"></a></h4>
+<p><strong>Make sure you have an immediate UE attach; UEs should not try to reattach</strong>. After every run, a clean build may be necessary; otherwise, UEs may not attach. Run the following inside the container:</p>
+<p><strong>Terminal 0</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./stop_ran.sh
+./make_ran.sh
+</pre></div>
+</div>
+<p><strong>What does immediate attach look like</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Attaching UE...
+Closing stdin thread.
+Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
+Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
+. # of cqis: 60000 done!
+Attaching UE...
+Closing stdin thread.
+Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
+Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
+.
+
+Found Cell:  Mode=FDD, PCI=1, PRB=25, Ports=1, CP=Normal, CFO=-0.2 KHz
+Found Cell:  Mode=FDD, PCI=1, PRB=25, Ports=1, CP=Normal, CFO=-0.2 KHz
+Current sample rate is 5.76 MHz with a base rate of 23.04 MHz (x4 decimation)
+Current sample rate is 5.76 MHz with a base rate of 23.04 MHz (x4 decimation)
+Current sample rate is 5.76 MHz with a base rate of 23.04 MHz (x4 decimation)
+Current sample rate is 5.76 MHz with a base rate of 23.04 MHz (x4 decimation)
+Found PLMN:  Id=00101, TAC=7
+Found PLMN:  Id=00101, TAC=7
+Random Access Transmission: seq=9, tti=341, ra-rnti=0x2
+Random Access Transmission: seq=20, tti=341, ra-rnti=0x2
+RRC Connected
+Random Access Complete.     c-rnti=0x46, ta=0
+RRC Connected
+Random Access Complete.     c-rnti=0x47, ta=0
+Network attach successful. IP: 172.16.0.2
+Network attach successful. IP: 172.16.0.3
+Software Radio Systems RAN (srsRAN) 5/8/2024 22:38:19 TZ:0
+Software Radio Systems RAN (srsRAN) 5/8/2024 22:38:19 TZ:0
+</pre></div>
+</div>
+<p>If you do not observe this, please rebuild srsRAN by running <code class="docutils literal notranslate"><span class="pre">./make_ran.sh</span></code>.</p>
+</section>
+<section id="stream-traffic">
+<h4>Stream Traffic:<a class="headerlink" href="#stream-traffic" title="Link to this heading"></a></h4>
+<p>The traffic generators are located in the folder <code class="docutils literal notranslate"><span class="pre">/traffic-generator</span></code>.</p>
+</section>
+<section id="running-downlink-iperf-traffic">
+<h4>Running Downlink iperf traffic<a class="headerlink" href="#running-downlink-iperf-traffic" title="Link to this heading"></a></h4>
+<p><strong>Terminal 5:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>traffic-generator
+./iperf_server_2ues.sh
+</pre></div>
+</div>
+<p><strong>Terminal 6:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>traffic-generator
+<span class="c1"># ./iperf_client_2ues.sh &lt;rate_ue{i}&gt; &lt;duration&gt;, eg: below</span>
+./iperf_client_2ues.sh<span class="w"> </span>21M<span class="w"> </span>5M<span class="w"> </span><span class="m">10000</span>
+</pre></div>
+</div>
+</section>
+<section id="running-edgeric">
+<h4>Running EdgeRIC<a class="headerlink" href="#running-edgeric" title="Link to this heading"></a></h4>
+<p><strong>Terminal 7:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>edgeric
+redis-server
+</pre></div>
+</div>
+</section>
+<section id="edgeric-messenger">
+<h4>EdgeRIC messenger<a class="headerlink" href="#edgeric-messenger" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>edgeric_messenger
+├──<span class="w"> </span>get_metrics_multi<span class="o">()</span><span class="w">  </span><span class="c1"># get_metrics(): receive metrics from RAN, called by all μApps</span>
+│<span class="w">   </span>├──<span class="w"> </span>returns<span class="w"> </span>ue_data<span class="w"> </span>dictionary
+├──<span class="w"> </span>send_scheduling_weight<span class="o">()</span><span class="w"> </span><span class="c1"># send the RT-E2 scheduling policy message to RAN</span>
+</pre></div>
+</div>
+</section>
+<section id="apps-supported-in-this-codebase">
+<h4>μApps supported in this codebase<a class="headerlink" href="#apps-supported-in-this-codebase" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>├──<span class="w"> </span>/muApp1<span class="w">           </span><span class="c1"># weight based abstraction of downlink scheduling control</span>
+│<span class="w">   </span>├──<span class="w"> </span>muApp1_run_DL_scheduling.py
+├──<span class="w"> </span>/muApp2<span class="w">           </span><span class="c1"># training an RL agent to compute downlink scheduling policy</span>
+<span class="w">    </span>├──<span class="w"> </span>muApp2_train_RL_DL_scheduling.py
+├──<span class="w"> </span>/muApp3<span class="w">           </span><span class="c1"># Monitoring the realtime metrics</span>
+<span class="w">    </span>├──<span class="w"> </span>muApp3_monitor.py
+</pre></div>
+</div>
+</section>
+<section id="running-muapp1-downlink-scheduler">
+<h4>Running muApp1 - downlink scheduler<a class="headerlink" href="#running-muapp1-downlink-scheduler" title="Link to this heading"></a></h4>
+<p><strong>Weight Based abstraction of control</strong> The scheduling logic in <code class="docutils literal notranslate"><span class="pre">srsenb</span></code> is updated to support a weight-based abstraction to allocate the number of RBGs to allocate per UE. A weight-based abstraction allows us to implement any kind of scheduling policy where we provide a weight <code class="docutils literal notranslate"><span class="pre">w_i</span></code> for each UE, the RAN then allocates <code class="docutils literal notranslate"><span class="pre">[w_i*available_rbgs]</span></code> RBGs to each UE.</p>
+<p><strong>Terminal 8:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>edgeric
+<span class="nb">cd</span><span class="w"> </span>muApp1
+redis-cli<span class="w"> </span><span class="nb">set</span><span class="w"> </span>scheduling_algorithm<span class="w"> </span><span class="s2">&quot;Max CQI&quot;</span><span class="w"> </span><span class="c1"># setting an initial scheduler</span>
+sudo<span class="w"> </span>python3<span class="w"> </span>muApp1_run_DL_scheduling.py<span class="w"> </span><span class="c1"># sudo not required if you are running in docker</span>
+</pre></div>
+</div>
+</section>
+<section id="setting-the-scheduler-algorithm-manually">
+<h4>Setting the scheduler algorithm manually<a class="headerlink" href="#setting-the-scheduler-algorithm-manually" title="Link to this heading"></a></h4>
+<p>Set the scheduling algorithm you want to run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Line 259</span>
+<span class="nv">selected_algorithm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Max CQI&quot;</span><span class="w">   </span><span class="c1"># selection can be: Max CQI, Max Weight,</span>
+<span class="w">                                 </span><span class="c1"># Proportional Fair (PF), Round Robin</span>
+<span class="w">                                 </span><span class="c1"># RL - models are included for 2 UEs</span>
+</pre></div>
+</div>
+<p>If the algorithm selected is RL, set the directory for the RL model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Line 270</span>
+<span class="nv">rl_model_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Fully Trained Model&quot;</span><span class="w">  </span><span class="c1"># selection can be Initial Model,</span>
+<span class="w">                                       </span><span class="c1"># Half Trained Model, Fully Trained Model - to see benefits, run UE1 with load 5Mbps, UE2 with 21Mbps</span>
+</pre></div>
+</div>
+<p>The respective models are saved in:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>├──<span class="w"> </span>../rl_model/
+<span class="w">    </span>├──<span class="w"> </span>initial_model
+<span class="w">      </span>├──model_demo.pt
+<span class="w">    </span>├──<span class="w"> </span>half_trained_model
+<span class="w">      </span>├──model_demo.pt
+<span class="w">    </span>├──<span class="w"> </span>fully_trained_model
+<span class="w">      </span>├──model_demo.pt
+</pre></div>
+</div>
+</section>
+<section id="using-redis-to-update-the-scheduling-algorithm">
+<h4>Using redis to update the scheduling algorithm<a class="headerlink" href="#using-redis-to-update-the-scheduling-algorithm" title="Link to this heading"></a></h4>
+<p><strong>Terminal 9:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>redis-cli<span class="w"> </span><span class="nb">set</span><span class="w"> </span>scheduling_algorithm<span class="w"> </span><span class="s2">&quot;Max Weight&quot;</span><span class="w"> </span><span class="c1">#selection can be: Max CQI, Max Weight,</span>
+<span class="w">                                                </span><span class="c1"># Proportional Fair (PF), Round Robin</span>
+<span class="w">                                                </span><span class="c1"># RL - models are included for 2 UEs</span>
+</pre></div>
+</div>
+<p><strong>What to observe</strong></p>
+<p><strong>Terminal 3</strong> - srsenb terminal will show the scheduling allocations</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>time: 1722802166592145 rnti: 70 alloc_mask: 1111111000000 # the 1s indicate the PRBs allocated to RNTI 70
+time: 1722802166592178 rnti: 71 alloc_mask: 0000000111111 # the 1s indicate the PRBs allocated to RNTI 71
+time: 1722802168789991 rnti: 71 alloc_mask: 1111110000000
+time: 1722802168790027 rnti: 70 alloc_mask: 0000001111111
+time: 1722802170990251 rnti: 70 alloc_mask: 1111111000000
+time: 1722802170990285 rnti: 71 alloc_mask: 0000000111111
+time: 1722802173211321 rnti: 70 alloc_mask: 1111111000000
+time: 1722802173211351 rnti: 71 alloc_mask: 0000000111111
+time: 1722802175402790 rnti: 71 alloc_mask: 1111110000000
+time: 1722802175402823 rnti: 70 alloc_mask: 0000001111111
+</pre></div>
+</div>
+<p><strong>Terminal 8</strong> - muApp1 terminal will show the algorithms selected and will print the total average system throughput observed</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Algorithm index:  2  ,  Max Weight
+total system throughput: 8.781944
+
+Algorithm index:  2  ,  Max Weight
+total system throughput: 8.063600000000001
+
+Algorithm index:  2  ,  Max Weight
+total system throughput: 8.093352
+
+Algorithm index:  2  ,  Max Weight
+total system throughput: 8.071168
+</pre></div>
+</div>
+<p><strong>Terminal 9</strong> - To observe the throughput updates, let us update the scheduler with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>redis-cli<span class="w"> </span><span class="nb">set</span><span class="w"> </span>scheduling_algorithm<span class="w"> </span><span class="s2">&quot;RL&quot;</span>
+</pre></div>
+</div>
+<p><strong>Terminal 8</strong> - Increased system throughput observed with our trained RL model</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Algorithm index:  20  ,  RL
+Executing RL model at: ./rl_model/fully_trained_model
+total system throughput: 12.071200000000001
+
+Algorithm index:  20  ,  RL
+Executing RL model at: ./rl_model/fully_trained_model
+total system throughput: 11.727624
+
+Algorithm index:  20  ,  RL
+Executing RL model at: ./rl_model/fully_trained_model
+total system throughput: 11.714879999999999
+
+Algorithm index:  20  ,  RL
+Executing RL model at: ./rl_model/fully_trained_model
+total system throughput: 11.710384
+
+Algorithm index:  20  ,  RL
+Executing RL model at: ./rl_model/fully_trained_model
+total system throughput: 11.743776
+</pre></div>
+</div>
+</section>
+<section id="running-muapp3-monitoring">
+<h4>Running muApp3 - Monitoring<a class="headerlink" href="#running-muapp3-monitoring" title="Link to this heading"></a></h4>
+<p>This muApp will help us see the RT-E2 Report Message from the RAN and the RT-E2 Policy message sent to RAN.</p>
+<p><strong>Terminal 10:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>edgeric/muApp3
+python3<span class="w"> </span>muApp3_monitor_terminal.py
+</pre></div>
+</div>
+<p><strong>What to observe</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>RT-E2 Report:
+
+RAN Index: 791000, RIC index: 790998
+
+UE Dictionary: {70: {&#39;CQI&#39;: 7, &#39;SNR&#39;: 115.46858215332031, &#39;Backlog&#39;: 384977, &#39;Pending Data&#39;: 0, &#39;Tx_brate&#39;: 1980.0, &#39;Rx_brate&#39;: 0.0}, 71: {&#39;CQI&#39;: 8, &#39;SNR&#39;: 116.41766357421875, &#39;Backlog&#39;: 1503, &#39;Pending Data&#39;: 0, &#39;Tx_brate&#39;: 0.0, &#39;Rx_brate&#39;: 0.0}}
+
+RT-E2 Policy (Scheduling):
+Sent to RAN: ran_index: 790999
+weights: 70.0
+weights: -0.15028022229671478
+weights: 71.0
+weights: 1.150280237197876
+</pre></div>
+</div>
+</section>
+<section id="running-muapp2-training-an-rl-policy-for-scheduling">
+<h4>Running muApp2 - Training an RL policy for scheduling<a class="headerlink" href="#running-muapp2-training-an-rl-policy-for-scheduling" title="Link to this heading"></a></h4>
+<img alt="Open AI gym interface" class="align-center" src="_images/training_rl.png" />
+<p>We are training a PPO agent with the objective of throughput maximization in this particular study.</p>
+</section>
+<section id="usage">
+<h4>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>muApp2
+python3<span class="w"> </span>muApp2_train_RL_DL_scheduling.py<span class="w"> </span>--config-name<span class="o">=</span>edge_ric
+</pre></div>
+</div>
+</section>
+<section id="muapp2-train-rl-dl-scheduling-py">
+<h4>muApp2_train_RL_DL_scheduling.py<a class="headerlink" href="#muapp2-train-rl-dl-scheduling-py" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Trains PPO agent for <code class="docutils literal notranslate"><span class="pre">`num_iters`</span></code> number of iterations</dt><dd><ul>
+<li><p>One iteration consists of training on 2048 samples and evaluating for 2048 timesteps</p></li>
+<li><p>The evaluation metric (avg reward per episode) is plotted as the training graph</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputs/</span></code> folder will save the training log, <code class="docutils literal notranslate"><span class="pre">eval_R_avg</span></code> is the metric plotted to visualize the training</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="repo-structure">
+<h4>Repo Structure<a class="headerlink" href="#repo-structure" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>├──<span class="w"> </span>conf
+│<span class="w">   </span>├──<span class="w"> </span>edge_ric.yaml<span class="w">   </span><span class="c1"># Config file for edgeric RL training</span>
+│<span class="w">   </span>├──<span class="w"> </span>example.yaml
+│<span class="w">   </span>├──<span class="w"> </span>simpler_streaming.yaml
+│<span class="w">   </span>└──<span class="w"> </span>single_agent.yaml
+├──<span class="w"> </span>outputs<span class="w"> </span><span class="c1"># Output logs of each training sorted chronologically</span>
+│<span class="w">   </span>├──<span class="w"> </span><span class="m">2022</span>-10-07
+<span class="w">         </span>├──<span class="w"> </span>model_best.pt<span class="w"> </span><span class="c1"># Saved policy neural network weights</span>
+│<span class="w">          </span>.
+│<span class="w">          </span>.
+│<span class="w">          </span>.
+│
+└──<span class="w"> </span>../stream_rl<span class="w"> </span><span class="c1"># Name of the python package implementing the simulator mechanisms</span>
+<span class="w">    </span>├──<span class="w"> </span>callbacks.py
+<span class="w">    </span>├──<span class="w"> </span>envs<span class="w"> </span><span class="c1"># All the envs</span>
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>cqi_traces
+<span class="w">    </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>data.csv<span class="w"> </span><span class="c1"># CQI trace to be used by simulation env</span>
+<span class="w">    </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>trace_generator.py<span class="w"> </span><span class="c1"># Code to generate synthetic CQI traces</span>
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>edge_ric.py<span class="w"> </span><span class="c1"># Our Env</span>
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>simpler_streaming_env.py
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>single_agent_env.py
+<span class="w">    </span>│<span class="w">   </span>└──<span class="w"> </span>streaming_env.py
+<span class="w">    </span>│<span class="w">   </span>└──<span class="w"> </span>__init__.py
+<span class="w">    </span>├──<span class="w"> </span>__init__.py
+<span class="w">    </span>├──<span class="w"> </span>plots.py<span class="w"> </span><span class="c1"># All plotting code</span>
+<span class="w">    </span>├──<span class="w"> </span>policy_net<span class="w"> </span><span class="c1"># Custom policy net architectures (not currently used)</span>
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>conv_policy.py
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+<span class="w">    </span>├──<span class="w"> </span>registry<span class="w"> </span><span class="c1"># Registry system for registering envs and rewards (to keep things modular)</span>
+<span class="w">    </span>│<span class="w">   </span>└──<span class="w"> </span>__init__.py
+<span class="w">    </span>└──<span class="w"> </span>rewards.py<span class="w"> </span><span class="c1"># Definition of reward functions to be used in envs</span>
+</pre></div>
+</div>
+<p>Once the training completes: take the model_best.pt and save in the ../rl_model folder</p>
+</section>
+<section id="edgeric-env-edge-ric-py">
+<h4>EdgeRIC Env (edge_ric.py)<a class="headerlink" href="#edgeric-env-edge-ric-py" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>State_space : <code class="docutils literal notranslate"><span class="pre">[BL1,CQI1,BL2,CQI2.....]</span></code> (if augmented_state_space=False)</p></li>
+<li><p>Action_space : <code class="docutils literal notranslate"><span class="pre">[Weight1,Weight2.....]</span></code></p></li>
+<li><p>Parameters of the env configurable in <code class="docutils literal notranslate"><span class="pre">&quot;./conf/edge_ric.yml&quot;</span></code>, under <code class="docutils literal notranslate"><span class="pre">env_config</span></code> field</p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="xapp_python.html" class="btn btn-neutral float-left" title="Day 2 - Developing a custom xApp in Python" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

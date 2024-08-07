@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Developing a custom xApp in Python &mdash; OAIC 0.1 documentation</title>
+  <title>Day 2 - Developing a custom xApp in Python &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -21,8 +21,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="UnDeploying RIC Platform" href="undeploy_ric.html" />
-    <link rel="prev" title="Running the SS Xapp" href="ssxapp.html" /> 
+    <link rel="next" title="Day 2 - EdgeRIC tutorial" href="edgeric-workshop-tutorial.html" />
+    <link rel="prev" title="Day 1 - Secure Slicing xApp" href="2024_workshop_ss.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -64,12 +64,24 @@
 <li class="toctree-l1"><a class="reference internal" href="nonrtric.html">O-RAN Non-Real Time RIC Installation Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nexran1.html">Running the Nexran Xapp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ssxapp.html">Running the SS Xapp</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Developing a custom xApp in Python</a><ul>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">2024 OAIC Workshop</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="2024_workshop_gcp.html">Day 1 - Google Cloud Platform Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2024_workshop_ss.html">Day 1 - Secure Slicing xApp</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Day 2 - Developing a custom xApp in Python</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deployment-workflow">Deployment Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
@@ -104,18 +116,7 @@
 </li>
 </ul>
 </li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">2024 OAIC Workshop</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="2024_workshop_gcp.html">Day 1 - Google Cloud Platform Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="2024_workshop_ss.html">Day 1 - Secure Slicing xApp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="edgeric-workshop-tutorial.html">Day 2 - EdgeRIC tutorial</a></li>
 </ul>
 
         </div>
@@ -132,7 +133,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Developing a custom xApp in Python</li>
+      <li class="breadcrumb-item active">Day 2 - Developing a custom xApp in Python</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/xapp_python.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -142,12 +143,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="developing-a-custom-xapp-in-python">
-<span id="xapppython"></span><h1>Developing a custom xApp in Python<a class="headerlink" href="#developing-a-custom-xapp-in-python" title="Link to this heading"></a></h1>
+  <section id="day-2-developing-a-custom-xapp-in-python">
+<span id="xapppython"></span><h1>Day 2 - Developing a custom xApp in Python<a class="headerlink" href="#day-2-developing-a-custom-xapp-in-python" title="Link to this heading"></a></h1>
 <p>This document describes how to write an xApp in Python, how to deploy it on the RIC platform, and how to use the xApp to communicate with the RAN.</p>
 <section id="background">
 <h2>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h2>
-<p>An xApp is simply an application that is deployed to the RAN Intelligent Controller (RIC) and is capable of communicating to the RAN.
+<p>An xApp is simply an application that is deployed to the <strong>near-real-time</strong> RAN Intelligent Controller (RIC) and is capable of communicating to the RAN. (Note that there is also a <strong>non-real-time</strong> RIC; applications stored in the non-real-time RIC are called rApps instead.)
 An xApp can be developed in any programming language, but to be O-RAN compliant, it needs to be able to communicate over the E2 interface to E2 nodes.
 An E2 Node refers to a component of the RAN that can interface with the RIC via E2, usually referring to the base station (DU/CU).</p>
 <p>For this demonstration, we will simplify the xApp development process such that we utilize an E2-like interface, enabling us to focus on the functionality of our application rather than the specifications of the protocol (encoding and decoding of ASN.1 messages, subscription processes, etc.)</p>
@@ -862,8 +863,8 @@ export ONBOARDER_HTTP=<span class="nv">`sudo kubectl get svc -n ricplt --field-s
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="ssxapp.html" class="btn btn-neutral float-left" title="Running the SS Xapp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="undeploy_ric.html" class="btn btn-neutral float-right" title="UnDeploying RIC Platform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="2024_workshop_ss.html" class="btn btn-neutral float-left" title="Day 1 - Secure Slicing xApp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="edgeric-workshop-tutorial.html" class="btn btn-neutral float-right" title="Day 2 - EdgeRIC tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
