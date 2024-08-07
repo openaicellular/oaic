@@ -260,8 +260,8 @@ sudo<span class="w"> </span>./dockerrun_edgeric_oaic.sh<span class="w"> </span>h
 <h4>How to run the network<a class="headerlink" href="#how-to-run-the-network" title="Link to this heading"></a></h4>
 <p><strong>Running in Docker container:</strong></p>
 <p>Run the following on every terminal before running the following set of commands.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./dockerexec_edgeric_oaic.sh<span class="w"> </span><span class="m">0</span>
-<span class="nb">cd</span><span class="w"> </span>EdgeRIC-A-real-time-RIC
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>EdgeRIC-A-real-time-RIC
+sudo<span class="w"> </span>./dockerexec_edgeric_oaic.sh<span class="w"> </span><span class="m">0</span>
 </pre></div>
 </div>
 <p><strong>Running natively:</strong> Use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> for running all the commands.</p>
@@ -422,7 +422,7 @@ redis-server
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>edgeric
 <span class="nb">cd</span><span class="w"> </span>muApp1
 redis-cli<span class="w"> </span><span class="nb">set</span><span class="w"> </span>scheduling_algorithm<span class="w"> </span><span class="s2">&quot;Max CQI&quot;</span><span class="w"> </span><span class="c1"># setting an initial scheduler</span>
-sudo<span class="w"> </span>python3<span class="w"> </span>muApp1_run_DL_scheduling.py<span class="w"> </span><span class="c1"># sudo not required if you are running in docker</span>
+python3<span class="w"> </span>muApp1_run_DL_scheduling.py<span class="w"> </span><span class="c1"># sudo not required if you are running in docker</span>
 </pre></div>
 </div>
 </section>
