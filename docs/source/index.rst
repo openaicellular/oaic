@@ -39,7 +39,7 @@ Welcome to OAIC's documentation!
    xapp_deployment.rst
    nexran1.rst
    ssxapp.rst
-   xapp_python.rst
+   
    
 .. toctree::
    :maxdepth: 2
@@ -56,6 +56,8 @@ Welcome to OAIC's documentation!
 
    2024_workshop_gcp.rst
    2024_workshop_ss.rst
+   xapp_python.rst
+   edgeric-workshop-tutorial.rst
 
 Indices and tables
 ==================
