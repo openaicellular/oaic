@@ -259,7 +259,7 @@ For Downlink ping - Network to UE
 
 .. code-block:: bash
 
-	docker exec -it oai-ext-dn ping 12.1.1.2
+	sudo docker exec -it oai-ext-dn ping <ue_ip>
 	
 Use ``ctrl+c`` or ``ctrl+d`` to stop/exit the ping processes.
 
@@ -280,7 +280,7 @@ The below command generates UDP traffic for 100 seconds, at the rate of 10Mbps f
 
 .. code-block:: bash
 
-	docker exec -it oai-ext-dn iperf -u -t 100 -i 1 -fk -B 192.168.70.135 -b 10M -c <ue_ip>
+	sudo docker exec -it oai-ext-dn iperf -u -t 100 -i 1 -fk -B 192.168.70.135 -b 10M -c <ue_ip>
 
 Uplink iperf
 
@@ -288,7 +288,7 @@ On ``terminal 4``, initialize the iperf server (metrics are printed every second
 
 .. code-block:: bash
 
-	docker exec -it oai-ext-dn iperf -s -i 1 -fk -B 192.168.70.135
+	sudo docker exec -it oai-ext-dn iperf -s -i 1 -fk -B 192.168.70.135
 	
 In ``terminal 5``, run
 
