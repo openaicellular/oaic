@@ -9,7 +9,7 @@ This document describes how to write an xApp in Python, how to deploy it on the 
 Background
 ----------
 
-An xApp is simply an application that is deployed to the RAN Intelligent Controller (RIC) and is capable of communicating to the RAN.
+An xApp is simply an application that is deployed to the **near-real-time** RAN Intelligent Controller (RIC) and is capable of communicating to the RAN. (Note that there is also a **non-real-time** RIC; applications stored in the non-real-time RIC are called rApps instead.)
 An xApp can be developed in any programming language, but to be O-RAN compliant, it needs to be able to communicate over the E2 interface to E2 nodes.
 An E2 Node refers to a component of the RAN that can interface with the RIC via E2, usually referring to the base station (DU/CU).
 
