@@ -12,7 +12,6 @@ Table of Contents
 * :ref:`Run_nw`
 * :ref:`exch_trf`
 * :ref:`run_xapp`
-* :ref:`Running The xApp`
 
 .. _Prerequisites:
 
@@ -46,10 +45,6 @@ Check GCC Version (gcc-10, gcc-12, or gcc-13)
 
 	gcc --version
 	
-.. image:: gcc_ver.png
-   :width: 60%
-   :alt: GCC Version
-	
 .. warning::
 
     If you see that you have gcc 11, follow the steps given `here <https://linuxconfig.org/how-to-switch-between-multiple-gcc-and-g-compiler-versions-on-ubuntu-20-04-lts-focal-fossa>`_ to switch to a different version 
@@ -67,15 +62,11 @@ Install Docker Compose
 	sudo apt-get update
 	sudo apt install -y docker-buildx-plugin docker-compose-plugin
 	
-Check docker compose version. The installed version should be v2.29
+Check docker compose version. The installed version should be ``v2.29``.
 
 .. code-block:: bash
 	
 	sudo docker compose --version
-	
-.. image:: docker_compose_ver.png
-   :width: 60%
-   :alt: Docker Compose version
 	
 .. note::
 	
@@ -111,7 +102,7 @@ Test the deployment of Core Network
 
 	sudo docker compose up -d
 	
-Verify that all the 10 containers are deployed and ``healthy``. The Core Network containers should be at the top of the list.
+Verify that all the 10 containers are deployed and ``healthy``.
 
 .. code-block:: bash
 
@@ -128,12 +119,12 @@ Turn the core network off.
 Setup OAI Radio Access Network and UE
 -------------------------------------
 
-Clone the OAI 5G RAN repository and checkout the ```` branch
+Clone the OAI 5G RAN repository and checkout the ``oaic_workshop_2024_v1`` branch.
 
 .. code-block:: bash
 
-	git clone https://gitlab.eurecom.fr/oai/openairinterface5g ~/oai
-	git checkout 
+	git clone https://github.com/openaicellular/openairinterface5G.git ~/oai
+	git checkout oaic_workshop_2024_v1
 	cd ~/oai/cmake_targets/
 	./build_oai -I -w SIMU --gNB --nrUE --build-e2 --ninja
 
@@ -143,15 +134,15 @@ Clone the OAI 5G RAN repository and checkout the ```` branch
 Setup FlexRIC
 -------------
 
-Clone the OAI 5G RAN repository and checkout the ```` branch
+Clone the OAI 5G RAN repository and checkout the ``beabdd07`` commit.
 
 .. code-block:: bash
 
-	git clone https://gitlab.eurecom.fr/mosaic5g/flexric.git ~/flexric
+	git clone https://github.com/openaicellular/flexric.git ~/flexric 
 	cd ~/flexric
 	git checkout beabdd07
 
-Build the flexRIC module
+Build the flexRIC module.
 
 .. code-block:: bash
 
@@ -185,7 +176,7 @@ Check if the Core Network is up and running
 Start the gNB
 ~~~~~~~~~~~~~
 
-In terminal 2,
+In ``Terminal 1``,
 
 .. code-block:: bash
 
@@ -196,7 +187,7 @@ In terminal 2,
 Start the UE
 ~~~~~~~~~~~~
 
-In terminal 3,
+In ``terminal 2``,
 
 .. code-block:: bash
 	
@@ -207,9 +198,10 @@ In terminal 3,
 Start the near-RT RIC
 ~~~~~~~~~~~~~~~~~~~~~
 
-In terminal 4,
+In ``terminal 3``,
 
 .. code-block:: bash
+	
 	cd ~/
 	./flexric/build/examples/ric/nearRT-RIC
 	
@@ -223,7 +215,7 @@ Streaming Traffic using Ping
 
 For uplink ping - UE to network
 
-In terminal 5,
+In ``terminal 4``,
 
 .. code-block:: bash
 
@@ -235,40 +227,40 @@ For Downlink ping - Network to UE
 
 	docker exec -it oai-ext-dn ping 12.1.1.2
 	
-Use `ctrl+c` or `ctrl+d` to stop ping processes.
+Use ``ctrl+c`` or ``ctrl+d`` to stop/exit the ping processes.
 
 Streaming Traffic with iPerf
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Downlink iPerf
 
-Find out the IP address of the UE(here it is 12.1.1.2) by running ifconfig on the UE machine and check the IP address field of oaitun_ue1 network Interface. Here we initialize an iperf server for UDP traffic. 
+Find out the IP address of the UE by running ``ifconfig`` on the UE machine and check the IP address field of ``oaitun_ue1`` network Interface. Here we initialize an iperf server for UDP traffic. 
 
-In terminal 5,
+In ``terminal 4``,
 
 .. code-block:: bash
 
-	iperf -s -u -i 1 -B 12.1.1.2
+	iperf -s -u -i 1 -B <ue_ip>
 	
-The below command generates UDP traffic for 100 seconds, at the rate of 10Mbps from the Core network. In terminal 6,
+The below command generates UDP traffic for 100 seconds, at the rate of 10Mbps from the Core network. In terminal 5,
 
 .. code-block:: bash
 
-	docker exec -it oai-ext-dn iperf -u -t 100 -i 1 -fk -B 192.168.70.135 -b 10M -c 12.1.1.2
+	docker exec -it oai-ext-dn iperf -u -t 100 -i 1 -fk -B 192.168.70.135 -b 10M -c <ue_ip>
 
 Uplink iperf
 
-On terminal 5, initialize the iperf server (metrics are printed every second) for TCP traffic run,
+On ``terminal 4``, initialize the iperf server (metrics are printed every second) for TCP traffic run,
 
 .. code-block:: bash
 
 	docker exec -it oai-ext-dn iperf -s -i 1 -fk -B 192.168.70.135
 	
-In terminal 6, run
+In ``terminal 5``, run
 
 .. code-block:: bash
 
-	iperf -c 192.168.70.135 -i 1 -b 10M -B 12.1.1.2
+	iperf -c 192.168.70.135 -i 1 -b 10M -B <ue_ip>
 	
 .. _run_xapp:
 
@@ -278,9 +270,9 @@ Run xApps
 KPIMON xApp
 ~~~~~~~~~~~
 
-First we will run the KPIMON xApp and observe some metrics. This xApp is based on the E2SM-KPM (Key Performance Metrics) service model. It is responsible for collecting metrics collected by the RAN and forwarding it to relevant xApps to help in RAN control.
-Per O-RAN specifications, 5G measurements supported by KPM are specified in 3GPP TS 28.552. Some of the metrics supported are DRB.PdcpSduVolumeDL, DRB.PdcpSduVolumeUL, DRB.RlcSduDelayDl, DRB.UEThpDl, DRB.UEThpUl, RRU.PrbTotDl, RRU.PrbTotUl.
-In this implementation Report Style 4 (Section 7.4.5) has been considered.
+First we will run the KPIMON xApp and observe some metrics. This xApp is based on the ``E2SM-KPM (Key Performance Metrics)`` service model. It is responsible for collecting metrics collected by the RAN and forwarding it to relevant xApps to help in RAN control.
+Per O-RAN specifications, 5G measurements supported by KPM are specified in **3GPP TS 28.552**. Some of the metrics supported are ``DRB.PdcpSduVolumeDL``, ``DRB.PdcpSduVolumeUL``, ``DRB.RlcSduDelayDl``, ``DRB.UEThpDl``, ``DRB.UEThpUl``, ``RRU.PrbTotDl``, ``RRU.PrbTotUl``.
+In this implementation **Report Style 4 (Section 7.4.5)** has been considered.
 	
 In a new Terminal, run
 
@@ -291,13 +283,12 @@ In a new Terminal, run
 
 RAN Control (RC) xApp
 
-This xApp enables control of RAN services exposed by the RAN. The current implementation exposes RAN control function "QoS flow mapping configuration". This version of the xApp supports REPORT Service Style 4 ("UE Information" - section 7.4.5) - aperiodic subscription for "UE RRC State Change" and CONTROL Service Style 1 ("Radio Bearer Control" - section 7.6.2) - "QoS flow mapping configuration" (e.g creating a new DRB). 
+This xApp enables control of RAN services exposed by the RAN. The current implementation exposes RAN control function ``QoS flow mapping configuration``. This version of the xApp supports ``REPORT Service Style 4`` (UE Information - section 7.4.5) - aperiodic subscription for ``UE RRC State Change`` and ``CONTROL Service Style 1`` ("Radio Bearer Control" - section 7.6.2) - "QoS flow mapping configuration" (e.g creating a new DRB). 
 
 .. code-block:: bash
 
 	cd ~/flexric
 	./build/examples/xApp/c/kpm_rc/xapp_kpm_rc
 
-
-Follow the instructions during the workshop to modify the RC xApp in order to issue a Control Command to the gNB to release a specified UE's connection.
+**Follow the instructions during the workshop to modify the RC xApp in order to issue a Control Command to the gNB to release a specified UE's connection.**
 	
