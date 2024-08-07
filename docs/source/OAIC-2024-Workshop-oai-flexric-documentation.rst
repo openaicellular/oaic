@@ -132,6 +132,7 @@ Clone the OAI 5G RAN repository and checkout the ``oaic_workshop_2024_v1`` branc
 .. code-block:: bash
 
 	git clone https://github.com/openaicellular/openairinterface5G.git ~/oai
+	cd ~/oai
 	git checkout oaic_workshop_2024_v1
 	cd ~/oai/cmake_targets/
 	./build_oai -I -w SIMU --gNB --nrUE --build-e2 --ninja
