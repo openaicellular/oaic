@@ -7,6 +7,7 @@
   <title>Day 1 - Google Cloud Platform Setup &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
   <!--[if lt IE 9]>
@@ -18,6 +19,8 @@
         <script src="_static/documentation_options.js?v=2709fde1"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -85,7 +88,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#accessing-gcp">Accessing GCP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-the-virtual-machine">Creating the Virtual Machine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#demo-testing">Demo/Testing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#vnc-access">VNC access</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#vnc-access-optional">VNC access (optional)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#vnc-server-installation">VNC server Installation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#vnc-firewall-configuration">VNC firewall configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#vnc-client">VNC client</a></li>
@@ -200,20 +203,20 @@
 </div>
 <p>If a file is needed to be transferred from your machine to the VM or vise versa, you can choose from the two options at the top of the Google SSH client. In order to get a file, you must provide the absolute path of the file and to send a file it is done through a GUI interface.</p>
 </section>
-<section id="vnc-access">
-<span id="id4"></span><h2>VNC access<a class="headerlink" href="#vnc-access" title="Link to this heading"></a></h2>
+<section id="vnc-access-optional">
+<span id="vnc-access"></span><h2>VNC access (optional)<a class="headerlink" href="#vnc-access-optional" title="Link to this heading"></a></h2>
 <p>First, install VNC on the server:</p>
 <section id="vnc-server-installation">
 <h3>VNC server Installation<a class="headerlink" href="#vnc-server-installation" title="Link to this heading"></a></h3>
 <p>Open an SSH connection then run the following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span>-y
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>xvfb<span class="w"> </span>x11-utils<span class="w"> </span>x11vnc<span class="w"> </span>icewm<span class="w"> </span>-y
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>xvfb<span class="w"> </span>x11-utils<span class="w"> </span>tightvncserver<span class="w"> </span>icewm<span class="w"> </span>-y
 <span class="nb">export</span><span class="w"> </span><span class="nv">DISPLAY</span><span class="o">=</span>:0
 Xvfb<span class="w"> </span><span class="p">&amp;</span>
 <span class="c1"># Wait a bit for Xvfb to start up before running the following X applications.</span>
 sleep<span class="w"> </span><span class="m">1</span>
-x11vnc<span class="w"> </span>-forever<span class="w"> </span><span class="p">&amp;</span>
-icewm-session<span class="w"> </span><span class="p">&amp;</span>
+<span class="c1"># Enter a password below, perhaps &quot;testing&quot;.</span>
+tightvncserver
 </pre></div>
 </div>
 </section>
@@ -231,7 +234,7 @@ icewm-session<span class="w"> </span><span class="p">&amp;</span>
 <li><p>Name: <code class="docutils literal notranslate"><span class="pre">vnc</span></code></p></li>
 <li><p>Targets: <code class="docutils literal notranslate"><span class="pre">All</span> <span class="pre">instances</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">network</span></code></p></li>
 <li><p>Source IPv4 ranges: <code class="docutils literal notranslate"><span class="pre">0.0.0.0/0</span></code></p></li>
-<li><p>Check the TCP box under Protocols and ports, then enter a port of <code class="docutils literal notranslate"><span class="pre">5900</span></code>.</p></li>
+<li><p>Check the TCP box under Protocols and ports, then enter a port of <code class="docutils literal notranslate"><span class="pre">5900-5901</span></code>.</p></li>
 <li><p>Click the <code class="docutils literal notranslate"><span class="pre">Create</span></code> button.</p></li>
 </ul>
 <img alt="_images/firewall_create_rule1.png" src="_images/firewall_create_rule1.png" />
@@ -239,11 +242,11 @@ icewm-session<span class="w"> </span><span class="p">&amp;</span>
 </section>
 <section id="vnc-client">
 <h3>VNC client<a class="headerlink" href="#vnc-client" title="Link to this heading"></a></h3>
-<p>Download [RealVNC](<a class="reference external" href="https://www.realvnc.com/en/connect/download/viewer/">https://www.realvnc.com/en/connect/download/viewer/</a>), install it, then run it. Enter an address of <a href="#id5"><span class="problematic" id="id6">**</span></a>IP of the machine**``::5900``; for example, <code class="docutils literal notranslate"><span class="pre">34.28.200.62::5900</span></code>. (To determine your machine’s IP address, see <a class="reference external" href="Demo_Testing">Demo/Testing</a>.) Finally, press the Connect button. VNC should open; right-click then select Terminal.</p>
+<p>Download <a class="reference external" href="https://www.tightvnc.com/download.php">tightVNC</a>, install it, then run it. Enter an address of <strong>IP of the machine</strong><code class="docutils literal notranslate"><span class="pre">::5901</span></code>; for example, <code class="docutils literal notranslate"><span class="pre">34.28.200.62::5901</span></code>. (To determine your machine’s IP address, see <a class="reference external" href="Demo_Testing">Demo/Testing</a>.) Finally, press the Connect button. VNC should open; right-click then select Terminal.</p>
 </section>
 </section>
 <section id="alternatives">
-<span id="id8"></span><h2>Alternatives<a class="headerlink" href="#alternatives" title="Link to this heading"></a></h2>
+<span id="id5"></span><h2>Alternatives<a class="headerlink" href="#alternatives" title="Link to this heading"></a></h2>
 <p>In the case that you cannot use GCP, Azure by Microsoft has a similar service, but this option was not tested and may not work for you. Additionally, Azure has more limiting credit and time for their free credit. Other than these issues, the process should be similar to GCP and may work as an appropriate alternative.</p>
 <blockquote>
 <div><ul class="simple">

@@ -7,6 +7,7 @@
   <title>Day 1 - Secure Slicing xApp &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
   <!--[if lt IE 9]>
@@ -18,6 +19,8 @@
         <script src="_static/documentation_options.js?v=2709fde1"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -215,7 +218,7 @@ sudo<span class="w"> </span>./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>ns<span class="w"> </span>ricinfra
 </pre></div>
 </div>
-<p>Install the nfs-common pakcage for Influxdb setup</p>
+<p>Install the nfs-common package for Influxdb setup</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>stable/nfs-server-provisioner<span class="w"> </span>--namespace<span class="w"> </span>ricinfra<span class="w"> </span>--name<span class="w"> </span>nfs-release-1
 sudo<span class="w"> </span>kubectl<span class="w"> </span>patch<span class="w"> </span>storageclass<span class="w"> </span>nfs<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;metadata&quot;: {&quot;annotations&quot;:{&quot;storageclass.kubernetes.io/is-default-class&quot;:&quot;true&quot;}}}&#39;</span>
 sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nfs-common<span class="w"> </span>-y
@@ -342,9 +345,8 @@ sudo<span class="w"> </span>vim<span class="w"> </span>xApp_config.local.conf
 vim<span class="w"> </span>user_db.csv
 </pre></div>
 </div>
-<p>Replace these lines of code with the existing configurations at the bottom of the file. This allows the ENB to be able to connect with 2 UEs.</p>
-<p><em>Kept in the following format: “Name, Auth, IMSI, Key, OP_Type, OP/OPc, AMF, SQN, QCI, IP_alloc”.</em></p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>ue2,xor,001010123456780,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8000,000000001635,7,dynamic
+<p>Replace these lines of code with text given below. This allows the ENB to be able to connect with 2 UEs. <em>Format of these lines: “Name, Auth, IMSI, Key, OP_Type, OP/OPc, AMF, SQN, QCI, IP_alloc”.</em></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ue2,xor,001010123456780,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8000,000000001635,7,dynamic
 ue1,xor,001010123456789,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,9001,00000000131b,7,dynamic
 </pre></div>
 </div>
@@ -366,12 +368,12 @@ sudo<span class="w"> </span>cp<span class="w"> </span>config-file.json<span clas
 sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
 </pre></div>
 </div>
-<p>Now we are going to build the xapp from the DockerFile</p>
+<p>Now we are going to build the xapp from the <code class="docutils literal notranslate"><span class="pre">DockerFile</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
 sudo<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-t<span class="w"> </span>xApp-registry.local:5008/ss:0.1.0
 </pre></div>
 </div>
-<p>Paste the following in the <code class="docutils literal notranslate"><span class="pre">ss-xapp-onboard.url</span></code> file located in the ss-xapp directory. Substitute the <code class="docutils literal notranslate"><span class="pre">&lt;machine_ip_addr&gt;</span></code> with the IP address of your machine. You can find this out by pasting the command <code class="docutils literal notranslate"><span class="pre">ifconfig</span></code> or <code class="docutils literal notranslate"><span class="pre">hostname</span> <span class="pre">-I</span> <span class="pre">|</span> <span class="pre">cut</span> <span class="pre">-f1</span> <span class="pre">-d'</span> <span class="pre">'</span></code> in the terminal.</p>
+<p>Paste the following in the <code class="docutils literal notranslate"><span class="pre">ss-xapp-onboard.url</span></code> file located in the <code class="docutils literal notranslate"><span class="pre">ss-xapp</span></code> directory. Substitute the <code class="docutils literal notranslate"><span class="pre">&lt;machine_ip_addr&gt;</span></code> with the IP address of your machine. You can find this by pasting the command <code class="docutils literal notranslate"><span class="pre">hostname</span> <span class="pre">-I</span> <span class="pre">|</span> <span class="pre">cut</span> <span class="pre">-f1</span> <span class="pre">-d'</span> <span class="pre">'</span></code> in the terminal.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oaic/ss-xapp
 vim<span class="w"> </span>ss-xapp-onboard.url
 </pre></div>
@@ -385,7 +387,7 @@ vim<span class="w"> </span>ss-xapp-onboard.url
 </section>
 <section id="setup-5g-network">
 <span id="setup-5g"></span><h2>Setup - 5G Network<a class="headerlink" href="#setup-5g-network" title="Link to this heading"></a></h2>
-<p><strong>Terminal 1</strong>: Start the Core Network/Add Ues to Network Namespace</p>
+<p><strong>Terminal 1</strong>: Start the Core Network/Add UEs to Network Namespace</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue1
 sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue2
 sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>list

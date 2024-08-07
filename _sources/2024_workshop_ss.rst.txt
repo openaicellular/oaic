@@ -20,9 +20,9 @@ Table of Contents
 .. image:: slicex_deployment_architecture.png
    :alt: Secure Slicing xApp Deployment and Demonstration
 
-| (1) :ref:`Setup_Near` 
-| (2a & b) :ref:`Setup_Srslte` 
-| (4) :ref:`Setup_SS` 
+| (1) :ref:`Setup_Near`
+| (2a & b) :ref:`Setup_Srslte`
+| (4) :ref:`Setup_SS`
 | (5) :ref:`Deploying`
 
 .. image:: slicex_flowchart.png
@@ -99,7 +99,7 @@ Create a ricinfra namespace
 
     sudo kubectl create ns ricinfra
 
-Install the nfs-common pakcage for Influxdb setup
+Install the nfs-common package for Influxdb setup
 
 .. code-block:: bash
 
@@ -267,11 +267,9 @@ You will need to modify srslte to be able to connect with 2 user equipments (UEs
     cd .config/srslte
     vim user_db.csv
 
-Replace these lines of code with the existing configurations at the bottom of the file. This allows the ENB to be able to connect with 2 UEs.
+Replace these lines of code with text given below. This allows the ENB to be able to connect with 2 UEs. *Format of these lines: "Name, Auth, IMSI, Key, OP_Type, OP/OPc, AMF, SQN, QCI, IP_alloc".*
 
-*Kept in the following format: "Name, Auth, IMSI, Key, OP_Type, OP/OPc, AMF, SQN, QCI, IP_alloc".*
-
-.. code-block:: rst
+.. code-block:: text
 
     ue2,xor,001010123456780,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,8000,000000001635,7,dynamic
     ue1,xor,001010123456789,00112233445566778899aabbccddeeff,opc,63bfa50ee6523365ff14c1f45f88737d,9001,00000000131b,7,dynamic
@@ -300,14 +298,14 @@ Create a symlink from the xApp’s config file. This can be replaced by another 
     sudo cp config-file.json /var/www/xApp_config.local/config_files/
     sudo systemctl reload nginx
 
-Now we are going to build the xapp from the DockerFile
+Now we are going to build the xapp from the ``DockerFile``.
 
 .. code-block:: bash
 
     cd ~/oaic/ss-xapp
     sudo docker build . -t xApp-registry.local:5008/ss:0.1.0
 
-Paste the following in the ``ss-xapp-onboard.url`` file located in the ss-xapp directory. Substitute the ``<machine_ip_addr>`` with the IP address of your machine. You can find this out by pasting the command ``ifconfig`` or ``hostname -I | cut -f1 -d' '`` in the terminal.
+Paste the following in the ``ss-xapp-onboard.url`` file located in the ``ss-xapp`` directory. Substitute the ``<machine_ip_addr>`` with the IP address of your machine. You can find this by pasting the command ``hostname -I | cut -f1 -d' '`` in the terminal.
 
 .. code-block:: bash
 
@@ -328,7 +326,7 @@ Setup - 5G Network
 Srsepc
 ~~~~~~
 
-**Terminal 1**: Start the Core Network/Add Ues to Network Namespace
+**Terminal 1**: Start the Core Network/Add UEs to Network Namespace
 
 .. code-block:: bash
 
@@ -349,10 +347,10 @@ Srsenb
 
 .. code-block:: bash
 
-    export E2TERM_IP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`  
+    export E2TERM_IP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
 
 .. code-block:: bash
-    
+
     sudo srsenb --enb.n_prb=100 --enb.name=enb1 --enb.enb_id=0x19B \
     --rf.device_name=zmq --rf.device_args="fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2009,id=enb,base_srate=23.04e6" --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT} --slicer.enable=1 --slicer.workshare=0
 
