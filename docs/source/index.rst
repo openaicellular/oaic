@@ -58,6 +58,7 @@ Welcome to OAIC's documentation!
    2024_workshop_ss.rst
    xapp_python.rst
    edgeric-workshop-tutorial.rst
+   OAIC-2024-Workshop-oai-flexric-documentation.rst
 
 Indices and tables
 ==================
