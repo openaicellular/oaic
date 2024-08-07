@@ -101,12 +101,20 @@ Test the deployment of Core Network
 .. code-block:: bash
 
 	sudo docker compose up -d
+
+.. image:: oai_cn_start.png
+   :width: 60%
+   :alt: OAI 5G CN Initialization
 	
 Verify that all the 10 containers are deployed and ``healthy``.
 
 .. code-block:: bash
 
 	sudo docker ps -a
+
+.. image:: oai_cn_verify.png
+   :width: 60%
+   :alt: OAI CN Deployment Verification
 
 Turn the core network off.
 
@@ -128,6 +136,9 @@ Clone the OAI 5G RAN repository and checkout the ``oaic_workshop_2024_v1`` branc
 	cd ~/oai/cmake_targets/
 	./build_oai -I -w SIMU --gNB --nrUE --build-e2 --ninja
 
+.. image:: oai_install.png
+   :width: 60%
+   :alt: OAI Installation
 
 .. _Setup_FlexRIC:
 
@@ -149,9 +160,20 @@ Build the flexRIC module.
 	mkdir build
 	cd build
 	cmake ../
+
+.. image:: flexric_cmake.png
+   :width: 60%
+   :alt: CMake Build of flexRIC module
+
+.. code-block:: bash
+
 	make -j`nproc`
 	sudo make install
-	
+
+.. image:: flexric_make_inst.png
+   :width: 60%
+   :alt: Tmux cheatsheet
+
 .. _Run_nw:
 
 Deploy 5G Network
@@ -183,6 +205,9 @@ In ``Terminal 1``,
 	cd ~/oai/cmake_targets/ran_build/build
 	sudo ./nr-softmodem -O ../../../targets/PROJECTS/GENERIC-NR-5GC/CONF/gnb.sa.band78.fr1.106PRB.usrpb210.conf --gNBs.[0].min_rxtxtime 6 --rfsim --sa 
 
+.. image:: gnb_initialization.png
+   :width: 60%
+   :alt: gNB Initialization
 
 Start the UE
 ~~~~~~~~~~~~
@@ -204,6 +229,14 @@ In ``terminal 3``,
 	
 	cd ~/
 	./flexric/build/examples/ric/nearRT-RIC
+
+.. image:: near-rt-ric-initialization.png
+   :width: 60%
+   :alt: Near-RT RIC Initialization
+
+.. image:: e2_near-rt-ric-resp.png
+   :width: 60%
+   :alt: E2 Message reception and RAN function Accept
 	
 .. _exch_trf:
 	
