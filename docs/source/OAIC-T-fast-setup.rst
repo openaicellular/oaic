@@ -10,7 +10,7 @@ The OAIC-T framework consists of three major components: i). Test Input, which i
 ii). the Server, which sets up the testing environment as described in test configuration files and orchestrates the test execution as 
 defined in test scripts, and iii) the Actor(s), which executes test actions as instructed by the server. 
 
-.. image:: oaic_t_framework.png
+.. image:: oaci_t_framework.png
    :width: 90%
    :alt: OAIC-T Framework
 
