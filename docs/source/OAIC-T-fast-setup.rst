@@ -137,15 +137,13 @@ We can check the xApp logs using
    
    sudo kubectl logs -f -n ricxapp -l app=ricxapp-scp-kpimon
 
-Since the E2 Node is already up and running and the Key Performance Metrics 
-(KPM) RAN function is enabled by default, the xApp will be able to subscribe to the 
-E2 Node and start getting INDICATION messages. The decoded message containing 
-information about the metrics is stored in the kpimon.log within the pod. This can 
-be viewed by,
+.. note:: 
 
-.. code-block:: bash
-
-   sudo kubectl exec -it -n ricxapp `sudo kubectl get pod -n ricxapp -l app=ricxappscp-kpimon -o jsonpath='{.items[0].metadata.name}'` -- tail -F /opt/kpimon.log
+   Since the E2 Node is already up and running and the Key Performance Metrics 
+   (KPM) RAN function is enabled by default, the xApp will be able to subscribe to the 
+   E2 Node and start getting INDICATION messages. The decoded message containing 
+   information about the metrics is stored in the kpimon.log within the pod. This can 
+   be viewed by, ``sudo kubectl exec -it -n ricxapp `sudo kubectl get pod -n ricxapp -l app=ricxappscp-kpimon -o jsonpath='{.items[0].metadata.name}'` -- tail -F /opt/kpimon.log``
 
 .. code-block:: bash
    
