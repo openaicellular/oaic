@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 3 - OAIC-T &mdash; OAIC 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Day 2 - OAI/FlexRIC Tutorial" href="OAIC-2024-Workshop-oai-flexric-documentation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OAIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_features.html">OAIC Features</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Background Information:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background_cloud.html">Background on Docker, Kubernetes &amp; Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_oran_architecture.html">O-RAN Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background_srsRAN.html">RAN Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation Procedures:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Hardware and Software Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oran_installation.html">O-RAN Near-Real Time RIC Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_installation.html">srsRAN with E2 Agent Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup5gnetwork.html">Setup your own 5G Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MultipleUEs.html">Multiples UEs ZMQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nonrtric.html">O-RAN Non-Real Time RIC Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">xApp Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example_xapp_deployment.html">KPIMON xApp Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_deployment.html">xApp Deployment - General Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nexran1.html">Running the Nexran Xapp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ssxapp.html">Running the SS Xapp</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="undeploy_ric.html">UnDeploying RIC Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srsRAN_additional_features.html">srsRAN Additional Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubectl_commands.html">Kubectl Commands - Cheat Sheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oaic_t.html">OAIC-T</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">2024 OAIC Workshop</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="2024_workshop_gcp.html">Day 1 - Google Cloud Platform Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2024_workshop_ss.html">Day 1 - Secure Slicing xApp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xapp_python.html">Day 2 - Developing a custom xApp in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="edgeric-workshop-tutorial.html">Day 2 - EdgeRIC tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="OAIC-2024-Workshop-oai-flexric-documentation.html">Day 2 - OAI/FlexRIC Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Day 3 - OAIC-T</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#about-oaic-t">About OAIC-T</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-the-network-before-deploying-the-xapp">Run the Network before Deploying the xApp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verifying-xapp-deployment">Verifying xApp Deployment</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Day 3 - OAIC-T</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/OAIC-T-fast-setup.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="day-3-oaic-t">
+<h1>Day 3 - OAIC-T<a class="headerlink" href="#day-3-oaic-t" title="Link to this heading"></a></h1>
+<section id="about-oaic-t">
+<h2>About OAIC-T<a class="headerlink" href="#about-oaic-t" title="Link to this heading"></a></h2>
+<p>OAIC-T is an open-source AI cellular testing platform which supports automated, distributed, and AI-enhanced testing of xApps in O-RAN.
+The OAIC-T framework consists of three major components: i). Test Input, which includes both test configuration and test script files,
+ii). the Server, which sets up the testing environment as described in test configuration files and orchestrates the test execution as
+defined in test scripts, and iii) the Actor(s), which executes test actions as instructed by the server.</p>
+<a class="reference internal image-reference" href="_images/oaci_t_framework.png"><img alt="OAIC-T Framework" src="_images/oaci_t_framework.png" style="width: 90%;" /></a>
+<p>The server manages a number of remote testing actors, including maintaining the socket connection to each actor and monitoring its resource
+usage (e.g., CPU, memory, disk, and SDR hardware) and test status.</p>
+<p>One actor consists of the actor manager, AI core, and test executor, as well as two adapters to interface with the unit under test
+(i.e., a cellular radio network controller). Each actor can interact with xApps/rApps under test through either the SIM Adapter or the
+SDR Adapter. The SIM Adapter acts as a testing xApp/rApp which can be deployed in a non-RT, near-RT, or RT RIC to send testing data and
+receive response to/from the RAN through socket communications. The SDR Adapter acts as a user equipment (UE) which leverages SDR-based
+software suite (e.g., srsRAN) to send radio testing signals to the RAN through antennas.</p>
+<p>First please install VNC Viewer on your OS
+Config VNC port on your Google Cloud and set the port 5901 and tag</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>-i
+</pre></div>
+</div>
+<p>Go to the root home</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openaicellular/main-file-repo.git
+<span class="nb">cd</span><span class="w"> </span>main-file-repo
+chmod<span class="w"> </span>+x<span class="w"> </span>setup-vnc.sh
+sudo<span class="w"> </span>./setup-vnc.sh
+</pre></div>
+</div>
+<p>Enter a password for your vnc server</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gnome-terminal
+chmod<span class="w"> </span>+x<span class="w"> </span>ricinstallation.sh
+sudo<span class="w"> </span>./ricinstallation.sh
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>-f<span class="w"> </span>-r<span class="w"> </span>srsrandeploy.sh<span class="w"> </span>oaic
+<span class="nb">cd</span><span class="w"> </span>oaic
+chmod<span class="w"> </span>+x<span class="w"> </span>srsrandeploy.sh
+./srsrandeploy.sh
+cd..
+</pre></div>
+</div>
+</section>
+<section id="run-the-network-before-deploying-the-xapp">
+<h2>Run the Network before Deploying the xApp<a class="headerlink" href="#run-the-network-before-deploying-the-xapp" title="Link to this heading"></a></h2>
+<p><strong>srsEPC:</strong></p>
+<p>Before deploying xApp make sure your network is up, check to run EPC, en-gNB, near-RT RIC, and UE:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>ue1
+sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span>list
+</pre></div>
+</div>
+<p>Now, in a new command window on Machine 1 run srsRAN EPC:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsepc
+</pre></div>
+</div>
+<p>In a new command window on Machine 1 run srsRAN en-gNB.But before we start the en-gNB, we need to get the current machine’s IP address and the IP address of the E2 Termination service at the near-RT RIC.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_IP</span><span class="o">=</span><span class="sb">`</span>hostname<span class="w"> </span>-I<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1<span class="w"> </span>-d<span class="s1">&#39; &#39;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2NODE_PORT</span><span class="o">=</span><span class="m">5006</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">E2TERM_IP</span><span class="o">=</span><span class="sb">`</span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>ricplt<span class="w"> </span>--field-selector<span class="w"> </span>metadata.name<span class="o">=</span>service-ricplt-e2term-sctp-alpha<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].spec.clusterIP}&#39;</span><span class="sb">`</span>
+</pre></div>
+</div>
+<p>Run srsENB</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsenb<span class="w"> </span>--enb.n_prb<span class="o">=</span><span class="m">50</span><span class="w"> </span>--enb.name<span class="o">=</span>enb1<span class="w"> </span>--enb.enb_id<span class="o">=</span>0x19B<span class="w"> </span><span class="se">\</span>
+--rf.device_name<span class="o">=</span>zmq<span class="w"> </span>--
+rf.device_args<span class="o">=</span><span class="s2">&quot;fail_on_disconnect=true,tx_port0=tcp://*:2000,rx_port0=tcp://localhost</span>
+<span class="s2">:2001,tx_port1=tcp://*:2100,rx_port1=tcp://localhost:2101,id=enb,base_srate=23.04e6</span>
+<span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+--ric.agent.remote_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2TERM_IP</span><span class="si">}</span><span class="w"> </span>--log.all_level<span class="o">=</span>warn<span class="w"> </span>--
+ric.agent.log_level<span class="o">=</span>debug<span class="w"> </span>--log.filename<span class="o">=</span>stdout<span class="w"> </span>--
+ric.agent.local_ipv4_addr<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_IP</span><span class="si">}</span><span class="w"> </span>--ric.agent.local_port<span class="o">=</span><span class="si">${</span><span class="nv">E2NODE_PORT</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>Once the en-gNB is up and successfully connected to the near-RT RIC, you will see E2
+Setup and E2 Response messages on the console. You will also
+see RIC Connection Initialized and RIC state established messages.</p>
+<p>In the new terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>srsue<span class="w"> </span>--gw.netns<span class="o">=</span>ue1
+</pre></div>
+</div>
+<p><strong>PING:</strong></p>
+<p>This is the simplest way to test the network. This will test whether or not the UE and core can successfully communicate.
+The ping command should be executed on a new terminal from the UE’s network space</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ue1<span class="w"> </span>ping<span class="w"> </span><span class="m">172</span>.16.0.1
+cp<span class="w"> </span>-f<span class="w"> </span>-r<span class="w"> </span>kpimondeploy.sh<span class="w"> </span>oaic
+<span class="nb">cd</span><span class="w"> </span>oaic
+chmod<span class="w"> </span>+x<span class="w"> </span>kpimondeploy.sh
+./kpimondeploy.sh
+</pre></div>
+</div>
+</section>
+<section id="verifying-xapp-deployment">
+<h2>Verifying xApp Deployment<a class="headerlink" href="#verifying-xapp-deployment" title="Link to this heading"></a></h2>
+<p>There should be a ricxapp-scp-kpimon pod in ricxapp namespace</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A
+</pre></div>
+</div>
+<p>We can check the xApp logs using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>ricxapp-scp-kpimon
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since the E2 Node is already up and running and the Key Performance Metrics
+(KPM) RAN function is enabled by default, the xApp will be able to subscribe to the
+E2 Node and start getting INDICATION messages. The decoded message containing
+information about the metrics is stored in the kpimon.log within the pod. This can
+be viewed by, <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">kubectl</span> <span class="pre">exec</span> <span class="pre">-it</span> <span class="pre">-n</span> <span class="pre">ricxapp</span> <span class="pre">`sudo</span> <span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">ricxapp</span> <span class="pre">-l</span> <span class="pre">app=ricxapp-scp-kpimon</span> <span class="pre">-o</span> <span class="pre">jsonpath='{.items[0].metadata.name}'`</span> <span class="pre">--</span> <span class="pre">tail</span> <span class="pre">-F</span> <span class="pre">/opt/kpimon.log</span></code></p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>-f<span class="w"> </span>-r<span class="w"> </span>oaictdeploy.sh<span class="w"> </span>oaic
+chmod<span class="w"> </span>+x<span class="w"> </span>oaictdeploy.sh
+sudo<span class="w"> </span>./<span class="w"> </span>oaictdeploy.sh
+sudo<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>-n<span class="w"> </span>ricxapp<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>ricxapp-SC3
+</pre></div>
+</div>
+<p>Copy IP from log to the order xml
+Go to the vnc server
+Step 1. Run the OAIC-T Server:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>server/src
+python3<span class="w"> </span>server_main.py
+</pre></div>
+</div>
+<p>Step 2. Run the OAIC-T Actor(s):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>actor/src
+sudo<span class="w"> </span>python3<span class="w"> </span>actor_main.py
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="OAIC-2024-Workshop-oai-flexric-documentation.html" class="btn btn-neutral float-left" title="Day 2 - OAI/FlexRIC Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAIC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
