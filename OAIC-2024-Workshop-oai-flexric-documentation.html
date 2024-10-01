@@ -170,7 +170,7 @@
 <span id="id1"></span><h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
 <section id="install-dependencies">
 <h3>Install Dependencies<a class="headerlink" href="#install-dependencies" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>vim<span class="w"> </span>tree<span class="w"> </span>net-tools<span class="w"> </span>libsctp-dev<span class="w"> </span>python3.8<span class="w"> </span>cmake-curses-gui<span class="w"> </span>libpcre2-dev<span class="w"> </span>python-dev<span class="w"> </span>build-essential<span class="w"> </span>cmake<span class="w"> </span>libfftw3-dev<span class="w"> </span>libmbedtls-dev<span class="w"> </span>libboost-program-options-dev<span class="w"> </span>libconfig++-dev<span class="w"> </span>libtool<span class="w"> </span>autoconf<span class="w"> </span>python3-pip<span class="w"> </span>curl<span class="w"> </span>bison<span class="w"> </span>flex<span class="w"> </span>iperf
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>vim<span class="w"> </span>tree<span class="w"> </span>net-tools<span class="w"> </span>libsctp-dev<span class="w"> </span>python3.8<span class="w"> </span>cmake-curses-gui<span class="w"> </span>libpcre2-dev<span class="w"> </span>python-dev<span class="w"> </span>build-essential<span class="w"> </span>cmake<span class="w"> </span>libfftw3-dev<span class="w"> </span>libmbedtls-dev<span class="w"> </span>libboost-program-options-dev<span class="w"> </span>libconfig++-dev<span class="w"> </span>libtool<span class="w"> </span>autoconf<span class="w"> </span>python3-pip<span class="w"> </span>curl<span class="w"> </span>bison<span class="w"> </span>flex<span class="w"> </span>iperf<span class="w"> </span>unzip
 </pre></div>
 </div>
 <section id="install-swig-4-1">
@@ -207,7 +207,7 @@ sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> <
 </pre></div>
 </div>
 <p>Check docker compose version. The installed version should be <code class="docutils literal notranslate"><span class="pre">v2.29</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>--version
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>version
 </pre></div>
 </div>
 <div class="admonition note">
@@ -224,7 +224,8 @@ sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> <
 <p>In this demo, we will employ the Core Network solution provided by Open Air Interface. This solution deploys network functions as docker containers. The CN components can be customized according to experimental requirements by modifying the configuration files. However, for the purposes of this tutorial we retain the default functionality.</p>
 <section id="get-core-network-configuration-files-and-docker-images">
 <h4>Get Core Network Configuration files and docker images<a class="headerlink" href="#get-core-network-configuration-files-and-docker-images" title="Link to this heading"></a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>-O<span class="w"> </span>~/oai-cn5g.zip<span class="w"> </span>https://gitlab.eurecom.fr/oai/openairinterface5g/-/archive/develop/openairinterface5g-develop.zip?path<span class="o">=</span>doc/tutorial_resources/oai-cn5g
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span>
+wget<span class="w"> </span>-O<span class="w"> </span>~/oai-cn5g.zip<span class="w"> </span>https://gitlab.eurecom.fr/oai/openairinterface5g/-/archive/develop/openairinterface5g-develop.zip?path<span class="o">=</span>doc/tutorial_resources/oai-cn5g
 unzip<span class="w"> </span>~/oai-cn5g.zip
 mv<span class="w"> </span>~/openairinterface5g-develop-doc-tutorial_resources-oai-cn5g/doc/tutorial_resources/oai-cn5g<span class="w"> </span>~/oai-cn5g
 rm<span class="w"> </span>-r<span class="w"> </span>~/openairinterface5g-develop-doc-tutorial_resources-oai-cn5g<span class="w"> </span>~/oai-cn5g.zip
@@ -289,7 +290,7 @@ sudo<span class="w"> </span>make<span class="w"> </span>install
 <h4>Start the Core Network<a class="headerlink" href="#start-the-core-network" title="Link to this heading"></a></h4>
 <p>In Terminal 1,</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/oai-cn5g
-sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>–d
+sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
 <span class="nb">cd</span><span class="w"> </span>~/
 </pre></div>
 </div>
