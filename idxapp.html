@@ -72,6 +72,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ssxapp.html">Running the SS Xapp</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Deploying the Intrusion Detection xApp</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xapp-description">Xapp Description</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#system-requirements">System Requirements</a></li>
 </ul>
@@ -156,6 +157,7 @@
 <section id="table-of-contents">
 <h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h2>
 <ul class="simple">
+<li><p><a class="reference internal" href="#xapp-description"><span class="std std-ref">Xapp Description</span></a></p></li>
 <li><p><a class="reference internal" href="ssxapp.html#prerequisites"><span class="std std-ref">Prerequisites</span></a></p></li>
 <li><p><a class="reference internal" href="#ric-setup"><span class="std std-ref">Setup</span></a></p></li>
 <li><p><a class="reference internal" href="#setup-srslte"><span class="std std-ref">Setup - Srslte with E2 Agent</span></a></p></li>
@@ -167,8 +169,12 @@
 <li><p><span class="xref std std-ref">Enabling-CUDA</span></p></li>
 </ul>
 </section>
+<section id="xapp-description">
+<span id="id1"></span><h2>Xapp Description<a class="headerlink" href="#xapp-description" title="Link to this heading"></a></h2>
+<p>the Intrusion Detection xApp is designed to identify malicious User Equipments (UEs) within a simulated 5G network environment. It operates by monitoring the data rates of connected UEs. The xApp can first train a model on normal network traffic patterns; then, during inference mode, if a UE’s data rate surpasses this trained threshold and registers at least two anomalous events, it is flagged as malicious. The system utilizes iperf3 to generate network traffic for testing, and a specific script (iperfThrottleTest.sh) can be used to simulate a UE behaving maliciously by causing its traffic to exceed expected levels, thereby triggering a detection by the xApp.</p>
+</section>
 <section id="prerequisites">
-<span id="id1"></span><h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<span id="id2"></span><h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
 <section id="system-requirements">
 <h3>System Requirements<a class="headerlink" href="#system-requirements" title="Link to this heading"></a></h3>
 <ul class="simple">
@@ -520,7 +526,7 @@ curl<span class="w"> </span>-L<span class="w"> </span>-X<span class="w"> </span>
 </div></blockquote>
 </section>
 <section id="running-the-xapp">
-<span id="id2"></span><h2>Running the xApp<a class="headerlink" href="#running-the-xapp" title="Link to this heading"></a></h2>
+<span id="id3"></span><h2>Running the xApp<a class="headerlink" href="#running-the-xapp" title="Link to this heading"></a></h2>
 <p><strong>Terminal 16</strong>: In your EPC &amp; eNB server’s terminal, print the logs for the SS xApp</p>
 <p><strong>The xApp has to be deployed in order for this to work.</strong>
 .. code-block:: bash</p>

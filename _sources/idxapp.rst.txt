@@ -5,6 +5,7 @@ Deploying the Intrusion Detection xApp
 Table of Contents
 =================
 
+* :ref:`xApp-Description`
 * :ref:`Prerequisites`
 * :ref:`RIC-Setup`
 * :ref:`Setup-Srslte`
@@ -14,6 +15,15 @@ Table of Contents
 * :ref:`Deploying`
 * :ref:`Running-The-xApp`
 * :ref:`Enabling-CUDA`
+
+
+.. _xApp-Description:
+
+Xapp Description
+================
+
+the Intrusion Detection xApp is designed to identify malicious User Equipments (UEs) within a simulated 5G network environment. It operates by monitoring the data rates of connected UEs. The xApp can first train a model on normal network traffic patterns; then, during inference mode, if a UE's data rate surpasses this trained threshold and registers at least two anomalous events, it is flagged as malicious. The system utilizes iperf3 to generate network traffic for testing, and a specific script (iperfThrottleTest.sh) can be used to simulate a UE behaving maliciously by causing its traffic to exceed expected levels, thereby triggering a detection by the xApp. 
+
 
 .. _Prerequisites:
 
