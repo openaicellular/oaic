@@ -39,6 +39,7 @@ Welcome to OAIC's documentation!
    xapp_deployment.rst
    nexran1.rst
    ssxapp.rst
+   idxapp.rst
    
    
 .. toctree::
