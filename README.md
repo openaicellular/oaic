@@ -10,7 +10,8 @@ The full documentation is contained in this repository and rendered
 Clone this repository and its submodules recursively:
 
     git clone https://github.com/openaicellular/oaic.git
-    git submodule update --init --recursive
+    cd oaic
+    git submodule update --init --recursive 
 
 ## Documentation
 
