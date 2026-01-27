@@ -63,7 +63,7 @@ Paste the following into the file, save, and exit.
 
 Next, ensure that swap size is set to 0 in WSL settings as show below.
 
-.. image:: checkingSettings.jpg
+.. image:: wslSet.jpg
    :width: 60%
    :alt: WSL2 settings window with swap size set to zero
 
@@ -76,7 +76,7 @@ Restart the machine and check that the following commands return similar ouputs.
 
 The commands should return output similar to what is shown in the image. This means that cgroups has correctly set to version 1 and swap size is turned off. 
 
-.. image:: wslOut.jpg
+.. image:: checkingSettings.jpg
    :width: 60%
    :alt: Command output showing that cgroups is v1 and that swap size is 0.
 
