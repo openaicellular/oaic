@@ -63,7 +63,7 @@ Paste the following into the file, save, and exit.
 
 Next, ensure that swap size is set to 0 in WSL settings as show below.
 
-.. image:: wslSet.jpg
+.. image:: checkingSettings.jpg
    :width: 60%
    :alt: WSL2 settings window with swap size set to zero
 
