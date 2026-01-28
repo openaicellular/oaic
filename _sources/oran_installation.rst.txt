@@ -26,12 +26,60 @@ Near-Real Time RIC Installation Procedure
 =========================================
 
 
-Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)
---------------------------------------------------------------------------
+Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)/ WSL
+--------------------------------------------------------------------------------
 
 The near-real time RIC can be run on a host machine or a VM as per your preference (A VM is recommended if your system is powerful enough to support multiple VMs).
 
 In this instruction set we assume the VM/Linux host system is already configured with the specified system requirements. If you need help with VM installation on Windows 10, `check out this video <https://www.youtube.com/watch?v=x5MhydijWmc>`_.
+
+Step 1A: Configuring Windows Subsystem for Linux (WSL)  
+------------------------------------------------------
+
+.. note::
+
+   You will need WSL2 with at least version 2.6.2. To install WSL if not already installed `follow these instructions <https://learn.microsoft.com/en-us/windows/wsl/install>`_. 
+
+Open command prompt as administrator and run the following command to install Ubuntu 20.04
+
+.. code-block:: bash
+
+   wsl --install -d Ubuntu-20.04 
+
+Set up your username and password. Then set the following settings in wsl.conf using the following command.
+
+.. code-block:: bash
+
+   sudo nano /etc/wsl.conf  
+
+Paste the following into the file, save, and exit.
+   
+.. code-block:: rst
+
+   [boot]
+   systemd=true
+   [automount]
+   cgroups=v1
+
+Next, ensure that swap size is set to 0 in WSL settings as show below.
+
+.. image:: wslSet.jpg
+   :width: 60%
+   :alt: WSL2 settings window with swap size set to zero
+
+Restart the machine and check that the following commands return similar ouputs. If they do, WSL has been setup properly 
+
+.. code-block:: bash
+
+   sudo ls /sys/fs/cgroup/
+   free -m
+
+The commands should return output similar to what is shown in the image. This means that cgroups has correctly set to version 1 and swap size is turned off. 
+
+.. image:: checkingSettings.jpg
+   :width: 60%
+   :alt: Command output showing that cgroups is v1 and that swap size is 0.
+
 
 This completes step 1.
 

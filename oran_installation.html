@@ -8,15 +8,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>O-RAN Near-Real Time RIC Installation Guide &mdash; OAIC 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=2709fde1"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/js/theme.js"></script>
@@ -65,7 +65,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#near-real-time-ric-installation-procedure">Near-Real Time RIC Installation Procedure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm">Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm-wsl">Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)/ WSL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-1a-configuring-windows-subsystem-for-linux-wsl">Step 1A: Configuring Windows Subsystem for Linux (WSL)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-2-install-kubernetes-docker-and-helm">Step 2: Install Kubernetes, Docker, and Helm</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#near-real-time-ric">Near-Real Time RIC</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ric-kubernetes-cluster-installation">RIC Kubernetes Cluster Installation</a></li>
@@ -161,10 +162,41 @@
 </section>
 <section id="near-real-time-ric-installation-procedure">
 <h2>Near-Real Time RIC Installation Procedure<a class="headerlink" href="#near-real-time-ric-installation-procedure" title="Link to this heading"></a></h2>
-<section id="step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm">
-<h3>Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)<a class="headerlink" href="#step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm" title="Link to this heading"></a></h3>
+<section id="step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm-wsl">
+<h3>Step 1: Install and configure an Ubuntu Host Machine/ Virtual Machine (VM)/ WSL<a class="headerlink" href="#step-1-install-and-configure-an-ubuntu-host-machine-virtual-machine-vm-wsl" title="Link to this heading"></a></h3>
 <p>The near-real time RIC can be run on a host machine or a VM as per your preference (A VM is recommended if your system is powerful enough to support multiple VMs).</p>
 <p>In this instruction set we assume the VM/Linux host system is already configured with the specified system requirements. If you need help with VM installation on Windows 10, <a class="reference external" href="https://www.youtube.com/watch?v=x5MhydijWmc">check out this video</a>.</p>
+</section>
+<section id="step-1a-configuring-windows-subsystem-for-linux-wsl">
+<h3>Step 1A: Configuring Windows Subsystem for Linux (WSL)<a class="headerlink" href="#step-1a-configuring-windows-subsystem-for-linux-wsl" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You will need WSL2 with at least version 2.6.2. To install WSL if not already installed <a class="reference external" href="https://learn.microsoft.com/en-us/windows/wsl/install">follow these instructions</a>.</p>
+</div>
+<p>Open command prompt as administrator and run the following command to install Ubuntu 20.04</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wsl<span class="w"> </span>--install<span class="w"> </span>-d<span class="w"> </span>Ubuntu-20.04
+</pre></div>
+</div>
+<p>Set up your username and password. Then set the following settings in wsl.conf using the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/wsl.conf
+</pre></div>
+</div>
+<p>Paste the following into the file, save, and exit.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>[boot]
+systemd=true
+[automount]
+cgroups=v1
+</pre></div>
+</div>
+<p>Next, ensure that swap size is set to 0 in WSL settings as show below.</p>
+<a class="reference internal image-reference" href="_images/wslSet.jpg"><img alt="WSL2 settings window with swap size set to zero" src="_images/wslSet.jpg" style="width: 60%;" /></a>
+<p>Restart the machine and check that the following commands return similar ouputs. If they do, WSL has been setup properly</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ls<span class="w"> </span>/sys/fs/cgroup/
+free<span class="w"> </span>-m
+</pre></div>
+</div>
+<p>The commands should return output similar to what is shown in the image. This means that cgroups has correctly set to version 1 and swap size is turned off.</p>
+<a class="reference internal image-reference" href="_images/checkingSettings.jpg"><img alt="Command output showing that cgroups is v1 and that swap size is 0." src="_images/checkingSettings.jpg" style="width: 60%;" /></a>
 <p>This completes step 1.</p>
 </section>
 <section id="step-2-install-kubernetes-docker-and-helm">
